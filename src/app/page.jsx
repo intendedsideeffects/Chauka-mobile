@@ -161,16 +161,18 @@ export default function TestScroll() {
         </div>
       </section>
 
-      {/* Placeholder text section directly under video */}
+      {/* Placeholder text and scatterplot side by side */}
       <section
         style={{
           width: '100%',
-          minHeight: '180vh', // Make this section much longer to fit the placeholder text
+          minHeight: '80vh',
           background: 'white',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'column', // stack vertically
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
+          gap: '3rem',
+          padding: '4rem 0',
         }}
       >
         <div
@@ -184,30 +186,19 @@ export default function TestScroll() {
             lineHeight: 1.5,
             zIndex: 2,
             position: 'relative',
-            margin: '6rem auto',
+            margin: '0 auto',
+            flexShrink: 0,
+            marginLeft: '20vw', // move much further right
           }}
         >
           {poemLines.map((line, idx) => (
             <p key={idx} style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>{line}</p>
           ))}
         </div>
-      </section>
-
-      {/* Grey segment with intro text inside */}
-      {/* Remove the two chart sections below */}
-      {/* <div style={{ width: '100%', maxWidth: 1400, margin: '0 auto', marginTop: 'calc(1.5rem - 2cm)', marginBottom: '3rem' }}>
-          <AnimatedExtinctionChartCopy
-            barEndIndex={barEndIndex}
-            setMaxBarIndex={setMaxBarIndex}
-          />
-        </div>
-        <div style={{ width: '100%', maxWidth: 1400, margin: '3rem auto', padding: '0 1rem' }}>
-          <BirdExtinctionBubbleChart />
-        </div> */}
-        {/* Add PlotsScatterChart below with title and description */}
-        <div style={{ width: '100%', margin: '3rem 0', padding: '0 1rem' }}>
+        <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
         </div>
+      </section>
     </div>
   );
 }

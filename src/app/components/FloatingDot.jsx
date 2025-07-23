@@ -64,8 +64,8 @@ export const FloatingDot = React.memo(
           fill={fill}
           style={{
             opacity: payload.future
-              ? (payload.sound ? 0.9 : (payload.story ? 0.5 : 0.2))
-              : (r <= 6 ? 0.1 : (r === 10 ? 0.4 : 0.9)),
+              ? (payload.sound ? 0.5 : (payload.story ? 0.25 : 0.1))
+              : (r <= 6 ? 0.05 : (r === 10 ? 0.2 : 0.5)),
           }}
         />
 
