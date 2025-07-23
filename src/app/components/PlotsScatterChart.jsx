@@ -86,14 +86,14 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             const isFuture = year && year > PRESENT_YEAR;
             return {
                 ...d,
-                fill: isFuture ? '#e0b800' : (d.fill || getStableColor(d.status)),
+                fill: '#3d557a', // Set dot color
                 future: !!isFuture,
-                size: d.size || 5,
+                size: 16, // Make dots larger
                 x: Math.round(d.x),
                 y: d.y
             };
         });
-    }, [visibleData, getStableColor]);
+    }, [visibleData]);
 
     // Debug: log status values for visible dots
     useEffect(() => {

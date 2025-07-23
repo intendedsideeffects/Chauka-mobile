@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import AnimatedExtinctionChartCopy from "./charts/AnimatedExtinctionChartCopy";
 import BirdExtinctionBubbleChart from "./charts/BirdExtinctionBubbleChart";
-// import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
+import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
 
 const poemLines = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
@@ -32,6 +32,22 @@ export default function TestScroll() {
   const videoRef = useRef();
   const poemWrapperRef = useRef();
 
+  // Ensure video always plays with sound
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.volume = 1.0;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If autoplay is blocked, try to play muted
+          videoRef.current.muted = true;
+          videoRef.current.play();
+        });
+      }
+    }
+  }, []);
+
   // Slider state for chart
   const [barEndIndex, setBarEndIndex] = useState(0);
   const [maxBarIndex, setMaxBarIndex] = useState(0);
@@ -54,7 +70,7 @@ export default function TestScroll() {
   };
 
   return (
-    <div style={{ width: '100%', minHeight: '300vh', background: '#f8f8f8', position: 'relative' }}>
+    <div>
       {/* Video Section */}
       <section style={{ position: 'relative', height: '100vh', width: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
         <video
@@ -190,33 +206,7 @@ export default function TestScroll() {
         </div> */}
         {/* Add PlotsScatterChart below with title and description */}
         <div style={{ width: '100%', margin: '3rem 0', padding: '0 1rem' }}>
-          <div style={{
-            maxWidth: '700px',
-            margin: '0 auto 2rem auto',
-            padding: '0 1rem',
-            textAlign: 'left',
-            color: '#111',
-          }}>
-            <h2 style={{
-              fontSize: '2rem',
-              fontWeight: 700,
-              marginBottom: '1.5rem',
-              letterSpacing: '-.01em',
-              textAlign: 'left',
-            }}>
-              The Story of Loss
-            </h2>
-            <p style={{
-              fontSize: '1.15rem',
-              color: '#222',
-              marginBottom: '0',
-              lineHeight: 1.6,
-              textAlign: 'left',
-            }}>
-              This scatterplot is an exploratory space to discover the lost birds and birds soon to be lost. Each dot is a species: <b>small dot</b> = just name, <b>medium dot</b> = story, <b>large dot</b> = sound. Explore to see which birds are gone, and which are at risk.
-            </p>
-          </div>
-          {/* <ExtinctSpeciesViz /> */}
+          <ExtinctSpeciesViz />
         </div>
     </div>
   );

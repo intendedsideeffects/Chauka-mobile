@@ -1,0 +1,20 @@
+id;year;region;event;story;people_affected;sound_url;image_url;author;created_at
+2;1993;Papua New Guinea;Earthquake;A 6.9 magnitude earthquake struck PNG, causing landslides and casualties.;2500;;;Geoscience Australia;17.07.1993
+3;2009;Samoa;Tsunami;An 8.1 magnitude earthquake triggered a tsunami that struck Samoa, killing nearly 200.;15000;;;USGS;29.09.2009
+4;2016;Fiji;Cyclone;Cyclone Winston, the strongest recorded in Fiji, caused widespread damage and deaths.;35000;;;Fiji Meteorological Service;20.02.2016
+5;2007;Solomon Islands;Earthquake and Tsunami;A 8.1 magnitude quake triggered a tsunami, displacing thousands.;3600;;;Pacific Tsunami Warning Center;02.04.2007
+6;1998;Papua New Guinea;Tsunami;A tsunami killed over 2,000 people after a 7.0 earthquake.;2200;;;NOAA;17.07.1998
+7;2022;Tonga;Volcanic Eruption and Tsunami;Hunga Tonga–Hunga Haʻapai eruption caused a major tsunami and ashfall.;90000;;;NASA;15.01.2022
+8;2014;Vanuatu;Cyclone;Cyclone Lusi brought heavy rain and flooding.;1000;;;Vanuatu NDMO;10.03.2014
+9;1983;Fiji;Flood;Heavy rainfall caused major flooding across Fiji.;5000;;;Fiji Disaster Management Office;20.01.1983
+10;1997;Marshall Islands;Drought;Severe drought affected crops and water supply.;8000;;;UN OCHA;01.06.1997
+11;1991;Micronesia;Typhoon;Typhoon Owen caused damage in several islands.;2700;;;NOAA;07.10.1991
+12;1982;Kiribati;Sea Level Rise;Unusual flooding events linked to rising sea levels.;1500;;;UNEP;15.04.1982
+13;2005;Cook Islands;Cyclone;Cyclone Percy hit multiple islands causing infrastructure damage.;1800;;;Cook Islands Met Service;27.02.2005
+14;1994;Tuvalu;Storm Surge;High tides combined with storms caused coastal inundation.;950;;;SPREP;03.11.1994
+15;1980;New Caledonia;Tropical Storm;Tropical Storm hit with high winds and rainfall.;1200;;;Météo-France;22.01.1980
+16;2015;Vanuatu;Cyclone;Cyclone Pam, category 5, devastated large areas.;64000;;;UNOCHA;13.03.2015
+17;2018;Solomon Islands;Flood;Severe flooding displaced communities in Honiara.;5000;;;Solomon Islands Government;05.04.2018
+18;1999;Tonga;Cyclone;Cyclone Dani damaged homes and crops.;1600;;;Tonga Met Service;18.01.1999
+19;2004;Federated States of Micronesia;Drought;Extended drought reduced water availability.;3000;;;FSM Government;01.05.2004
+20;1977;Samoa;Cyclone;Cyclone Tusi brought damaging winds and rainfall.;3200;;;Samoa Met Office;21.12.1977

@@ -20,17 +20,11 @@ const CustomTooltip = ({ active, payload }) => {
       <p className="italic mb-2">
         {decodeText(bird.species) || 'Unknown Species'}
       </p>
-      <p className="mb-1">
-        <strong>Location:</strong> {decodeText(bird.location) || 'Unknown'}
-      </p>
       {bird.ext_date && (
         <p className="mb-1">
           <strong>Year:</strong> {bird.ext_date}
         </p>
       )}
-      <p className="mb-1">
-        <strong>Status:</strong> {decodeText(bird.tooltipStatus || (bird.status === 'EX' ? 'Extinct' : bird.status)) || 'Unknown Status'}
-      </p>
       {bird.story && (
         <p className="mt-2 pt-2 border-t border-gray-200 whitespace-pre-line leading-relaxed">
           {decodeText(bird.story)}

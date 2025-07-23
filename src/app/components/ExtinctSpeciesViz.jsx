@@ -8,56 +8,49 @@ import processHistoricalData from '../utils/processHistoricalData';
 import processFutureData from '../utils/processFutureData';
 import { supabase } from '../utils/supabaseClient';
 
+const STATUS_HEIGHT = 12500;
+const STATUS_WIDTH = 1600;
+const getYearPosition = (year) => {
+  return ((2200 - year) / (2200 - 1500)) * STATUS_HEIGHT;
+};
+
 const ExtinctSpeciesViz = () => {
   const [data, setData] = useState([]);
   const [timelineData, setTimelineData] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [windowHeight, setWindowHeight] = useState(0);
   const [mounted, setMounted] = useState(false);
   const scatterSectionRef = useRef(null);
-  // Remove sectionTop and use relative scroll position
-  const [containerScroll, setContainerScroll] = useState(0);
 
-  const STATUS_HEIGHT = 12500;
-  const STATUS_WIDTH = 1600;
-  
-  const getYearPosition = (year) => {
-    return ((2200 - year) / (2200 - 1500)) * STATUS_HEIGHT;
-  };
-
-   const removeRandomDots = (data) => {
-     const dotsToRemove = Math.floor(data.length * 0.4);
-     const shuffled = [...data].sort(() => 0.5 - Math.random());
-     return shuffled.slice(0, data.length - dotsToRemove);
-   };
-  
+  // Fetch data from ocean_stories
   const loadData = async () => {
     try {
-      const historicalResponse = await fetch('/api/birds');
-      const historicalData = await historicalResponse.json();
-      const processedHistorical = processHistoricalData(historicalData);
-
-      const { data: futureRaw, error } = await supabase.from('future_stories').select('*');
-      let processedFuture = [];
-      if (!error && futureRaw) {
-        processedFuture = processFutureData(futureRaw);
-      } else if (error) {
-        console.error('Error fetching future data:', error);
-      }
-
-      setData([
-        ...removeRandomDots([...processedHistorical, ...processedFuture]),
-        ...birdArr,
-      ]);
-
+      const { data: stories, error } = await supabase.from('ocean_stories').select('*');
+      if (error) throw error;
+      // Map stories to scatterplot points
+      const points = (stories || []).map((row) => {
+        const year = parseInt(row.year);
+        return {
+          x: Math.random() * STATUS_WIDTH - STATUS_WIDTH / 2 + (Math.random() - 0.5) * 100,
+          y: getYearPosition(year),
+          name: row.event || "Unknown Event",
+          species: row.region || "Unknown Region",
+          story: row.story,
+          year: year,
+          author: row.author,
+          image_url: row.image_url,
+          sound_url: row.sound_url,
+        };
+      });
+      console.log('Scatterplot points:', points);
+      setData(points);
+      // Timeline marks (every 100 years)
       const timelineMarks = [];
       for (let year = 1500; year <= 2200; year += 100) {
         timelineMarks.push({
           x: STATUS_WIDTH / 2,
           y: getYearPosition(year),
           label: year.toString(),
-          event: historicalEvents.find((e) => e.year === year)?.text || '',
+          event: '',
         });
       }
       setTimelineData(timelineMarks);
@@ -67,37 +60,16 @@ const ExtinctSpeciesViz = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     loadData();
-    setWindowHeight(window.innerHeight);
-
-    const handleResize = () => setWindowHeight(window.innerHeight);
-    const debouncedScroll = debounce(() => {
-      if (scatterSectionRef.current) {
-        setContainerScroll(scatterSectionRef.current.getBoundingClientRect().top);
-      }
-      setScrollPosition(window.scrollY);
-    }, 10);
-    
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', debouncedScroll , { passive: true });
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', debouncedScroll);
-    };
-  }, []);
-
-  useLayoutEffect(() => {
     setMounted(true);
-  }, [isLoading]);
+  }, []);
 
   if (!mounted) {
     return <div style={{ height: '100vh' }} />;
   }
 
-  // Bypass all scroll/visibility logic for now
   const visibleData = data;
 
   return (
