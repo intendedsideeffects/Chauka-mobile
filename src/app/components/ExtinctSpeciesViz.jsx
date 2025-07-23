@@ -11,7 +11,7 @@ import { supabase } from '../utils/supabaseClient';
 const STATUS_HEIGHT = 12500;
 const STATUS_WIDTH = 1600;
 const getYearPosition = (year) => {
-  return ((2200 - year) / (2200 - 1500)) * STATUS_HEIGHT;
+  return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;
 };
 
 const ExtinctSpeciesViz = () => {
@@ -45,7 +45,7 @@ const ExtinctSpeciesViz = () => {
       setData(points);
       // Timeline marks (every 100 years)
       const timelineMarks = [];
-      for (let year = 1500; year <= 2200; year += 100) {
+      for (let year = 1400; year <= 2200; year += 100) {
         timelineMarks.push({
           x: STATUS_WIDTH / 2,
           y: getYearPosition(year),

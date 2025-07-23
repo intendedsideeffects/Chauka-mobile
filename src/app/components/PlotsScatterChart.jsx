@@ -104,11 +104,19 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     }, [stabilizedVisibleData]);
 
     // Calculate the y position for the NOW line and future background
-    const yearMin = 1500;
+    const yearMin = 1400;
     const yearMax = 2200;
     const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
     const futureHeight = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
     const futureY = nowY;
+
+    // Generate y-axis ticks for 1400, 1500, ..., 2200
+    const yAxisTicks = [];
+    const yAxisTickLabels = [];
+    for (let year = 1400; year <= 2200; year += 100) {
+      yAxisTicks.push(((yearMax - year) / (yearMax - yearMin)) * STATUS_HEIGHT);
+      yAxisTickLabels.push(year);
+    }
 
     return (
         <div
@@ -150,31 +158,26 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         dataKey="y"
                         domain={[0, STATUS_HEIGHT]}
                         orientation="right"
-                        ticks={timelineData.map((mark) => mark.y)}
-                        tickFormatter={(value) => {
-                            // Map y-value to year (top = 1500, bottom = 2200)
-                            const year = Math.round(1500 + (value / STATUS_HEIGHT) * (2200 - 1500));
-                            return year;
-                        }}
-                        tick={(props) => {
-                            // Map y-value to year
-                            const year = Math.round(1500 + (props.y / STATUS_HEIGHT) * (2200 - 1500));
-                            const isFuture = year > PRESENT_YEAR;
+                        ticks={yAxisTicks}
+                        tick={({ x, y, payload }) => {
+                            // payload.value is the y position, find its index
+                            const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
+                            const year = yAxisTickLabels[idx];
                             return (
                                 <text
-                                    x={props.x + 8}
-                                    y={props.y + 4}
+                                    x={x + 8}
+                                    y={y + 4}
                                     fontSize={16}
-                                    fill={isFuture ? '#e0b800' : '#000'}
+                                    fill={'#000'}
                                     textAnchor="start"
                                 >
-                                    {year}
+                                    {year || ''}
                                 </text>
                             );
                         }}
                         axisLine={(props) => {
                             // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
-                            const yearMin = 1500;
+                            const yearMin = 1400;
                             const yearMax = 2200;
                             const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
                             return (
