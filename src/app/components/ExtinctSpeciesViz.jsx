@@ -4,8 +4,6 @@ import { debounce } from 'lodash';
 import historicalEvents from "../data/historicalPoints"
 import birdArr from '../data/birdArray';
 import PlotsScatterChart from './PlotsScatterChart';
-import processHistoricalData from '../utils/processHistoricalData';
-import processFutureData from '../utils/processFutureData';
 import { supabase } from '../utils/supabaseClient';
 
 const STATUS_HEIGHT = 12500;
@@ -28,17 +26,14 @@ const ExtinctSpeciesViz = () => {
       if (error) throw error;
       // Map stories to scatterplot points
       const points = (stories || []).map((row) => {
-        const year = parseInt(row.year);
+        const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
         return {
           x: Math.random() * STATUS_WIDTH - STATUS_WIDTH / 2 + (Math.random() - 0.5) * 100,
-          y: getYearPosition(year),
-          name: row.event || "Unknown Event",
-          species: row.region || "Unknown Region",
-          story: row.story,
-          year: year,
-          author: row.author,
-          image_url: row.image_url,
-          sound_url: row.sound_url,
+          y: year !== null ? getYearPosition(year) : null,
+          disaster_type: row.disaster_type,
+          country: row.country,
+          start_year: year,
+          summary: row.summary,
         };
       });
       console.log('Scatterplot points:', points);

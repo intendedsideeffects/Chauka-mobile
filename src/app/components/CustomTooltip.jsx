@@ -1,28 +1,19 @@
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.[0]) return null;
-  const bird = payload[0].payload;
-  
-  const decodeText = (text) => {
-    if (!text) return '';
-    return text
-      .replace(/&#39;/g, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&rsquo;/g, "'")
-      .replace(/&lsquo;/g, "'")
-      .replace(/&amp;/g, '&');
-  };
-  
+  const d = payload[0].payload;
+  // Only show tooltip for main data points (which have disaster_type)
+  if (!d.disaster_type) return null;
   return (
     <div className="bg-white/95 text-black p-4 rounded border border-gray-300 w-96 shadow-lg font-arial-sans text-lg">
       <p className="font-bold text-lg mb-2">
-        {decodeText(bird.name) || 'Unknown Bird'}
+        {d.disaster_type} in {d.country}
       </p>
       <p className="italic mb-2">
-        {decodeText(bird.species)}{bird.year ? ` - ${bird.year}` : ''}
+        Start year: {d.start_year}
       </p>
-      {bird.story && (
+      {d.summary && (
         <p className="mt-2 pt-2 border-t border-gray-200 whitespace-pre-line leading-relaxed">
-          {decodeText(bird.story)}
+          {d.summary}
         </p>
       )}
     </div>

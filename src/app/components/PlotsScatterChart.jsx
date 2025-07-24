@@ -6,6 +6,11 @@ import { FloatingDot } from './FloatingDot';
 
 const STATUS_HEIGHT = 12500;
 const STATUS_WIDTH = 1600;
+const YEAR_MIN = 1900;
+const YEAR_MAX = 2200;
+const getYearPosition = (year) => {
+  return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
+};
 
 function PlotsScatterChart({ timelineData, visibleData }) {
     const PRESENT_YEAR = new Date().getFullYear();
@@ -82,7 +87,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
     const stabilizedVisibleData = useMemo(() => {
         return visibleData.map(d => {
-            const year = d.year || d.event_year || d.ext_date || d.xYear;
+            const year = d.start_year;
             const isFuture = year && year > PRESENT_YEAR;
             return {
                 ...d,
@@ -90,7 +95,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 future: !!isFuture,
                 size: 16, // Make dots larger
                 x: Math.round(d.x),
-                y: d.y
+                y: year ? getYearPosition(year) : 0
             };
         });
     }, [visibleData]);
@@ -113,8 +118,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     // Generate y-axis ticks for 1400, 1500, ..., 2200
     const yAxisTicks = [];
     const yAxisTickLabels = [];
-    for (let year = 1400; year <= 2200; year += 100) {
-      yAxisTicks.push(((yearMax - year) / (yearMax - yearMin)) * STATUS_HEIGHT);
+    for (let year = YEAR_MIN; year <= YEAR_MAX; year += 20) {
+      yAxisTicks.push(((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT);
       yAxisTickLabels.push(year);
     }
 
@@ -129,6 +134,35 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 color: 'black',
                 overflow: 'visible'
             }}>
+            
+            {/* Custom tooltip for colored dots */}
+            {hoveredDot && hoveredDot.type && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '20px',
+                        transform: 'translateX(-50%)',
+                        background: 'white',
+                        color: '#222',
+                        border: hoveredDot.type === 'warning' ? '1px solid #c28f3e' : 
+                                hoveredDot.type === 'memory' ? '1px solid #5a3f6e' : 
+                                hoveredDot.type === 'resistance' ? '1px solid #267180' :
+                                hoveredDot.type === 'story' ? '1px solid #c0392b' : '1px solid #222',
+                        borderRadius: 8,
+                        padding: '1rem',
+                        minWidth: 220,
+                        fontSize: '1rem',
+                        boxShadow: '0 2px 12px #0002',
+                        zIndex: 1000,
+                    }}
+                >
+                    <strong>{hoveredDot.title}</strong>
+                    <div style={{ marginTop: 8 }}>
+                        {hoveredDot.type === 'story' ? 'Story' : 'Placeholder'}
+                    </div>
+                </div>
+            )}
             
             <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart
@@ -204,11 +238,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                             );
                         }}
                     />
-                    <Tooltip 
-                        content={<CustomTooltip />}
-                        cursor={{ stroke: '#666' }}
-                        isAnimationActive={false}
-                    />
+
 
                     <Scatter
                         data={stabilizedData}
@@ -267,6 +297,93 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 fill={props.payload.fill}
                                 onMouseEnter={() => handleMouseEnter(props.payload)}
                                 onMouseLeave={() => handleMouseLeave(props.payload)}
+                            />
+                        )}
+                    />
+
+                    <Tooltip 
+                        content={<CustomTooltip />}
+                        cursor={{ stroke: '#666' }}
+                        isAnimationActive={false}
+                    />
+
+                    {/* Yellow large dots - Warning */}
+                    <Scatter
+                        data={[
+                            { x: -800, y: 3000, title: "Warning", size: 60 },
+                            { x: 200, y: 5000, title: "Warning", size: 60 },
+                            { x: -400, y: 7000, title: "Warning", size: 60 }
+                        ]}
+                        shape={(props) => (
+                            <circle
+                                cx={props.cx}
+                                cy={props.cy}
+                                r={props.payload.size}
+                                fill="#c28f3e"
+                                opacity={0.25}
+                                style={{ cursor: 'pointer' }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.opacity = '0.5';
+                                    setHoveredDot({ ...props.payload, type: 'warning' });
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.opacity = '0.25';
+                                    setHoveredDot(null);
+                                }}
+                            />
+                        )}
+                    />
+
+                    {/* Purple medium dots - Memory */}
+                    <Scatter
+                        data={[
+                            { x: -600, y: 4000, title: "Memory", size: 24 },
+                            { x: 400, y: 6000, title: "Memory", size: 24 },
+                            { x: -200, y: 8000, title: "Memory", size: 24 }
+                        ]}
+                        shape={(props) => (
+                            <circle
+                                cx={props.cx}
+                                cy={props.cy}
+                                r={props.payload.size}
+                                fill="#5a3f6e"
+                                opacity={0.5}
+                                style={{ cursor: 'pointer' }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.opacity = '0.7';
+                                    setHoveredDot({ ...props.payload, type: 'memory' });
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.opacity = '0.5';
+                                    setHoveredDot(null);
+                                }}
+                            />
+                        )}
+                    />
+
+                    {/* Teal small dots - Resistance */}
+                    <Scatter
+                        data={[
+                            { x: -1000, y: 4500, title: "Resistance", size: 30 },
+                            { x: 600, y: 6500, title: "Resistance", size: 30 },
+                            { x: -300, y: 8500, title: "Resistance", size: 30 }
+                        ]}
+                        shape={(props) => (
+                            <circle
+                                cx={props.cx}
+                                cy={props.cy}
+                                r={props.payload.size}
+                                fill="#267180"
+                                opacity={0.5}
+                                style={{ cursor: 'pointer' }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.opacity = '0.7';
+                                    setHoveredDot({ ...props.payload, type: 'resistance' });
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.opacity = '0.5';
+                                    setHoveredDot(null);
+                                }}
                             />
                         )}
                     />

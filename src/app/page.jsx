@@ -2,8 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import './PulseDot.css';
-import AnimatedExtinctionChartCopy from "./charts/AnimatedExtinctionChartCopy";
-import BirdExtinctionBubbleChart from "./charts/BirdExtinctionBubbleChart";
 import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
 import InteractiveStarMap from './components/InteractiveStarMap'; // Import the star map component
 
@@ -189,7 +187,7 @@ export default function TestScroll() {
           style={{
             position: 'absolute',
             left: 'calc(50% + 420px + 5cm)',
-            top: 'calc(12cm + 15cm - 10cm)', // move 10cm up
+            top: 'calc(12cm + 10cm - 10cm)', // move blue dot further up
             width: 120,
             height: 120,
             zIndex: 10,
@@ -286,6 +284,31 @@ export default function TestScroll() {
           <div style={{ position: 'absolute', left: 30, top: 30 }}>
             <TealDotWithTooltip />
           </div>
+        </div>
+        {/* New pulsing red dot with tooltip and hover text */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 'calc(50% + 700px)', // right of centered poem, mirrors yellow dot
+            top: 'calc(12cm + 8cm)', // move red dot further down
+            width: 200,
+            height: 200,
+            zIndex: 10,
+            pointerEvents: 'auto',
+          }}
+        >
+          <svg width={200} height={200} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+            <defs>
+              {/* Left half arc for text from 6 o'clock to 12 o'clock, bottom to top (mirrors yellow dot) */}
+              <path id="circlePathRed" d="M100,180 A80,80 0 0,1 100,20" />
+            </defs>
+            <text fill="#7b2233" fontSize="1.5rem" fontWeight="bold" letterSpacing="0.08em">
+              <textPath xlinkHref="#circlePathRed" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                hover me
+              </textPath>
+            </text>
+          </svg>
+          <RedDotWithTooltip />
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
@@ -508,6 +531,50 @@ function PurpleDotWithTooltip() {
           <strong>Memory</strong>
           <div style={{ marginTop: 8 }}>
             "A memory of a vanished world."
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Add new interactive red dot with tooltip
+function RedDotWithTooltip() {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <div style={{ position: 'absolute', left: 40, top: 40, pointerEvents: 'auto' }}>
+      <div
+        className="pulse-dot"
+        style={{
+          width: 120,
+          height: 120,
+          borderRadius: '50%',
+          background: '#7b2233',
+          opacity: 0.5,
+          cursor: 'pointer',
+          animation: 'pulse 1.2s infinite',
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      />
+      {hovered && (
+        <div style={{
+          position: 'absolute',
+          left: 130,
+          top: 0,
+          background: 'white',
+          color: '#222',
+          border: '1px solid #7b2233',
+          borderRadius: 8,
+          padding: '1rem',
+          minWidth: 220,
+          fontSize: '1rem',
+          boxShadow: '0 2px 12px #0002',
+          zIndex: 100,
+        }}>
+          <strong>Story</strong>
+          <div style={{ marginTop: 8 }}>
+            "Placeholder"
           </div>
         </div>
       )}
