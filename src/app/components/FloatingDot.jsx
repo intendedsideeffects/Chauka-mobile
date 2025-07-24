@@ -4,8 +4,7 @@ import React,{ useState, useEffect, useMemo } from 'react';
 
 const Z_RANGE = 3000;
 
-export const FloatingDot = React.memo(
-  ({ cx, cy, r, payload, fill, style, onMouseEnter, onMouseLeave }) => {
+function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, onMouseLeave }) {
     const [isHovered, setIsHovered] = useState(false);
 
     const zPosition = useMemo(() => {
@@ -25,7 +24,7 @@ export const FloatingDot = React.memo(
     const scale = (Z_RANGE + zPosition) / Z_RANGE;
     const baseSize = r * 1.5;
     const hitboxSize = baseSize * 3;
-    const opacity = 1.0; // Set opacity to full
+    // Use the passed-in opacity prop
     const blur = Math.max(0, (1 - scale) * 2);
 
     // Determine dot color based on size (all black)
@@ -63,7 +62,7 @@ export const FloatingDot = React.memo(
           r={isHovered ? baseSize * 3 : baseSize}
           fill={fill}
           style={{
-            opacity: isHovered ? 0.9 : 0.6, // Always visible, more opaque on hover
+            opacity: isHovered ? Math.min(1, (opacity || 0.6) + 0.2) : (opacity || 0.6),
             transition: 'opacity 0.2s',
           }}
         />
@@ -78,7 +77,10 @@ export const FloatingDot = React.memo(
         />
       </g>
     );
-  },
+  }
+
+export const FloatingDot = React.memo(
+  _FloatingDot,
   (prevProps, nextProps) => {
     return (
       prevProps.cx === nextProps.cx &&

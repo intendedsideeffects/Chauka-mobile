@@ -111,15 +111,18 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             const yBase = year ? getYearPosition(year) : 0;
             const yOffset = (Math.random() - 0.5) * 2 * MAX_Y_OFFSET;
             const y = yBase + yOffset;
+            // Opacity: scale from 0.2 (smallest) to 0.9 (largest)
+            const opacity = MIN_DOT_SIZE === MAX_DOT_SIZE ? 0.6 : 0.2 + 0.7 * ((size - MIN_DOT_SIZE) / (MAX_DOT_SIZE - MIN_DOT_SIZE));
             // Debug log
             // console.log('Dot size for', d.disaster_type, d.country, 'affected:', d.total_affected, 'size:', size, 'y:', y);
             return {
                 ...d,
-                fill: '#3d557a',
+                fill: '#0a2342', // deep blue
                 future: !!isFuture,
                 size,
                 x: Math.round(d.x),
                 y,
+                opacity,
             };
         });
     }, [visibleData, minAffected, maxAffected]);
@@ -188,13 +191,14 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 </div>
             )}
             
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
                 <ScatterChart
                     key="main-scatter-chart"
-                    style={{ 
-                        overflow: 'visible'
-                    }}
-                    margin={{ top: 20, right: 310, bottom: 80, left: 30 }}>
+                    style={{ background: '#050d1a', overflow: 'visible' }} // darkest blue almost black
+                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                    width={STATUS_WIDTH}
+                    height={STATUS_HEIGHT}
+                >
                     <XAxis
                         type="number"
                         dataKey="x"
@@ -310,6 +314,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 r={props.payload.size}
                                 payload={props.payload}
                                 fill={props.payload.fill}
+                                opacity={props.payload.opacity}
                                 onMouseEnter={() => handleMouseEnter(props.payload)}
                                 onMouseLeave={() => handleMouseLeave(props.payload)}
                             />
