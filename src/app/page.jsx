@@ -5,6 +5,7 @@ import './PulseDot.css';
 import AnimatedExtinctionChartCopy from "./charts/AnimatedExtinctionChartCopy";
 import BirdExtinctionBubbleChart from "./charts/BirdExtinctionBubbleChart";
 import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
+import InteractiveStarMap from './components/InteractiveStarMap'; // Import the star map component
 
 const poemLines = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
@@ -33,21 +34,59 @@ export default function TestScroll() {
   const videoRef = useRef();
   const poemWrapperRef = useRef();
 
-  // Ensure video always plays with sound
+  // Ensure video plays properly
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.muted = false;
+      // Start muted to ensure autoplay works
+      videoRef.current.muted = true;
       videoRef.current.volume = 1.0;
+      
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If autoplay is blocked, try to play muted
-          videoRef.current.muted = true;
-          videoRef.current.play();
+        playPromise.catch((error) => {
+          console.log('Autoplay failed:', error);
         });
       }
     }
   }, []);
+
+  // Enable sound on first user interaction
+  useEffect(() => {
+    const enableSound = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1.0;
+      }
+      // Remove event listeners after first interaction
+      document.removeEventListener('click', enableSound);
+      document.removeEventListener('keydown', enableSound);
+      document.removeEventListener('touchstart', enableSound);
+    };
+
+    document.addEventListener('click', enableSound);
+    document.addEventListener('keydown', enableSound);
+    document.addEventListener('touchstart', enableSound);
+
+    return () => {
+      document.removeEventListener('click', enableSound);
+      document.removeEventListener('keydown', enableSound);
+      document.removeEventListener('touchstart', enableSound);
+    };
+  }, []);
+
+  // Enable sound on hover
+  const handleVideoHover = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+    }
+  };
+
+  // Disable sound when not hovering
+  const handleVideoLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+    }
+  };
 
   // Slider state for chart
   const [barEndIndex, setBarEndIndex] = useState(0);
@@ -59,7 +98,15 @@ export default function TestScroll() {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play();
+        // Enable sound and play when user clicks
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1.0;
+        videoRef.current.play().catch((error) => {
+          console.log('Manual play failed:', error);
+          // If unmuted play fails, try muted
+          videoRef.current.muted = true;
+          videoRef.current.play();
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -73,93 +120,34 @@ export default function TestScroll() {
   return (
     <div>
       {/* Video Section */}
-      <section style={{ position: 'relative', height: '100vh', width: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', height: '100vh', width: '100%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+
+        
+        {/* Ocean video on top of page */}
         <video
           ref={videoRef}
-          src="/ocean.mp4"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#222' }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 2,
+            pointerEvents: 'none',
+            opacity: 1.0
+          }}
           autoPlay
           loop
           playsInline
-        />
-        {/* White overlay to cover any black line at the bottom edge */}
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
-          width: '100%',
-          height: '14px',
-          background: 'white',
-          zIndex: 10,
-          pointerEvents: 'none',
-        }} />
-        {/* Centered LOSS title and pause/play button */}
-        <div style={{
-          position: 'absolute',
-          top: '0.6cm',
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 11,
-          pointerEvents: 'none',
-        }}>
-          <h1 style={{
-            fontSize: '6rem',
-            fontWeight: 400,
-            letterSpacing: '-.05em',
-            marginBottom: '1.5rem',
-            fontFamily: 'inherit',
-            textAlign: 'center',
-            lineHeight: 1,
-            pointerEvents: 'auto',
-            color: 'rgba(194,143,62,0.6)',
-          }}>Chauka</h1>
-          <div style={{
-            fontSize: '1.5rem',
-            fontWeight: 400,
-            color: 'rgba(194,143,62,0.6)',
-            textAlign: 'center',
-            maxWidth: '700px',
-            margin: '0 auto 2.5rem auto',
-            lineHeight: 1.3,
-            pointerEvents: 'auto',
-          }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-          <button
-            onClick={togglePlay}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              borderRadius: '50%',
-              width: '2.2rem',
-              height: '2.2rem',
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '0',
-              pointerEvents: 'auto',
-            }}
-            aria-label={isPlaying ? 'Pause video' : 'Play video'}
-          >
-            {isPlaying ? (
-              <svg width="1.2rem" height="1.2rem" viewBox="0 0 28 28" style={{ display: 'block' }}>
-                <rect x="7" y="5" width="4" height="18" fill="black" />
-                <rect x="17" y="5" width="4" height="18" fill="black" />
-              </svg>
-            ) : (
-              <svg width="1.2rem" height="1.2rem" viewBox="0 0 28 28" style={{ display: 'block' }}>
-                <polygon points="8,5 22,14 8,23" fill="black" />
-              </svg>
-            )}
-          </button>
-        </div>
+          onMouseEnter={handleVideoHover}
+          onMouseLeave={handleVideoLeave}
+          onClick={togglePlay}
+        >
+          <source src="/ocean.mp4" type="video/mp4" />
+        </video>
+        
+
       </section>
 
       {/* Placeholder text and scatterplot side by side */}
