@@ -63,9 +63,8 @@ export const FloatingDot = React.memo(
           r={isHovered ? baseSize * 3 : baseSize}
           fill={fill}
           style={{
-            opacity: payload.future
-              ? (payload.sound ? 0.5 : (payload.story ? 0.25 : 0.1))
-              : (r <= 6 ? 0.05 : (r === 10 ? 0.2 : 0.5)),
+            opacity: isHovered ? 0.9 : 0.6, // Always visible, more opaque on hover
+            transition: 'opacity 0.2s',
           }}
         />
 

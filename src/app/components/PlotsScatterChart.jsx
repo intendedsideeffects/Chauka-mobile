@@ -7,7 +7,7 @@ import { FloatingDot } from './FloatingDot';
 const STATUS_HEIGHT = 12500;
 const STATUS_WIDTH = 1600;
 const YEAR_MIN = 1900;
-const YEAR_MAX = 2200;
+const YEAR_MAX = 2025;
 const getYearPosition = (year) => {
   return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
 };
@@ -85,20 +85,44 @@ function PlotsScatterChart({ timelineData, visibleData }) {
         });
     }, [timelineData, getStableColor]);
 
+    const MIN_DOT_SIZE = 8; // always visible
+    const MAX_DOT_SIZE = 60; // allow larger dots
+
+    const affectedValues = visibleData
+      .map(d => typeof d.total_affected === 'number' && !isNaN(d.total_affected) ? d.total_affected : 0)
+      .filter(v => v > 0);
+    const minAffected = Math.min(...affectedValues, 1); // avoid 0
+    const maxAffected = Math.max(...affectedValues, 1);
+
+    const PIXELS_PER_CM = 37.8; // 1cm ≈ 37.8px at 96dpi, so 0.5cm ≈ 19px
+    const MAX_Y_OFFSET = PIXELS_PER_CM * 0.5;
+
     const stabilizedVisibleData = useMemo(() => {
-        return visibleData.map(d => {
+        return visibleData.map((d, i) => {
             const year = d.start_year;
             const isFuture = year && year > PRESENT_YEAR;
+            let size = MIN_DOT_SIZE;
+            if (typeof d.total_affected === 'number' && !isNaN(d.total_affected)) {
+                if (maxAffected > minAffected) {
+                    size = MIN_DOT_SIZE + ((d.total_affected - minAffected) / (maxAffected - minAffected)) * (MAX_DOT_SIZE - MIN_DOT_SIZE);
+                }
+            }
+            // Add a small random y offset (up to ±MAX_Y_OFFSET)
+            const yBase = year ? getYearPosition(year) : 0;
+            const yOffset = (Math.random() - 0.5) * 2 * MAX_Y_OFFSET;
+            const y = yBase + yOffset;
+            // Debug log
+            // console.log('Dot size for', d.disaster_type, d.country, 'affected:', d.total_affected, 'size:', size, 'y:', y);
             return {
                 ...d,
-                fill: '#3d557a', // Set dot color
+                fill: '#3d557a',
                 future: !!isFuture,
-                size: 16, // Make dots larger
+                size,
                 x: Math.round(d.x),
-                y: year ? getYearPosition(year) : 0
+                y,
             };
         });
-    }, [visibleData]);
+    }, [visibleData, minAffected, maxAffected]);
 
     // Debug: log status values for visible dots
     useEffect(() => {
@@ -118,7 +142,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     // Generate y-axis ticks for 1400, 1500, ..., 2200
     const yAxisTicks = [];
     const yAxisTickLabels = [];
-    for (let year = YEAR_MIN; year <= YEAR_MAX; year += 20) {
+    for (let year = YEAR_MIN; year <= YEAR_MAX; year += 5) {
       yAxisTicks.push(((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT);
       yAxisTickLabels.push(year);
     }
@@ -171,15 +195,6 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         overflow: 'visible'
                     }}
                     margin={{ top: 20, right: 310, bottom: 80, left: 30 }}>
-                    {/* Vertical dashed line for NOW (PRESENT_YEAR) */}
-                    <ReferenceLine
-                        y={nowY}
-                        stroke="#e0b800"
-                        strokeDasharray="8 8"
-                        strokeWidth={3}
-                    >
-                        <Label value="NOW" position="right" offset={10} fill="#e0b800" fontSize={22} fontWeight="bold" />
-                    </ReferenceLine>
                     <XAxis
                         type="number"
                         dataKey="x"
