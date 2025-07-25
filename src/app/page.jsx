@@ -6,6 +6,7 @@ import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the ne
 import InteractiveStarMap from './components/InteractiveStarMap'; // Import the star map component
 import AddMemoryForm from './components/AddMemoryForm';
 import MemoryList from './components/MemoryList';
+import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 
 const poemLines = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
@@ -121,33 +122,41 @@ export default function TestScroll() {
     <div>
       {/* Video Section */}
       <section style={{ position: 'relative', height: '100vh', width: '100%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-
-        
-        {/* Ocean video on top of page */}
+        {/* Star Globe as background */}
+        <InteractiveStarGlobe />
+        {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
         <video
-          ref={videoRef}
+          src="/ocean.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
           style={{
             position: 'absolute',
-            top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
+            top: '15vh',
+            width: '100vw',
+            height: '85vh',
             objectFit: 'cover',
             zIndex: 2,
             pointerEvents: 'none',
-            opacity: 1.0
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
           }}
-          autoPlay
-          loop
-          playsInline
-          onMouseEnter={handleVideoHover}
-          onMouseLeave={handleVideoLeave}
-          onClick={togglePlay}
-        >
-          <source src="/ocean.mp4" type="video/mp4" />
-        </video>
-        
-
+        />
+        {/* Black bar between video and star globe */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '15vh',
+            width: '100vw',
+            height: '85vh', // Match the video height
+            zIndex: 2.5, // Between star globe and video
+            pointerEvents: 'none',
+            background: '#000',
+          }}
+        />
       </section>
 
       {/* Placeholder text and scatterplot side by side */}
