@@ -34,7 +34,10 @@ const ExtinctSpeciesViz = () => {
           country: row.country,
           start_year: year,
           summary: row.summary,
-          total_affected: row.total_affected ? Number(row.total_affected) : 0, // add this line
+          total_affected: row.total_affected ? Number(row.total_affected) : 0,
+          total_injured: row.total_injured ? Number(row.total_injured) : 0,
+          total_homeless: row.total_homeless ? Number(row.total_homeless) : 0,
+          total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
         };
       });
       console.log('Scatterplot points:', points);

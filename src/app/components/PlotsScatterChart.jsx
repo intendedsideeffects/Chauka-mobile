@@ -3,6 +3,27 @@ import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Refe
 import getRegionColor from '../data/colorPointsData';
 import CustomTooltip from './CustomTooltip';
 import { FloatingDot } from './FloatingDot';
+import { supabase } from '../utils/supabaseClient';
+
+// Helper: avoid overlaps for dots
+function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
+  const placed = [];
+  for (let dot of dots) {
+    let tries = 0;
+    let newDot = { ...dot };
+    while (
+      placed.some(
+        d => Math.hypot(d.x - newDot.x, d.y - newDot.y) < minDistance
+      ) &&
+      tries < maxTries
+    ) {
+      newDot.x += (Math.random() - 0.5) * minDistance;
+      tries++;
+    }
+    placed.push(newDot);
+  }
+  return placed;
+}
 
 const STATUS_HEIGHT = 12500;
 const STATUS_WIDTH = 1600;
@@ -18,6 +39,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [hoveredDot, setHoveredDot] = useState(null);
+    const [memories, setMemories] = useState([]);
 
     useEffect(() => {
         const enableAudio = () => {
@@ -28,6 +50,14 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
         document.addEventListener("click", enableAudio, { once: true });
         return () => document.removeEventListener("click", enableAudio);
+    }, []);
+
+    useEffect(() => {
+      async function fetchMemories() {
+        const { data, error } = await supabase.from('memories').select('*');
+        if (!error) setMemories(data);
+      }
+      fetchMemories();
     }, []);
 
     const handleMouseEnter = (dot) => {
@@ -150,6 +180,30 @@ function PlotsScatterChart({ timelineData, visibleData }) {
       yAxisTickLabels.push(year);
     }
 
+    // Memory dots: fixed x, y from year, purple color
+    const MEMORY_X = 600;
+    const MEMORY_SIZE = 24;
+    const memoryDots = memories
+      .filter(m => m.year)
+      .map((m, i) => ({
+        x: MEMORY_X + i * 40,
+        y: ((YEAR_MAX - m.year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT,
+        title: m.type === 'image' ? 'Image Memory' : m.type === 'sound' ? 'Sound Memory' : 'Memory',
+        size: MEMORY_SIZE,
+        type: m.type,
+        content: m.content,
+        author: m.author,
+        year: m.year,
+        id: m.id,
+      }));
+
+    // Add delete handler for memories
+    const handleDeleteMemory = async (id) => {
+      await supabase.from('memories').delete().eq('id', id);
+      setMemories(memories => memories.filter(m => m.id !== id));
+      setHoveredDot(null);
+    };
+
     return (
         <div
             id="plot-container"
@@ -162,33 +216,59 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 overflow: 'visible'
             }}>
             
-            {/* Custom tooltip for colored dots */}
-            {hoveredDot && hoveredDot.type && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '20px',
-                        transform: 'translateX(-50%)',
-                        background: 'white',
-                        color: '#222',
-                        border: hoveredDot.type === 'warning' ? '1px solid #c28f3e' : 
-                                hoveredDot.type === 'memory' ? '1px solid #5a3f6e' : 
-                                hoveredDot.type === 'resistance' ? '1px solid #267180' :
-                                hoveredDot.type === 'story' ? '1px solid #c0392b' : '1px solid #222',
-                        borderRadius: 8,
-                        padding: '1rem',
-                        minWidth: 220,
-                        fontSize: '1rem',
-                        boxShadow: '0 2px 12px #0002',
-                        zIndex: 1000,
-                    }}
-                >
-                    <strong>{hoveredDot.title}</strong>
-                    <div style={{ marginTop: 8 }}>
-                        {hoveredDot.type === 'story' ? 'Story' : 'Placeholder'}
-                    </div>
+            {/* Custom tooltip for colored dots and memory dots */}
+            {hoveredDot && hoveredDot.type === 'memory' && (
+              console.log('Rendering tooltip for:', hoveredDot),
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '20px',
+                  transform: 'translateX(-50%)',
+                  background: 'white',
+                  color: '#222',
+                  border: '1px solid #5a3f6e',
+                  borderRadius: 8,
+                  padding: '1rem',
+                  minWidth: 220,
+                  fontSize: '1rem',
+                  boxShadow: '0 2px 12px #0002',
+                  zIndex: 1000,
+                }}
+              >
+                <strong>
+                  {hoveredDot.type === 'image' ? 'Image Memory' : 'Memory'}
+                </strong>
+                <div style={{ marginTop: 8 }}>
+                  {hoveredDot.type === 'image' ? (
+                    <img src={hoveredDot.content} alt="memory" style={{ maxWidth: 180 }} />
+                  ) : (
+                    <div>{hoveredDot.content}</div>
+                  )}
                 </div>
+                <div>
+                  <small>
+                    {hoveredDot.author} ({hoveredDot.year})
+                  </small>
+                </div>
+                {/* Show delete button for all non-sound memories */}
+                {hoveredDot.type !== 'sound' && (
+                  <button
+                    style={{
+                      marginTop: 12,
+                      background: '#e74c3c',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: 4,
+                      padding: '6px 12px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => handleDeleteMemory(hoveredDot.id)}
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
             )}
             
             <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
@@ -319,6 +399,40 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 onMouseLeave={() => handleMouseLeave(props.payload)}
                             />
                         )}
+                    />
+
+                    {/* Memory dots: fixed x, y from year, purple color */}
+                    <Scatter
+                      data={memoryDots}
+                      shape={(props) => (
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={32} // TEMP: make memory dots large for easier hover
+                          fill="#5a3f6e"
+                          opacity={0.7}
+                          style={{ cursor: 'pointer' }}
+                          onMouseEnter={e => {
+                            if (props.payload.type === 'sound') {
+                              if (audioRef.current) {
+                                audioRef.current.src = props.payload.content;
+                                audioRef.current.play().catch(() => {});
+                              }
+                              setHoveredDot(null);
+                            } else {
+                              console.log('Memory dot hovered:', props.payload);
+                              setHoveredDot({ ...props.payload, type: 'memory' });
+                            }
+                          }}
+                          onMouseLeave={e => {
+                            if (props.payload.type === 'sound' && audioRef.current) {
+                              audioRef.current.pause();
+                              audioRef.current.currentTime = 0;
+                            }
+                            setHoveredDot(null);
+                          }}
+                        />
+                      )}
                     />
 
                     <Tooltip 

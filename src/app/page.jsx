@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import './PulseDot.css';
 import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
 import InteractiveStarMap from './components/InteractiveStarMap'; // Import the star map component
+import AddMemoryForm from './components/AddMemoryForm';
+import MemoryList from './components/MemoryList';
 
 const poemLines = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
@@ -314,6 +316,9 @@ export default function TestScroll() {
           <ExtinctSpeciesViz />
         </div>
       </section>
+      <div className="py-8 bg-gray-50 min-h-screen">
+        <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
+      </div>
     </div>
   );
 }
