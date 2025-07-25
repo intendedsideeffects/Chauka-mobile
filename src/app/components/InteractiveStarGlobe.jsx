@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const InteractiveStarGlobe = () => {
+const InteractiveStarGlobe = ({ onStarsLoaded }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
@@ -196,7 +196,15 @@ const InteractiveStarGlobe = () => {
     // Initialize the star map
     async function init() {
       const stars = await loadStars();
-      createStarField(stars);
+      if (stars.length > 0) {
+        createStarField(stars);
+        if (typeof onStarsLoaded === 'function') {
+          onStarsLoaded();
+        }
+      } else if (typeof onStarsLoaded === 'function') {
+        // If no stars, still hide loader to avoid infinite loading
+        onStarsLoaded();
+      }
       // Animation loop
       function animate() {
         controls.update();
