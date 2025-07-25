@@ -7,6 +7,7 @@ import InteractiveStarMap from './components/InteractiveStarMap'; // Import the 
 import AddMemoryForm from './components/AddMemoryForm';
 import MemoryList from './components/MemoryList';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
+import { useState as useReactState, useRef as useReactRef } from 'react';
 
 const poemLines = [
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
@@ -325,70 +326,8 @@ export default function TestScroll() {
           <ExtinctSpeciesViz />
         </div>
       </section>
-      {/* Fixed pulsing yellow star with circular text at top right */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '160px',
-          right: '160px',
-          width: '180px',
-          height: '180px',
-          zIndex: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          pointerEvents: 'auto',
-          background: 'none',
-        }}
-      >
-        <svg width="180" height="180" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }}>
-          <defs>
-            <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#a8972a" stopOpacity="1" />
-              <stop offset="100%" stopColor="#a8972a" stopOpacity="0" />
-            </radialGradient>
-            <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
-              <feGaussianBlur stdDeviation="40" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <path id="circlePath" d="M90,25 A65,65 0 0,1 90,155" />
-          </defs>
-          {/* Pulsing glowing dot */}
-          <circle
-            cx="90"
-            cy="90"
-            r="36"
-            fill="url(#pulse)"
-            style={{
-              animation: 'pulse 1.5s infinite',
-              filter: 'url(#glow)',
-            }}
-          />
-          <circle
-            cx="90"
-            cy="90"
-            r="22"
-            fill="#a8972a"
-            style={{ filter: 'url(#glow)' }}
-          />
-          {/* Circular text */}
-          <text fill="#a8972a" fontSize="18" fontWeight="bold" letterSpacing="0.08em">
-            <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-              Click for story!
-            </textPath>
-          </text>
-        </svg>
-        <style>{`
-          @keyframes pulse {
-            0% { r: 36; opacity: 0.7; }
-            50% { r: 48; opacity: 0.2; }
-            100% { r: 36; opacity: 0.7; }
-          }
-        `}</style>
-      </div>
+      {/* Fixed pulsing yellow star with audio player at top right */}
+      <YellowStarAudioPlayer />
       <div className="py-8 bg-gray-50 min-h-screen">
         <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
       </div>
@@ -656,6 +595,126 @@ function RedDotWithTooltip() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Audio player for the yellow star
+function YellowStarAudioPlayer() {
+  const [playing, setPlaying] = useReactState(false);
+  const audioRef = useReactRef();
+  const [audioLoaded, setAudioLoaded] = useReactState(false);
+  const [audioError, setAudioError] = useReactState(false);
+
+  // Play/pause toggle
+  const handleToggle = () => {
+    console.log('Clicked star. Playing:', playing, 'audioLoaded:', audioLoaded, 'audioError:', audioError);
+    if (audioError) {
+      alert('Audio failed to load.');
+      return;
+    }
+    if (playing) {
+      audioRef.current.pause();
+      setPlaying(false);
+    } else {
+      // Try to play, and only set playing if it succeeds
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => setPlaying(true)).catch((e) => {
+          console.log('Play failed, trying to unmute and play again', e);
+          audioRef.current.muted = false;
+          audioRef.current.play().then(() => setPlaying(true)).catch((err) => {
+            setAudioError(true);
+            alert('Audio could not be played.');
+          });
+        });
+      } else {
+        setPlaying(true);
+      }
+    }
+  };
+
+  // Reset audio
+  const handleReset = (e) => {
+    e.stopPropagation();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setPlaying(false);
+    }
+  };
+
+  // When audio ends, set playing to false
+  const handleEnded = () => setPlaying(false);
+
+  return (
+    <div style={{ position: 'fixed', top: '120px', right: '120px', width: '240px', height: '240px', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'auto', background: 'none', cursor: 'pointer' }} onClick={handleToggle} title="Play or pause story" aria-label="Play or pause story">
+      <audio
+        ref={audioRef}
+        src="/teststory.mp3"
+        onEnded={handleEnded}
+        onCanPlayThrough={() => { setAudioLoaded(true); setAudioError(false); console.log('Audio can play through'); }}
+        onPlay={() => console.log('Audio play')}
+        onPause={() => console.log('Audio pause')}
+        onError={e => { setAudioError(true); console.error('Audio error', e); }}
+        preload="auto"
+      />
+      <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+        <defs>
+          <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#a8972a" stopOpacity="1" />
+            <stop offset="100%" stopColor="#a8972a" stopOpacity="0" />
+          </radialGradient>
+          <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          {/* Top semi-circle arc for text, similar to blue dot */}
+          <path id="circlePath" d="M120,60 A60,60 0 1,1 119.99,60" />
+        </defs>
+        {/* Pulsing glowing dot */}
+        <circle cx="120" cy="120" r="48" fill="url(#pulse)" style={{ animation: 'pulse 1.5s infinite', filter: 'url(#glow)' }} />
+        <circle cx="120" cy="120" r="30" fill="#a8972a" style={{ filter: 'url(#glow)' }} />
+        {/* Circular text */}
+        <text fill="#a8972a" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
+          <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+            Click for story!
+          </textPath>
+        </text>
+        {/* Minimalist play/pause icon */}
+        {!playing && (
+          // Right-pointing equilateral triangle centered at (120,120), side length 20, shifted left by 1 unit
+          <polygon points="115,112 131,120 115,128" fill="#e6d87a" style={{ opacity: 1 }} />
+        )}
+        {audioLoaded && playing && (
+          <g>
+            <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
+            <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
+          </g>
+        )}
+      </svg>
+      {/* Reset button (small circle with arrow) */}
+      <button onClick={handleReset} style={{ position: 'absolute', right: 18, bottom: 18, width: 36, height: 36, borderRadius: '50%', background: 'none', border: '2px solid #a8972a', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }} title="Reset">
+        <svg width="20" height="20" viewBox="0 0 18 18">
+          <path d="M9 3a6 6 0 1 1-6 6" fill="none" stroke="#a8972a" strokeWidth="2" />
+          <polygon points="3,3 9,3 6,6" fill="#a8972a" />
+        </svg>
+      </button>
+      {audioError && (
+        <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '8px 16px', borderRadius: 8, zIndex: 20 }}>
+          Audio failed to load.
+        </div>
+      )}
+      <style>{`
+        @keyframes pulse {
+          0% { r: 36; opacity: 0.7; }
+          50% { r: 48; opacity: 0.2; }
+          100% { r: 36; opacity: 0.7; }
+        }
+      `}</style>
     </div>
   );
 }
