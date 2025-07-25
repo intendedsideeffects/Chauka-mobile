@@ -656,8 +656,8 @@ function YellowStarAudioPlayer() {
       <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#a8972a" stopOpacity="1" />
-            <stop offset="100%" stopColor="#a8972a" stopOpacity="0" />
+            <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
+            <stop offset="100%" stopColor="#cad6fa" stopOpacity="0.8" />
           </radialGradient>
           <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur stdDeviation="40" result="coloredBlur" />
@@ -668,20 +668,19 @@ function YellowStarAudioPlayer() {
           </filter>
           <path id="circlePath" d="M120,60 A60,60 0 1,1 119.99,60" />
         </defs>
-        <circle cx="120" cy="120" r="48" fill="url(#pulse)" style={{ animation: 'pulse 1.5s infinite', filter: 'url(#glow)' }} />
-        <circle cx="120" cy="120" r="30" fill="#a8972a" style={{ filter: 'url(#glow)' }} />
-        <text fill="#a8972a" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
+        <circle cx="120" cy="120" r="30" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
+        <text fill="#94a0c4" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
           <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
             Click for story!
           </textPath>
         </text>
         {!playing && (
-          <polygon points="115,112 131,120 115,128" fill="#e6d87a" style={{ opacity: 1 }} />
+          <polygon points="115,112 131,120 115,128" fill="#a6b2d6" style={{ opacity: 1 }} />
         )}
         {playing && (
           <g>
-            <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
-            <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
+            <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
+            <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
           </g>
         )}
       </svg>
@@ -691,10 +690,10 @@ function YellowStarAudioPlayer() {
           audioElement.pause();
           setPlaying(false);
         }
-      }} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }}>
+      }} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#cad6fa', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }}>
         <svg width="44" height="44" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-          <circle cx="22" cy="22" r="17" fill="#a8972a" />
-          <text x="22" y="25" textAnchor="middle" fill="#e6d87a" fontSize="11" fontWeight="normal">reset</text>
+          <circle cx="22" cy="22" r="17" fill="#cad6fa" />
+          <text x="22" y="25" textAnchor="middle" fill="#828eb0" fontSize="11" fontWeight="normal">reset</text>
         </svg>
       </button>
       {audioError && (
@@ -896,7 +895,7 @@ function BirdAudioPlayer() {
       <AudioPlayer
         id="bird-audio"
         src="/chaukasound.mp3"
-        volume={1}
+        volume={0.3}
         loop={false}
         onEnded={() => setPlaying(false)}
         onStateChange={handleStateChange}
