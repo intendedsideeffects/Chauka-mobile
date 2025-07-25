@@ -168,12 +168,31 @@ export default function TestScroll() {
             background: '#000',
           }}
         />
+        {/* Scene overlay image */}
+        <img
+          src="/scene.png"
+          alt="Scene overlay"
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '15vh',
+            width: '100vw',
+            height: '85vh',
+            objectFit: 'cover',
+            zIndex: 3, // Above video and black bar
+            pointerEvents: 'none',
+          }}
+        />
         {/* Audio buttons positioned relative to video section */}
         <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
           <YellowStarAudioPlayer />
         </div>
         <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
           <BlueCircleAudioPlayer />
+        </div>
+        {/* Bird audio button positioned over the bird in the scene */}
+        <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
+          <BirdAudioPlayer />
         </div>
       </section>
 
@@ -210,136 +229,6 @@ export default function TestScroll() {
           {poemLines.map((line, idx) => (
             <p key={idx} style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>{line}</p>
           ))}
-        </div>
-        {/* Pulsing blue dot with SVG-wrapped text */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% + 420px + 5cm)',
-            top: 'calc(12cm + 10cm - 10cm)', // move blue dot further up
-            width: 120,
-            height: 120,
-            zIndex: 10,
-            pointerEvents: 'auto', // fix for tooltip
-          }}
-        >
-          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Right half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
-              <path id="circlePathRight" d="M60,12 A48,48 0 0,1 108,60 A48,48 0 0,1 60,108" />
-            </defs>
-            <text fill="#3d557a" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathRight" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
-          {/* Interactive dot with tooltip */}
-          <PulseDotWithTooltipForLegend />
-        </div>
-        {/* Large pulsing dot to the left of the poem, further down (yellow, now interactive) */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 420px - 5cm)',
-            top: 'calc(12cm + 10cm + 5cm)', // move yellow dot further down
-            width: 120,
-            height: 120,
-            zIndex: 10,
-            pointerEvents: 'auto', // fix for tooltip
-          }}
-        >
-          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Left half arc for text from 6 o'clock to 12 o'clock, readable bottom to top */}
-              <path id="circlePathLeft" d="M60,108 A48,48 0 0,1 12,60 A48,48 0 0,1 60,12" />
-            </defs>
-            <text fill="#a8972a" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathLeft" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
-          {/* Interactive dot with tooltip */}
-          <YellowDotWithTooltip />
-        </div>
-        {/* Large pulsing dot to the right of the poem, further down (teal, now interactive) */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% + 420px + 5cm)',
-            top: 'calc(12cm + 10cm + 5cm)', // move teal dot further down
-            width: 120,
-            height: 120,
-            zIndex: 10,
-            pointerEvents: 'auto', // fix for tooltip
-          }}
-        >
-          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Right half arc for text from 6 o'clock to 12 o'clock, readable bottom to top */}
-              <path id="circlePathRightDown" d="M60,108 A48,48 0 0,1 108,60 A48,48 0 0,1 60,12" />
-            </defs>
-            <text fill="#20b2aa" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathRightDown" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
-          {/* Interactive dot with tooltip */}
-          <TealDotWithTooltip />
-        </div>
-        {/* Large pulsing dot to the left of the poem, further up (purple, now interactive) */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% - 420px - 5cm)',
-            top: 'calc(12cm + 10cm - 10cm)', // move purple dot further up
-            width: 120,
-            height: 120,
-            zIndex: 10,
-            pointerEvents: 'auto', // fix for tooltip
-          }}
-        >
-          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Left half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
-              <path id="circlePathLeftUp" d="M60,12 A48,48 0 0,1 12,60 A48,48 0 0,1 60,108" />
-            </defs>
-            <text fill="#8a2be2" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathLeftUp" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
-          {/* Interactive dot with tooltip */}
-          <PurpleDotWithTooltip />
-        </div>
-        {/* Large pulsing dot to the right of the poem, further up (red, now interactive) */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% + 420px + 5cm)',
-            top: 'calc(12cm + 10cm - 10cm)', // move red dot further up
-            width: 120,
-            height: 120,
-            zIndex: 10,
-            pointerEvents: 'auto', // fix for tooltip
-          }}
-        >
-          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Right half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
-              <path id="circlePathRightUp" d="M60,12 A48,48 0 0,1 108,60 A48,48 0 0,1 60,108" />
-            </defs>
-            <text fill="#ff4444" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathRightUp" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
-          {/* Interactive dot with tooltip */}
-          <RedDotWithTooltip />
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
@@ -947,6 +836,88 @@ function BlueCircleAudioPlayer() {
           100% { r: 36; opacity: 0.7; }
         }
       `}</style>
+    </div>
+  );
+}
+
+// Bird Audio Player Component
+function BirdAudioPlayer() {
+  const [playing, setPlaying] = React.useState(false);
+  const [audioLoaded, setAudioLoaded] = React.useState(false);
+  const [audioError, setAudioError] = React.useState(false);
+  const [audioElement, setAudioElement] = React.useState(null);
+
+  const handleToggle = () => {
+    console.log('Bird button clicked!', { audioLoaded, audioError, audioElement, playing });
+    if (!audioElement) {
+      console.log('No bird audio element found');
+      return;
+    }
+    
+    // Try to play/pause regardless of loading state
+    if (audioElement) {
+      if (playing) {
+        console.log('Pausing bird audio');
+        audioElement.pause();
+      } else {
+        console.log('Playing bird audio');
+        audioElement.play().catch(error => {
+          console.error('Error playing bird audio:', error);
+        });
+      }
+    }
+  };
+
+  const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
+    console.log('Bird state change:', { newPlaying, newAudioLoaded, newAudioError });
+    setPlaying(newPlaying);
+    setAudioLoaded(newAudioLoaded);
+    setAudioError(newAudioError);
+  };
+
+  const handleAudioRef = (audio) => {
+    setAudioElement(audio);
+  };
+
+  return (
+    <div
+      style={{
+        width: '80px',
+        height: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={handleToggle}
+      aria-label="Play or pause Chauka call"
+    >
+      <AudioPlayer
+        id="bird-audio"
+        src="/chaukasound.mp3"
+        volume={1}
+        loop={false}
+        onEnded={() => setPlaying(false)}
+        onStateChange={handleStateChange}
+        onRef={handleAudioRef}
+      />
+      <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+        {!playing && (
+          <polygon points="35,30 50,40 35,50" fill="#676b8b" style={{ opacity: 0.8 }} />
+        )}
+        {playing && (
+          <g>
+            <rect x="32.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
+            <rect x="40.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
+          </g>
+        )}
+      </svg>
+      {audioError && (
+        <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '4px 8px', borderRadius: 4, zIndex: 20, fontSize: '10px' }}>
+          Audio failed to load.
+        </div>
+      )}
     </div>
   );
 }
