@@ -33,6 +33,7 @@ const poemLines = [
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef();
+  const oceanVideoRef = useRef();
   const poemWrapperRef = useRef();
 
   // Ensure video plays properly
@@ -48,6 +49,14 @@ export default function TestScroll() {
           console.log('Autoplay failed:', error);
         });
       }
+    }
+  }, []);
+
+  // Ensure ocean video is always muted
+  useEffect(() => {
+    if (oceanVideoRef.current) {
+      oceanVideoRef.current.muted = true;
+      oceanVideoRef.current.volume = 0;
     }
   }, []);
 
@@ -126,10 +135,12 @@ export default function TestScroll() {
         <InteractiveStarGlobe />
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
         <video
+          ref={oceanVideoRef}
           src="/ocean.mp4"
           autoPlay
           loop
           muted
+          volume={0}
           playsInline
           style={{
             position: 'absolute',
@@ -326,8 +337,12 @@ export default function TestScroll() {
         </div>
       </section>
       {/* Fixed pulsing yellow star with audio player at top right */}
-      <YellowStarAudioPlayer />
-      <BlueCircleAudioPlayer />
+      <div style={{ position: 'fixed', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
+        <YellowStarAudioPlayer />
+      </div>
+      <div style={{ position: 'fixed', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
+        <BlueCircleAudioPlayer />
+      </div>
       <div className="py-8 bg-gray-50 min-h-screen">
         <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
       </div>
@@ -599,12 +614,84 @@ function RedDotWithTooltip() {
   );
 }
 
+// Add a robust, reusable AudioPlayer component
+function AudioPlayer({ src, volume = 1, loop = false, onEnded, onStateChange, onRef, ...rest }) {
+  const audioRef = React.useRef();
+  const [playing, setPlaying] = React.useState(false);
+  const [audioLoaded, setAudioLoaded] = React.useState(false);
+  const [audioError, setAudioError] = React.useState(false);
+
+  React.useEffect(() => {
+    // Temporarily removed muting to debug audio issues
+    console.log('AudioPlayer mounted for:', src);
+  }, []);
+
+  // Expose audio ref to parent
+  React.useEffect(() => {
+    if (onRef && audioRef.current) {
+      onRef(audioRef.current);
+    }
+  }, [onRef]);
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('AudioPlayer: Loading audio file:', src);
+  }, [src]);
+
+  // Notify parent of state changes
+  React.useEffect(() => {
+    if (onStateChange) {
+      onStateChange({ playing, audioLoaded, audioError });
+    }
+  }, [playing, audioLoaded, audioError, onStateChange]);
+
+  return (
+    <audio
+      ref={audioRef}
+      src={src}
+      onEnded={() => { setPlaying(false); if (onEnded) onEnded(); }}
+      onCanPlayThrough={() => { 
+        console.log('AudioPlayer: Audio loaded successfully:', src);
+        setAudioLoaded(true); 
+        setAudioError(false); 
+      }}
+      onPlay={() => {
+        console.log('AudioPlayer: Playing audio:', src, 'with volume:', volume);
+        setPlaying(true);
+        if (audioRef.current) {
+          audioRef.current.volume = volume;
+          audioRef.current.muted = false;
+        }
+        // Force state update to parent
+        if (onStateChange) {
+          onStateChange({ playing: true, audioLoaded, audioError });
+        }
+      }}
+      onPause={() => {
+        setPlaying(false);
+        // Force state update to parent
+        if (onStateChange) {
+          onStateChange({ playing: false, audioLoaded, audioError });
+        }
+      }}
+      onError={e => { 
+        console.error('AudioPlayer: Error loading audio:', src, e);
+        setAudioError(true); 
+      }}
+      preload="auto"
+      loop={loop}
+      {...rest}
+    />
+  );
+}
+
+// Refactor YellowStarAudioPlayer to use AudioPlayer
 function YellowStarAudioPlayer() {
   const [playing, setPlaying] = React.useState(false);
-  const audioRef = React.useRef();
   const [audioLoaded, setAudioLoaded] = React.useState(false);
   const [audioError, setAudioError] = React.useState(false);
   const [showButtons, setShowButtons] = React.useState(true);
+  const [audioElement, setAudioElement] = React.useState(null);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -614,27 +701,39 @@ function YellowStarAudioPlayer() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleReset = (e) => {
-    e.stopPropagation();
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setPlaying(false);
+  const handleToggle = () => {
+    console.log('Yellow button clicked!', { audioLoaded, audioError, audioElement, playing });
+    console.log('Yellow audio element:', audioElement);
+    console.log('Yellow audio readyState:', audioElement?.readyState);
+    console.log('Yellow audio paused:', audioElement?.paused);
+    if (!audioElement) {
+      console.log('No audio element found');
+      return;
+    }
+    
+    // Try to play/pause regardless of loading state
+    if (audioElement) {
+      if (playing) {
+        console.log('Pausing yellow audio');
+        audioElement.pause();
+      } else {
+        console.log('Playing yellow audio');
+        audioElement.play().catch(error => {
+          console.error('Error playing yellow audio:', error);
+        });
+      }
     }
   };
 
-  const handleEnded = () => setPlaying(false);
+  const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
+    console.log('Yellow state change:', { newPlaying, newAudioLoaded, newAudioError });
+    setPlaying(newPlaying);
+    setAudioLoaded(newAudioLoaded);
+    setAudioError(newAudioError);
+  };
 
-  const handleToggle = () => {
-    if (!audioLoaded || audioError) return;
-    if (audioRef.current) {
-      if (playing) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setPlaying(!playing);
-    }
+  const handleAudioRef = (audio) => {
+    setAudioElement(audio);
   };
 
   return (
@@ -658,15 +757,14 @@ function YellowStarAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause story"
     >
-      <audio
-        ref={audioRef}
+      <AudioPlayer
+        id="yellow-audio"
         src="/teststory.mp3"
-        onEnded={handleEnded}
-        onCanPlayThrough={() => { setAudioLoaded(true); setAudioError(false); }}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onError={e => { setAudioError(true); }}
-        preload="auto"
+        volume={1}
+        loop={false}
+        onEnded={() => setPlaying(false)}
+        onStateChange={handleStateChange}
+        onRef={handleAudioRef}
       />
       <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
@@ -693,14 +791,20 @@ function YellowStarAudioPlayer() {
         {!playing && (
           <polygon points="115,112 131,120 115,128" fill="#e6d87a" style={{ opacity: 1 }} />
         )}
-        {audioLoaded && playing && (
+        {playing && (
           <g>
             <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
             <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#e6d87a" style={{ opacity: 1 }} />
           </g>
         )}
       </svg>
-      <button onClick={handleReset} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }}>
+      <button onClick={() => {
+        if (audioElement) {
+          audioElement.currentTime = 0;
+          audioElement.pause();
+          setPlaying(false);
+        }
+      }} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }}>
         <svg width="44" height="44" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
           <circle cx="22" cy="22" r="17" fill="#a8972a" />
           <text x="22" y="25" textAnchor="middle" fill="#e6d87a" fontSize="11" fontWeight="normal">reset</text>
@@ -722,12 +826,13 @@ function YellowStarAudioPlayer() {
   );
 }
 
+// Refactor BlueCircleAudioPlayer to use AudioPlayer
 function BlueCircleAudioPlayer() {
   const [playing, setPlaying] = React.useState(false);
-  const audioRef = React.useRef();
   const [audioLoaded, setAudioLoaded] = React.useState(false);
   const [audioError, setAudioError] = React.useState(false);
   const [showButtons, setShowButtons] = React.useState(true);
+  const [audioElement, setAudioElement] = React.useState(null);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -737,18 +842,39 @@ function BlueCircleAudioPlayer() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleEnded = () => setPlaying(false);
-
   const handleToggle = () => {
-    if (!audioLoaded || audioError) return;
-    if (audioRef.current) {
-      if (playing) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setPlaying(!playing);
+    console.log('Blue button clicked!', { audioLoaded, audioError, audioElement, playing });
+    console.log('Blue audio element:', audioElement);
+    console.log('Blue audio readyState:', audioElement?.readyState);
+    console.log('Blue audio paused:', audioElement?.paused);
+    if (!audioElement) {
+      console.log('No blue audio element found');
+      return;
     }
+    
+    // Try to play/pause regardless of loading state
+    if (audioElement) {
+      if (playing) {
+        console.log('Pausing blue audio');
+        audioElement.pause();
+      } else {
+        console.log('Playing blue audio');
+        audioElement.play().catch(error => {
+          console.error('Error playing blue audio:', error);
+        });
+      }
+    }
+  };
+
+  const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
+    console.log('Blue state change:', { newPlaying, newAudioLoaded, newAudioError });
+    setPlaying(newPlaying);
+    setAudioLoaded(newAudioLoaded);
+    setAudioError(newAudioError);
+  };
+
+  const handleAudioRef = (audio) => {
+    setAudioElement(audio);
   };
 
   return (
@@ -772,15 +898,14 @@ function BlueCircleAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause ocean sound"
     >
-      <audio
-        ref={audioRef}
-        src="/ocean.mp4"
-        onEnded={handleEnded}
-        onCanPlayThrough={() => { setAudioLoaded(true); setAudioError(false); }}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onError={e => { setAudioError(true); }}
-        preload="auto"
+      <AudioPlayer
+        id="blue-audio"
+        src="/oceansound.m4a?v=1"
+        volume={0.03}
+        loop={true}
+        onEnded={() => setPlaying(false)}
+        onStateChange={handleStateChange}
+        onRef={handleAudioRef}
       />
       <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
@@ -809,7 +934,7 @@ function BlueCircleAudioPlayer() {
         {!playing && (
           <polygon points="115,112 131,120 115,128" fill="#b8c6e6" style={{ opacity: 1 }} />
         )}
-        {audioLoaded && playing && (
+        {playing && (
           <g>
             <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
             <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
