@@ -630,8 +630,8 @@ function YellowStarAudioPlayer() {
   return (
     <div
       style={{
-        width: '240px',
-        height: '240px',
+        width: '300px',
+        height: '300px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -653,7 +653,7 @@ function YellowStarAudioPlayer() {
         onStateChange={handleStateChange}
         onRef={handleAudioRef}
       />
-      <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+      <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
@@ -666,24 +666,25 @@ function YellowStarAudioPlayer() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          <path id="circlePath" d="M120,60 A60,60 0 1,1 119.99,60" />
+          <path id="circlePath" d="M150,75 A75,75 0 1,1 149.99,75" />
         </defs>
-        <circle cx="120" cy="120" r="30" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
-        <text fill="#94a0c4" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
+        <circle cx="150" cy="150" r="40" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
+        <circle cx="150" cy="150" r="50" fill="transparent" style={{ filter: 'url(#glow)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
+        <text fill="#94a0c4" fontSize="18" fontWeight="normal" letterSpacing="0.08em">
           <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
             Click for story!
           </textPath>
         </text>
         {!playing && (
-          <polygon points="115,112 131,120 115,128" fill="#a6b2d6" style={{ opacity: 1 }} />
+          <polygon points="145,140 165,150 145,160" fill="#a6b2d6" style={{ opacity: 1 }} />
         )}
         {playing && (
           <g>
-            <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
-            <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
+            <rect x="142.5" y="141.5" width="6" height="15" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
+            <rect x="151.5" y="141.5" width="6" height="15" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
           </g>
         )}
-      </svg>
+              </svg>
       <button onClick={() => {
         if (audioElement) {
           audioElement.currentTime = 0;
@@ -703,9 +704,15 @@ function YellowStarAudioPlayer() {
       )}
       <style>{`
         @keyframes pulse {
-          0% { r: 36; opacity: 0.7; }
-          50% { r: 48; opacity: 0.2; }
-          100% { r: 36; opacity: 0.7; }
+          0% { 
+            opacity: 0.8;
+          }
+          50% { 
+            opacity: 0.4;
+          }
+          100% { 
+            opacity: 0.8;
+          }
         }
       `}</style>
     </div>
