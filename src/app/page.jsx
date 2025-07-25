@@ -697,17 +697,10 @@ function YellowStarAudioPlayer() {
         )}
       </svg>
       {/* Reset button (small circle with arrow) */}
-      <button onClick={handleReset} style={{ position: 'absolute', right: 18, bottom: 18, width: 34, height: 34, borderRadius: '50%', background: 'none', border: 'none', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }} title="Reset">
-        <svg width="34" height="34" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-          <defs>
-            <path id="resetCircleText" d="M17,2 A22,22 0 1,1 16.99,2" />
-          </defs>
-          <circle cx="17" cy="17" r="13" fill="#a8972a" />
-          <text fill="#a8972a" fontSize="13" fontWeight="normal" letterSpacing="0.08em">
-            <textPath xlinkHref="#resetCircleText" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-              reset
-            </textPath>
-          </text>
+      <button onClick={handleReset} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#a8972a', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }} title="Reset">
+        <svg width="44" height="44" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+          <circle cx="22" cy="22" r="17" fill="#a8972a" />
+          <text x="22" y="25" textAnchor="middle" fill="#e6d87a" fontSize="11" fontWeight="normal">reset</text>
         </svg>
       </button>
       {audioError && (
