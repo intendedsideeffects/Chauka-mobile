@@ -168,6 +168,13 @@ export default function TestScroll() {
             background: '#000',
           }}
         />
+        {/* Audio buttons positioned relative to video section */}
+        <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
+          <YellowStarAudioPlayer />
+        </div>
+        <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
+          <BlueCircleAudioPlayer />
+        </div>
       </section>
 
       {/* Placeholder text and scatterplot side by side */}
@@ -234,115 +241,110 @@ export default function TestScroll() {
         <div
           style={{
             position: 'absolute',
-            left: 'calc(50% - 700px)', // left of centered poem
-            top: 'calc(12cm + 2cm)', // even higher
-            width: 200,
-            height: 200,
-            zIndex: 9,
-            pointerEvents: 'auto', // make interactive
+            left: 'calc(50% - 420px - 5cm)',
+            top: 'calc(12cm + 10cm + 5cm)', // move yellow dot further down
+            width: 120,
+            height: 120,
+            zIndex: 10,
+            pointerEvents: 'auto', // fix for tooltip
           }}
         >
-          <svg width={200} height={200} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
             <defs>
-              {/* Left half arc for text from 6 o'clock to 12 o'clock, bottom to top */}
-              <path id="circlePathLeft" d="M100,180 A80,80 0 0,1 100,20" />
+              {/* Left half arc for text from 6 o'clock to 12 o'clock, readable bottom to top */}
+              <path id="circlePathLeft" d="M60,108 A48,48 0 0,1 12,60 A48,48 0 0,1 60,12" />
             </defs>
-            <text fill="#c28f3e" fontSize="1.5rem" fontWeight="bold" letterSpacing="0.08em">
+            <text fill="#a8972a" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
               <textPath xlinkHref="#circlePathLeft" startOffset="0%" textAnchor="start" dominantBaseline="middle">
                 hover me
               </textPath>
             </text>
           </svg>
+          {/* Interactive dot with tooltip */}
           <YellowDotWithTooltip />
         </div>
-        {/* New pulsing purple dot with tooltip and hover text */}
+        {/* Large pulsing dot to the right of the poem, further down (teal, now interactive) */}
         <div
           style={{
             position: 'absolute',
-            left: 'calc(50% + 200px + 5cm)', // further right by 5cm
-            top: 'calc(12cm + 25cm)', // lower than blue dot
+            left: 'calc(50% + 420px + 5cm)',
+            top: 'calc(12cm + 10cm + 5cm)', // move teal dot further down
             width: 120,
             height: 120,
             zIndex: 10,
-            pointerEvents: 'auto',
+            pointerEvents: 'auto', // fix for tooltip
           }}
         >
           <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
             <defs>
-              {/* Right half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
-              <path id="circlePathPurple" d="M60,12 A48,48 0 0,1 108,60 A48,48 0 0,1 60,108" />
+              {/* Right half arc for text from 6 o'clock to 12 o'clock, readable bottom to top */}
+              <path id="circlePathRightDown" d="M60,108 A48,48 0 0,1 108,60 A48,48 0 0,1 60,12" />
             </defs>
-            <text fill="#5a3f6e" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathPurple" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+            <text fill="#20b2aa" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
+              <textPath xlinkHref="#circlePathRightDown" startOffset="0%" textAnchor="start" dominantBaseline="middle">
                 hover me
               </textPath>
             </text>
           </svg>
+          {/* Interactive dot with tooltip */}
+          <TealDotWithTooltip />
+        </div>
+        {/* Large pulsing dot to the left of the poem, further up (purple, now interactive) */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 'calc(50% - 420px - 5cm)',
+            top: 'calc(12cm + 10cm - 10cm)', // move purple dot further up
+            width: 120,
+            height: 120,
+            zIndex: 10,
+            pointerEvents: 'auto', // fix for tooltip
+          }}
+        >
+          <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+            <defs>
+              {/* Left half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
+              <path id="circlePathLeftUp" d="M60,12 A48,48 0 0,1 12,60 A48,48 0 0,1 60,108" />
+            </defs>
+            <text fill="#8a2be2" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
+              <textPath xlinkHref="#circlePathLeftUp" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                hover me
+              </textPath>
+            </text>
+          </svg>
+          {/* Interactive dot with tooltip */}
           <PurpleDotWithTooltip />
         </div>
-        {/* New pulsing teal dot with tooltip and hover text */}
+        {/* Large pulsing dot to the right of the poem, further up (red, now interactive) */}
         <div
           style={{
             position: 'absolute',
-            left: 'calc(50% - 700px)', // same left position as yellow dot
-            top: 'calc(12cm + 35cm)', // underneath the yellow dot
+            left: 'calc(50% + 420px + 5cm)',
+            top: 'calc(12cm + 10cm - 10cm)', // move red dot further up
             width: 120,
             height: 120,
-            zIndex: 9,
-            pointerEvents: 'auto',
+            zIndex: 10,
+            pointerEvents: 'auto', // fix for tooltip
           }}
         >
           <svg width={120} height={120} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
             <defs>
               {/* Right half arc for text from 12 o'clock to 6 o'clock, readable top to bottom */}
-              <path id="circlePathTeal" d="M60,12 A48,48 0 0,1 108,60 A48,48 0 0,1 60,108" />
+              <path id="circlePathRightUp" d="M60,12 A48,48 0 0,1 108,60 A48,48 0 0,1 60,108" />
             </defs>
-            <text fill="#267180" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathTeal" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+            <text fill="#ff4444" fontSize="1.1rem" fontWeight="bold" letterSpacing="0.08em">
+              <textPath xlinkHref="#circlePathRightUp" startOffset="0%" textAnchor="start" dominantBaseline="middle">
                 hover me
               </textPath>
             </text>
           </svg>
-          <div style={{ position: 'absolute', left: 30, top: 30 }}>
-            <TealDotWithTooltip />
-          </div>
-        </div>
-        {/* New pulsing red dot with tooltip and hover text */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 'calc(50% + 700px)', // right of centered poem, mirrors yellow dot
-            top: 'calc(12cm + 8cm)', // move red dot further down
-            width: 200,
-            height: 200,
-            zIndex: 10,
-            pointerEvents: 'auto',
-          }}
-        >
-          <svg width={200} height={200} style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-            <defs>
-              {/* Left half arc for text from 6 o'clock to 12 o'clock, bottom to top (mirrors yellow dot) */}
-              <path id="circlePathRed" d="M100,180 A80,80 0 0,1 100,20" />
-            </defs>
-            <text fill="#7b2233" fontSize="1.5rem" fontWeight="bold" letterSpacing="0.08em">
-              <textPath xlinkHref="#circlePathRed" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                hover me
-              </textPath>
-            </text>
-          </svg>
+          {/* Interactive dot with tooltip */}
           <RedDotWithTooltip />
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
         </div>
       </section>
-      {/* Fixed pulsing yellow star with audio player at top right */}
-      <div style={{ position: 'fixed', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
-        <YellowStarAudioPlayer />
-      </div>
-      <div style={{ position: 'fixed', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
-        <BlueCircleAudioPlayer />
-      </div>
       <div className="py-8 bg-gray-50 min-h-screen">
         <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
       </div>
@@ -739,12 +741,8 @@ function YellowStarAudioPlayer() {
   return (
     <div
       style={{
-        position: 'fixed',
-        top: '120px',
-        right: '120px',
         width: '240px',
         height: '240px',
-        zIndex: 10,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -880,12 +878,8 @@ function BlueCircleAudioPlayer() {
   return (
     <div
       style={{
-        position: 'fixed',
-        left: '40px',
-        bottom: '40px',
         width: '240px',
         height: '240px',
-        zIndex: 10,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
