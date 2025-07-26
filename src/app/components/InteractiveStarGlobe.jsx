@@ -42,11 +42,6 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       fallbackDiv.style.width = '100%';
       fallbackDiv.style.height = '100%';
       fallbackDiv.style.backgroundColor = '#000';
-      fallbackDiv.style.display = 'flex';
-      fallbackDiv.style.alignItems = 'center';
-      fallbackDiv.style.justifyContent = 'center';
-      fallbackDiv.style.color = '#fff';
-      fallbackDiv.textContent = 'Star Globe (WebGL not available)';
       mountRef.current.appendChild(fallbackDiv);
       return; // Exit early if WebGL fails
     }
@@ -145,6 +140,12 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
 
     // Function to create the star field
     function createStarField(stars) {
+      // Check if scene exists
+      if (!sceneRef.current) {
+        console.warn('Scene not available, cannot create star field');
+        return;
+      }
+
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(stars.length * 3);
       const colors = new Float32Array(stars.length * 3);
@@ -216,13 +217,22 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         depthWrite: false
       });
       const starPoints = new THREE.Points(geometry, material);
-      scene.add(starPoints);
+      sceneRef.current.add(starPoints);
       starPointsRef.current = starPoints;
       return positions;
     }
 
     // Initialize the star map
     async function init() {
+      // Check if renderer was successfully created
+      if (!rendererRef.current) {
+        console.warn('Renderer not available, skipping star globe initialization');
+        if (typeof onStarsLoaded === 'function') {
+          onStarsLoaded();
+        }
+        return;
+      }
+
       const stars = await loadStars();
       if (stars.length > 0) {
         createStarField(stars);
@@ -233,10 +243,15 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         // If no stars, still hide loader to avoid infinite loading
         onStarsLoaded();
       }
+      
       // Animation loop
       function animate() {
-        controls.update();
-        renderer.render(scene, camera);
+        if (controlsRef.current) {
+          controlsRef.current.update();
+        }
+        if (rendererRef.current && sceneRef.current && cameraRef.current) {
+          rendererRef.current.render(sceneRef.current, cameraRef.current);
+        }
         requestAnimationFrame(animate);
       }
       animate();
@@ -245,23 +260,39 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
     // Handle window resizing
     const handleResize = () => {
       if (mountRef.current && cameraRef.current && rendererRef.current) {
-        cameraRef.current.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
-        cameraRef.current.updateProjectionMatrix();
-        rendererRef.current.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+        try {
+          cameraRef.current.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
+          cameraRef.current.updateProjectionMatrix();
+          rendererRef.current.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+        } catch (error) {
+          console.warn('Error during resize:', error);
+        }
       }
     };
     window.addEventListener('resize', handleResize);
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (mountRef.current && rendererRef.current) {
-        mountRef.current.removeChild(rendererRef.current.domElement);
+      if (mountRef.current && rendererRef.current && rendererRef.current.domElement) {
+        try {
+          mountRef.current.removeChild(rendererRef.current.domElement);
+        } catch (error) {
+          console.warn('Error removing renderer element:', error);
+        }
       }
       if (rendererRef.current) {
-        rendererRef.current.dispose();
+        try {
+          rendererRef.current.dispose();
+        } catch (error) {
+          console.warn('Error disposing renderer:', error);
+        }
       }
       if (controlsRef.current) {
-        controlsRef.current.dispose();
+        try {
+          controlsRef.current.dispose();
+        } catch (error) {
+          console.warn('Error disposing controls:', error);
+        }
       }
     };
   }, []);
