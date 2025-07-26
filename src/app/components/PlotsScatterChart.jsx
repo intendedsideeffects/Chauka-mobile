@@ -25,9 +25,9 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-const STATUS_HEIGHT = 12500;
+const STATUS_HEIGHT = 11290;
 const STATUS_WIDTH = 1600;
-const YEAR_MIN = 1900;
+const YEAR_MIN = 1922;
 const YEAR_MAX = 2025;
 const getYearPosition = (year) => {
   return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
@@ -94,12 +94,17 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     }, []);
 
     const stabilizedData = useMemo(() => {
-        return timelineData.map(d => {
+        return timelineData
+            .filter(d => {
+                const year = d.year || d.event_year || d.ext_date || d.xYear;
+                return year >= YEAR_MIN && year <= YEAR_MAX;
+            })
+            .map(d => {
             // Calculate y-coordinate for extinct birds without dates
             let yCoord = d.y;
             if (d.status === "Extinct" && !d.ext_date) {
-                const scale = STATUS_HEIGHT / (2200 - 1500);
-                yCoord = (2200 - 2024) * scale;
+                const scale = STATUS_HEIGHT / (YEAR_MAX - YEAR_MIN);
+                yCoord = (YEAR_MAX - 2024) * scale;
             }
             // Determine year for this dot
             const year = d.year || d.event_year || d.ext_date || d.xYear;
@@ -128,7 +133,12 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const MAX_Y_OFFSET = PIXELS_PER_CM * 0.5;
 
     const stabilizedVisibleData = useMemo(() => {
-        return visibleData.map((d, i) => {
+        return visibleData
+            .filter(d => {
+                const year = d.start_year;
+                return year >= YEAR_MIN && year <= YEAR_MAX;
+            })
+            .map((d, i) => {
             const year = d.start_year;
             const isFuture = year && year > PRESENT_YEAR;
             let size = MIN_DOT_SIZE;
@@ -141,18 +151,16 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             const yBase = year ? getYearPosition(year) : 0;
             const yOffset = (Math.random() - 0.5) * 2 * MAX_Y_OFFSET;
             const y = yBase + yOffset;
-            // Opacity: scale from 0.2 (smallest) to 0.9 (largest)
-            const opacity = MIN_DOT_SIZE === MAX_DOT_SIZE ? 0.6 : 0.2 + 0.7 * ((size - MIN_DOT_SIZE) / (MAX_DOT_SIZE - MIN_DOT_SIZE));
             // Debug log
             // console.log('Dot size for', d.disaster_type, d.country, 'affected:', d.total_affected, 'size:', size, 'y:', y);
             return {
                 ...d,
-                fill: '#0a2342', // deep blue
+                fill: '#0a2342', // dark blue
+                opacity: 0.9,
                 future: !!isFuture,
                 size,
                 x: Math.round(d.x),
                 y,
-                opacity,
             };
         });
     }, [visibleData, minAffected, maxAffected]);
@@ -166,16 +174,16 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     }, [stabilizedVisibleData]);
 
     // Calculate the y position for the NOW line and future background
-    const yearMin = 1400;
-    const yearMax = 2200;
+    const yearMin = 1922;
+    const yearMax = 2025;
     const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
     const futureHeight = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
     const futureY = nowY;
 
-    // Generate y-axis ticks for 1400, 1500, ..., 2200
+    // Generate y-axis ticks for 1925, 1930, ..., 2025
     const yAxisTicks = [];
     const yAxisTickLabels = [];
-    for (let year = YEAR_MIN; year <= YEAR_MAX; year += 5) {
+    for (let year = 1925; year <= YEAR_MAX; year += 5) {
       yAxisTicks.push(((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT);
       yAxisTickLabels.push(year);
     }
@@ -184,7 +192,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const MEMORY_X = 600;
     const MEMORY_SIZE = 24;
     const memoryDots = memories
-      .filter(m => m.year)
+      .filter(m => m.year && m.year >= YEAR_MIN && m.year <= YEAR_MAX)
       .map((m, i) => ({
         x: MEMORY_X + i * 40,
         y: ((YEAR_MAX - m.year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT,
@@ -275,7 +283,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 <ScatterChart
                     key="main-scatter-chart"
                     style={{ background: '#050d1a', overflow: 'visible' }} // darkest blue almost black
-                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                    margin={{ top: 0, right: 341, bottom: 0, left: 189 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
@@ -310,8 +318,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         }}
                         axisLine={(props) => {
                             // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
-                            const yearMin = 1400;
-                            const yearMax = 2200;
+                            const yearMin = 1922;
+                            const yearMax = 2025;
                             const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
                             return (
                                 <g>
@@ -495,32 +503,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         )}
                     />
 
-                    {/* Teal small dots - Resistance */}
-                    <Scatter
-                        data={[
-                            { x: -1000, y: 4500, title: "Resistance", size: 30 },
-                            { x: 600, y: 6500, title: "Resistance", size: 30 },
-                            { x: -300, y: 8500, title: "Resistance", size: 30 }
-                        ]}
-                        shape={(props) => (
-                            <circle
-                                cx={props.cx}
-                                cy={props.cy}
-                                r={props.payload.size}
-                                fill="#267180"
-                                opacity={0.5}
-                                style={{ cursor: 'pointer' }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.opacity = '0.7';
-                                    setHoveredDot({ ...props.payload, type: 'resistance' });
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.opacity = '0.5';
-                                    setHoveredDot(null);
-                                }}
-                            />
-                        )}
-                    />
+
                 </ScatterChart>
             </ResponsiveContainer>
         </div>
