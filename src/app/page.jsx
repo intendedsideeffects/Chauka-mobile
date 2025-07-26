@@ -14,9 +14,9 @@ const poemLines = [
   "",
   "The ocean covers over <strong>70 percent</strong> of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of <strong>food</strong>, <strong>travel</strong>, and <strong>culture</strong>.",
   "",
-  "But the ocean is changing. As temperatures rise, ice melts and seawater expands, pushing sea levels higher. In low-lying islands, saltwater floods crops, enters freshwater wells, and threatens homes. Some communities are already preparing to move.",
+  "But the ocean is changing. As temperatures rise, ice melts and seawater expands, pushing <strong>sea levels</strong> higher. In low-lying islands, saltwater floods crops, enters freshwater wells, and threatens homes. Communities are being <strong>forced to choose</strong>: leave behind the land and ocean they are deeply connected with, or stay and face rising <strong>danger</strong>.",
   "",
-  "Sea level rise is not the same everywhere. Local factors like currents and land movement make some places more exposed than others. Across the Pacific, the water is rising, and the changes are already underway."
+  "Sea level rise is not the same everywhere. Local factors like currents and land movement make some places more <strong>exposed</strong> than others. Across the Pacific, the water is rising, and the changes are already underway."
 ];
 
 export default function TestScroll() {
@@ -258,6 +258,16 @@ export default function TestScroll() {
                         objectFit: 'contain'
                       }}
                     />
+                    <div style={{
+                      marginTop: '1rem',
+                      fontSize: '0.9rem',
+                      color: '#666',
+                      fontStyle: 'italic',
+                      lineHeight: '1.4',
+                      textAlign: 'left'
+                    }}>
+                      Fig 1: The Spilhaus projection centers the ocean, showing it as a single, connected system rather than the space between continents.
+                    </div>
                   </div>
                 )}
               </React.Fragment>
