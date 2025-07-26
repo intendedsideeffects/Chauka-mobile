@@ -238,8 +238,29 @@ export default function TestScroll() {
               };
             }
             
-            return <p key={idx} style={style}>{line}</p>;
+                        return <p key={idx} style={style}>{line}</p>;
           })}
+          
+          {/* Project attribution */}
+          <div style={{
+            marginTop: '1rem',
+            marginBottom: '2rem',
+            textAlign: 'center'
+          }}>
+            <div style={{
+              fontSize: '1rem',
+              color: '#666',
+              marginBottom: '0.5rem'
+            }}>
+              A project by Bertha Ngahan and Janina Grauel
+            </div>
+            <div style={{
+              fontSize: '0.9rem',
+              color: '#888'
+            }}>
+              July 2025
+            </div>
+          </div>
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
@@ -260,8 +281,45 @@ export default function TestScroll() {
         justifyContent: 'center'
       }}>
         <div style={{
-          textAlign: 'center'
+          textAlign: 'center',
+          maxWidth: '800px',
+          margin: '0 auto'
         }}>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            marginBottom: '16px'
+          }}>
+            Materials and Methods
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '14px',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            This project is built with React and D3.js, with graphs inspired by the React Graph Gallery. Styling is handled using Tailwind CSS and ShadcnUI components. The source code is available on GitHub.
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '14px',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            The data is sourced from the Pacific Data Hub, and the exact datasets are linked in the captions of each chart.
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '14px',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            This is a project made by Bertha Ngahan and Janina Grauel for the Pacific Data Challenge.
+          </div>
           <div style={{
             fontStyle: 'italic',
             color: '#cad6fa',

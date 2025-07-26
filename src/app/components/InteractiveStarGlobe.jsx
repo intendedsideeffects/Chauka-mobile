@@ -22,22 +22,50 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
     camera.position.set(0, 0, 1); // Camera slightly away from center for OrbitControls
     cameraRef.current = camera;
 
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-    renderer.setClearColor(0x000000, 0); // Transparent background
-    mountRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
+    // Renderer setup with error handling
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true,
+        powerPreference: "default",
+        failIfMajorPerformanceCaveat: false
+      });
+      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+      renderer.setClearColor(0x000000, 0); // Transparent background
+      mountRef.current.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
+    } catch (error) {
+      console.warn('WebGL not supported or context creation failed:', error);
+      // Create a fallback div instead
+      const fallbackDiv = document.createElement('div');
+      fallbackDiv.style.width = '100%';
+      fallbackDiv.style.height = '100%';
+      fallbackDiv.style.backgroundColor = '#000';
+      fallbackDiv.style.display = 'flex';
+      fallbackDiv.style.alignItems = 'center';
+      fallbackDiv.style.justifyContent = 'center';
+      fallbackDiv.style.color = '#fff';
+      fallbackDiv.textContent = 'Star Globe (WebGL not available)';
+      mountRef.current.appendChild(fallbackDiv);
+      return; // Exit early if WebGL fails
+    }
 
     // Controls setup - allow rotation but no zoom
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false; // Disable zoom
-    controls.enablePan = false; // Disable pan
-    controls.enableDamping = true; // Smooth rotation
-    controls.dampingFactor = 0.05;
-    controls.rotateSpeed = 0.5; // Adjust rotation speed
-    controls.enableKeys = false; // Disable keyboard controls
-    controlsRef.current = controls;
+    let controls;
+    try {
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false; // Disable zoom
+      controls.enablePan = false; // Disable pan
+      controls.enableDamping = true; // Smooth rotation
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.5; // Adjust rotation speed
+      controls.enableKeys = false; // Disable keyboard controls
+      controlsRef.current = controls;
+    } catch (error) {
+      console.warn('OrbitControls creation failed:', error);
+      controlsRef.current = null;
+    }
 
     // Star configuration
     const starConfig = {
