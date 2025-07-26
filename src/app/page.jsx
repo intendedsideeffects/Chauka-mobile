@@ -10,7 +10,6 @@ import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 
 const poemLines = [
   "Shaped by water.",
-  "This is a story of the rising sea. But also of power, memory and resistance.",
   "",
   "The ocean covers over <strong>70 percent</strong> of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of <strong>food</strong>, <strong>travel</strong>, and <strong>culture</strong>.",
   "",
@@ -224,7 +223,7 @@ export default function TestScroll() {
               // Title - much bigger and bold
               style = { 
                 marginBottom: '1rem', 
-                fontSize: '7rem', 
+                fontSize: '5rem', 
                 fontWeight: 'bold',
                 color: '#000'
               };
@@ -241,32 +240,54 @@ export default function TestScroll() {
             return (
               <React.Fragment key={idx}>
                 <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
-                {idx === 1 && (
-                  /* Spilhaus Image - placed right after subtitle */
+                {idx === 0 && (
                   <div style={{
-                    marginTop: '2rem',
+                    width: '100vw',
+                    position: 'relative',
+                    left: '50%',
+                    right: '50%',
+                    marginLeft: '-50vw',
+                    marginRight: '-50vw',
+                    marginTop: '4.5rem',
                     marginBottom: '2rem',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                    <img 
-                      src="/spilhaus_black.png" 
-                      alt="Spilhaus Projection" 
-                      style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        maxHeight: '400px',
-                        objectFit: 'contain'
-                      }}
-                    />
                     <div style={{
-                      marginTop: '1rem',
-                      fontSize: '0.9rem',
-                      color: '#666',
-                      fontStyle: 'italic',
-                      lineHeight: '1.4',
-                      textAlign: 'left'
+                      width: '100%',
+                      maxWidth: '1600px',
+                      height: 'calc(800px * 0.99)',
+                      overflow: 'hidden',
+                      display: 'block',
+                      margin: '0 auto'
                     }}>
-                      Fig 1: The Spilhaus projection centers the ocean, showing it as a single, connected system rather than the space between continents.
+                      <img 
+                        src="/spilhaus_black.png" 
+                        alt="Spilhaus Projection" 
+                                              style={{
+                        width: '100%',
+                        maxWidth: '1200px',
+                        height: 'auto',
+                        maxHeight: '600px',
+                        objectFit: 'contain',
+                        display: 'block',
+                        margin: '0 auto'
+                      }}
+                      />
+                    </div>
+                    <div style={{
+                      marginTop: '0.5rem',
+                      fontSize: '1rem',
+                      color: '#000',
+                      fontWeight: 400,
+                      textAlign: 'center',
+                      maxWidth: '1600px',
+                      width: '100%'
+                    }}>
+                      A project by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#000', fontWeight: 'bold' }}>Ngahan</a> and Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#000', fontWeight: 'bold' }}>Grauel</a>
                     </div>
                   </div>
                 )}
