@@ -341,29 +341,53 @@ export default function TestScroll() {
         }}>
           <div style={{
             color: '#cad6fa',
-            fontSize: '16px',
+            fontSize: '1.2rem',
             fontWeight: 'bold',
             marginBottom: '16px'
           }}>
-            Materials and Methods
+            Material and Method
           </div>
           <div style={{
             color: '#cad6fa',
-            fontSize: '14px',
+            fontSize: '1.2rem',
             lineHeight: '1.6',
             marginBottom: '24px',
             textAlign: 'left'
           }}>
-            This project is built with React and D3.js, with graphs inspired by the React Graph Gallery. Styling is handled using Tailwind CSS and ShadcnUI components. The source code is available on GitHub.
+            This project is built with <strong>Next.js</strong>, <strong>React</strong>, and <strong>Three.js</strong>, combining interactive 3D mapping and data visualization. Charts are rendered using <strong>Recharts</strong> and <strong>D3.js</strong>, while styling is handled with <strong>Tailwind CSS</strong>, <strong>PostCSS</strong>, and <strong>ShadcnUI</strong> components. The source code is available on 
+            <a href="https://github.com/intendedsideeffects/Chauka" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>GitHub</strong></a>.
           </div>
           <div style={{
             color: '#cad6fa',
-            fontSize: '14px',
+            fontSize: '1.2rem',
             lineHeight: '1.6',
             marginBottom: '24px',
             textAlign: 'left'
           }}>
-            The data is sourced from the Pacific Data Hub, and the exact datasets are linked in the captions of each chart.
+            The 3D star globe is based on data from the 
+            <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/I/239" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>Hipparcos and Tycho Catalogues</strong></a>. 
+            Additional charts use data from the 
+            <a href="https://pacificdata.org/" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>Pacific Data Hub</strong></a> and the 
+            <a href="https://public.emdat.be/" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>EM-DAT public disaster database</strong></a>. 
+            Exact datasets are linked in the captions of each visualization.
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '1.2rem',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            The narrative is rooted in a story from <strong>Manus Island</strong>, passed down through generations and shared with permission. It is woven into the experience alongside <strong>sound</strong> to create a layered, sensory way of engaging with the data.
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '1.2rem',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            This project is a collaboration between <strong>Bertha Ngahan</strong> (Storytelling) and <strong>Janina Grauel</strong> (Visualization) for the <strong>Pacific Data Challenge</strong>.
           </div>
 
         </div>
