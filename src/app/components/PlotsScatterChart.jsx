@@ -37,19 +37,25 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const PRESENT_YEAR = new Date().getFullYear();
     // For demo/fixed: const PRESENT_YEAR = 2025;
     const audioRef = useRef(null);
+    const purpleDotAudioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [hoveredDot, setHoveredDot] = useState(null);
+    const [isHoveringPurpleDot, setIsHoveringPurpleDot] = useState(false);
+    const [isPurpleAudioPlaying, setIsPurpleAudioPlaying] = useState(false);
+    const purpleDotAudio = useRef(null);
     const [memories, setMemories] = useState([]);
 
     useEffect(() => {
         const enableAudio = () => {
+            console.log('Enabling audio...');
             if (!audioRef.current) {
                 audioRef.current = new Audio();
+                console.log('audioRef initialized');
             }
         };
 
-        document.addEventListener("click", enableAudio, { once: true });
-        return () => document.removeEventListener("click", enableAudio);
+        // Enable audio immediately
+        enableAudio();
     }, []);
 
     useEffect(() => {
@@ -223,6 +229,18 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 color: 'black',
                 overflow: 'visible'
             }}>
+            
+            {/* Hidden audio element for purple dots */}
+            <audio 
+                ref={purpleDotAudio}
+                src="/chaukasound.mp3"
+                preload="auto"
+                style={{ display: 'none' }}
+                onEnded={() => {
+                    console.log('Audio ended, resetting flag');
+                    setIsPurpleAudioPlaying(false);
+                }}
+            />
             
             {/* Custom tooltip for colored dots and memory dots */}
             {hoveredDot && hoveredDot.type === 'memory' && (
@@ -449,28 +467,69 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         isAnimationActive={false}
                     />
 
-                    {/* Yellow large dots - Warning */}
+                    {/* Purple large dots - Warning */}
                     <Scatter
                         data={[
-                            { x: -800, y: 3000, title: "Warning", size: 60 },
-                            { x: 200, y: 5000, title: "Warning", size: 60 },
-                            { x: -400, y: 7000, title: "Warning", size: 60 }
+                            { x: -600, y: 2000, title: "Warning", size: 60 },  // ~1950
+                            { x: 0, y: 6000, title: "Warning", size: 60 },    // ~1985
+                            { x: 400, y: 10000, title: "Warning", size: 60 }  // ~2020
                         ]}
                         shape={(props) => (
                             <circle
                                 cx={props.cx}
                                 cy={props.cy}
                                 r={props.payload.size}
-                                fill="#c28f3e"
-                                opacity={0.25}
+                                fill="#5a3f6e"
+                                opacity={0.8}
                                 style={{ cursor: 'pointer' }}
                                 onMouseEnter={(e) => {
-                                    e.target.style.opacity = '0.5';
+                                    console.log('MOUSE ENTER - Purple dot');
+                                    e.target.style.opacity = '0.8';
                                     setHoveredDot({ ...props.payload, type: 'warning' });
+                                    setIsHoveringPurpleDot(true);
+                                    
+                                    // Play chaukasound.mp3 only if not already playing and audio is enabled
+                                    console.log('Hover check:', { 
+                                        hasAudio: !!purpleDotAudio.current, 
+                                        isPlaying: isPurpleAudioPlaying
+                                    });
+                                    
+                                    console.log('Audio element:', purpleDotAudio.current);
+                                    
+                                    if (purpleDotAudio.current && !isPurpleAudioPlaying) {
+                                        console.log('Playing chaukasound.mp3');
+                                        purpleDotAudio.current.volume = 0.3;
+                                        
+                                        // Only reset to beginning if audio has ended
+                                        if (purpleDotAudio.current.ended || purpleDotAudio.current.currentTime >= purpleDotAudio.current.duration) {
+                                            purpleDotAudio.current.currentTime = 0;
+                                        }
+                                        
+                                        purpleDotAudio.current.play().then(() => {
+                                            setIsPurpleAudioPlaying(true);
+                                        }).catch((error) => {
+                                            console.error('Error playing chaukasound:', error);
+                                        });
+                                    } else {
+                                        console.log('Audio not playing because:', {
+                                            noAudio: !purpleDotAudio.current,
+                                            alreadyPlaying: isPurpleAudioPlaying
+                                        });
+                                    }
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.target.style.opacity = '0.25';
+                                    console.log('MOUSE LEAVE - Purple dot');
+                                    e.target.style.opacity = '0.8';
                                     setHoveredDot(null);
+                                    setIsHoveringPurpleDot(false);
+                                    
+                                    // Stop chaukasound.mp3 immediately
+                                    if (purpleDotAudio.current) {
+                                        console.log('Stopping chaukasound.mp3');
+                                        purpleDotAudio.current.pause();
+                                        purpleDotAudio.current.currentTime = 0;
+                                        setIsPurpleAudioPlaying(false);
+                                    }
                                 }}
                             />
                         )}
