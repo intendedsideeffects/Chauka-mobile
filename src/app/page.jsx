@@ -9,25 +9,14 @@ import MemoryList from './components/MemoryList';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 
 const poemLines = [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-  "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.",
-  "Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.",
-  "Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.",
-  "Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue.",
-  "Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales.",
-  "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.",
-  "Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.",
-  "Ut velit mauris, egestas sed, gravida nec, ornare ut, mi. Aenean ut orci vel massa suscipit pulvinar.",
-  "Nulla sollicitudin. Fusce varius, ligula non tempus aliquam, nunc turpis ullamcorper nibh, in tempus sapien eros vitae ligula.",
-  "Pellentesque rhoncus nunc et augue. Integer id felis. Curabitur aliquet pellentesque diam.",
-  "Integer quis metus vitae elit lobortis egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Morbi vel erat non mauris convallis vehicula. Nulla et sapien. Integer tortor tellus, aliquam faucibus, convallis id, congue eu, quam.",
-  "Mauris ullamcorper felis vitae erat. Proin feugiat, augue non elementum posuere, metus purus iaculis lectus, et tristique ligula justo vitae magna.",
-  "Aliquam convallis sollicitudin purus. Praesent aliquam, enim at fermentum mollis, ligula massa adipiscing nisl, ac euismod nibh nisl eu lectus.",
-  "Fusce vulputate sem at sapien. Vivamus leo. Aliquam euismod libero eu enim.",
-  "Nullam nec magna. Duis varius, enim accumsan aliquam tincidunt, tortor urna vulputate quam, eget finibus urna est nec augue.",
-  "Morbi facilisis, justo non dictum facilisis, sapien sem mattis sem, nec dictum urna elit nec urna.",
-  "Sed euismod, urna eu tincidunt consectetur, nisi nisl aliquam urna, eget aliquam massa nisi nec erat."
+  "Shaped by water.",
+  "This is a story of the rising sea. But also of power, memory and resistance.",
+  "",
+  "The ocean covers over 70 percent of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of food, travel, and culture.",
+  "",
+  "But the ocean is changing. As temperatures rise, ice melts and seawater expands, pushing sea levels higher. In low-lying islands, saltwater floods crops, enters freshwater wells, and threatens homes. Some communities are already preparing to move.",
+  "",
+  "Sea level rise is not the same everywhere. Local factors like currents and land movement make some places more exposed than others. Across the Pacific, the water is rising, and the changes are already underway."
 ];
 
 export default function TestScroll() {
@@ -226,9 +215,31 @@ export default function TestScroll() {
             flexShrink: 0,
           }}
         >
-          {poemLines.map((line, idx) => (
-            <p key={idx} style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>{line}</p>
-          ))}
+          {poemLines.map((line, idx) => {
+            if (line === '') return <div key={idx} style={{ height: '1rem' }} />;
+            
+            let style = { marginBottom: '2rem', fontSize: '1.2rem', color: '#000' };
+            
+            if (idx === 0) {
+              // Title - much bigger and bold
+              style = { 
+                marginBottom: '1rem', 
+                fontSize: '7rem', 
+                fontWeight: 'bold',
+                color: '#000'
+              };
+            } else if (idx === 1) {
+              // Subtitle - italic
+              style = { 
+                marginBottom: '2rem', 
+                fontSize: '1.8rem', 
+                fontStyle: 'italic',
+                color: '#000'
+              };
+            }
+            
+            return <p key={idx} style={style}>{line}</p>;
+          })}
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
@@ -237,6 +248,36 @@ export default function TestScroll() {
       <div className="py-8 bg-gray-50 min-h-screen">
         <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
       </div>
+      
+      {/* Attribution */}
+      <section style={{
+        width: '100%',
+        padding: '18rem 0',
+        background: '#3d557a',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          textAlign: 'center'
+        }}>
+          <div style={{
+            fontStyle: 'italic',
+            color: '#cad6fa',
+            fontSize: '14px',
+            marginBottom: '4px'
+          }}>
+            A project by <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#cad6fa' }}>Bertha Ngahan</a> and <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#cad6fa' }}>Janina Grauel</a>
+          </div>
+          <div style={{
+            color: '#94a0c4',
+            fontSize: '12px'
+          }}>
+            July 2025
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
