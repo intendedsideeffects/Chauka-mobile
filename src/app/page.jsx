@@ -12,7 +12,7 @@ const poemLines = [
   "Shaped by water.",
   "This is a story of the rising sea. But also of power, memory and resistance.",
   "",
-  "The ocean covers over 70 percent of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of food, travel, and culture.",
+  "The ocean covers over <strong>70 percent</strong> of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of <strong>food</strong>, <strong>travel</strong>, and <strong>culture</strong>.",
   "",
   "But the ocean is changing. As temperatures rise, ice melts and seawater expands, pushing sea levels higher. In low-lying islands, saltwater floods crops, enters freshwater wells, and threatens homes. Some communities are already preparing to move.",
   "",
@@ -238,7 +238,30 @@ export default function TestScroll() {
               };
             }
             
-                        return <p key={idx} style={style}>{line}</p>;
+            return (
+              <React.Fragment key={idx}>
+                <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
+                {idx === 1 && (
+                  /* Spilhaus Image - placed right after subtitle */
+                  <div style={{
+                    marginTop: '2rem',
+                    marginBottom: '2rem',
+                    textAlign: 'center'
+                  }}>
+                    <img 
+                      src="/spilhaus_black.png" 
+                      alt="Spilhaus Projection" 
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                        maxHeight: '400px',
+                        objectFit: 'contain'
+                      }}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
+            );
           })}
           
           {/* Project attribution */}
