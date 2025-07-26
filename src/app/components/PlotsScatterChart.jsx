@@ -480,11 +480,11 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 cy={props.cy}
                                 r={props.payload.size}
                                 fill="#5a3f6e"
-                                opacity={0.8}
+                                opacity={0.7}
                                 style={{ cursor: 'pointer' }}
                                 onMouseEnter={(e) => {
                                     console.log('MOUSE ENTER - Purple dot');
-                                    e.target.style.opacity = '0.8';
+                                    e.target.style.opacity = '0.7';
                                     setHoveredDot({ ...props.payload, type: 'warning' });
                                     setIsHoveringPurpleDot(true);
                                     
@@ -519,23 +519,25 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 }}
                                 onMouseLeave={(e) => {
                                     console.log('MOUSE LEAVE - Purple dot');
-                                    e.target.style.opacity = '0.8';
+                                    e.target.style.opacity = '0.7';
                                     setHoveredDot(null);
                                     setIsHoveringPurpleDot(false);
                                     
-                                    // Stop chaukasound.mp3 immediately
-                                    if (purpleDotAudio.current) {
-                                        console.log('Stopping chaukasound.mp3');
-                                        purpleDotAudio.current.pause();
-                                        purpleDotAudio.current.currentTime = 0;
-                                        setIsPurpleAudioPlaying(false);
-                                    }
+                                    // Stop chaukasound.mp3 with a small delay to avoid interruption
+                                    setTimeout(() => {
+                                        if (purpleDotAudio.current) {
+                                            console.log('Stopping chaukasound.mp3');
+                                            purpleDotAudio.current.pause();
+                                            purpleDotAudio.current.currentTime = 0;
+                                            setIsPurpleAudioPlaying(false);
+                                        }
+                                    }, 50);
                                 }}
                             />
                         )}
                     />
 
-                    {/* Purple medium dots - Memory */}
+                    {/* Blue medium dots - Memory */}
                     <Scatter
                         data={[
                             { x: -600, y: 4000, title: "Memory", size: 24 },
@@ -547,8 +549,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                 cx={props.cx}
                                 cy={props.cy}
                                 r={props.payload.size}
-                                fill="#5a3f6e"
-                                opacity={0.5}
+                                fill="#3d557a"
+                                opacity={0.8}
                                 style={{ cursor: 'pointer' }}
                                 onMouseEnter={(e) => {
                                     e.target.style.opacity = '0.7';
