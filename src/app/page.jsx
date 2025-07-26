@@ -9,7 +9,8 @@ import MemoryList from './components/MemoryList';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 
 const poemLines = [
-  "Shaped by water.",
+  "Roots in the sea.",
+  "A story of rising sea levels,<br />memory and resistance.",
   "",
   "The ocean covers over <strong>70 percent</strong> of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of <strong>food</strong>, <strong>travel</strong>, and <strong>culture</strong>.",
   "",
@@ -182,6 +183,24 @@ export default function TestScroll() {
         <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
           <BirdAudioPlayer />
         </div>
+        {/* Project attribution on video */}
+        <div style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          zIndex: 1000, 
+          pointerEvents: 'auto'
+        }}>
+          <div style={{
+            fontSize: '1rem',
+            color: '#676b8b',
+            fontWeight: 400,
+            textAlign: 'center'
+          }}>
+            Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> | Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+          </div>
+        </div>
       </section>
 
       {/* Placeholder text and scatterplot side by side */}
@@ -212,6 +231,7 @@ export default function TestScroll() {
             position: 'relative',
             margin: '0 auto',
             flexShrink: 0,
+
           }}
         >
           {poemLines.map((line, idx) => {
@@ -219,20 +239,29 @@ export default function TestScroll() {
             
             let style = { marginBottom: '2rem', fontSize: '1.2rem', color: '#000' };
             
+            if (idx === 3) {
+              // Main text - move it up
+              style = { 
+                marginBottom: '2rem', 
+                fontSize: '1.2rem', 
+                color: '#000',
+                marginTop: '-300px'
+              };
+            }
+            
             if (idx === 0) {
               // Title - much bigger and bold
               style = { 
                 marginBottom: '1rem', 
-                fontSize: '5rem', 
+                fontSize: '4rem', 
                 fontWeight: 'bold',
                 color: '#000'
               };
             } else if (idx === 1) {
-              // Subtitle - italic
+              // Subtitle
               style = { 
                 marginBottom: '2rem', 
-                fontSize: '1.8rem', 
-                fontStyle: 'italic',
+                fontSize: '1.5rem', 
                 color: '#000'
               };
             }
@@ -240,7 +269,7 @@ export default function TestScroll() {
             return (
               <React.Fragment key={idx}>
                 <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
-                {idx === 0 && (
+                {idx === 1 && (
                   <div style={{
                     width: '100vw',
                     position: 'relative',
@@ -248,7 +277,7 @@ export default function TestScroll() {
                     right: '50%',
                     marginLeft: '-50vw',
                     marginRight: '-50vw',
-                    marginTop: '4.5rem',
+                    marginTop: '-38px',
                     marginBottom: '2rem',
                     textAlign: 'center',
                     display: 'flex',
@@ -269,52 +298,23 @@ export default function TestScroll() {
                         alt="Spilhaus Projection" 
                                               style={{
                         width: '100%',
-                        maxWidth: '1200px',
+                        maxWidth: '1000px',
                         height: 'auto',
-                        maxHeight: '600px',
+                        maxHeight: '500px',
                         objectFit: 'contain',
                         display: 'block',
                         margin: '0 auto'
                       }}
                       />
                     </div>
-                    <div style={{
-                      marginTop: '0.5rem',
-                      fontSize: '1rem',
-                      color: '#000',
-                      fontWeight: 400,
-                      textAlign: 'center',
-                      maxWidth: '1600px',
-                      width: '100%'
-                    }}>
-                      A project by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#000', fontWeight: 'bold' }}>Ngahan</a> and Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#000', fontWeight: 'bold' }}>Grauel</a>
-                    </div>
+
                   </div>
                 )}
               </React.Fragment>
             );
           })}
           
-          {/* Project attribution */}
-          <div style={{
-            marginTop: '1rem',
-            marginBottom: '2rem',
-            textAlign: 'center'
-          }}>
-            <div style={{
-              fontSize: '1rem',
-              color: '#666',
-              marginBottom: '0.5rem'
-            }}>
-              A project by Bertha Ngahan and Janina Grauel
-            </div>
-            <div style={{
-              fontSize: '0.9rem',
-              color: '#888'
-            }}>
-              July 2025
-            </div>
-          </div>
+
         </div>
         <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
           <ExtinctSpeciesViz />
@@ -365,29 +365,7 @@ export default function TestScroll() {
           }}>
             The data is sourced from the Pacific Data Hub, and the exact datasets are linked in the captions of each chart.
           </div>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '14px',
-            lineHeight: '1.6',
-            marginBottom: '24px',
-            textAlign: 'left'
-          }}>
-            This is a project made by Bertha Ngahan and Janina Grauel for the Pacific Data Challenge.
-          </div>
-          <div style={{
-            fontStyle: 'italic',
-            color: '#cad6fa',
-            fontSize: '14px',
-            marginBottom: '4px'
-          }}>
-            A project by <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#cad6fa' }}>Bertha Ngahan</a> and <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#cad6fa' }}>Janina Grauel</a>
-          </div>
-          <div style={{
-            color: '#94a0c4',
-            fontSize: '12px'
-          }}>
-            July 2025
-          </div>
+
         </div>
       </section>
     </div>
@@ -1080,3 +1058,4 @@ function BirdAudioPlayer() {
     </div>
   );
 }
+
