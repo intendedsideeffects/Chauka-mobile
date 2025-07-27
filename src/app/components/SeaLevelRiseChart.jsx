@@ -66,56 +66,124 @@ const SeaLevelRiseChart = () => {
   const selectedData = getSelectedData();
   const maxValue = Math.max(...selectedData.map(d => d.selectedValue));
 
-    return (
-    <div className="w-full p-8 bg-white">
-      <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
-        {/* Controls */}
-        <div className="flex justify-center gap-4 mb-6">
-                     <div className="flex gap-2">
-             <button 
-               onClick={() => setSelectedDegree('2')}
-               className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                 selectedDegree === '2' 
-                   ? 'bg-black text-white' 
-                   : 'bg-gray-100 text-black hover:bg-gray-200'
-               }`}
-             >
-               2°C
-             </button>
-             <button 
-               onClick={() => setSelectedDegree('4')}
-               className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                 selectedDegree === '4' 
-                   ? 'bg-black text-white' 
-                   : 'bg-gray-100 text-black hover:bg-gray-200'
-               }`}
-             >
-               4°C
-             </button>
-           </div>
-          <div className="flex gap-2">
-            <button 
-              onClick={() => setSelectedYear('2050')}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                selectedYear === '2050' 
-                  ? 'bg-black text-white' 
-                  : 'bg-gray-100 text-black hover:bg-gray-200'
-              }`}
-            >
-              2050
-            </button>
-            <button 
-              onClick={() => setSelectedYear('2100')}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                selectedYear === '2100' 
-                  ? 'bg-black text-white' 
-                  : 'bg-gray-100 text-black hover:bg-gray-200'
-              }`}
-            >
-              2100
-            </button>
-          </div>
-        </div>
+         return (
+     <div className="w-full p-8 bg-white relative">
+                             {/* Controls - Scattered in top-right corner of page */}
+               <div className="absolute top-8 right-8 z-50" style={{ height: '200px' }}>
+                                                                                                                                                                                                                                                                               {/* 2°C Button - positioned randomly in top-right */}
+                     <div 
+                       className="absolute"
+                       style={{
+                         right: '300px',
+                         top: '160px',
+                         width: '80px',
+                         height: '80px',
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         cursor: 'pointer',
+                       }}
+                       onClick={() => setSelectedDegree('2')}
+                     >
+                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                    </defs>
+                    <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#d3d3d3"} />
+                    <text fill={selectedDegree === '2' ? "#000" : "#666"} fontSize="12" fontWeight="bold" letterSpacing="0.08em">
+                      <textPath xlinkHref="#circlePath2C" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                        2°C
+                      </textPath>
+                    </text>
+                  </svg>
+                </div>
+
+                                                                                                                                                                                                                                                                               {/* 4°C Button - positioned randomly in top-right */}
+                     <div 
+                       className="absolute"
+                       style={{
+                         right: '260px',
+                         top: '200px',
+                         width: '80px',
+                         height: '80px',
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         cursor: 'pointer',
+                       }}
+                       onClick={() => setSelectedDegree('4')}
+                     >
+                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                    </defs>
+                    <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#d3d3d3"} />
+                    <text fill={selectedDegree === '4' ? "#000" : "#666"} fontSize="12" fontWeight="bold" letterSpacing="0.08em">
+                      <textPath xlinkHref="#circlePath4C" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                        4°C
+                      </textPath>
+                    </text>
+                  </svg>
+                </div>
+
+                                                                                                                                                                                                                                                                               {/* 2050 Button - positioned randomly in top-right */}
+                    <div 
+                      className="absolute"
+                      style={{
+                        right: '200px',
+                        top: '20px',
+                        width: '120px',
+                        height: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => setSelectedYear('2050')}
+                    >
+                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
+                    </defs>
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#d3d3d3"} />
+                    <text fill={selectedYear === '2050' ? "#000" : "#666"} fontSize="14" fontWeight="bold" letterSpacing="0.08em">
+                      <textPath xlinkHref="#circlePath2050" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                        2050
+                      </textPath>
+                    </text>
+                  </svg>
+                </div>
+
+                                                                   {/* 2100 Button - positioned randomly in top-right */}
+                  <div 
+                    className="absolute"
+                    style={{
+                      right: '60px',
+                      top: '40px',
+                      width: '120px',
+                      height: '120px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setSelectedYear('2100')}
+                  >
+                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
+                    </defs>
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#d3d3d3"} />
+                    <text fill={selectedYear === '2100' ? "#000" : "#666"} fontSize="14" fontWeight="bold" letterSpacing="0.08em">
+                      <textPath xlinkHref="#circlePath2100" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                        2100
+                      </textPath>
+                    </text>
+                  </svg>
+                </div>
+              </div>
+
+              <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
 
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
