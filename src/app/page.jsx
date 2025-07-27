@@ -10,14 +10,20 @@ import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
 
 const poemLines = [
-  "Roots in the sea.",
-  "A story of rising sea levels,<br />memory and resistance.",
+  "This is a global warning.",
   "",
-  "The ocean covers over <strong>70 percent</strong> of the Earth's surface. It shapes weather, absorbs heat, and connects distant regions through powerful currents. For many in the Pacific, the ocean is central to life: a source of <strong>food</strong>, <strong>travel</strong>, and <strong>culture</strong>.",
+  "MAP",
   "",
-  "But the ocean is changing. As temperatures rise, ice melts and seawater expands, pushing <strong>sea levels</strong> higher. In low-lying islands, saltwater floods crops, enters freshwater wells, and threatens homes. Communities are being <strong>forced to choose</strong>: leave behind the land and ocean they are deeply connected with, or stay and face rising <strong>danger</strong>.",
   "",
-  "Sea level rise is not the same everywhere. Local factors like currents and land movement make some places more <strong>exposed</strong> than others. Across the Pacific, the water is rising, and the changes are already underway."
+  "The ocean is <strong>one connected body</strong> of water. It covers over <strong>70 percent</strong> of the Earth's surface, drives weather, absorbs heat, and links distant regions through powerful currents. For many communities, especially in the Pacific, it is more than geography. It is identity, movement, memory, and home.",
+  "",
+  "But the ocean is changing. As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish.",
+  "",
+  "These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding.",
+  "",
+  "The chart below shows <strong>projected sea level rise</strong> for some of the most at-risk islands. Use the buttons to explore different scenarios.",
+  "",
+  ""
 ];
 
 export default function TestScroll() {
@@ -238,13 +244,23 @@ export default function TestScroll() {
           {poemLines.map((line, idx) => {
             if (line === '') return <div key={idx} style={{ height: '1rem' }} />;
             
-            let style = { marginBottom: '2rem', fontSize: '1.2rem', color: '#000' };
+            let style = { marginBottom: '2rem', fontSize: '1.4rem', color: '#000' };
+            
+            if (idx === 5) {
+              // Main text - move it up closer to map
+              style = { 
+                marginBottom: '2rem', 
+                fontSize: '1.4rem', 
+                color: '#000',
+                marginTop: '-4rem'
+              };
+            }
             
             if (idx === 3) {
               // Main text - move it up
               style = { 
                 marginBottom: '2rem', 
-                fontSize: '1.2rem', 
+                fontSize: '1.4rem', 
                 color: '#000',
                 marginTop: '-300px'
               };
@@ -253,7 +269,7 @@ export default function TestScroll() {
             if (idx === 0) {
               // Title - much bigger and bold
               style = { 
-                marginBottom: '1rem', 
+                marginBottom: '2rem', 
                 fontSize: '4rem', 
                 fontWeight: 'bold',
                 color: '#000'
@@ -265,12 +281,19 @@ export default function TestScroll() {
                 fontSize: '1.5rem', 
                 color: '#000'
               };
+            } else if (idx === 2) {
+              // Map trigger - transparent
+              style = { 
+                marginBottom: '-11rem', 
+                fontSize: '1rem', 
+                color: 'transparent'
+              };
             }
             
             return (
               <React.Fragment key={idx}>
                 <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
-                {idx === 1 && (
+                {idx === 2 && (
                   <div style={{
                     width: '100vw',
                     position: 'relative',
@@ -278,8 +301,8 @@ export default function TestScroll() {
                     right: '50%',
                     marginLeft: '-50vw',
                     marginRight: '-50vw',
-                    marginTop: '-38px',
-                    marginBottom: '2rem',
+                    marginTop: '82px',
+                    marginBottom: '0rem',
                     textAlign: 'center',
                     display: 'flex',
                     flexDirection: 'column',
@@ -289,7 +312,7 @@ export default function TestScroll() {
                     <div style={{
                       width: '100%',
                       maxWidth: '1600px',
-                      height: 'calc(800px * 0.99)',
+                      height: 'calc(600px * 0.99)',
                       overflow: 'hidden',
                       display: 'block',
                       margin: '0 auto'
@@ -311,7 +334,7 @@ export default function TestScroll() {
 
                   </div>
                 )}
-                {idx === 7 && (
+                {idx === 11 && (
                   <div style={{
                     width: '100vw',
                     position: 'relative',

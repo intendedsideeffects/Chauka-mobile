@@ -95,21 +95,21 @@ const SeaLevelRiseChart = () => {
                        }}
                      />
                   </div>                                     
-                                                                                                                                                                                                                                                                               {/* 2°C Button - positioned randomly in top-right */}
-                     <div 
-                       className="absolute"
-                                               style={{
-                                                     right: '360px',
-                           top: '220px',
-                         width: '80px',
-                         height: '80px',
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'pointer',
-                       }}
-                       onClick={() => setSelectedDegree('2')}
-                     >
+                                                                                                                                                                                                                                                                                                     {/* 2°C Button - positioned randomly in top-right */}
+                      <div 
+                        className="absolute"
+                                                style={{
+                                                      right: '240px',
+                            top: '220px',
+                          width: '80px',
+                          height: '80px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => setSelectedDegree('2')}
+                      >
                   <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
@@ -123,21 +123,21 @@ const SeaLevelRiseChart = () => {
                   </svg>
                 </div>
 
-                                                                                                                                                                                                                                                                               {/* 4°C Button - positioned randomly in top-right */}
-                     <div 
-                       className="absolute"
-                                               style={{
-                                                     right: '320px',
-                           top: '260px',
-                         width: '80px',
-                         height: '80px',
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'pointer',
-                       }}
-                       onClick={() => setSelectedDegree('4')}
-                     >
+                                                                                                                                                                                                                                                                                                     {/* 4°C Button - positioned randomly in top-right */}
+                      <div 
+                        className="absolute"
+                                                style={{
+                                                      right: '200px',
+                            top: '260px',
+                          width: '80px',
+                          height: '80px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => setSelectedDegree('4')}
+                      >
                   <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
@@ -208,18 +208,11 @@ const SeaLevelRiseChart = () => {
                 </div>
               </div>
 
-              <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
+                             <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
 
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">
-            Sea Level Rise Projections
-          </h2>
-          <p className="text-lg text-gray-600">
-            {selectedDegree}°C Scenario - {selectedYear} Projections for Pacific Island Nations
-          </p>
-        </div>
+                   
 
-             <div className="px-4">
+              <div className="px-4">
                    {/* Chart area with bars */}
           <div className="flex items-end justify-between h-[500px] relative">
             {/* Zero line positioned directly under bars */}
