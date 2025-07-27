@@ -8,6 +8,7 @@ import AddMemoryForm from './components/AddMemoryForm';
 import MemoryList from './components/MemoryList';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
+import HistoricalSeaLevelRise from './components/HistoricalSeaLevelRise';
 
 const poemLines = [
   "This is a global warning.",
@@ -18,6 +19,7 @@ const poemLines = [
   "The ocean is <strong>one connected body</strong> of water. It covers over <strong>70 percent</strong> of the Earth's surface, drives weather, absorbs heat, and links distant regions through powerful currents. For many communities, especially in the Pacific, it is more than geography. It is identity, movement, memory, and home.",
   "",
   "As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish.",
+  "HISTORICAL_CHART",
   "",
     "These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding.",
     "",
@@ -250,7 +252,9 @@ export default function TestScroll() {
           }}
         >
           {poemLines.map((line, idx) => {
-            if (line === '') return <div key={idx} style={{ height: '1rem' }} />;
+            if (line === '') {
+              return <div key={idx} style={{ height: '1rem' }} />;
+            }
             
             let style = { marginBottom: '2rem', fontSize: '1.4rem', color: '#000' };
             
@@ -360,7 +364,12 @@ export default function TestScroll() {
                     {line}
                   </h1>
                 )}
-                {!line.includes("Not All Shorelines Are Equal") && !line.includes("Exposure on the Rise") && !line.includes("A Century of Disruptions, Warnings and Resistance") && (
+                {line === "HISTORICAL_CHART" && (
+                  <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                    <HistoricalSeaLevelRise />
+                  </div>
+                )}
+                {!line.includes("Not All Shorelines Are Equal") && !line.includes("Exposure on the Rise") && !line.includes("A Century of Disruptions, Warnings and Resistance") && line !== "HISTORICAL_CHART" && (
                   <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
                 )}
                 {idx === 2 && (
@@ -404,7 +413,7 @@ export default function TestScroll() {
 
                   </div>
                 )}
-                {idx === 11 && (
+                {idx === 12 && (
                   <div style={{
                     width: '100vw',
                     position: 'relative',

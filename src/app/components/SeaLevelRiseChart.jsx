@@ -65,6 +65,20 @@ const SeaLevelRiseChart = () => {
 
   const selectedData = getSelectedData();
   const maxValue = Math.max(...selectedData.map(d => d.selectedValue));
+  
+  // Global sea level rise predictions
+  const globalSeaLevelRise = {
+    '2050': {
+      '2': 0.22,
+      '4': 0.22
+    },
+    '2100': {
+      '2': 0.47,
+      '4': 0.63
+    }
+  };
+  
+  const currentGlobalRise = globalSeaLevelRise[selectedYear][selectedDegree];
 
          return (
      <div className="w-full p-8 bg-transparent relative">
@@ -208,68 +222,49 @@ const SeaLevelRiseChart = () => {
                 </div>
               </div>
 
-                             <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
+                                                           <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
 
+              <div className="px-4 relative">
+                   {/* Global sea level rise annotation */}
+                   <div className="absolute -left-56 z-30" style={{ 
+                     top: `${500 - (currentGlobalRise / 1.0) * 400}px`
+                   }}>
+                     <div className="text-sm text-gray-600 font-medium text-right">
+                       Global Sea Level Rise: {currentGlobalRise.toFixed(2)}M
+                     </div>
+                   </div>
                    
-
-              <div className="px-4">
+                                       {/* Extended line across the chart */}
+                    <div className="absolute left-0 right-0 z-25" style={{ 
+                      top: `${500 - (currentGlobalRise / 1.0) * 400}px`
+                    }}>
+                      <div className="border-t border-gray-400" style={{ height: '1px' }}></div>
+                    </div>
                    {/* Chart area with bars */}
           <div className="flex items-end justify-between h-[500px] relative">
-            {/* Zero line positioned directly under bars */}
-            <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
+                         {/* Zero line positioned directly under bars */}
+             <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
             
-                                                                                                                                 {/* Video Area Chart with waves */}
-                            <div className="absolute inset-0 overflow-hidden">
-                <video 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{
-                    objectPosition: 'center 25%',
-                    clipPath: `polygon(${(() => {
-                      const chartWidth = 100;
-                      const chartHeight = 100;
-                      const barWidth = chartWidth / selectedData.length;
-                      
-                      let polygonPoints = `0% ${chartHeight - (selectedData[0].selectedValue / 1.0) * 100 * 0.7}%`;
-                      
-                      selectedData.forEach((item, index) => {
-                        const x = ((index + 0.5) * barWidth / chartWidth) * 100;
-                        const y = chartHeight - (item.selectedValue / 1.0) * 100 * 0.7; // 20% lower, using full height scale
-                        polygonPoints += `, ${x}% ${y}%`;
-                      });
-                      
-                      polygonPoints += `, ${chartWidth}% ${chartHeight - (selectedData[selectedData.length - 1].selectedValue / 1.0) * 100 * 0.7}%`;
-                      polygonPoints += `, ${chartWidth}% ${chartHeight}%, 0% ${chartHeight}%`;
-                      return polygonPoints;
-                    })()})`
-                  }}
-                >
-                  <source src="/waves.mp4" type="video/mp4" />
-                </video>
+                         {selectedData.map((item, index) => (
+             <div key={index} className="flex flex-col items-center flex-1 mx-1">
+                                                           {/* Bar */}
+                                <div className="relative flex justify-center">
+                                                                          <div 
+                        className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
+                        style={{ 
+                          height: `${(item.selectedValue / 1.0) * 400}px`,
+                          minHeight: '30px',
+                          width: '20px'
+                        }}
+                      />
+                    
+                     {/* Value label */}
+                     <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20">
+                       {item.selectedValue.toFixed(2)}M
+                     </div>
+                </div>
               </div>
-            
-            {selectedData.map((item, index) => (
-            <div key={index} className="flex flex-col items-center flex-1 mx-1">
-                                                          {/* Bar */}
-                               <div className="relative w-full max-w-16">
-                                                    <div 
-                                             className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
-                      style={{ 
-                        height: `${(item.selectedValue / 1.0) * 400}px`,
-                        minHeight: '30px'
-                      }}
-                    />
-                   
-                    {/* Value label */}
-                    <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20">
-                      {item.selectedValue.toFixed(2)}M
-                    </div>
-               </div>
-             </div>
-           ))}
+            ))}
         </div>
         
         {/* Country labels below the chart */}
