@@ -17,13 +17,15 @@ const poemLines = [
   "",
   "The ocean is <strong>one connected body</strong> of water. It covers over <strong>70 percent</strong> of the Earth's surface, drives weather, absorbs heat, and links distant regions through powerful currents. For many communities, especially in the Pacific, it is more than geography. It is identity, movement, memory, and home.",
   "",
-  "But the ocean is changing. As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish.",
+  "As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish.",
   "",
-  "These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding.",
-  "",
-  "The chart below shows <strong>projected sea level rise</strong> for some of the most at-risk islands. Use the buttons to explore different scenarios.",
-  "",
-  ""
+    "These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding.",
+    "",
+    " ", // Empty space to maintain index 11 for chart
+    "",
+    "",
+    "Not All Shorelines Are Equal",
+    "The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
 ];
 
 export default function TestScroll() {
@@ -292,7 +294,45 @@ export default function TestScroll() {
             
             return (
               <React.Fragment key={idx}>
-                <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
+                {line.includes("As the planet warms") && (
+                  <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '2rem',
+                    textAlign: 'left',
+                    marginTop: '5rem'
+                  }}>
+                    The Ocean is Changing
+                  </h1>
+                )}
+                {line.includes("not felt equally") && (
+                  <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '2rem',
+                    textAlign: 'left',
+                    marginTop: '5rem'
+                  }}>
+                    Rising Seas, Unequal Burden
+                  </h1>
+                )}
+                {line.includes("Not All Shorelines Are Equal") && (
+                  <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '2rem',
+                    textAlign: 'left',
+                    marginTop: '5rem'
+                  }}>
+                    {line}
+                  </h1>
+                )}
+                {!line.includes("Not All Shorelines Are Equal") && (
+                  <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
+                )}
                 {idx === 2 && (
                   <div style={{
                     width: '100vw',
@@ -342,7 +382,7 @@ export default function TestScroll() {
                     right: '50%',
                     marginLeft: '-50vw',
                     marginRight: '-50vw',
-                    marginTop: '2rem',
+                    marginTop: '-9rem',
                     marginBottom: '2rem',
                     textAlign: 'center',
                     display: 'flex',
@@ -353,6 +393,7 @@ export default function TestScroll() {
                     <SeaLevelRiseChart />
                   </div>
                 )}
+
               </React.Fragment>
             );
           })}

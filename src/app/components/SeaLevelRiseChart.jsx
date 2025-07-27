@@ -67,7 +67,7 @@ const SeaLevelRiseChart = () => {
   const maxValue = Math.max(...selectedData.map(d => d.selectedValue));
 
          return (
-     <div className="w-full p-8 bg-white relative">
+     <div className="w-full p-8 bg-transparent relative">
                                                                                                                        {/* Controls - Scattered in top-right corner of page */}
                  <div className="absolute top-8 right-8 z-50" style={{ height: '200px' }}>
                    
