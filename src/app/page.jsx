@@ -25,7 +25,13 @@ const poemLines = [
     "",
     "",
     "Not All Shorelines Are Equal",
-    "The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
+    "The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe.",
+    "",
+    "Exposure on the Rise",
+    "Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change.",
+    "",
+    "A Century of Disruptions, Warnings and Resistance",
+    "Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
 ];
 
 export default function TestScroll() {
@@ -330,7 +336,31 @@ export default function TestScroll() {
                     {line}
                   </h1>
                 )}
-                {!line.includes("Not All Shorelines Are Equal") && (
+                {line.includes("Exposure on the Rise") && (
+                  <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '2rem',
+                    textAlign: 'left',
+                    marginTop: '5rem'
+                  }}>
+                    {line}
+                  </h1>
+                )}
+                {line.includes("A Century of Disruptions, Warnings and Resistance") && (
+                  <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    marginBottom: '2rem',
+                    textAlign: 'left',
+                    marginTop: '5rem'
+                  }}>
+                    {line}
+                  </h1>
+                )}
+                {!line.includes("Not All Shorelines Are Equal") && !line.includes("Exposure on the Rise") && !line.includes("A Century of Disruptions, Warnings and Resistance") && (
                   <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
                 )}
                 {idx === 2 && (
