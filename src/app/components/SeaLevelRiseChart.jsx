@@ -68,14 +68,39 @@ const SeaLevelRiseChart = () => {
 
          return (
      <div className="w-full p-8 bg-white relative">
-                             {/* Controls - Scattered in top-right corner of page */}
-               <div className="absolute top-8 right-8 z-50" style={{ height: '200px' }}>
+                                                                                                                       {/* Controls - Scattered in top-right corner of page */}
+                 <div className="absolute top-8 right-8 z-50" style={{ height: '200px' }}>
+                   
+                                     {/* Select Parameter Image */}
+                   <div 
+                     className="absolute"
+                     style={{
+                       right: '110px',
+                       top: '-20px',
+                       width: '400px',
+                       height: '200px',
+                       display: 'flex',
+                       alignItems: 'center',
+                       justifyContent: 'center',
+                     }}
+                   >
+                                         <img 
+                       src="/selectparameter.png" 
+                       alt="Select Parameter"
+                       style={{
+                         width: '100%',
+                         height: '100%',
+                         objectFit: 'contain',
+                         transform: 'rotate(-20deg)'
+                       }}
+                     />
+                  </div>                                     
                                                                                                                                                                                                                                                                                {/* 2°C Button - positioned randomly in top-right */}
                      <div 
                        className="absolute"
-                       style={{
-                         right: '300px',
-                         top: '160px',
+                                               style={{
+                                                     right: '360px',
+                           top: '220px',
                          width: '80px',
                          height: '80px',
                          display: 'flex',
@@ -101,9 +126,9 @@ const SeaLevelRiseChart = () => {
                                                                                                                                                                                                                                                                                {/* 4°C Button - positioned randomly in top-right */}
                      <div 
                        className="absolute"
-                       style={{
-                         right: '260px',
-                         top: '200px',
+                                               style={{
+                                                     right: '320px',
+                           top: '260px',
                          width: '80px',
                          height: '80px',
                          display: 'flex',
@@ -129,9 +154,9 @@ const SeaLevelRiseChart = () => {
                                                                                                                                                                                                                                                                                {/* 2050 Button - positioned randomly in top-right */}
                     <div 
                       className="absolute"
-                      style={{
-                        right: '200px',
-                        top: '20px',
+                                             style={{
+                                                   right: '260px',
+                          top: '80px',
                         width: '120px',
                         height: '120px',
                         display: 'flex',
@@ -157,9 +182,9 @@ const SeaLevelRiseChart = () => {
                                                                    {/* 2100 Button - positioned randomly in top-right */}
                   <div 
                     className="absolute"
-                    style={{
-                      right: '60px',
-                      top: '40px',
+                                         style={{
+                                               right: '120px',
+                        top: '100px',
                       width: '120px',
                       height: '120px',
                       display: 'flex',
