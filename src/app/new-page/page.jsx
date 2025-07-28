@@ -7,6 +7,7 @@ import TitleSection from '../../components/sections/TitleSection';
 import SegmentTemplate from '../../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from '../components/SeaLevelRiseChart';
 import HistoricalSeaLevelRise from '../components/HistoricalSeaLevelRise';
+import NewChartComponent from '../components/NewChartComponent';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -290,6 +291,7 @@ export default function TestScroll() {
                  <SegmentTemplate 
            header="Exposure on the Rise"
            text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
+           chartComponent={<NewChartComponent />}
          />
       </div>
 
@@ -305,10 +307,10 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>7</div>
-                 <SegmentTemplate 
-           header="A Century of Disruptions, Warnings and Resistance"
-           text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
-         />
+                         <SegmentTemplate
+          header="A Century of Disruptions, Warnings and Resistance"
+          text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+        />
       </div>
 
       {/* Segment 8 */}
