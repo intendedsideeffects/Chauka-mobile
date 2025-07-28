@@ -2,45 +2,18 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import './PulseDot.css';
-import ExtinctSpeciesViz from './components/ExtinctSpeciesViz'; // Import the new component
-import InteractiveStarMap from './components/InteractiveStarMap'; // Import the star map component
-import AddMemoryForm from './components/AddMemoryForm';
-import MemoryList from './components/MemoryList';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
+import TitleSection from '../components/sections/TitleSection';
+import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
 import HistoricalSeaLevelRise from './components/HistoricalSeaLevelRise';
-
-const poemLines = [
-  "This is a global warning.",
-  "",
-  "MAP",
-  "",
-  "",
-  "The ocean is <strong>one connected body</strong> of water. It covers over <strong>70 percent</strong> of the Earth's surface, drives weather, absorbs heat, and links distant regions through powerful currents. For many communities, especially in the Pacific, it is more than geography. It is identity, movement, memory, and home.",
-  "",
-  "As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish.",
-  "HISTORICAL_CHART",
-  "",
-    "These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding.",
-    "",
-    " ", // Empty space to maintain index 11 for chart
-    "",
-    "",
-    "Not All Shorelines Are Equal",
-    "The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe.",
-    "",
-    "Exposure on the Rise",
-    "Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change.",
-    "",
-    "A Century of Disruptions, Warnings and Resistance",
-    "Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
-];
+import NewChartComponent from './components/NewChartComponent';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isOceanPlaying, setIsOceanPlaying] = useState(true);
   const videoRef = useRef();
   const oceanVideoRef = useRef();
-  const poemWrapperRef = useRef();
 
   // Ensure video plays properly
   useEffect(() => {
@@ -104,10 +77,6 @@ export default function TestScroll() {
     }
   };
 
-  // Slider state for chart
-  const [barEndIndex, setBarEndIndex] = useState(0);
-  const [maxBarIndex, setMaxBarIndex] = useState(0);
-
   // Pause/play logic for video
   const togglePlay = () => {
     if (videoRef.current) {
@@ -128,15 +97,31 @@ export default function TestScroll() {
     }
   };
 
-  // Handler for slider change
-  const handleSliderChange = (event) => {
-    setBarEndIndex(parseInt(event.target.value));
-  };
-
   return (
-    <div>
+    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden' }}>
       {/* Video Section */}
-      <section style={{ position: 'relative', height: '100vh', width: '100%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+      <section style={{ 
+        position: 'relative', 
+        height: '100vh', 
+        width: '100%', 
+        background: '#000', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        overflow: 'hidden',
+        scrollSnapAlign: 'start'
+      }}>
+        {/* Segment Number */}
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(255,255,255,0.15)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>1</div>
         {/* Star Globe as background */}
         <InteractiveStarGlobe />
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
@@ -220,565 +205,132 @@ export default function TestScroll() {
         </div>
       </section>
 
-      {/* Placeholder text and scatterplot side by side */}
-      <section
-        style={{
-          width: '100%',
-          minHeight: '80vh',
-          background: 'white',
-          display: 'flex',
-          flexDirection: 'column', // stack vertically
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: '3rem',
-          padding: '4rem 0',
-          position: 'relative',
-        }}
-      >
-        <div
-          style={{
-            color: '#0e224f',
-            fontSize: '1.5rem',
-            maxWidth: '700px',
-            textAlign: 'left',
-            fontFamily: 'Arial, Helvetica, sans-serif',
-            fontWeight: 400,
-            lineHeight: 1.5,
-            zIndex: 2,
-            position: 'relative',
-            margin: '0 auto',
-            flexShrink: 0,
-
-          }}
-        >
-          {poemLines.map((line, idx) => {
-            if (line === '') {
-              return <div key={idx} style={{ height: '1rem' }} />;
-            }
-            
-            let style = { marginBottom: '2rem', fontSize: '1.4rem', color: '#000' };
-            
-            if (idx === 5) {
-              // Main text - move it up closer to map
-              style = { 
-                marginBottom: '2rem', 
-                fontSize: '1.4rem', 
-                color: '#000',
-                marginTop: '-4rem'
-              };
-            }
-            
-            if (idx === 3) {
-              // Main text - move it up
-              style = { 
-                marginBottom: '2rem', 
-                fontSize: '1.4rem', 
-                color: '#000',
-                marginTop: '-300px'
-              };
-            }
-            
-            if (idx === 0) {
-              // Title - much bigger and bold
-              style = { 
-                marginBottom: '2rem', 
-                fontSize: '4rem', 
-                fontWeight: 'bold',
-                color: '#000'
-              };
-            } else if (idx === 1) {
-              // Subtitle
-              style = { 
-                marginBottom: '2rem', 
-                fontSize: '1.5rem', 
-                color: '#000'
-              };
-            } else if (idx === 2) {
-              // Map trigger - transparent
-              style = { 
-                marginBottom: '-11rem', 
-                fontSize: '1rem', 
-                color: 'transparent'
-              };
-            }
-            
-            return (
-              <React.Fragment key={idx}>
-                {line.includes("As the planet warms") && (
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginBottom: '2rem',
-                    textAlign: 'left',
-                    marginTop: '5rem'
-                  }}>
-                    The Ocean is Changing
-                  </h1>
-                )}
-                {line.includes("not felt equally") && (
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginBottom: '2rem',
-                    textAlign: 'left',
-                    marginTop: '5rem'
-                  }}>
-                    Rising Seas, Unequal Burden
-                  </h1>
-                )}
-                {line.includes("Not All Shorelines Are Equal") && (
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginBottom: '2rem',
-                    textAlign: 'left',
-                    marginTop: '5rem'
-                  }}>
-                    {line}
-                  </h1>
-                )}
-                {line.includes("Exposure on the Rise") && (
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginBottom: '2rem',
-                    textAlign: 'left',
-                    marginTop: '5rem'
-                  }}>
-                    {line}
-                  </h1>
-                )}
-                {line.includes("A Century of Disruptions, Warnings and Resistance") && (
-                  <h1 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginBottom: '2rem',
-                    textAlign: 'left',
-                    marginTop: '5rem'
-                  }}>
-                    {line}
-                  </h1>
-                )}
-                {line === "HISTORICAL_CHART" && (
-                  <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-                    <HistoricalSeaLevelRise />
-                  </div>
-                )}
-                {!line.includes("Not All Shorelines Are Equal") && !line.includes("Exposure on the Rise") && !line.includes("A Century of Disruptions, Warnings and Resistance") && line !== "HISTORICAL_CHART" && (
-                  <p style={style} dangerouslySetInnerHTML={{ __html: line }}></p>
-                )}
-                {idx === 2 && (
-                  <div style={{
-                    width: '100vw',
-                    position: 'relative',
-                    left: '50%',
-                    right: '50%',
-                    marginLeft: '-50vw',
-                    marginRight: '-50vw',
-                    marginTop: '82px',
-                    marginBottom: '0rem',
-                    textAlign: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    <div style={{
-                      width: '100%',
-                      maxWidth: '1600px',
-                      height: 'calc(600px * 0.99)',
-                      overflow: 'hidden',
-                      display: 'block',
-                      margin: '0 auto'
-                    }}>
-                      <img 
-                        src="/spilhaus_black.png" 
-                        alt="Spilhaus Projection" 
-                                              style={{
-                        width: '100%',
-                        maxWidth: '1000px',
-                        height: 'auto',
-                        maxHeight: '500px',
-                        objectFit: 'contain',
-                        display: 'block',
-                        margin: '0 auto'
-                      }}
-                      />
-                    </div>
-
-                  </div>
-                )}
-                {idx === 12 && (
-                  <div style={{
-                    width: '100vw',
-                    position: 'relative',
-                    left: '50%',
-                    right: '50%',
-                    marginLeft: '-50vw',
-                    marginRight: '-50vw',
-                    marginTop: '-9rem',
-                    marginBottom: '2rem',
-                    textAlign: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'stretch',
-                    justifyContent: 'center',
-                  }}>
-                    <SeaLevelRiseChart />
-                  </div>
-                )}
-
-              </React.Fragment>
-            );
-          })}
-          
-
-        </div>
-        <div style={{ width: '100vw', minWidth: 0, zIndex: 1 }}>
-          <ExtinctSpeciesViz />
-        </div>
-      </section>
-      <div className="py-8 bg-gray-50 min-h-screen">
-        <AddMemoryForm onAdd={() => MemoryList.refresh && MemoryList.refresh()} />
+      {/* Title Section */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>2</div>
+        <TitleSection />
       </div>
-      
-      {/* Attribution */}
-      <section style={{
-        width: '100%',
-        padding: '18rem 0',
-        background: '#3d557a',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          textAlign: 'center',
-          maxWidth: '800px',
-          margin: '0 auto'
-        }}>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '1.2rem',
-            fontWeight: 'bold',
-            marginBottom: '16px'
-          }}>
-            Material and Method
-          </div>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '1.2rem',
-            lineHeight: '1.6',
-            marginBottom: '24px',
-            textAlign: 'left'
-          }}>
-            This project is built with <strong>Next.js</strong>, <strong>React</strong>, and <strong>Three.js</strong>, combining interactive 3D mapping and data visualization. Charts are rendered using <strong>Recharts</strong> and <strong>D3.js</strong>, while styling is handled with <strong>Tailwind CSS</strong>, <strong>PostCSS</strong>, and <strong>ShadcnUI</strong> components. The source code is available on 
-            <a href="https://github.com/intendedsideeffects/Chauka" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>GitHub</strong></a>.
-          </div>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '1.2rem',
-            lineHeight: '1.6',
-            marginBottom: '24px',
-            textAlign: 'left'
-          }}>
-            The 3D star globe is based on data from the 
-            <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/I/239" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>Hipparcos and Tycho Catalogues</strong></a>. 
-            Additional charts use data from the 
-            <a href="https://pacificdata.org/" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>Pacific Data Hub</strong></a> and the 
-            <a href="https://public.emdat.be/" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}> <strong>EM-DAT public disaster database</strong></a>. 
-            Exact datasets are linked in the captions of each visualization.
-          </div>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '1.2rem',
-            lineHeight: '1.6',
-            marginBottom: '24px',
-            textAlign: 'left'
-          }}>
-            The narrative is rooted in a story from <strong>Manus Island</strong>, passed down through generations and shared with permission. It is woven into the experience alongside <strong>sound</strong> to create a layered, sensory way of engaging with the data.
-          </div>
-          <div style={{
-            color: '#cad6fa',
-            fontSize: '1.2rem',
-            lineHeight: '1.6',
-            marginBottom: '24px',
-            textAlign: 'left'
-          }}>
-            This project is a collaboration between <strong>Bertha Ngahan</strong> (Storytelling) and <strong>Janina Grauel</strong> (Visualization) for the <strong>Pacific Data Challenge</strong>.
-          </div>
 
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// Pulsing blue dot with tooltip component
-function PulseDotWithTooltip({ style }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div style={{ position: 'absolute', ...style }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: '50%',
-          background: '#3d557a',
-          opacity: 0.5,
-          cursor: 'pointer',
-          boxShadow: hovered ? '0 0 0 16px #3d557a33' : 'none',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Test Segment Template */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: '120%',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          background: 'white',
-          color: '#222',
-          border: '1px solid #3d557a',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Event dot</strong>
-          <div style={{ marginTop: 8 }}>
-            "A cyclone devastated the island in 1731."
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>3</div>
+        <SegmentTemplate 
+          header="The Ocean is Changing"
+          text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
+          chartComponent={<HistoricalSeaLevelRise />}
+        />
+      </div>
 
-// Pulsing blue dot with tooltip for legend (interactive)
-function PulseDotWithTooltipForLegend() {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div style={{ position: 'absolute', left: 36, top: 36, pointerEvents: 'auto', zIndex: 11 }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: '50%',
-          background: '#3d557a',
-          opacity: 0.5,
-          cursor: 'pointer',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Another test segment */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: 60,
-          top: 0,
-          background: 'white',
-          color: '#222',
-          border: '1px solid #3d557a',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Event</strong>
-          <div style={{ marginTop: 8 }}>
-            "A cyclone devastated the island in 1731."
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>4</div>
+        <SegmentTemplate 
+          header="Rising Seas, Unequal Burden"
+          text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
+          chartComponent={<SeaLevelRiseChart />}
+        />
+      </div>
 
-// Add new interactive yellow dot with tooltip
-function YellowDotWithTooltip() {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div style={{ position: 'absolute', left: 40, top: 40, pointerEvents: 'auto' }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 120,
-          height: 120,
-          borderRadius: '50%',
-          background: '#c28f3e',
-          opacity: 0.25,
-          cursor: 'pointer',
-          animation: 'pulse 1.5s infinite',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Test segment with two-line title */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: 130,
-          top: 0,
-          background: 'white',
-          color: '#222',
-          border: '1px solid #c28f3e',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Warning</strong>
-          <div style={{ marginTop: 8 }}>
-            Severe storm approaching the island.
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>5</div>
+                 <SegmentTemplate 
+           header="Not All Shorelines Are Equal"
+           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
+         />
+      </div>
 
-// Add new interactive teal dot with tooltip
-function TealDotWithTooltip() {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div style={{ position: 'relative', pointerEvents: 'auto' }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 60,
-          height: 60,
-          borderRadius: '50%',
-          background: '#267180',
-          opacity: 0.5,
-          cursor: 'pointer',
-          animation: 'pulse 1.2s infinite',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Segment 6 */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: 70,
-          top: 0,
-          background: 'white',
-          color: '#222',
-          border: '1px solid #267180',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Resistance</strong>
-          <div style={{ marginTop: 8 }}>
-            "Community resilience against environmental challenges."
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>6</div>
+                 <SegmentTemplate 
+           header="Exposure on the Rise"
+           text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
+           chartComponent={<NewChartComponent />}
+         />
+      </div>
 
-// Add new interactive purple dot with tooltip
-function PurpleDotWithTooltip() {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div style={{ position: 'absolute', left: 36, top: 36, pointerEvents: 'auto' }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: '50%',
-          background: '#5a3f6e',
-          opacity: 0.5,
-          cursor: 'pointer',
-          animation: 'pulse 1.2s infinite',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Segment 7 */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: 60,
-          top: 0,
-          background: 'white',
-          color: '#222',
-          border: '1px solid #5a3f6e',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Memory</strong>
-          <div style={{ marginTop: 8 }}>
-            "A memory of a vanished world."
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>7</div>
+                         <SegmentTemplate
+          header="A Century of Disruptions, Warnings and Resistance"
+          text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+        />
+      </div>
 
-// Add new interactive red dot with tooltip
-function RedDotWithTooltip() {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <div style={{ position: 'absolute', left: 40, top: 40, pointerEvents: 'auto' }}>
-      <div
-        className="pulse-dot"
-        style={{
-          width: 120,
-          height: 120,
-          borderRadius: '50%',
-          background: '#7b2233',
-          opacity: 0.5,
-          cursor: 'pointer',
-          animation: 'pulse 1.2s infinite',
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
+      {/* Segment 8 */}
+      <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
-          left: 130,
-          top: 0,
-          background: 'white',
-          color: '#222',
-          border: '1px solid #7b2233',
-          borderRadius: 8,
-          padding: '1rem',
-          minWidth: 220,
-          fontSize: '1rem',
-          boxShadow: '0 2px 12px #0002',
-          zIndex: 100,
-        }}>
-          <strong>Story</strong>
-          <div style={{ marginTop: 8 }}>
-            "Placeholder"
-          </div>
-        </div>
-      )}
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>8</div>
+        <SegmentTemplate 
+          header="Segment 8 Title"
+          text="This is placeholder text for segment 8."
+        />
+      </div>
+
     </div>
   );
 }
