@@ -42,14 +42,22 @@ const HistoricalSeaLevelRise = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '400px', border: '2px dashed #8884d8', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box' }}>
       <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis dx={-10} width={40} />
-            <Tooltip />
-            <Line type="monotone" dataKey="seaLevel" stroke="#8884d8" />
+            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+            <XAxis 
+              dataKey="year" 
+              type="number"
+              domain={[1970, 2025]}
+              ticks={[1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020]}
+            />
+            <YAxis dx={-10} width={40} tickLine={false} />
+            <Tooltip 
+              formatter={(value, name) => [Math.round(value), name]}
+              labelFormatter={(label) => Math.floor(label)}
+            />
+            <Line type="monotone" dataKey="seaLevel" stroke="#000000" />
           </LineChart>
       </ResponsiveContainer>
     </div>

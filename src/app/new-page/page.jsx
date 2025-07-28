@@ -269,10 +269,10 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>5</div>
-        <SegmentTemplate 
-          header="Climate Change and Ocean Acidification: A Double Threat to Marine Life"
-          text="The ocean absorbs about <strong>30%</strong> of the carbon dioxide we emit, which is changing the chemistry of seawater. This acidification, combined with warming temperatures, creates a double threat that affects everything from tiny plankton to coral reefs and fish populations."
-        />
+                 <SegmentTemplate 
+           header="Not All Shorelines Are Equal"
+           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
+         />
       </div>
 
       {/* Segment 6 */}
@@ -287,10 +287,10 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>6</div>
-        <SegmentTemplate 
-          header="Segment 6 Title"
-          text="This is placeholder text for segment 6."
-        />
+                 <SegmentTemplate 
+           header="Exposure on the Rise"
+           text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
+         />
       </div>
 
       {/* Segment 7 */}
@@ -305,10 +305,10 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>7</div>
-        <SegmentTemplate 
-          header="Segment 7 Title"
-          text="This is placeholder text for segment 7."
-        />
+                 <SegmentTemplate 
+           header="A Century of Disruptions, Warnings and Resistance"
+           text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+         />
       </div>
 
       {/* Segment 8 */}
