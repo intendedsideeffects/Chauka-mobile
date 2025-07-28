@@ -6,6 +6,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const NewChartComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredBar, setHoveredBar] = useState(null);
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
+  const [currentImageData, setCurrentImageData] = useState(null);
 
   // Function to format numbers as K
   const formatAsK = (value) => {
@@ -22,6 +25,27 @@ const NewChartComponent = () => {
       return `${Math.round(value / 1000)}K`;
     }
     return value.toString();
+  };
+
+  // Handle bar hover
+  const handleBarMouseEnter = (data, index) => {
+    setHoveredBar(index);
+    setCurrentImageData({
+      year: data.year,
+      affectedPeople: data.affectedPeople,
+      index: index
+    });
+  };
+
+  const handleBarMouseLeave = () => {
+    setHoveredBar(null);
+    setCurrentImageData(null);
+  };
+
+  const handleBarClick = () => {
+    if (currentImageData) {
+      setShowFullscreenImage(true);
+    }
   };
 
   useEffect(() => {
@@ -96,7 +120,7 @@ const NewChartComponent = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', position: 'relative' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ left: 5, right: 20, top: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
@@ -117,9 +141,69 @@ const NewChartComponent = () => {
             formatter={(value, name) => [formatAsK(value), 'People Affected']}
             labelFormatter={(label) => `Year: ${label}`}
           />
-          <Bar dataKey="affectedPeople" fill="#000000" />
+          <Bar 
+            dataKey="affectedPeople" 
+            fill="#000000"
+            onMouseEnter={handleBarMouseEnter}
+            onMouseLeave={handleBarMouseLeave}
+            onClick={handleBarClick}
+            style={{ cursor: 'pointer' }}
+          />
         </BarChart>
       </ResponsiveContainer>
+      
+      {/* Fullscreen image overlay */}
+      {showFullscreenImage && currentImageData && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2000,
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowFullscreenImage(false)}
+        >
+          <div style={{
+            position: 'relative',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            textAlign: 'center'
+          }}>
+            {/* Placeholder for the image - you can replace this with actual image paths */}
+            <div style={{
+              width: '800px',
+              height: '600px',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              border: '2px dashed rgba(255, 255, 255, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '18px',
+              borderRadius: '8px'
+            }}>
+              <div>
+                <div style={{ fontSize: '24px', marginBottom: '10px' }}>
+                  {currentImageData.year}
+                </div>
+                <div style={{ fontSize: '18px', marginBottom: '20px' }}>
+                  {formatAsK(currentImageData.affectedPeople)} People Affected
+                </div>
+                <div style={{ fontSize: '14px', opacity: 0.7 }}>
+                  Image placeholder - Click to close
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
