@@ -11,6 +11,7 @@ import NewChartComponent from './components/NewChartComponent';
 import HighestElevationChart from './components/HighestElevationChart';
 import LowElevationChart from './components/LowElevationChart';
 import DisasterVoronoiChart from './components/DisasterVoronoiChart';
+import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -101,7 +102,7 @@ export default function TestScroll() {
   };
 
   return (
-    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden' }}>
+    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden', position: 'relative', minHeight: '100vh' }}>
       {/* Video Section */}
       <section style={{ 
         position: 'relative', 
@@ -221,6 +222,20 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>2</div>
         <TitleSection />
+      </div>
+
+      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-9 */}
+      <div style={{
+        position: 'absolute',
+        top: '200vh', // Start after segment 3 (which is 200vh tall)
+        left: '20px',
+        width: 'calc(100vw - 40px)',
+        height: '700vh', // 7 segments * 100vh each
+        zIndex: 1500, // Above segments but below segment numbers
+        pointerEvents: 'none', // Allow scrolling through segments
+        borderRadius: '8px'
+      }}>
+        <ExtinctSpeciesViz />
       </div>
 
       {/* Test Segment Template */}
@@ -355,7 +370,7 @@ export default function TestScroll() {
           />
        </div>
 
-       {/* Final Section - Custom styled without chart */}
+       {/* New Segment 10 */}
        <div style={{position: 'relative'}}>
          <div style={{
            position: 'absolute',
@@ -367,6 +382,113 @@ export default function TestScroll() {
            zIndex: 2000,
            pointerEvents: 'none',
          }}>10</div>
+         <section style={{ 
+           position: 'relative', 
+           height: '100vh', 
+           width: '100%', 
+           background: '#d6f525', 
+           display: 'flex', 
+           alignItems: 'center', 
+           justifyContent: 'center', 
+           overflow: 'hidden',
+           scrollSnapAlign: 'start'
+         }}>
+           {/* Star Globe as background */}
+           <InteractiveStarGlobe />
+           {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
+           <video
+             ref={oceanVideoRef}
+             src="/ocean.mp4"
+             autoPlay
+             loop
+             muted
+             volume={0}
+             playsInline
+             style={{
+               position: 'absolute',
+               left: 0,
+               top: '15vh',
+               width: '100vw',
+               height: '85vh',
+               objectFit: 'cover',
+               zIndex: 2,
+               pointerEvents: 'none',
+               WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+               maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+             }}
+           />
+           {/* Black bar between video and star globe */}
+           <div
+             style={{
+               position: 'absolute',
+               left: 0,
+               top: '15vh',
+               width: '100vw',
+               height: '85vh', // Match the video height
+               zIndex: 2.5, // Between star globe and video
+               pointerEvents: 'none',
+               background: '#d6f525',
+             }}
+           />
+           {/* Scene overlay image */}
+           <img
+             src="/scene.png"
+             alt="Scene overlay"
+             style={{
+               position: 'absolute',
+               left: 0,
+               top: '15vh',
+               width: '100vw',
+               height: '85vh',
+               objectFit: 'cover',
+               zIndex: 3, // Above video and black bar
+               pointerEvents: 'none',
+             }}
+           />
+           {/* Audio buttons positioned relative to video section */}
+           <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
+             <YellowStarAudioPlayer />
+           </div>
+           <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
+             <BlueCircleAudioPlayer />
+           </div>
+           {/* Bird audio button positioned over the bird in the scene */}
+           <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
+             <BirdAudioPlayer />
+           </div>
+           {/* Project attribution on video */}
+           <div style={{ 
+             position: 'absolute', 
+             bottom: '20px', 
+             left: '50%', 
+             transform: 'translateX(-50%)', 
+             zIndex: 1000, 
+             pointerEvents: 'auto'
+           }}>
+             <div style={{
+               fontSize: '1rem',
+               color: '#676b8b',
+               fontWeight: 400,
+               textAlign: 'center'
+             }}>
+               Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> | Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+             </div>
+           </div>
+         </section>
+       </div>
+
+       {/* Final Section - Custom styled without chart */}
+       <div style={{position: 'relative'}}>
+         <div style={{
+           position: 'absolute',
+           top: 20,
+           left: 20,
+           fontSize: '5rem',
+           color: 'rgba(0,0,0,0.10)',
+           fontWeight: 900,
+           zIndex: 2000,
+           pointerEvents: 'none',
+         }}>11</div>
                    <section style={{
             width: '100%',
             height: '100vh',
@@ -424,8 +546,6 @@ export default function TestScroll() {
            </div>
          </section>
        </div>
-
-
 
      </div>
    );

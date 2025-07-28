@@ -25,7 +25,7 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-const STATUS_HEIGHT = 11290;
+const STATUS_HEIGHT = 7000; // Reduced from 11290 to match segments 3-9 height
 const STATUS_WIDTH = 1600;
 const YEAR_MIN = 1922;
 const YEAR_MAX = 2025;
@@ -225,7 +225,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 width: '100%',
                 height: STATUS_HEIGHT + 'px',
                 position: 'relative',
-                backgroundColor: 'white',
+                backgroundColor: 'transparent',
                 color: 'black',
                 overflow: 'visible'
             }}>
@@ -300,8 +300,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
                 <ScatterChart
                     key="main-scatter-chart"
-                    style={{ background: '#050d1a', overflow: 'visible' }} // darkest blue almost black
-                    margin={{ top: 0, right: 341, bottom: 0, left: 189 }}
+                    style={{ background: 'transparent', overflow: 'visible' }}
+                    margin={{ top: 113, right: 0, bottom: 113, left: 0 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
@@ -427,143 +427,11 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         )}
                     />
 
-                    {/* Memory dots: fixed x, y from year, purple color */}
-                    <Scatter
-                      data={memoryDots}
-                      shape={(props) => (
-                        <circle
-                          cx={props.cx}
-                          cy={props.cy}
-                          r={32} // TEMP: make memory dots large for easier hover
-                          fill="#5a3f6e"
-                          opacity={0.7}
-                          style={{ cursor: 'pointer' }}
-                          onMouseEnter={e => {
-                            if (props.payload.type === 'sound') {
-                              if (audioRef.current) {
-                                audioRef.current.src = props.payload.content;
-                                audioRef.current.play().catch(() => {});
-                              }
-                              setHoveredDot(null);
-                            } else {
-                              console.log('Memory dot hovered:', props.payload);
-                              setHoveredDot({ ...props.payload, type: 'memory' });
-                            }
-                          }}
-                          onMouseLeave={e => {
-                            if (props.payload.type === 'sound' && audioRef.current) {
-                              audioRef.current.pause();
-                              audioRef.current.currentTime = 0;
-                            }
-                            setHoveredDot(null);
-                          }}
-                        />
-                      )}
-                    />
-
                     <Tooltip 
                         content={<CustomTooltip />}
                         cursor={{ stroke: '#666' }}
                         isAnimationActive={false}
                     />
-
-                    {/* Purple large dots - Warning */}
-                    <Scatter
-                        data={[
-                            { x: -600, y: 2000, title: "Warning", size: 60 },  // ~1950
-                            { x: 0, y: 6000, title: "Warning", size: 60 },    // ~1985
-                            { x: 400, y: 10000, title: "Warning", size: 60 }  // ~2020
-                        ]}
-                        shape={(props) => (
-                            <circle
-                                cx={props.cx}
-                                cy={props.cy}
-                                r={props.payload.size}
-                                fill="#5a3f6e"
-                                opacity={0.7}
-                                style={{ cursor: 'pointer' }}
-                                onMouseEnter={(e) => {
-                                    console.log('MOUSE ENTER - Purple dot');
-                                    e.target.style.opacity = '0.7';
-                                    setHoveredDot({ ...props.payload, type: 'warning' });
-                                    setIsHoveringPurpleDot(true);
-                                    
-                                    // Play chaukasound.mp3 only if not already playing and audio is enabled
-                                    console.log('Hover check:', { 
-                                        hasAudio: !!purpleDotAudio.current, 
-                                        isPlaying: isPurpleAudioPlaying
-                                    });
-                                    
-                                    console.log('Audio element:', purpleDotAudio.current);
-                                    
-                                    if (purpleDotAudio.current && !isPurpleAudioPlaying) {
-                                        console.log('Playing chaukasound.mp3');
-                                        purpleDotAudio.current.volume = 0.3;
-                                        
-                                        // Only reset to beginning if audio has ended
-                                        if (purpleDotAudio.current.ended || purpleDotAudio.current.currentTime >= purpleDotAudio.current.duration) {
-                                            purpleDotAudio.current.currentTime = 0;
-                                        }
-                                        
-                                        purpleDotAudio.current.play().then(() => {
-                                            setIsPurpleAudioPlaying(true);
-                                        }).catch((error) => {
-                                            console.error('Error playing chaukasound:', error);
-                                        });
-                                    } else {
-                                        console.log('Audio not playing because:', {
-                                            noAudio: !purpleDotAudio.current,
-                                            alreadyPlaying: isPurpleAudioPlaying
-                                        });
-                                    }
-                                }}
-                                onMouseLeave={(e) => {
-                                    console.log('MOUSE LEAVE - Purple dot');
-                                    e.target.style.opacity = '0.7';
-                                    setHoveredDot(null);
-                                    setIsHoveringPurpleDot(false);
-                                    
-                                    // Stop chaukasound.mp3 with a small delay to avoid interruption
-                                    setTimeout(() => {
-                                        if (purpleDotAudio.current) {
-                                            console.log('Stopping chaukasound.mp3');
-                                            purpleDotAudio.current.pause();
-                                            purpleDotAudio.current.currentTime = 0;
-                                            setIsPurpleAudioPlaying(false);
-                                        }
-                                    }, 50);
-                                }}
-                            />
-                        )}
-                    />
-
-                    {/* Blue medium dots - Memory */}
-                    <Scatter
-                        data={[
-                            { x: -600, y: 4000, title: "Memory", size: 24 },
-                            { x: 400, y: 6000, title: "Memory", size: 24 },
-                            { x: -200, y: 8000, title: "Memory", size: 24 }
-                        ]}
-                        shape={(props) => (
-                            <circle
-                                cx={props.cx}
-                                cy={props.cy}
-                                r={props.payload.size}
-                                fill="#3d557a"
-                                opacity={0.8}
-                                style={{ cursor: 'pointer' }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.opacity = '0.7';
-                                    setHoveredDot({ ...props.payload, type: 'memory' });
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.opacity = '0.5';
-                                    setHoveredDot(null);
-                                }}
-                            />
-                        )}
-                    />
-
 
                 </ScatterChart>
             </ResponsiveContainer>

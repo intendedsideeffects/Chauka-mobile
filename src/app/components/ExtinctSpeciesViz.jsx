@@ -6,7 +6,7 @@ import birdArr from '../data/birdArray';
 import PlotsScatterChart from './PlotsScatterChart';
 import { supabase } from '../utils/supabaseClient';
 
-const STATUS_HEIGHT = 12500;
+const STATUS_HEIGHT = 7000; // Reduced to match segments 3-9 height
 const STATUS_WIDTH = 1600;
 const getYearPosition = (year) => {
   return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;
