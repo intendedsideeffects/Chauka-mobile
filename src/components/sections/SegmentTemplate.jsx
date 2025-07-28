@@ -66,6 +66,7 @@ const SegmentTemplate = ({
          left: '0',
          right: '0',
          margin: '0 auto',
+         transform: 'translateX(-2cm)',
        },
                placeholderChart: {
              width: '100%',

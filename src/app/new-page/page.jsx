@@ -5,6 +5,8 @@ import '../PulseDot.css';
 import InteractiveStarGlobe from '../components/InteractiveStarGlobe';
 import TitleSection from '../../components/sections/TitleSection';
 import SegmentTemplate from '../../components/sections/SegmentTemplate';
+import SeaLevelRiseChart from '../components/SeaLevelRiseChart';
+import HistoricalSeaLevelRise from '../components/HistoricalSeaLevelRise';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -95,7 +97,7 @@ export default function TestScroll() {
   };
 
   return (
-    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto' }}>
+    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden' }}>
       {/* Video Section */}
       <section style={{ 
         position: 'relative', 
@@ -108,6 +110,17 @@ export default function TestScroll() {
         overflow: 'hidden',
         scrollSnapAlign: 'start'
       }}>
+        {/* Segment Number */}
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(255,255,255,0.15)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>1</div>
         {/* Star Globe as background */}
         <InteractiveStarGlobe />
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
@@ -192,25 +205,129 @@ export default function TestScroll() {
       </section>
 
       {/* Title Section */}
-      <TitleSection />
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>2</div>
+        <TitleSection />
+      </div>
 
       {/* Test Segment Template */}
-      <SegmentTemplate 
-        header="The Ocean is Changing"
-        text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
-      />
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>3</div>
+        <SegmentTemplate 
+          header="The Ocean is Changing"
+          text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
+          chartComponent={<HistoricalSeaLevelRise />}
+        />
+      </div>
 
       {/* Another test segment */}
-      <SegmentTemplate 
-        header="Rising Seas, Unequal Burden"
-        text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
-      />
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>4</div>
+        <SegmentTemplate 
+          header="Rising Seas, Unequal Burden"
+          text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
+          chartComponent={<SeaLevelRiseChart />}
+        />
+      </div>
 
       {/* Test segment with two-line title */}
-      <SegmentTemplate 
-        header="Climate Change and Ocean Acidification: A Double Threat to Marine Life"
-        text="The ocean absorbs about <strong>30%</strong> of the carbon dioxide we emit, which is changing the chemistry of seawater. This acidification, combined with warming temperatures, creates a double threat that affects everything from tiny plankton to coral reefs and fish populations."
-      />
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>5</div>
+        <SegmentTemplate 
+          header="Climate Change and Ocean Acidification: A Double Threat to Marine Life"
+          text="The ocean absorbs about <strong>30%</strong> of the carbon dioxide we emit, which is changing the chemistry of seawater. This acidification, combined with warming temperatures, creates a double threat that affects everything from tiny plankton to coral reefs and fish populations."
+        />
+      </div>
+
+      {/* Segment 6 */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>6</div>
+        <SegmentTemplate 
+          header="Segment 6 Title"
+          text="This is placeholder text for segment 6."
+        />
+      </div>
+
+      {/* Segment 7 */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>7</div>
+        <SegmentTemplate 
+          header="Segment 7 Title"
+          text="This is placeholder text for segment 7."
+        />
+      </div>
+
+      {/* Segment 8 */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>8</div>
+        <SegmentTemplate 
+          header="Segment 8 Title"
+          text="This is placeholder text for segment 8."
+        />
+      </div>
 
     </div>
   );

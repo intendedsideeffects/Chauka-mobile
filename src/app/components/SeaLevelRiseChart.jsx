@@ -81,16 +81,16 @@ const SeaLevelRiseChart = () => {
   const currentGlobalRise = globalSeaLevelRise[selectedYear][selectedDegree];
 
          return (
-     <div className="w-full p-8 bg-transparent relative">
+      <div className="w-full bg-transparent relative" style={{ width: '100%', height: '400px' }}>
                                                                                                                        {/* Controls - Scattered in top-right corner of page */}
-                 <div className="absolute top-8 right-8 z-50" style={{ height: '200px' }}>
+                  <div className="absolute z-50" style={{ height: '200px', left: '100%', top: '-150px' }}>
                    
                                      {/* Select Parameter Image */}
                    <div 
                      className="absolute"
                      style={{
-                       right: '110px',
-                       top: '-20px',
+                                                         left: '6px',
+                                 top: '-120px',
                        width: '400px',
                        height: '200px',
                        display: 'flex',
@@ -113,8 +113,8 @@ const SeaLevelRiseChart = () => {
                       <div 
                         className="absolute"
                                                 style={{
-                                                      right: '240px',
-                            top: '220px',
+                                                                                                                  left: '140px',
+                                 top: '120px',
                           width: '80px',
                           height: '80px',
                           display: 'flex',
@@ -141,8 +141,8 @@ const SeaLevelRiseChart = () => {
                       <div 
                         className="absolute"
                                                 style={{
-                                                      right: '200px',
-                            top: '260px',
+                                                                                                                 left: '240px',
+                                top: '160px',
                           width: '80px',
                           height: '80px',
                           display: 'flex',
@@ -169,8 +169,8 @@ const SeaLevelRiseChart = () => {
                     <div 
                       className="absolute"
                                              style={{
-                                                   right: '260px',
-                          top: '80px',
+                                                                                                                                                                                                                     left: '140px',
+                              top: '-20px',
                         width: '120px',
                         height: '120px',
                         display: 'flex',
@@ -197,8 +197,8 @@ const SeaLevelRiseChart = () => {
                   <div 
                     className="absolute"
                                          style={{
-                                               right: '120px',
-                        top: '100px',
+                                                                                                                                                                                                                                                                                                                                                                                                           left: '260px',
+                            top: '0px',
                       width: '120px',
                       height: '120px',
                       display: 'flex',
@@ -222,12 +222,12 @@ const SeaLevelRiseChart = () => {
                 </div>
               </div>
 
-                                                           <div style={{ marginLeft: '12cm', marginRight: '12cm' }}>
+                                                           <div>
 
-              <div className="px-4 relative">
+                             <div className="relative" style={{ width: '100%', height: '100%' }}>
                    {/* Global sea level rise annotation */}
                    <div className="absolute -left-56 z-30" style={{ 
-                     top: `${500 - (currentGlobalRise / 1.0) * 400}px`
+                      top: `${350 - (currentGlobalRise / 1.0) * 280}px`
                    }}>
                      <div className="text-sm text-gray-600 font-medium text-right">
                        Global Sea Level Rise: {currentGlobalRise.toFixed(2)}M
@@ -236,12 +236,12 @@ const SeaLevelRiseChart = () => {
                    
                                        {/* Extended line across the chart */}
                     <div className="absolute left-0 right-0 z-25" style={{ 
-                      top: `${500 - (currentGlobalRise / 1.0) * 400}px`
+                       top: `${350 - (currentGlobalRise / 1.0) * 280}px`
                     }}>
                       <div className="border-t border-gray-400" style={{ height: '1px' }}></div>
                     </div>
                    {/* Chart area with bars */}
-          <div className="flex items-end justify-between h-[500px] relative">
+                           <div className="flex items-end justify-between h-[350px] relative">
                          {/* Zero line positioned directly under bars */}
              <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
             
@@ -252,7 +252,7 @@ const SeaLevelRiseChart = () => {
                                                                           <div 
                         className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
                         style={{ 
-                          height: `${(item.selectedValue / 1.0) * 400}px`,
+                           height: `${(item.selectedValue / 1.0) * 280}px`,
                           minHeight: '30px',
                           width: '20px'
                         }}

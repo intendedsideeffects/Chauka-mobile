@@ -12,12 +12,12 @@ const TitleSection = ({
   const defaultStyles = {
     container: {
       width: '100%',
-      minHeight: '80vh',
+      height: '100vh',
       background: 'white',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
       gap: '3rem',
       padding: '4rem 0',
       position: 'relative',
