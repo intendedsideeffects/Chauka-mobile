@@ -8,6 +8,9 @@ import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
 import HistoricalSeaLevelRise from './components/HistoricalSeaLevelRise';
 import NewChartComponent from './components/NewChartComponent';
+import HighestElevationChart from './components/HighestElevationChart';
+import LowElevationChart from './components/LowElevationChart';
+import DisasterVoronoiChart from './components/DisasterVoronoiChart';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -270,13 +273,14 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>5</div>
-                 <SegmentTemplate 
-           header="Not All Shorelines Are Equal"
-           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
-         />
+                         <SegmentTemplate 
+          header="Not All Shorelines Are Equal"
+          text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
+          chartComponent={<HighestElevationChart />}
+        />
       </div>
 
-      {/* Segment 6 */}
+      {/* New Segment 6 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -288,14 +292,14 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>6</div>
-                 <SegmentTemplate 
-           header="Exposure on the Rise"
-           text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
-           chartComponent={<NewChartComponent />}
-         />
+        <SegmentTemplate 
+          header="Population at Low Elevations"
+          text="Many Pacific Island nations have significant populations living in low-lying coastal areas. These communities are particularly vulnerable to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
+          chartComponent={<LowElevationChart />}
+        />
       </div>
 
-      {/* Segment 7 */}
+            {/* Segment 7 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -307,13 +311,14 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>7</div>
-                         <SegmentTemplate
-          header="A Century of Disruptions, Warnings and Resistance"
-          text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
-        />
+                 <SegmentTemplate 
+           header="Exposure on the Rise"
+           text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
+           chartComponent={<NewChartComponent />}
+         />
       </div>
 
-      {/* Segment 8 */}
+      {/* New Segment 8 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -326,14 +331,105 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>8</div>
         <SegmentTemplate 
-          header="Segment 8 Title"
-          text="This is placeholder text for segment 8."
+          header="Disaster Types in the Pacific"
+          text="The Pacific region faces diverse natural disasters, each with varying frequency and impact. This visualization shows the distribution of different disaster types recorded across Pacific nations, revealing patterns in climate-related events and their prevalence."
+          chartComponent={<DisasterVoronoiChart />}
         />
       </div>
 
-    </div>
-  );
-}
+             {/* Segment 9 */}
+       <div style={{position: 'relative'}}>
+         <div style={{
+           position: 'absolute',
+           top: 20,
+           left: 20,
+           fontSize: '5rem',
+           color: 'rgba(0,0,0,0.10)',
+           fontWeight: 900,
+           zIndex: 2000,
+           pointerEvents: 'none',
+         }}>9</div>
+                          <SegmentTemplate
+            header="A Century of Disruptions, Warnings and Resistance"
+            text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+          />
+       </div>
+
+       {/* Final Section - Custom styled without chart */}
+       <div style={{position: 'relative'}}>
+         <div style={{
+           position: 'absolute',
+           top: 20,
+           left: 20,
+           fontSize: '5rem',
+           color: 'rgba(0,0,0,0.10)',
+           fontWeight: 900,
+           zIndex: 2000,
+           pointerEvents: 'none',
+         }}>10</div>
+                   <section style={{
+            width: '100%',
+            height: '100vh',
+            background: '#d6f525',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            scrollSnapAlign: 'start',
+            borderBottom: '3px solid #9ca3af',
+          }}>
+           <div style={{
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: 'center',
+             justifyContent: 'center',
+             width: '100%',
+             maxWidth: '1050px',
+             margin: '0 auto',
+             marginTop: '-50px',
+             gap: '2rem'
+           }}>
+             {/* Header */}
+             <div style={{
+               width: '100%',
+               maxWidth: '800px',
+               textAlign: 'left'
+             }}>
+               <h1 style={{
+                 fontSize: '2.5rem',
+                 fontWeight: 'bold',
+                 color: '#000',
+                 marginBottom: '0',
+                 textAlign: 'left',
+                 marginTop: '5rem'
+               }}>Final Section Title</h1>
+             </div>
+             
+             {/* Text content */}
+             <div style={{
+               width: '100%',
+               maxWidth: '800px',
+               textAlign: 'left'
+             }}>
+               <p style={{
+                 fontSize: '1.4rem',
+                 color: '#000',
+                 marginBottom: '2rem',
+                 lineHeight: 1.5
+               }}
+               dangerouslySetInnerHTML={{ __html: "This is the final section content. It uses the same styling and formatting as the SegmentTemplate but without a chart placeholder. You can add your final text content here." }}
+               />
+             </div>
+           </div>
+         </section>
+       </div>
+
+
+
+     </div>
+   );
+ }
 
 // Add a robust, reusable AudioPlayer component
 function AudioPlayer({ src, volume = 1, loop = false, onEnded, onStateChange, onRef, ...rest }) {
