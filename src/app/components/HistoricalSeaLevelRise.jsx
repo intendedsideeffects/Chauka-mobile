@@ -42,7 +42,7 @@ const HistoricalSeaLevelRise = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'none' }}>
       <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />

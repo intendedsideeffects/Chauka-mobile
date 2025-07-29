@@ -120,7 +120,7 @@ const NewChartComponent = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', position: 'relative' }}>
+    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', position: 'relative', pointerEvents: 'none' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ left: 5, right: 20, top: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />

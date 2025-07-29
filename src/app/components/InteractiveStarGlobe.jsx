@@ -76,7 +76,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       fadeFactor: 2.0
     };
 
-    const radius = 200; // Radius of the star sphere (as requested)
+    const radius = 100; // Reduced radius to make constellations more visible
 
     // Function to convert B-V color index to RGB color
     function bvToColor(bv, brightness) {
@@ -132,7 +132,73 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
           .filter(star => !isNaN(star.x) && !isNaN(star.y) && !isNaN(star.z) && 
                           star.brightness <= starConfig.maxMagnitude && 
                           star.brightness >= starConfig.minMagnitude);
-        return stars;
+
+        // Add Southern Cross constellation stars
+        const southernCrossStars = [
+          // Alpha Crucis (Acrux) - brightest star in Southern Cross
+          {
+            id: 'acrux',
+            name: 'Acrux',
+            ra: 186.6495, // Right Ascension in degrees
+            dec: -63.0991, // Declination in degrees
+            brightness: 0.77,
+            color: 0xffffff,
+            size: starConfig.maxStarSize * 1.5
+          },
+          // Beta Crucis (Mimosa)
+          {
+            id: 'mimosa',
+            name: 'Mimosa',
+            ra: 191.9303,
+            dec: -59.6888,
+            brightness: 1.25,
+            color: 0x87ceeb,
+            size: starConfig.maxStarSize * 1.3
+          },
+          // Gamma Crucis (Gacrux)
+          {
+            id: 'gacrux',
+            name: 'Gacrux',
+            ra: 187.7915,
+            dec: -57.1138,
+            brightness: 1.59,
+            color: 0xffd700,
+            size: starConfig.maxStarSize * 1.2
+          },
+          // Delta Crucis (Imai)
+          {
+            id: 'imai',
+            name: 'Imai',
+            ra: 183.7863,
+            dec: -58.7489,
+            brightness: 2.79,
+            color: 0xffffff,
+            size: starConfig.maxStarSize * 1.1
+          }
+        ];
+
+        // Convert Southern Cross stars to 3D coordinates
+        const southernCross3D = southernCrossStars.map(star => {
+          const raRad = star.ra * (Math.PI / 180);
+          const decRad = star.dec * (Math.PI / 180);
+          const x = radius * Math.cos(raRad) * Math.cos(decRad);
+          const y = radius * Math.sin(decRad);
+          const z = radius * Math.sin(raRad) * Math.cos(decRad);
+          
+          return {
+            id: star.id,
+            name: star.name,
+            x, y, z,
+            brightness: star.brightness,
+            color: star.color,
+            size: star.size,
+            isConstellation: true,
+            constellation: 'southernCross'
+          };
+        });
+
+        // Combine regular stars with Southern Cross stars
+        return [...stars, ...southernCross3D];
       } catch (error) {
         return [];
       }
@@ -219,6 +285,42 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       const starPoints = new THREE.Points(geometry, material);
       sceneRef.current.add(starPoints);
       starPointsRef.current = starPoints;
+
+      // Add constellation lines for Southern Cross
+      const constellationStars = stars.filter(star => star.isConstellation);
+      if (constellationStars.length >= 5) {
+        // Find the Southern Cross stars by their IDs
+        const acrux = constellationStars.find(s => s.id === 'acrux');
+        const mimosa = constellationStars.find(s => s.id === 'mimosa');
+        const gacrux = constellationStars.find(s => s.id === 'gacrux');
+        const imai = constellationStars.find(s => s.id === 'imai');
+
+        if (acrux && mimosa && gacrux && imai) {
+          // Create lines connecting the Southern Cross
+          const lineGeometry = new THREE.BufferGeometry();
+          const linePositions = [
+            // Main cross: Acrux to Mimosa (vertical)
+            acrux.x, acrux.y, acrux.z,
+            mimosa.x, mimosa.y, mimosa.z,
+            // Horizontal cross: Gacrux to Imai
+            gacrux.x, gacrux.y, gacrux.z,
+            imai.x, imai.y, imai.z
+          ];
+          
+          lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+          
+          const lineMaterial = new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 1.0,
+            linewidth: 3
+          });
+          
+          const constellationLines = new THREE.LineSegments(lineGeometry, lineMaterial);
+          sceneRef.current.add(constellationLines);
+        }
+      }
+
       return positions;
     }
 

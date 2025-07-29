@@ -126,8 +126,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
         });
     }, [timelineData, getStableColor]);
 
-    const MIN_DOT_SIZE = 8; // always visible
-    const MAX_DOT_SIZE = 60; // allow larger dots
+    const MIN_DOT_SIZE = 4; // smaller minimum size
+    const MAX_DOT_SIZE = 20; // smaller maximum size
 
     const affectedValues = visibleData
       .map(d => typeof d.total_affected === 'number' && !isNaN(d.total_affected) ? d.total_affected : 0)
@@ -161,8 +161,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             // console.log('Dot size for', d.disaster_type, d.country, 'affected:', d.total_affected, 'size:', size, 'y:', y);
             return {
                 ...d,
-                fill: '#0a2342', // dark blue
-                opacity: 0.9,
+                fill: '#d3d3d3', // very light grey
+                opacity: 0.6, // reduced opacity to make it lighter
                 future: !!isFuture,
                 size,
                 x: Math.round(d.x),

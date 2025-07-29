@@ -74,7 +74,7 @@ const SeaLevelRiseChart = () => {
   const currentGlobalRise = GLOBAL_SEA_LEVEL_RISE[selectedYear][selectedDegree];
 
                              return (
-      <div className="w-full bg-transparent relative" style={CHART_DIMENSIONS.container}>
+      <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'none'}}>
                                                                                                                         {/* Controls - Scattered in top-right corner of page */}
                   <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
                    

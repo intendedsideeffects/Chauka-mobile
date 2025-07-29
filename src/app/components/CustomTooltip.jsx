@@ -4,15 +4,25 @@ const CustomTooltip = ({ active, payload }) => {
   // Only show tooltip for main data points (which have disaster_type)
   if (!d.disaster_type) return null;
   return (
-    <div className="bg-white/95 text-black p-4 rounded border border-gray-300 w-96 shadow-lg font-arial-sans text-lg">
-      <p className="font-bold text-lg mb-2">
+    <div style={{
+      backgroundColor: 'rgba(255, 255, 255, 1)',
+      color: 'black',
+      padding: '16px',
+      borderRadius: '4px',
+      border: '1px solid #d1d5db',
+      width: '384px',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px'
+    }}>
+      <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
         {d.disaster_type} in {d.country}
       </p>
-      <p className="italic mb-2">
+      <p style={{ fontStyle: 'italic', marginBottom: '8px' }}>
         Start year: {d.start_year}
       </p>
       {d.summary && (
-        <p className="mt-2 pt-2 border-t border-gray-200 whitespace-pre-line leading-relaxed">
+        <p style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e5e7eb', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
           {d.summary}
         </p>
       )}

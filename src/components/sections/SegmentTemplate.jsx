@@ -12,7 +12,7 @@ const SegmentTemplate = ({
                                        container: {
          width: '100%',
          height: '100vh',
-         background: 'white',
+         background: 'transparent',
          display: 'flex',
          flexDirection: 'column',
          alignItems: 'center',
@@ -20,6 +20,7 @@ const SegmentTemplate = ({
          position: 'relative',
          scrollSnapAlign: 'start',
          borderBottom: '3px solid #9ca3af',
+         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
        },
                                        contentWrapper: {
          color: '#0e224f',
@@ -36,6 +37,7 @@ const SegmentTemplate = ({
          transform: 'translate(-50%, -50%)',
          margin: '0 auto',
          flexShrink: 0,
+         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
        },
                                        header: {
          fontSize: '2.5rem',
@@ -67,6 +69,7 @@ const SegmentTemplate = ({
          right: '0',
          margin: '0 auto',
          transform: 'translateX(-2cm)',
+         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
        },
                placeholderChart: {
              width: '100%',

@@ -231,9 +231,10 @@ export default function TestScroll() {
         left: '20px',
         width: 'calc(100vw - 40px)',
         height: '700vh', // 7 segments * 100vh each
-        zIndex: 1500, // Above segments but below segment numbers
-        pointerEvents: 'none', // Allow scrolling through segments
-        borderRadius: '8px'
+        zIndex: 1000, // Back in front
+        pointerEvents: 'auto', // Allow hovering over dots
+        borderRadius: '8px',
+        opacity: 0.7 // More visible but still transparent
       }}>
         <ExtinctSpeciesViz />
       </div>
@@ -364,23 +365,23 @@ export default function TestScroll() {
            zIndex: 2000,
            pointerEvents: 'none',
          }}>9</div>
-                          <SegmentTemplate
-            header="A Century of Disruptions, Warnings and Resistance"
-            text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
-          />
-       </div>
+                         <SegmentTemplate
+          header="A Century of Disruptions, Warnings and Resistance"
+          text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+        />
+      </div>
 
        {/* New Segment 10 */}
-       <div style={{position: 'relative'}}>
-         <div style={{
-           position: 'absolute',
-           top: 20,
-           left: 20,
-           fontSize: '5rem',
-           color: 'rgba(0,0,0,0.10)',
-           fontWeight: 900,
-           zIndex: 2000,
-           pointerEvents: 'none',
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
          }}>10</div>
          <section style={{ 
            position: 'relative', 
@@ -545,11 +546,11 @@ export default function TestScroll() {
              </div>
            </div>
          </section>
-       </div>
+      </div>
 
-     </div>
-   );
- }
+    </div>
+  );
+}
 
 // Add a robust, reusable AudioPlayer component
 function AudioPlayer({ src, volume = 1, loop = false, onEnded, onStateChange, onRef, ...rest }) {
