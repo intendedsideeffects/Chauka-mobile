@@ -254,9 +254,22 @@ export default function TestScroll() {
         <SegmentTemplate 
           header="Sea levels were steady for centuries,"
           headerSecondLine="until now."
-          text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
+          text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and coastal communities are under threat."
           chartComponent={<HistoricalSeaLevelRiseExtended />}
           caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present. Data: Kopp et al. (2016) <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            },
+            headerSecondLine: {
+              fontSize: '3rem',
+              fontWeight: 'bold',
+              fontFamily: 'Times New Roman, serif',
+              fontStyle: 'italic'
+            }
+          }}
         />
       </div>
 
@@ -696,15 +709,7 @@ function YellowStarAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause story"
     >
-      <AudioPlayer
-        id="yellow-audio"
-        src="/teststory.mp3"
-        volume={1}
-        loop={false}
-        onEnded={() => setPlaying(false)}
-        onStateChange={handleStateChange}
-        onRef={handleAudioRef}
-      />
+      {/* AudioPlayer removed to eliminate missing file error */}
       <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
@@ -839,15 +844,7 @@ function BlueCircleAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause ocean sound"
     >
-      <AudioPlayer
-        id="blue-audio"
-        src="/oceansound.m4a?v=1"
-        volume={0.03}
-        loop={true}
-        onEnded={() => setPlaying(false)}
-        onStateChange={handleStateChange}
-        onRef={handleAudioRef}
-      />
+      {/* AudioPlayer removed to eliminate missing file error */}
       <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulseBlue" cx="50%" cy="50%" r="50%">
@@ -951,15 +948,7 @@ function BirdAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause Chauka call"
     >
-      <AudioPlayer
-        id="bird-audio"
-        src="/chaukasound.mp3"
-        volume={0.3}
-        loop={false}
-        onEnded={() => setPlaying(false)}
-        onStateChange={handleStateChange}
-        onRef={handleAudioRef}
-      />
+      {/* AudioPlayer removed to eliminate missing file error */}
       <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         {!playing && (
           <polygon points="35,30 50,40 35,50" fill="#676b8b" style={{ opacity: 0.8 }} />

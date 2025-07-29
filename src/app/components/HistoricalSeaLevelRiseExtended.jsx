@@ -127,12 +127,14 @@ const HistoricalSeaLevelRiseExtended = () => {
             tickFormatter={(value) => Math.round(value)}
           />
           <Tooltip 
-            formatter={(value, name) => [
-              `${value.toFixed(2)}cm`, 
-              'Global Sea Level'
-            ]}
+            formatter={(value, name, props) => {
+              // Show tooltip for all data points
+              console.log('Tooltip triggered:', { value, name, props });
+              return [`${value.toFixed(2)}cm`, 'Global Sea Level'];
+            }}
             labelFormatter={(label) => `Year: ${Math.floor(label)}`}
             contentStyle={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+            cursor={{ strokeDasharray: '3 3' }}
           />
           {/* Single continuous line with color change at 1993 */}
           <Line 
@@ -144,7 +146,7 @@ const HistoricalSeaLevelRiseExtended = () => {
             connectNulls={true}
             name="seaLevel"
           />
-          {/* Blue overlay for 1993 onwards to make connector blue */}
+          {/* Blue overlay for 1993 onwards */}
           <Line 
             type="monotone" 
             dataKey="value" 
