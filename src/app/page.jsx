@@ -256,7 +256,7 @@ export default function TestScroll() {
           headerSecondLine="until now."
           text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and coastal communities are under threat."
           chartComponent={<HistoricalSeaLevelRiseExtended />}
-          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present. Data: Kopp et al. (2016) <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
+          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
               fontSize: '2.5rem',
@@ -290,7 +290,7 @@ export default function TestScroll() {
           headerSecondLine="fastest across the Pacific."
           text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
           chartComponent={<SeaLevelRiseChart />}
-          caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations."
+          caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
               fontSize: '2.5rem',
@@ -324,7 +324,7 @@ export default function TestScroll() {
           headerSecondLine="exposure isn't equal."
           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
           chartComponent={<HighestElevationChart />}
-          caption="<strong>Fig 3:</strong> Maximum elevation of selected Pacific Island nations and territories."
+          caption="<strong>Fig 3:</strong> Maximum elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
               fontSize: '2.5rem',
@@ -358,7 +358,7 @@ export default function TestScroll() {
           headerSecondLine="where sea rise is already felt."
           text="Many Pacific Island nations have significant populations living in low-lying coastal areas. These communities are particularly vulnerable to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
           chartComponent={<LowElevationChart />}
-          caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations."
+          caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations. Data: Pacific Data Hub <a href='https://pacificdata.org/data/dataset/population-living-in-low-elevation-coastal-zones-0-10m-and-0-20m-above-sea-level-df-pop-lecz' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
               fontSize: '2.5rem',
@@ -392,7 +392,7 @@ export default function TestScroll() {
            headerSecondLine="So is human impact."
                      text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
           chartComponent={<NewChartComponent />}
-          caption="<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023."
+          caption="<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
            styles={{
              header: {
                fontSize: '2.5rem',
