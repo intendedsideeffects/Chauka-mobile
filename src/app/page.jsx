@@ -287,9 +287,23 @@ export default function TestScroll() {
         }}>4</div>
         <SegmentTemplate 
           header="Sea levels are rising everywhere,"
-          headerSecondLine="but they are rising faster across the Pacific."
+          headerSecondLine="fastest across the Pacific."
           text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
           chartComponent={<SeaLevelRiseChart />}
+          caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            },
+            headerSecondLine: {
+              fontSize: '3rem',
+              fontWeight: 'bold',
+              fontFamily: 'Times New Roman, serif',
+              fontStyle: 'italic'
+            }
+          }}
         />
       </div>
 
@@ -306,10 +320,24 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>5</div>
                          <SegmentTemplate 
-          header="Flooding is more frequent and severe"
-          headerSecondLine="where land lies just above the tide."
+          header="Impact varies across Pacific islands"
+          headerSecondLine="exposure isn't equal."
           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
           chartComponent={<HighestElevationChart />}
+          caption="<strong>Fig 3:</strong> Maximum elevation of selected Pacific Island nations and territories."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            },
+            headerSecondLine: {
+              fontSize: '3rem',
+              fontWeight: 'bold',
+              fontFamily: 'Times New Roman, serif',
+              fontStyle: 'italic'
+            }
+          }}
         />
       </div>
 
@@ -326,10 +354,24 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>6</div>
         <SegmentTemplate 
-          header="Many islanders live below five meters,"
-          headerSecondLine="leaving little buffer as the ocean rises."
+          header="Many islanders live just above sea level,"
+          headerSecondLine="where sea rise is already felt."
           text="Many Pacific Island nations have significant populations living in low-lying coastal areas. These communities are particularly vulnerable to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
           chartComponent={<LowElevationChart />}
+          caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            },
+            headerSecondLine: {
+              fontSize: '3rem',
+              fontWeight: 'bold',
+              fontFamily: 'Times New Roman, serif',
+              fontStyle: 'italic'
+            }
+          }}
         />
       </div>
 
@@ -346,30 +388,28 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>7</div>
                  <SegmentTemplate 
-           header="Exposure on the Rise"
-           text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
-           chartComponent={<NewChartComponent />}
+           header="Climate risks are rising in the Pacific."
+           headerSecondLine="So is human impact."
+                     text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
+          chartComponent={<NewChartComponent />}
+          caption="<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023."
+           styles={{
+             header: {
+               fontSize: '2.5rem',
+               fontWeight: 'normal',
+               fontFamily: 'Helvetica World, Arial, sans-serif'
+             },
+             headerSecondLine: {
+               fontSize: '3rem',
+               fontWeight: 'bold',
+               fontFamily: 'Times New Roman, serif',
+               fontStyle: 'italic'
+             }
+           }}
          />
       </div>
 
-      {/* New Segment 8 */}
-      <div style={{position: 'relative'}}>
-        <div style={{
-          position: 'absolute',
-          top: 20,
-          left: 20,
-          fontSize: '5rem',
-          color: 'rgba(0,0,0,0.10)',
-          fontWeight: 900,
-          zIndex: 2000,
-          pointerEvents: 'none',
-        }}>8</div>
-        <SegmentTemplate 
-          header="Disaster Types in the Pacific"
-          text="The Pacific region faces diverse natural disasters, each with varying frequency and impact. This visualization shows the distribution of different disaster types recorded across Pacific nations, revealing patterns in climate-related events and their prevalence."
-          chartComponent={<DisasterVoronoiChart />}
-        />
-      </div>
+
 
              {/* Segment 9 */}
        <div style={{position: 'relative'}}>
@@ -386,6 +426,13 @@ export default function TestScroll() {
                          <SegmentTemplate
           header="A Century of Disruptions, Warnings and Resistance"
           text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            }
+          }}
         />
       </div>
 
