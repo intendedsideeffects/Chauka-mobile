@@ -204,8 +204,9 @@ const SeaLevelRiseChart = () => {
 
                              <div className="relative" style={{ width: '100%', height: '100%' }}>
                    {/* Global sea level rise annotation */}
-                   <div className="absolute -left-56 z-30" style={{ 
-                      top: `${350 - (currentGlobalRise / 1.0) * 280}px`
+                   <div className="absolute z-30" style={{ 
+                      top: `${350 - (currentGlobalRise / 1.0) * 280 - 8}px`,
+                      left: '-200px'
                    }}>
                      <div className="text-sm text-gray-600 font-medium text-right">
                        Global Sea Level Rise: {currentGlobalRise.toFixed(2)}M
@@ -240,21 +241,23 @@ const SeaLevelRiseChart = () => {
                      <div className="absolute left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20"
                           style={{ 
                             top: item.country === "Marshall Islands" || item.country === "Cook Islands" 
-                              ? '-70px' 
+                              ? '-60px' 
                               : '-50px',
                             textAlign: 'center',
                             lineHeight: item.country === "Marshall Islands" || item.country === "Cook Islands" 
-                              ? '0.8' 
-                              : 'normal'
+                              ? '1.1' 
+                              : 'normal',
+                            color: '#9ca3af',
+                            fontSize: '0.875rem'
                           }}>
                        {item.country}
                      </div>
                      <div className="absolute left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20"
                           style={{ 
-                            top: item.country === "Marshall Islands" || item.country === "Cook Islands" 
-                              ? '-38px' 
-                              : '-28px',
-                            textAlign: 'center'
+                            top: '-28px',
+                            textAlign: 'center',
+                            color: '#000000',
+                            fontSize: '1rem'
                           }}>
                        {item.selectedValue.toFixed(2)}M
                      </div>
