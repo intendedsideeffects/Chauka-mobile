@@ -4,6 +4,7 @@ import React from 'react';
 
 const SegmentTemplate = ({
   header = "Sample Header",
+  headerSecondLine = "", // New prop for second line
   text = "This is sample text content that demonstrates the formatting. It can include <strong>bold text</strong> and other HTML elements.",
   chartComponent = null, // This will be the actual chart component when ready
   styles = {}
@@ -27,7 +28,7 @@ const SegmentTemplate = ({
          fontSize: '1.5rem',
          maxWidth: '700px',
          textAlign: 'left',
-         fontFamily: 'Arial, Helvetica, sans-serif',
+         fontFamily: 'Helvetica World, Arial, sans-serif',
          fontWeight: 400,
          lineHeight: 1.5,
          zIndex: 2,
@@ -45,13 +46,26 @@ const SegmentTemplate = ({
          color: '#000',
          marginBottom: '0',
          textAlign: 'left',
-         marginTop: '5rem'
+         marginTop: '5rem',
+         fontFamily: 'Helvetica World, Arial, sans-serif',
+         lineHeight: '1.1'
+       },
+       headerSecondLine: {
+         fontSize: '2.5rem',
+         fontWeight: 'normal',
+         color: '#000',
+         marginBottom: '0',
+         textAlign: 'left',
+         marginTop: '0',
+         fontFamily: 'Times New Roman, serif',
+         lineHeight: '1.1'
        },
     text: {
       fontSize: '1.4rem',
       color: '#000',
       marginBottom: '2rem',
-      lineHeight: 1.5
+      lineHeight: 1.5,
+      fontFamily: 'Helvetica World, Arial, sans-serif'
     },
                                                                                                                                                                                    chartContainer: {
          width: '100%',
@@ -93,6 +107,7 @@ const SegmentTemplate = ({
     container: { ...defaultStyles.container, ...styles.container },
     contentWrapper: { ...defaultStyles.contentWrapper, ...styles.contentWrapper },
     header: { ...defaultStyles.header, ...styles.header },
+    headerSecondLine: { ...defaultStyles.headerSecondLine, ...styles.headerSecondLine },
     text: { ...defaultStyles.text, ...styles.text },
     chartContainer: { ...defaultStyles.chartContainer, ...styles.chartContainer },
     placeholderChart: { ...defaultStyles.placeholderChart, ...styles.placeholderChart }
@@ -118,6 +133,7 @@ const SegmentTemplate = ({
              textAlign: 'left'
            }}>
              <h1 style={mergedStyles.header}>{header}</h1>
+             <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>
            </div>
           
                      {/* Text content */}

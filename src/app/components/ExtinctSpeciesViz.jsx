@@ -24,23 +24,25 @@ const ExtinctSpeciesViz = () => {
     try {
       const { data: stories, error } = await supabase.from('ocean_stories').select('*');
       if (error) throw error;
-      // Map stories to scatterplot points
-      const points = (stories || []).map((row) => {
-        const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
-        return {
-          x: Math.random() * STATUS_WIDTH - STATUS_WIDTH / 2 + (Math.random() - 0.5) * 100,
-          y: year !== null ? getYearPosition(year) : null,
-          disaster_type: row.disaster_type,
-          country: row.country,
-          start_year: year,
-          summary: row.summary,
-          total_affected: row.total_affected ? Number(row.total_affected) : 0,
-          total_injured: row.total_injured ? Number(row.total_injured) : 0,
-          total_homeless: row.total_homeless ? Number(row.total_homeless) : 0,
-          total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
-        };
-      });
-      console.log('Scatterplot points:', points);
+      // Map stories to scatterplot points and filter for flooding only
+      const points = (stories || [])
+        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood'))
+        .map((row) => {
+          const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
+          return {
+            x: Math.random() * STATUS_WIDTH - STATUS_WIDTH / 2 + (Math.random() - 0.5) * 100,
+            y: year !== null ? getYearPosition(year) : null,
+            disaster_type: row.disaster_type,
+            country: row.country,
+            start_year: year,
+            summary: row.summary,
+            total_affected: row.total_affected ? Number(row.total_affected) : 0,
+            total_injured: row.total_injured ? Number(row.total_injured) : 0,
+            total_homeless: row.total_homeless ? Number(row.total_homeless) : 0,
+            total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
+          };
+        });
+      console.log('Scatterplot points (flooding only):', points);
       setData(points);
       // Timeline marks (every 100 years)
       const timelineMarks = [];
