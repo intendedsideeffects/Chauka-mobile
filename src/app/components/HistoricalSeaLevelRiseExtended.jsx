@@ -23,6 +23,78 @@ const HistoricalSeaLevelRiseExtended = () => {
     return result;
   };
 
+  // Function to generate projected data
+  const generateProjection = (lastDataPoint, endYear = 2050) => {
+    const projection = [];
+    const lastYear = lastDataPoint.year;
+    const lastValue = lastDataPoint.value;
+    const targetValue = lastValue + 25; // Exactly 25cm higher by 2050
+    
+    // Calculate the rate needed to reach 25cm by 2050
+    const yearsDiff = endYear - lastYear;
+    const rateOfChange = 25 / yearsDiff; // cm per year
+    
+    console.log('Projection details:', {
+      lastYear,
+      lastValue,
+      endYear,
+      targetValue,
+      yearsDiff,
+      rateOfChange
+    });
+    
+    // Generate projection points every 1 year for smooth line
+    for (let year = lastYear + 1; year <= endYear; year++) {
+      const yearsFromStart = year - lastYear;
+      const projectedValue = lastValue + (rateOfChange * yearsFromStart);
+      projection.push({
+        year: year,
+        value: projectedValue,
+        isProjection: true
+      });
+    }
+    
+    console.log('Projection points:', projection.length, 'Final value:', projection[projection.length - 1]?.value);
+    
+    return projection;
+  };
+
+  // Function to calculate projection positioning
+  const calculateProjectionPosition = () => {
+    if (!data.combined || data.combined.length === 0) return null;
+    
+    // Use the last point from satellite data (blue line) instead of combined data
+    const satelliteData = data.combined.filter(d => d.year >= 1993);
+    const lastPoint = satelliteData[satelliteData.length - 1];
+    const lastValue = lastPoint.value;
+    const targetValue = lastValue + 25; // 25cm higher
+    
+    // Chart coordinate system (from Recharts)
+    const chartWidth = 800; // Approximate chart width in pixels
+    const chartHeight = 360; // Chart height in pixels
+    const yRange = 10 - (-20); // 30 units (cm)
+    
+    // Calculate the actual pixel positions based on chart coordinates
+    // Start 19cm to the right of chart edge
+    const startX = chartWidth + 190; // Start 190px (19cm) to the right of chart edge
+    const startY = chartHeight - ((lastValue - (-20)) / yRange) * chartHeight;
+    
+    // End point: 25cm higher than start, almost vertical
+    const endX = startX + 30; // Just 30px (3cm) to the right of start point
+    const endY = chartHeight - ((targetValue - (-20)) / yRange) * chartHeight;
+    
+    console.log('Projection calculation:', {
+      lastValue,
+      targetValue,
+      startY,
+      endY,
+      chartHeight,
+      yRange
+    });
+    
+    return { startX, startY, endX, endY };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -74,6 +146,10 @@ const HistoricalSeaLevelRiseExtended = () => {
         // Combine both datasets
         const combinedData = [...historicalData, ...satelliteData];
         
+        // Generate projection data
+        const lastDataPoint = combinedData[combinedData.length - 1];
+        const projectionData = generateProjection(lastDataPoint, 2100);
+        
         // Create separate datasets for different colors
         const historicalLineData = historicalData;
         const satelliteLineData = satelliteData;
@@ -85,8 +161,15 @@ const HistoricalSeaLevelRiseExtended = () => {
         console.log('Data range:', { minValue, maxValue, dataPoints: combinedData.length });
         console.log('Historical data points:', historicalData.length);
         console.log('Satellite data points:', satelliteData.length);
+        console.log('Projection data points:', projectionData.length);
         
-        setData({ combined: combinedData, historical: historicalLineData, satellite: satelliteLineData });
+        setData({ 
+          combined: combinedData, 
+          historical: historicalLineData, 
+          satellite: satelliteLineData,
+          projection: projectionData,
+          allData: [...combinedData, ...projectionData]
+        });
         setLoading(false);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -105,8 +188,10 @@ const HistoricalSeaLevelRiseExtended = () => {
     );
   }
 
+  const projectionPos = calculateProjectionPosition();
+
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'auto', zIndex: 1000 }}>
+    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'auto', zIndex: 1000, position: 'relative', overflow: 'visible' }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data.combined} margin={{ left: 20, right: 20, top: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
@@ -114,7 +199,7 @@ const HistoricalSeaLevelRiseExtended = () => {
             dataKey="year"
             type="number"
             domain={[1000, 2024]}
-            ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]}
+            ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024]}
             style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
           />
           <YAxis 
@@ -128,25 +213,26 @@ const HistoricalSeaLevelRiseExtended = () => {
           />
           <Tooltip 
             formatter={(value, name, props) => {
-              // Show tooltip for all data points
-              console.log('Tooltip triggered:', { value, name, props });
-              return [`${value.toFixed(2)}cm`, 'Global Sea Level'];
+              const isProjection = props.payload?.isProjection;
+              const label = isProjection ? 'Projected Sea Level' : 'Global Sea Level';
+              return [`${value.toFixed(2)}cm`, label];
             }}
             labelFormatter={(label) => `Year: ${Math.floor(label)}`}
             contentStyle={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
             cursor={{ strokeDasharray: '3 3' }}
           />
-          {/* Single continuous line with color change at 1993 */}
+          {/* Historical data line - only within original boundaries */}
           <Line 
             type="monotone" 
             dataKey="value" 
+            data={data.combined}
             stroke="#000000" 
             strokeWidth={2}
             dot={false}
             connectNulls={true}
             name="seaLevel"
           />
-          {/* Blue overlay for 1993 onwards */}
+          {/* Blue overlay for 1993 onwards - only within original boundaries */}
           <Line 
             type="monotone" 
             dataKey="value" 
@@ -161,6 +247,58 @@ const HistoricalSeaLevelRiseExtended = () => {
           <ReferenceLine y={0} stroke="#666666" strokeDasharray="3 3" />
         </LineChart>
       </ResponsiveContainer>
+      
+      {/* Projection overlay that extends beyond chart boundaries */}
+      {data.projection && data.projection.length > 0 && (
+        <div style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px',
+          width: 'calc(100% - 40px)',
+          height: 'calc(100% - 40px)',
+          pointerEvents: 'none',
+          zIndex: 10,
+          overflow: 'visible'
+        }}>
+          <svg width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible' }}>
+            <defs>
+              <linearGradient id="projectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#0066cc', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#0066cc', stopOpacity: 0.8 }} />
+              </linearGradient>
+            </defs>
+            
+            {/* Projection line that extends beyond chart boundaries */}
+            <path
+              d={(() => {
+                if (!data.projection || data.projection.length < 2) return '';
+                
+                const chartWidth = 800; // Approximate chart width
+                const chartHeight = 360; // Chart height
+                const yRange = 10 - (-20); // 30 units
+                
+                // Use the last point from satellite data (blue line) instead of combined data
+                const satelliteData = data.combined.filter(d => d.year >= 1993);
+                const lastPoint = satelliteData[satelliteData.length - 1];
+                const startX = chartWidth + 209; // Start 209px (20.9cm) to the right of chart edge
+                const startY = chartHeight - ((lastPoint.value - (-20)) / yRange) * chartHeight;
+                
+                // End point: 22cm higher than start, almost vertical
+                const endX = startX + 30; // Just 30px (3cm) to the right of start point
+                const endY = startY - ((22 / yRange) * chartHeight); // 22cm higher than start
+                
+                // Simple straight line from start to end
+                return `M ${startX} ${startY} L ${endX} ${endY}`;
+              })()}
+              stroke="url(#projectionGradient)"
+              strokeWidth="3"
+              fill="none"
+              strokeDasharray="5 5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+      )}
     </div>
   );
 };
