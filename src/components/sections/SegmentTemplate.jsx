@@ -7,6 +7,7 @@ const SegmentTemplate = ({
   headerSecondLine = "", // New prop for second line
   text = "This is sample text content that demonstrates the formatting. It can include <strong>bold text</strong> and other HTML elements.",
   chartComponent = null, // This will be the actual chart component when ready
+  caption = "Fig 1: This is blablabla", // New prop for figure caption
   styles = {}
 }) => {
   const defaultStyles = {
@@ -136,7 +137,7 @@ const SegmentTemplate = ({
              <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>
            </div>
           
-                     {/* Text content */}
+          {/* Text content */}
            <div style={{
              width: '100%',
              maxWidth: '800px',
@@ -164,24 +165,24 @@ const SegmentTemplate = ({
                 Chart Placeholder - Replace with actual chart component
               </div>
                          )}
-             
-                           {/* Figure Caption Container */}
-              <div style={{
-                width: '100%',
-                maxWidth: '1050px',
-                textAlign: 'left',
-                marginTop: '1rem'
-              }}>
-               <p style={{
-                 fontSize: '0.9rem',
-                 color: '#9ca3af',
-                 fontStyle: 'italic',
-                 lineHeight: 1.4,
-                 margin: 0
-               }}>
-                 Fig 1: This is blablabla
-               </p>
-             </div>
+          </div>
+          
+          {/* Figure Caption - under chart but aligned with text width */}
+          <div style={{
+            width: '100%',
+            maxWidth: '800px',
+            textAlign: 'left',
+            marginTop: '1rem'
+          }}>
+            <p style={{
+              fontSize: '0.9rem',
+              color: '#9ca3af',
+              fontStyle: 'italic',
+              lineHeight: 1.4,
+              margin: 0
+            }}
+            dangerouslySetInnerHTML={{ __html: caption }}
+            />
           </div>
        </div>
      </section>

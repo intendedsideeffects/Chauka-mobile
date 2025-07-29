@@ -74,6 +74,10 @@ const HistoricalSeaLevelRiseExtended = () => {
         // Combine both datasets
         const combinedData = [...historicalData, ...satelliteData];
         
+        // Create separate datasets for different colors
+        const historicalLineData = historicalData;
+        const satelliteLineData = satelliteData;
+        
         // Log the data range for debugging
         const values = combinedData.map(d => d.value);
         const minValue = Math.min(...values);
@@ -82,7 +86,7 @@ const HistoricalSeaLevelRiseExtended = () => {
         console.log('Historical data points:', historicalData.length);
         console.log('Satellite data points:', satelliteData.length);
         
-        setData(combinedData);
+        setData({ combined: combinedData, historical: historicalLineData, satellite: satelliteLineData });
         setLoading(false);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -104,10 +108,10 @@ const HistoricalSeaLevelRiseExtended = () => {
   return (
     <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'auto', zIndex: 1000 }}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ left: 20, right: 20, top: 20, bottom: 20 }}>
+        <LineChart data={data.combined} margin={{ left: 20, right: 20, top: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
           <XAxis 
-            dataKey="year" 
+            dataKey="year"
             type="number"
             domain={[1000, 2024]}
             ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]}
@@ -118,8 +122,8 @@ const HistoricalSeaLevelRiseExtended = () => {
             width={60} 
             tickLine={false}
             style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            label={{ value: 'Sea Level (cm)', angle: -90, position: 'insideLeft', style: { fontFamily: 'Helvetica World, Arial, sans-serif' } }}
-            domain={['dataMin - 5', 'dataMax + 5']}
+            domain={[-20, 10]}
+            ticks={[-20, -10, 0, 10]}
             tickFormatter={(value) => Math.round(value)}
           />
           <Tooltip 
@@ -130,7 +134,7 @@ const HistoricalSeaLevelRiseExtended = () => {
             labelFormatter={(label) => `Year: ${Math.floor(label)}`}
             contentStyle={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
           />
-          {/* Raw data line */}
+          {/* Single continuous line with color change at 1993 */}
           <Line 
             type="monotone" 
             dataKey="value" 
@@ -138,6 +142,18 @@ const HistoricalSeaLevelRiseExtended = () => {
             strokeWidth={2}
             dot={false}
             connectNulls={true}
+            name="seaLevel"
+          />
+          {/* Blue overlay for 1993 onwards to make connector blue */}
+          <Line 
+            type="monotone" 
+            dataKey="value" 
+            data={data.combined.filter(d => d.year >= 1993)}
+            stroke="#0066cc" 
+            strokeWidth={2}
+            dot={false}
+            connectNulls={true}
+            name="satellite"
           />
           {/* Zero reference line */}
           <ReferenceLine y={0} stroke="#666666" strokeDasharray="3 3" />

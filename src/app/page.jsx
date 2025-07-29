@@ -6,7 +6,7 @@ import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import TitleSection from '../components/sections/TitleSection';
 import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
-import HistoricalSeaLevelRise from './components/HistoricalSeaLevelRise';
+import HistoricalSeaLevelRiseExtended from './components/HistoricalSeaLevelRiseExtended';
 import NewChartComponent from './components/NewChartComponent';
 import HighestElevationChart from './components/HighestElevationChart';
 import LowElevationChart from './components/LowElevationChart';
@@ -255,7 +255,8 @@ export default function TestScroll() {
           header="Sea levels were steady for centuries,"
           headerSecondLine="until now."
           text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
-          chartComponent={<HistoricalSeaLevelRise />}
+          chartComponent={<HistoricalSeaLevelRiseExtended />}
+          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present. Data: Kopp et al. (2016) <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
         />
       </div>
 
