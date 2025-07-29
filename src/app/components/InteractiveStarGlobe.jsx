@@ -76,7 +76,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       fadeFactor: 2.0
     };
 
-    const radius = 100; // Reduced radius to make constellations more visible
+    const radius = 150; // Increased radius to make star map bigger
 
     // Function to convert B-V color index to RGB color
     function bvToColor(bv, brightness) {
