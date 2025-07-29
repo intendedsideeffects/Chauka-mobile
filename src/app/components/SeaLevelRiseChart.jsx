@@ -237,7 +237,25 @@ const SeaLevelRiseChart = () => {
                       />
                     
                      {/* Value label */}
-                     <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20">
+                     <div className="absolute left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20"
+                          style={{ 
+                            top: item.country === "Marshall Islands" || item.country === "Cook Islands" 
+                              ? '-70px' 
+                              : '-50px',
+                            textAlign: 'center',
+                            lineHeight: item.country === "Marshall Islands" || item.country === "Cook Islands" 
+                              ? '0.8' 
+                              : 'normal'
+                          }}>
+                       {item.country}
+                     </div>
+                     <div className="absolute left-1/2 transform -translate-x-1/2 text-base text-gray-700 z-20"
+                          style={{ 
+                            top: item.country === "Marshall Islands" || item.country === "Cook Islands" 
+                              ? '-38px' 
+                              : '-28px',
+                            textAlign: 'center'
+                          }}>
                        {item.selectedValue.toFixed(2)}M
                      </div>
                 </div>
@@ -245,16 +263,7 @@ const SeaLevelRiseChart = () => {
             ))}
         </div>
         
-        {/* Country labels below the chart */}
-        <div className="flex justify-between mt-4">
-          {selectedData.map((item, index) => (
-            <div key={index} className="flex-1 mx-1">
-              <div className="text-sm font-medium text-gray-600 text-center leading-tight h-10 flex items-start justify-center">
-                {item.country}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Country labels below the chart - REMOVED since names are now above bars */}
              </div>
       </div>
     </div>
