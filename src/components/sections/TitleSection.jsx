@@ -35,18 +35,25 @@ const TitleSection = ({
       flexShrink: 0,
     },
     title: {
-      margin: '0',
       fontSize: '4rem',
-      fontWeight: 'bold',
+      fontWeight: 'normal', // Changed from 'bold' to 'normal'
       color: '#000',
-      fontFamily: 'Helvetica World, Arial, sans-serif'
+      marginBottom: '0',
+      textAlign: 'left', // Changed from 'center' to 'left'
+      marginTop: '0',
+      fontFamily: 'Helvetica World, Arial, sans-serif',
+      lineHeight: '1'
     },
     titleSecondLine: {
       fontSize: '4rem',
-      fontStyle: 'italic',
+      fontWeight: 'bold', // Changed from 'normal' to 'bold'
       color: '#000',
-      fontFamily: 'Times New Roman, serif',
-      margin: '0'
+      marginBottom: '4rem',
+      textAlign: 'left', // Changed from 'center' to 'left'
+      marginTop: '0.1rem', // Reduced from '0.5rem' to '0.1rem' to bring lines closer
+      fontFamily: 'Times New Roman, serif', // Changed from Helvetica World to Times New Roman
+      fontStyle: 'italic', // Added italic style
+      lineHeight: '1'
     },
     subtitle: {
       marginBottom: '2rem',

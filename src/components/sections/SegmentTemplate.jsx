@@ -47,12 +47,12 @@ const SegmentTemplate = ({
          marginBottom: '0',
          textAlign: 'left',
          marginTop: '5rem',
-         fontFamily: 'Helvetica World, Arial, sans-serif',
+         fontFamily: 'Times New Roman, serif',
          lineHeight: '1.1'
        },
        headerSecondLine: {
          fontSize: '2.5rem',
-         fontWeight: 'normal',
+         fontWeight: 'bold',
          color: '#000',
          marginBottom: '0',
          textAlign: 'left',

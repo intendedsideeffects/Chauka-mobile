@@ -252,7 +252,8 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>3</div>
         <SegmentTemplate 
-          header="The Ocean is Changing"
+          header="Sea levels were steady for centuries,"
+          headerSecondLine="until now."
           text="As the planet warms, seawater expands and ice melts, pushing <strong>sea levels</strong> higher. Homes flood, freshwater becomes saline, and once-stable coastlines begin to vanish."
           chartComponent={<HistoricalSeaLevelRise />}
         />
@@ -291,7 +292,8 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>5</div>
                          <SegmentTemplate 
-          header="Not All Shorelines Are Equal"
+          header="Flooding is more frequent and severe"
+          headerSecondLine="where land lies just above the tide."
           text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
           chartComponent={<HighestElevationChart />}
         />
@@ -310,7 +312,8 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>6</div>
         <SegmentTemplate 
-          header="Population at Low Elevations"
+          header="Many islanders live below five meters,"
+          headerSecondLine="leaving little buffer as the ocean rises."
           text="Many Pacific Island nations have significant populations living in low-lying coastal areas. These communities are particularly vulnerable to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
           chartComponent={<LowElevationChart />}
         />
