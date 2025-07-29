@@ -231,8 +231,8 @@ export default function TestScroll() {
         left: '20px',
         width: 'calc(100vw - 40px)',
         height: '700vh', // 7 segments * 100vh each
-        zIndex: 1000, // Back in front
-        pointerEvents: 'auto', // Allow hovering over dots
+        zIndex: 100, // Very low z-index so it doesn't block interactions
+        pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
         opacity: 0.7 // More visible but still transparent
       }}>

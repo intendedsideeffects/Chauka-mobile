@@ -22,7 +22,7 @@ const SegmentTemplate = ({
          position: 'relative',
          scrollSnapAlign: 'start',
          borderBottom: '3px solid #9ca3af',
-         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
+         pointerEvents: 'auto', // Enable interactions
        },
                                        contentWrapper: {
          color: '#0e224f',
@@ -32,14 +32,14 @@ const SegmentTemplate = ({
          fontFamily: 'Helvetica World, Arial, sans-serif',
          fontWeight: 400,
          lineHeight: 1.5,
-         zIndex: 2,
+         zIndex: 1000, // Higher z-index to be above scatterplot
          position: 'absolute',
          top: '50%',
          left: '50%',
          transform: 'translate(-50%, -50%)',
          margin: '0 auto',
          flexShrink: 0,
-         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
+         pointerEvents: 'auto', // Enable interactions
        },
                                        header: {
          fontSize: '2.5rem',
@@ -68,24 +68,25 @@ const SegmentTemplate = ({
       lineHeight: 1.5,
       fontFamily: 'Helvetica World, Arial, sans-serif'
     },
-                                                                                                                                                                                   chartContainer: {
-         width: '100%',
-         maxWidth: '1050px',
-         marginTop: '0',
-         marginBottom: '2rem',
-         textAlign: 'center',
-         display: 'flex',
-         flexDirection: 'column',
-         alignItems: 'center',
-         justifyContent: 'center',
-         position: 'absolute',
-         top: 'calc(50% + 200px)',
-         left: '0',
-         right: '0',
-         margin: '0 auto',
-         transform: 'translateX(-2cm)',
-         pointerEvents: 'none', // Allow events to pass through to scatterplot behind
-       },
+                                                                                                                                                                                                                                                                                                                                                                       chartContainer: {
+          width: '100%',
+          maxWidth: '1050px',
+          marginTop: '0',
+          marginBottom: '2rem',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          top: 'calc(50% + 200px)',
+          left: '0',
+          right: '0',
+          margin: '0 auto',
+          transform: 'translateX(-2cm)',
+          pointerEvents: 'auto', // Enable interactions
+          zIndex: 1001, // Higher than scatterplot
+        },
                placeholderChart: {
              width: '100%',
              maxWidth: '1200px',
@@ -125,7 +126,9 @@ const SegmentTemplate = ({
           maxWidth: '1050px',
           margin: '0 auto',
           marginTop: '-50px',
-          gap: '2rem'
+          gap: '2rem',
+          zIndex: 1000,
+          position: 'relative'
         }}>
                                        {/* Header */}
            <div style={{
