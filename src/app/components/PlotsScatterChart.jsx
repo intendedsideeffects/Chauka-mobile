@@ -305,35 +305,34 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
-                    <XAxis
-                        type="number"
-                        dataKey="x"
-                        domain={[-STATUS_WIDTH / 2, STATUS_WIDTH / 2]}
-                        tickFormatter={(value) => Math.round(value)}
-                        hide
-                    />
-                    <YAxis
-                        type="number"
-                        dataKey="y"
-                        domain={[0, STATUS_HEIGHT]}
-                        orientation="right"
-                        ticks={yAxisTicks}
-                        tick={({ x, y, payload }) => {
-                            // payload.value is the y position, find its index
-                            const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
-                            const year = yAxisTickLabels[idx];
-                            return (
-                                <text
-                                    x={x + 8}
-                                    y={y + 4}
-                                    fontSize={16}
-                                    fill={'#000'}
-                                    textAnchor="start"
-                                >
-                                    {year || ''}
-                                </text>
-                            );
-                        }}
+                                         <XAxis
+                         type="number"
+                         dataKey="x"
+                         domain={[-STATUS_WIDTH / 2, STATUS_WIDTH / 2]}
+                         hide
+                     />
+                                                                                   <YAxis
+                          type="number"
+                          dataKey="y"
+                          domain={[0, STATUS_HEIGHT]}
+                          orientation="right"
+                          ticks={yAxisTicks}
+                                                     tick={({ x, y, payload }) => {
+                               // payload.value is the y position, find its index
+                               const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
+                               const year = yAxisTickLabels[idx];
+                               return (
+                                   <text
+                                       x={x - 8}
+                                       y={y + 4}
+                                       fontSize={16}
+                                       fill={'#000'}
+                                       textAnchor="end"
+                                   >
+                                       {year || ''}
+                                   </text>
+                               );
+                           }}
                         axisLine={(props) => {
                             // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
                             const yearMin = 1922;

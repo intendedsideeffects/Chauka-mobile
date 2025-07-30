@@ -62,7 +62,7 @@ const SegmentTemplate = ({
          lineHeight: '1.1'
        },
     text: {
-      fontSize: '1.4rem',
+      fontSize: '1.3rem',
       color: '#000',
       marginBottom: '2rem',
       lineHeight: 1.5,

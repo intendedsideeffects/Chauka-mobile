@@ -78,27 +78,7 @@ const SeaLevelRiseChart = () => {
                                                                                                                         {/* Controls - Scattered in top-right corner of page */}
                   <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
                    
-                                     {/* Select Parameter Image */}
-                   <div 
-                     className="absolute"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     style={{
-                        ...BUTTON_POSITIONS.SELECT_PARAMETER,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                   >
-                                         <img 
-                       src="/selectparameter.png" 
-                       alt="Select Parameter"
-                       style={{
-                         width: '100%',
-                         height: '100%',
-                         objectFit: 'contain',
-                         transform: 'rotate(-20deg)'
-                       }}
-                     />
-                  </div>                                     
+                                                                          
                                                                                                                                                                                                                                                                                                      {/* 2°C Button - positioned randomly in top-right */}
                       <div 
                         className="absolute"
@@ -111,17 +91,15 @@ const SeaLevelRiseChart = () => {
                         }}
                         onClick={() => setSelectedDegree('2')}
                       >
-                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                    <defs>
-                      <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
-                    </defs>
-                    <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#d3d3d3"} />
-                    <text fill={selectedDegree === '2' ? "#000" : "#666"} fontSize="12" fontWeight="bold" letterSpacing="0.08em">
-                      <textPath xlinkHref="#circlePath2C" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                        2°C
-                      </textPath>
-                    </text>
-                  </svg>
+                                     <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                     <defs>
+                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                     </defs>
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '2' ? "#000" : "#d3d3d3"} strokeWidth="1" />
+                     <text fill={selectedDegree === '2' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
+                       2°C
+                     </text>
+                   </svg>
                 </div>
 
                                                                                                                                                                                                                                                                                                      {/* 4°C Button - positioned randomly in top-right */}
@@ -136,17 +114,15 @@ const SeaLevelRiseChart = () => {
                         }}
                         onClick={() => setSelectedDegree('4')}
                       >
-                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                    <defs>
-                      <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
-                    </defs>
-                    <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#d3d3d3"} />
-                    <text fill={selectedDegree === '4' ? "#000" : "#666"} fontSize="12" fontWeight="bold" letterSpacing="0.08em">
-                      <textPath xlinkHref="#circlePath4C" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                        4°C
-                      </textPath>
-                    </text>
-                  </svg>
+                                     <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                     <defs>
+                       <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                     </defs>
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '4' ? "#000" : "#d3d3d3"} strokeWidth="1" />
+                     <text fill={selectedDegree === '4' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
+                       4°C
+                     </text>
+                   </svg>
                 </div>
 
                                                                                                                                                                                                                                                                                {/* 2050 Button - positioned randomly in top-right */}
@@ -161,17 +137,15 @@ const SeaLevelRiseChart = () => {
                       }}
                       onClick={() => setSelectedYear('2050')}
                     >
-                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                    <defs>
-                      <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
-                    </defs>
-                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#d3d3d3"} />
-                    <text fill={selectedYear === '2050' ? "#000" : "#666"} fontSize="14" fontWeight="bold" letterSpacing="0.08em">
-                      <textPath xlinkHref="#circlePath2050" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                        2050
-                      </textPath>
-                    </text>
-                  </svg>
+                                     <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                     <defs>
+                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
+                     </defs>
+                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2050' ? "#000" : "#d3d3d3"} strokeWidth="1" />
+                     <text fill={selectedYear === '2050' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
+                       2050
+                     </text>
+                   </svg>
                 </div>
 
                                                                    {/* 2100 Button - positioned randomly in top-right */}
@@ -186,18 +160,31 @@ const SeaLevelRiseChart = () => {
                     }}
                     onClick={() => setSelectedYear('2100')}
                   >
-                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                    <defs>
-                      <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
-                    </defs>
-                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#d3d3d3"} />
-                    <text fill={selectedYear === '2100' ? "#000" : "#666"} fontSize="14" fontWeight="bold" letterSpacing="0.08em">
-                      <textPath xlinkHref="#circlePath2100" startOffset="0%" textAnchor="start" dominantBaseline="middle">
-                        2100
-                      </textPath>
-                    </text>
-                  </svg>
+                                     <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                     <defs>
+                       <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
+                     </defs>
+                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2100' ? "#000" : "#d3d3d3"} strokeWidth="1" />
+                     <text fill={selectedYear === '2100' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
+                       2100
+                     </text>
+                   </svg>
                 </div>
+                
+                                 {/* Simple rectangular buttons - HIDDEN FOR NOW */}
+                 {/* <div style={{
+                   display: 'flex',
+                   flexDirection: 'row',
+                   gap: '10px',
+                   justifyContent: 'center',
+                   marginTop: '20px',
+                   marginBottom: '20px'
+                 }}>
+                   <button>2°C</button>
+                   <button>4°C</button>
+                   <button>2050</button>
+                   <button>2100</button>
+                 </div> */}
               </div>
 
                                                            <div>
@@ -251,7 +238,7 @@ const SeaLevelRiseChart = () => {
                                                                               style={{ 
                                                                                 height: `${barHeight - globalLineHeight}px`,
                                                                                 minHeight: '0px',
-                                                                                width: '20px',
+                                                                                width: '25px',
                                                                                 position: 'absolute',
                                                                                 bottom: `${globalLineHeight}px`
                                                                               }}
@@ -262,7 +249,7 @@ const SeaLevelRiseChart = () => {
                                                                               style={{ 
                                                                                 height: `${globalLineHeight}px`,
                                                                                 minHeight: '30px',
-                                                                                width: '20px'
+                                                                                width: '25px'
                                                                               }}
                                                                             />
                                                                           </>
@@ -272,7 +259,7 @@ const SeaLevelRiseChart = () => {
                                                                             style={{ 
                                                                               height: `${barHeight}px`,
                                                                               minHeight: '30px',
-                                                                              width: '20px'
+                                                                              width: '25px'
                                                                             }}
                                                                           />
                                                                         )}
