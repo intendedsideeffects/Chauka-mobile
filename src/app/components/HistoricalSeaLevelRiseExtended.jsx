@@ -6,6 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const HistoricalSeaLevelRiseExtended = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [animationStep, setAnimationStep] = useState(0); // 0: historical, 1: satellite, 2: projection
 
   // Function to calculate moving average
   const calculateMovingAverage = (data, windowSize) => {
@@ -174,6 +175,10 @@ const HistoricalSeaLevelRiseExtended = () => {
           allData: allDataWithProjection
         });
         setLoading(false);
+        
+        // Start animation sequence
+        setTimeout(() => setAnimationStep(1), 1500); // Show satellite data after 1.5s
+        setTimeout(() => setAnimationStep(2), 3000); // Show projection after 3s
       } catch (error) {
         console.error('Error loading data:', error);
         setLoading(false);
@@ -228,6 +233,8 @@ const HistoricalSeaLevelRiseExtended = () => {
               domain={[1000, 2050]}
               ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024, 2050]}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+              allowDataOverflow={false}
+              scale="linear"
             />
             <YAxis 
               dx={-10} 
@@ -235,13 +242,15 @@ const HistoricalSeaLevelRiseExtended = () => {
               tickLine={false}
               axisLine={false}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-              domain={[-20, 10]}
-              ticks={[-20, -10, 0, 10]}
+              domain={[-20, 25]}
+              ticks={[-20, -10, 0, 10, 20, 25]}
               tickFormatter={(value) => Math.round(value)}
               hide={false}
+              allowDataOverflow={false}
+              scale="linear"
             />
             {/* Tooltip removed */}
-            {/* Historical data line */}
+            {/* Historical data line - always visible */}
             <Line 
               type="monotone" 
               dataKey="value" 
@@ -252,30 +261,107 @@ const HistoricalSeaLevelRiseExtended = () => {
               connectNulls={true}
               name="seaLevel"
             />
-            {/* Black overlay for 1993 onwards */}
-            <Line 
-              type="monotone" 
-              dataKey="value" 
-              data={data.combined.filter(d => d.year >= 1993)}
-              stroke="#000000" 
-              strokeWidth={2}
-              dot={false}
-              connectNulls={true}
-              name="satellite"
-            />
-            {/* Projection line */}
-            <Line 
-              type="monotone" 
-              dataKey="value" 
-              data={data.projection}
-              stroke="#0066cc" 
-              strokeWidth={3}
-              dot={false}
-              connectNulls={true}
-              name="projection"
-            />
+            
+            {/* Satellite data line - appears after animation step 1 */}
+            {animationStep >= 1 && (
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                data={data.combined.filter(d => d.year >= 1993)}
+                stroke="#000000" 
+                strokeWidth={2}
+                dot={false}
+                connectNulls={true}
+                name="satellite"
+              />
+            )}
+            
+            {/* Projection line - appears after animation step 2 */}
+            {animationStep >= 2 && (
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                data={data.projection}
+                stroke="#0066cc" 
+                strokeWidth={3}
+                dot={false}
+                connectNulls={true}
+                name="projection"
+              />
+            )}
             {/* Zero reference line removed - gridline at y=0 is sufficient */}
           </LineChart>
+          
+          {/* Blue dots at line ends */}
+          {animationStep >= 1 && data.combined && data.combined.length > 0 && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              pointerEvents: 'none',
+              zIndex: 1004
+            }}>
+              {/* Blue dot at end of satellite data */}
+              <div style={{
+                position: 'absolute',
+                width: '8px',
+                height: '8px',
+                backgroundColor: '#0066cc',
+                borderRadius: '50%',
+                top: `${(() => {
+                  const lastSatellitePoint = data.combined.filter(d => d.year >= 1993).slice(-1)[0];
+                  if (!lastSatellitePoint) return '50%';
+                  const chartHeight = 585;
+                  const yRange = 10 - (-20);
+                  return chartHeight - ((lastSatellitePoint.value - (-20)) / yRange) * chartHeight - 4;
+                })()}px`,
+                left: `${(() => {
+                  const lastSatellitePoint = data.combined.filter(d => d.year >= 1993).slice(-1)[0];
+                  if (!lastSatellitePoint) return '50%';
+                  const chartWidth = 800;
+                  const xRange = 2050 - 1000;
+                  return ((lastSatellitePoint.year - 1000) / xRange) * chartWidth - 4;
+                })()}px`
+              }} />
+            </div>
+          )}
+          
+          {animationStep >= 2 && data.projection && data.projection.length > 0 && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              pointerEvents: 'none',
+              zIndex: 1004
+            }}>
+              {/* Blue dot at end of projection line */}
+              <div style={{
+                position: 'absolute',
+                width: '8px',
+                height: '8px',
+                backgroundColor: '#0066cc',
+                borderRadius: '50%',
+                top: `${(() => {
+                  const lastProjectionPoint = data.projection.slice(-1)[0];
+                  if (!lastProjectionPoint) return '50%';
+                  const chartHeight = 585;
+                  const yRange = 10 - (-20);
+                  return chartHeight - ((lastProjectionPoint.value - (-20)) / yRange) * chartHeight - 4;
+                })()}px`,
+                left: `${(() => {
+                  const lastProjectionPoint = data.projection.slice(-1)[0];
+                  if (!lastProjectionPoint) return '50%';
+                  const chartWidth = 800;
+                  const xRange = 2050 - 1000;
+                  return ((lastProjectionPoint.year - 1000) / xRange) * chartWidth - 4;
+                })()}px`
+              }} />
+            </div>
+          )}
         </ResponsiveContainer>
 
 
