@@ -194,7 +194,7 @@ const HistoricalSeaLevelRiseExtended = () => {
     <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'auto', position: 'relative', overflow: 'visible' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data.combined} margin={{ left: 20, right: 20, top: 20, bottom: 20 }}>
+                      <LineChart data={data.combined} margin={{ left: -15, right: 20, top: 20, bottom: 20 }}>
             <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
             <XAxis 
               dataKey="year"

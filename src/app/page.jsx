@@ -176,8 +176,135 @@ export default function TestScroll() {
             objectFit: 'cover',
             zIndex: 3, // Above video and black bar
             pointerEvents: 'none',
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none'
           }}
         />
+        {/* Round Button with Text - Top of Video Section */}
+        <div style={{
+          position: 'absolute',
+          top: '33vh',
+          left: '33vw',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
+          {/* Circular Button with Directional Triangles */}
+          <div style={{
+            position: 'relative',
+            width: '35px',
+            height: '35px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            {/* Top Triangle */}
+            <div style={{
+              position: 'absolute',
+              top: '-12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '0',
+              height: '0',
+              borderLeft: '6px solid transparent',
+              borderRight: '6px solid transparent',
+              borderBottom: '8px solid #eba728',
+              zIndex: 11
+            }} />
+            
+            {/* Bottom Triangle */}
+            <div style={{
+              position: 'absolute',
+              bottom: '-12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '0',
+              height: '0',
+              borderLeft: '6px solid transparent',
+              borderRight: '6px solid transparent',
+              borderTop: '8px solid #eba728',
+              zIndex: 11
+            }} />
+            
+            {/* Left Triangle */}
+            <div style={{
+              position: 'absolute',
+              left: '-12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '0',
+              height: '0',
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent',
+              borderRight: '8px solid #eba728',
+              zIndex: 11
+            }} />
+            
+            {/* Right Triangle */}
+            <div style={{
+              position: 'absolute',
+              right: '-12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '0',
+              height: '0',
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent',
+              borderLeft: '8px solid #eba728',
+              zIndex: 11
+            }} />
+            
+            {/* Main Circular Button */}
+            <div
+              style={{
+                width: '35px',
+                height: '35px',
+                borderRadius: '50%',
+                background: '#eba728',
+                border: 'none',
+                cursor: 'grab',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '9px',
+                fontWeight: 'bold',
+                color: '#f4d47c',
+                fontFamily: 'Helvetica World, Arial, sans-serif',
+                boxShadow: '0 4px 12px rgba(235, 167, 40, 0.3)',
+                transition: 'all 0.3s ease',
+                zIndex: 10,
+                lineHeight: '1',
+                padding: '0',
+                pointerEvents: 'auto',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none',
+                textAlign: 'center'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = '#d49522';
+                e.target.style.transform = 'scale(1.1)';
+                e.target.style.cursor = 'grabbing';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = '#eba728';
+                e.target.style.transform = 'scale(1)';
+                e.target.style.cursor = 'grab';
+              }}
+            >
+              explore<br/>sky
+            </div>
+          </div>
+          
+
+        </div>
+
         {/* Audio buttons positioned relative to video section */}
         <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
           <YellowStarAudioPlayer />

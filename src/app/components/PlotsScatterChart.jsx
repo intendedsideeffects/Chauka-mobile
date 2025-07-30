@@ -44,6 +44,12 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const [isPurpleAudioPlaying, setIsPurpleAudioPlaying] = useState(false);
     const purpleDotAudio = useRef(null);
     const [memories, setMemories] = useState([]);
+    const [showYAxis, setShowYAxis] = useState(false);
+
+    // Debug: log when showYAxis changes
+    useEffect(() => {
+        console.log('showYAxis state changed to:', showYAxis);
+    }, [showYAxis]);
 
     useEffect(() => {
         const enableAudio = () => {
@@ -245,6 +251,59 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 }}
             />
             
+            {/* Y-Axis Background (shows only when y-axis is visible) */}
+            {showYAxis && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        width: '200px',
+                        height: '100%',
+                        background: 'rgba(0,102,204,0.5)',
+                        zIndex: 999,
+                        pointerEvents: 'none',
+                    }}
+                />
+            )}
+
+            {/* Y-Axis Toggle Button */}
+            <button
+                onClick={() => {
+                    console.log('Toggle clicked, current showYAxis:', showYAxis);
+                    setShowYAxis(!showYAxis);
+                }}
+                style={{
+                    position: 'absolute',
+                    right: '0px',
+                    top: '0px',
+                    background: showYAxis ? '#0066cc' : '#4a90e2',
+                    border: 'none',
+                    borderRadius: '0px',
+                    width: '20px',
+                    height: '100%',
+                    cursor: 'pointer',
+                    zIndex: 1001,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    color: 'white',
+                    boxShadow: 'none',
+                    transition: 'background-color 0.3s ease',
+                    pointerEvents: 'auto'
+                }}
+                onMouseEnter={(e) => {
+                    e.target.style.background = showYAxis ? '#0052a3' : '#357abd';
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.background = showYAxis ? '#0066cc' : '#4a90e2';
+                }}
+            >
+                {showYAxis ? '−' : '+'}
+            </button>
+
             {/* Custom tooltip for colored dots and memory dots */}
             {hoveredDot && hoveredDot.type === 'memory' && (
               console.log('Rendering tooltip for:', hoveredDot),
@@ -304,7 +363,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 <ScatterChart
                     key="main-scatter-chart"
                     style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
-                    margin={{ top: 113, right: 80, bottom: 113, left: 0 }}
+                    margin={{ top: 113, right: 80, bottom: 113, left: -50 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
@@ -315,73 +374,75 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                          hide
                      />
                           <YAxis
-                          type="number"
-                          dataKey="y"
-                          domain={[0, STATUS_HEIGHT]}
-                          orientation="right"
-                          ticks={yAxisTicks}
-                          position="right"
-                          offset={-40}  // Move axis 40px to the left
-                          tickLine={{ stroke: '#000', strokeWidth: 1 }}
-                          tickSize={6}
-                          tick={({ x, y, payload }) => {
-                            // payload.value is the y position, find its index
-                            const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
-                            const year = yAxisTickLabels[idx];
-                            return (
-                              <text
-                                x={x - 12}
-                                y={y + 4}
-                                fontSize={16}
-                                fill={'#000'}
-                                textAnchor="end"
-                              >
-                                {year || ''}
-                              </text>
-                            );
-                          }}
-                          axisLine={(props) => {
-                            // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
-                            const yearMin = 1900;
-                            const yearMax = 2025;
-                            const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
-                            return (
-                                <g>
-                                    {/* Black line from top to NOW */}
-                                    <line
-                                        x1={props.x}
-                                        y1={0}
-                                        x2={props.x}
-                                        y2={nowY}
-                                        stroke="#000"
-                                        strokeWidth={2}
-                                    />
-                                    {/* Yellow line from NOW to bottom */}
-                                    <line
-                                        x1={props.x}
-                                        y1={nowY}
-                                        x2={props.x}
-                                        y2={STATUS_HEIGHT}
-                                        stroke="#e0b800"
-                                        strokeWidth={2}
-                                    />
-                                    {/* Tick marks */}
-                                    {yAxisTicks.map((tick, i) => (
-                                        <line
-                                            key={tick}
-                                            x1={props.x}
-                                            y1={tick}
-                                            x2={props.x - 6}  // 6px tick length to the left
-                                            y2={tick}
-                                            stroke="#000"
-                                            strokeWidth={1}
-                                        />
-                                    ))}
-                                </g>
-                            );
-                        }}
-                        tickLine={false}  // Disable default tick marks
-                    />
+                            type="number"
+                            dataKey="y"
+                            domain={[0, STATUS_HEIGHT]}
+                            orientation="right"
+                            ticks={yAxisTicks}
+                            position="right"
+                            tickLine={{ stroke: '#000', strokeWidth: 1 }}
+                            tickSize={6}
+                            hide={!showYAxis}
+                            tick={({ x, y, payload }) => {
+                              console.log('YAxis tick rendering, showYAxis:', showYAxis);
+                              // payload.value is the y position, find its index
+                              const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
+                              const year = yAxisTickLabels[idx];
+                              return (
+                                <text
+                                  x={x - 12}
+                                  y={y + 4}
+                                  fontSize={16}
+                                  fill={'#000'}
+                                  textAnchor="end"
+                                >
+                                  {year || ''}
+                                </text>
+                              );
+                            }}
+                            axisLine={(props) => {
+                              console.log('YAxis axisLine rendering, showYAxis:', showYAxis);
+                              // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
+                              const yearMin = 1900;
+                              const yearMax = 2025;
+                              const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
+                              return (
+                                  <g>
+                                      {/* Black line from top to NOW */}
+                                      <line
+                                          x1={props.x}
+                                          y1={0}
+                                          x2={props.x}
+                                          y2={nowY}
+                                          stroke="#000"
+                                          strokeWidth={2}
+                                      />
+                                      {/* Yellow line from NOW to bottom */}
+                                      <line
+                                          x1={props.x}
+                                          y1={nowY}
+                                          x2={props.x}
+                                          y2={STATUS_HEIGHT}
+                                          stroke="#e0b800"
+                                          strokeWidth={2}
+                                      />
+                                      {/* Tick marks */}
+                                      {yAxisTicks.map((tick, i) => (
+                                          <line
+                                              key={tick}
+                                              x1={props.x}
+                                              y1={tick}
+                                              x2={props.x - 6}  // 6px tick length to the left
+                                              y2={tick}
+                                              stroke="#000"
+                                              strokeWidth={1}
+                                          />
+                                      ))}
+                                  </g>
+                              );
+                            }}
+                            tickLine={false}  // Disable default tick marks
+                          />
 
 
                     <Scatter

@@ -17,12 +17,13 @@ const SegmentTemplate = ({
          background: 'transparent',
          display: 'flex',
          flexDirection: 'column',
-         alignItems: 'center',
+         alignItems: 'flex-start',
          justifyContent: 'center',
          position: 'relative',
          scrollSnapAlign: 'start',
          borderBottom: '3px solid #9ca3af',
          pointerEvents: 'auto', // Enable interactions
+         paddingLeft: '4rem',
        },
                                        contentWrapper: {
          color: '#0e224f',
@@ -35,9 +36,9 @@ const SegmentTemplate = ({
          zIndex: 1000, // Higher z-index to be above scatterplot
          position: 'absolute',
          top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         margin: '0 auto',
+         left: '4rem',
+         transform: 'translateY(-50%)',
+         margin: '0',
          flexShrink: 0,
          pointerEvents: 'auto', // Enable interactions
        },
@@ -124,7 +125,9 @@ const SegmentTemplate = ({
           justifyContent: 'center',
           width: '100%',
           maxWidth: '1050px',
-          margin: '0 auto',
+           marginBottom: 0,
+           marginLeft: 'auto',
+           marginRight: 'auto',
           marginTop: '-50px',
           gap: '2rem',
           zIndex: 1000,
@@ -134,7 +137,8 @@ const SegmentTemplate = ({
            <div style={{
              width: '100%',
              maxWidth: '800px',
-             textAlign: 'left'
+             textAlign: 'left',
+             margin: '0 auto'
            }}>
              <h1 style={mergedStyles.header}>{header}</h1>
              <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>
@@ -144,7 +148,8 @@ const SegmentTemplate = ({
            <div style={{
              width: '100%',
              maxWidth: '800px',
-             textAlign: 'left'
+             textAlign: 'left',
+             margin: '0 auto'
            }}>
             <p 
               style={mergedStyles.text}
@@ -160,6 +165,11 @@ const SegmentTemplate = ({
              flexDirection: 'column',
              alignItems: 'center',
              justifyContent: 'center',
+                      marginTop: 0,
+                      marginBottom: 0,
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      padding: '20px',
            }}>
             {chartComponent ? (
               chartComponent

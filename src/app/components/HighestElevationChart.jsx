@@ -113,7 +113,7 @@ const HighestElevationChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={highestElevationData} 
-            margin={{ top: 80, right: 30, left: 20, bottom: 15 }}
+            margin={{ top: 80, right: 30, left: -40, bottom: 15 }}
             baseValue={0}
           >
             <XAxis 

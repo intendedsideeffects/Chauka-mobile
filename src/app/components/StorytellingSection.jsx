@@ -70,7 +70,7 @@ export default function StorytellingSection() {
               { year: 1900, extinct: 600 },
               { year: 2000, extinct: 1350 },
               { year: 2200, extinct: 6000 },
-            ]} margin={{ top: 20, right: 40, left: 0, bottom: 0 }}>
+            ]} margin={{ top: 20, right: 40, left: -60, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
               <XAxis dataKey="year" type="number" domain={[-5000, 2200]} tick={{ fill: '#222', fontSize: 16 }} />
               <YAxis domain={[0, 6000]} tick={{ fill: '#222', fontSize: 16 }} label={{ value: 'Extinct species', angle: -90, position: 'insideLeft', fill: '#222', fontSize: 16 }} />
@@ -87,7 +87,7 @@ export default function StorytellingSection() {
           A normal background extinction rate is 0.25 species per century. We are at 150-200 species per century.
         </h2>
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={extinctionRateData} margin={{ top: 40, right: 40, left: 0, bottom: 0 }}>
+          <LineChart data={extinctionRateData} margin={{ top: 40, right: 40, left: -60, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
             <XAxis dataKey="year" type="number" domain={[-5000, 2025]} tick={{ fill: '#222', fontSize: 16 }} />
             <YAxis domain={[0, 1000]} tick={{ fill: '#222', fontSize: 16 }} label={{ value: 'Extinction Rate', angle: -90, position: 'insideLeft', fill: '#222', fontSize: 16 }} />

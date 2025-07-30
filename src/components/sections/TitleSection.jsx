@@ -181,6 +181,62 @@ const TitleSection = ({
     <section style={mergedStyles.container}>
       {/* Left side - Text content */}
       <div style={mergedStyles.contentWrapper}>
+        {/* Round Button with Text - Above Title */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '2rem'
+        }}>
+          {/* Circular Button */}
+          <button
+            onClick={() => {
+              // Add your button action here
+              console.log('Button clicked');
+            }}
+            style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              background: '#0066cc',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: 'white',
+              boxShadow: '0 4px 12px rgba(0, 102, 204, 0.3)',
+              transition: 'all 0.3s ease',
+              zIndex: 10
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = '#0052a3';
+              e.target.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = '#0066cc';
+              e.target.style.transform = 'scale(1)';
+            }}
+          >
+            →
+          </button>
+          
+          {/* Text below button */}
+          <div style={{
+            fontSize: '12px',
+            fontWeight: 'bold',
+            color: '#0066cc',
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            fontFamily: 'Helvetica World, Arial, sans-serif'
+          }}>
+            EXPLORE
+          </div>
+        </div>
+
         {/* Title */}
         <div>
           <h1 style={mergedStyles.title}>Chauka</h1>
