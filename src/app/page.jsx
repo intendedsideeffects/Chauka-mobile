@@ -197,100 +197,56 @@ export default function TestScroll() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '10px'
-        }}>
+        }}
+        onMouseEnter={(e) => {
+          const popup = e.currentTarget.querySelector('.hover-popup');
+          if (popup) popup.style.display = 'block';
+        }}
+        onMouseLeave={(e) => {
+          const popup = e.currentTarget.querySelector('.hover-popup');
+          if (popup) popup.style.display = 'none';
+        }}
+        >
           {/* Circular Button with Directional Triangles */}
           <div style={{
             position: 'relative',
-            width: '35px',
-            height: '35px',
+            width: '45px',
+            height: '45px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            {/* Top Triangle */}
-            <div style={{
-              position: 'absolute',
-              top: '-12px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '0',
-              height: '0',
-              borderLeft: '6px solid transparent',
-              borderRight: '6px solid transparent',
-              borderBottom: '8px solid #eba728',
-              zIndex: 11
-            }} />
-            
-            {/* Bottom Triangle */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-12px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '0',
-              height: '0',
-              borderLeft: '6px solid transparent',
-              borderRight: '6px solid transparent',
-              borderTop: '8px solid #eba728',
-              zIndex: 11
-            }} />
-            
-            {/* Left Triangle */}
-            <div style={{
-              position: 'absolute',
-              left: '-12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '0',
-              height: '0',
-              borderTop: '6px solid transparent',
-              borderBottom: '6px solid transparent',
-              borderRight: '8px solid #eba728',
-              zIndex: 11
-            }} />
-            
-            {/* Right Triangle */}
-            <div style={{
-              position: 'absolute',
-              right: '-12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '0',
-              height: '0',
-              borderTop: '6px solid transparent',
-              borderBottom: '6px solid transparent',
-              borderLeft: '8px solid #eba728',
-              zIndex: 11
-            }} />
+                        {/* Triangles removed */}
             
             {/* Main Circular Button */}
-            <div
-              style={{
-                width: '35px',
-                height: '35px',
-                borderRadius: '50%',
-                background: '#eba728',
-                border: 'none',
-                cursor: 'grab',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '9px',
-                fontWeight: 'bold',
-                color: '#f4d47c',
-                fontFamily: 'Helvetica World, Arial, sans-serif',
-                boxShadow: '0 4px 12px rgba(235, 167, 40, 0.3)',
-                transition: 'all 0.3s ease',
-                zIndex: 10,
-                lineHeight: '1',
-                padding: '0',
-                pointerEvents: 'auto',
-                userSelect: 'none',
-                WebkitUserSelect: 'none',
-                MozUserSelect: 'none',
-                msUserSelect: 'none',
-                textAlign: 'center'
-              }}
+                              <div
+                    style={{
+                      width: '45px',
+                      height: '45px',
+                      borderRadius: '50%',
+                      background: '#eba728',
+                      border: 'none',
+                      cursor: 'grab',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '11px',
+                      fontWeight: 'bold',
+                      color: '#f4d47c',
+                      fontFamily: 'Helvetica World, Arial, sans-serif',
+                      boxShadow: '0 4px 12px rgba(235, 167, 40, 0.3)',
+                      transition: 'all 0.3s ease',
+                      zIndex: 10,
+                      lineHeight: '1',
+                      padding: '0',
+                      pointerEvents: 'auto',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      textAlign: 'center',
+                      opacity: 0.9
+                    }}
               onMouseEnter={(e) => {
                 e.target.style.background = '#d49522';
                 e.target.style.transform = 'scale(1.1)';
@@ -306,8 +262,49 @@ export default function TestScroll() {
             </div>
           </div>
           
-
+          {/* Hover Popup */}
+          <div 
+            className="hover-popup"
+            style={{
+              position: 'absolute',
+              top: '-80px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+              zIndex: 1001,
+              display: 'none',
+              pointerEvents: 'none',
+              maxWidth: '200px',
+              lineHeight: '1.4'
+            }}
+          >
+            Can you find the Southern Cross?<br/>
+            Explore the night sky by dragging.
+          </div>
         </div>
+
+        {/* Music Button on Canoe Area - Hidden for now */}
+        {/* <div style={{
+          position: 'absolute',
+          top: '60vh',
+          left: '70vw',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
+          <MusicAudioPlayer />
+        </div> */}
 
         {/* Audio buttons positioned relative to video section */}
         <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
@@ -890,28 +887,9 @@ function YellowStarAudioPlayer() {
             Click for story!
           </textPath>
         </text>
-        {!playing && (
-          <polygon points="145,140 165,150 145,160" fill="#a6b2d6" style={{ opacity: 1 }} />
-        )}
-        {playing && (
-          <g>
-            <rect x="142.5" y="141.5" width="6" height="15" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
-            <rect x="151.5" y="141.5" width="6" height="15" rx="1.5" fill="#a6b2d6" style={{ opacity: 1 }} />
-          </g>
-        )}
+        {/* Play/pause symbols hidden */}
               </svg>
-      <button onClick={() => {
-        if (audioElement) {
-          audioElement.currentTime = 0;
-          audioElement.pause();
-          setPlaying(false);
-        }
-      }} style={{ position: 'absolute', right: 18, bottom: 18, width: 44, height: 44, borderRadius: '50%', background: 'none', border: 'none', color: '#cad6fa', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 11, padding: 0 }}>
-        <svg width="44" height="44" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-          <circle cx="22" cy="22" r="17" fill="#cad6fa" />
-          <text x="22" y="25" textAnchor="middle" fill="#828eb0" fontSize="11" fontWeight="normal">reset</text>
-        </svg>
-      </button>
+      {/* Reset button removed */}
       {audioError && (
         <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '8px 16px', borderRadius: 8, zIndex: 20 }}>
           Audio failed to load.
@@ -1102,6 +1080,110 @@ function BirdAudioPlayer() {
           <g>
             <rect x="32.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
             <rect x="40.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
+          </g>
+        )}
+      </svg>
+    </div>
+  );
+}
+
+// Music Audio Player Component
+function MusicAudioPlayer() {
+  const [playing, setPlaying] = React.useState(false);
+  const [audioElement, setAudioElement] = React.useState(null);
+  const [audioLoaded, setAudioLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    const audio = new Audio();
+    audio.src = '/chaukasound.mp3'; // Using same audio for now, can be changed later
+    audio.volume = 0.4;
+    audio.loop = true;
+    audio.preload = 'metadata';
+    
+    audio.addEventListener('canplaythrough', () => {
+      setAudioLoaded(true);
+    });
+    
+    audio.addEventListener('error', (e) => {
+      console.error('Music audio error:', e);
+    });
+    
+    setAudioElement(audio);
+  }, []);
+
+  const handleToggle = async () => {
+    if (!audioElement) return;
+    
+    try {
+      if (playing) {
+        audioElement.pause();
+        setPlaying(false);
+      } else {
+        // Ensure audio is loaded before playing
+        if (audioElement.readyState < 2) {
+          await audioElement.load();
+        }
+        await audioElement.play();
+        setPlaying(true);
+      }
+    } catch (error) {
+      console.error('Error playing music audio:', error);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        width: '80px',
+        height: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#3d557a',
+        borderRadius: '50%',
+        cursor: 'pointer',
+        boxShadow: '0 4px 12px rgba(61, 85, 122, 0.3)',
+        transition: 'all 0.3s ease',
+        position: 'relative',
+      }}
+      onClick={handleToggle}
+      onMouseEnter={(e) => {
+        e.target.style.background = '#2a3f5f';
+        e.target.style.transform = 'scale(1.1)';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.background = '#3d557a';
+        e.target.style.transform = 'scale(1)';
+      }}
+      aria-label="Play or pause music"
+    >
+      {/* Text */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        color: 'white',
+        fontFamily: 'Helvetica World, Arial, sans-serif',
+        textAlign: 'center',
+        lineHeight: '1.2',
+        zIndex: 1,
+        pointerEvents: 'none'
+      }}>
+        Click for<br/>music!
+      </div>
+      
+      {/* Play/Pause Icon */}
+      <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 2 }}>
+        {!playing && (
+          <polygon points="35,30 50,40 35,50" fill="white" style={{ opacity: 0.8 }} />
+        )}
+        {playing && (
+          <g>
+            <rect x="32.5" y="31.5" width="4" height="16" rx="1" fill="white" style={{ opacity: 0.8 }} />
+            <rect x="40.5" y="31.5" width="4" height="16" rx="1" fill="white" style={{ opacity: 0.8 }} />
           </g>
         )}
       </svg>

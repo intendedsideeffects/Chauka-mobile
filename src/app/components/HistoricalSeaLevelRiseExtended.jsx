@@ -71,7 +71,7 @@ const HistoricalSeaLevelRiseExtended = () => {
     
     // Chart coordinate system (from Recharts)
     const chartWidth = 800; // Approximate chart width in pixels
-    const chartHeight = 360; // Chart height in pixels
+    const chartHeight = 585; // Chart height in pixels (665 - 80 for padding)
     const yRange = 10 - (-20); // 30 units (cm)
     
     // Calculate the actual pixel positions based on chart coordinates
@@ -148,11 +148,14 @@ const HistoricalSeaLevelRiseExtended = () => {
         
         // Generate projection data
         const lastDataPoint = combinedData[combinedData.length - 1];
-        const projectionData = generateProjection(lastDataPoint, 2100);
+        const projectionData = generateProjection(lastDataPoint, 2050);
         
         // Create separate datasets for different colors
         const historicalLineData = historicalData;
         const satelliteLineData = satelliteData;
+        
+        // Combine all data including projection for the main chart
+        const allDataWithProjection = [...combinedData, ...projectionData];
         
         // Log the data range for debugging
         const values = combinedData.map(d => d.value);
@@ -168,7 +171,7 @@ const HistoricalSeaLevelRiseExtended = () => {
           historical: historicalLineData, 
           satellite: satelliteLineData,
           projection: projectionData,
-          allData: [...combinedData, ...projectionData]
+          allData: allDataWithProjection
         });
         setLoading(false);
       } catch (error) {
@@ -191,37 +194,53 @@ const HistoricalSeaLevelRiseExtended = () => {
   const projectionPos = calculateProjectionPosition();
 
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', pointerEvents: 'auto', position: 'relative', overflow: 'visible' }}>
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div style={{ 
+      width: '100%', 
+      height: '665px', 
+      boxSizing: 'border-box', 
+      pointerEvents: 'auto', 
+      position: 'relative', 
+      overflow: 'visible',
+      marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
+      zIndex: 1002, // Higher than text content
+      border: 'none',
+      outline: 'none'
+    }}>
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: '100%',
+        border: 'none',
+        outline: 'none'
+      }}>
         <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={data.combined} margin={{ left: -15, right: 20, top: 20, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+          <LineChart data={data.allData} margin={{ left: -15, right: 0, top: 20, bottom: 20 }}>
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              horizontal={true} 
+              vertical={false}
+              horizontalPoints={[-20, -10]}
+              verticalPoints={[]}
+            />
             <XAxis 
               dataKey="year"
               type="number"
-              domain={[1000, 2024]}
-              ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024]}
+              domain={[1000, 2050]}
+              ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024, 2050]}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
             />
             <YAxis 
               dx={-10} 
               width={60} 
               tickLine={false}
+              axisLine={false}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
               domain={[-20, 10]}
               ticks={[-20, -10, 0, 10]}
               tickFormatter={(value) => Math.round(value)}
+              hide={false}
             />
-            <Tooltip 
-              formatter={(value, name, props) => {
-                const isProjection = props.payload?.isProjection;
-                const label = isProjection ? 'Projected Sea Level' : 'Global Sea Level';
-                return [`${value.toFixed(2)}cm`, label];
-              }}
-              labelFormatter={(label) => `Year: ${Math.floor(label)}`}
-              contentStyle={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-              cursor={{ strokeDasharray: '3 3' }}
-            />
+            {/* Tooltip removed */}
             {/* Historical data line */}
             <Line 
               type="monotone" 
@@ -244,12 +263,22 @@ const HistoricalSeaLevelRiseExtended = () => {
               connectNulls={true}
               name="satellite"
             />
-            {/* Zero reference line */}
-            <ReferenceLine y={0} stroke="#666666" strokeDasharray="3 3" />
+            {/* Projection line */}
+            <Line 
+              type="monotone" 
+              dataKey="value" 
+              data={data.projection}
+              stroke="#0066cc" 
+              strokeWidth={3}
+              dot={false}
+              connectNulls={true}
+              name="projection"
+            />
+            {/* Zero reference line removed - gridline at y=0 is sufficient */}
           </LineChart>
         </ResponsiveContainer>
 
-        {/* Projection line overlay */}
+        {/* Annotation text for projection */}
         {data.combined && data.combined.length > 0 && (
           <svg 
             style={{ 
@@ -262,34 +291,6 @@ const HistoricalSeaLevelRiseExtended = () => {
               pointerEvents: 'none'
             }}
           >
-            <defs>
-              <linearGradient id="projectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style={{ stopColor: '#0066cc', stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: '#0066cc', stopOpacity: 0.8 }} />
-              </linearGradient>
-            </defs>
-            
-            {/* Projection line */}
-            <path
-              d={(() => {
-                const chartWidth = 800;
-                const chartHeight = 360;
-                const yRange = 10 - (-20);
-                const satelliteData = data.combined.filter(d => d.year >= 1993);
-                const lastPoint = satelliteData[satelliteData.length - 1];
-                const startX = chartWidth + 209;
-                const startY = chartHeight - ((lastPoint.value - (-20)) / yRange) * chartHeight;
-                const endX = startX + 30;
-                const endY = startY - ((22 / yRange) * chartHeight);
-                return `M ${startX} ${startY} L ${endX} ${endY}`;
-              })()}
-              stroke="url(#projectionGradient)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="none"
-              strokeLinecap="round"
-            />
-            
             {/* Annotation text */}
             <text
               x={(() => {
@@ -298,7 +299,7 @@ const HistoricalSeaLevelRiseExtended = () => {
                 return startX + 40;
               })()}
               y={(() => {
-                const chartHeight = 360;
+                const chartHeight = 585; // Updated for new chart height (665 - 80 for padding)
                 const yRange = 10 - (-20);
                 const satelliteData = data.combined.filter(d => d.year >= 1993);
                 const lastPoint = satelliteData[satelliteData.length - 1];
