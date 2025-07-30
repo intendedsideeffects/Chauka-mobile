@@ -16,6 +16,7 @@ import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isOceanPlaying, setIsOceanPlaying] = useState(true);
+  const [videoError, setVideoError] = useState(false);
   const videoRef = useRef();
   const oceanVideoRef = useRef();
 
@@ -137,6 +138,17 @@ export default function TestScroll() {
           muted
           volume={0}
           playsInline
+          preload="auto"
+          onError={(e) => {
+            console.error('Ocean video failed to load:', e);
+            setVideoError(true);
+            // Hide video element if it fails to load
+            if (e.target) {
+              e.target.style.display = 'none';
+            }
+          }}
+          onLoadStart={() => console.log('Ocean video loading started')}
+          onCanPlay={() => console.log('Ocean video can play')}
           style={{
             position: 'absolute',
             left: 0,
@@ -150,6 +162,23 @@ export default function TestScroll() {
             maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
           }}
         />
+        {/* Fallback image if video fails to load */}
+        {videoError && (
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '15vh',
+              width: '100vw',
+              height: '85vh',
+              background: 'linear-gradient(to bottom, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%)',
+              zIndex: 2,
+              pointerEvents: 'none',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+              maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            }}
+          />
+        )}
         {/* Black bar between video and star globe */}
         <div
           style={{
@@ -1033,30 +1062,46 @@ function BlueCircleAudioPlayer() {
 function BirdAudioPlayer() {
   const [playing, setPlaying] = React.useState(false);
   const [audioElement, setAudioElement] = React.useState(null);
+  const [audioLoaded, setAudioLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    const audio = new Audio('/chaukasound.mp3');
+    const audio = new Audio();
+    audio.src = '/chaukasound.mp3';
     audio.volume = 0.3;
-    audio.preload = 'auto';
+    audio.preload = 'metadata';
+    
+    audio.addEventListener('canplaythrough', () => {
+      setAudioLoaded(true);
+    });
     
     audio.addEventListener('ended', () => {
       setPlaying(false);
     });
     
+    audio.addEventListener('error', (e) => {
+      console.error('Bird audio error:', e);
+    });
+    
     setAudioElement(audio);
   }, []);
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
     if (!audioElement) return;
     
-    if (playing) {
-      audioElement.pause();
-      setPlaying(false);
-    } else {
-      audioElement.play().catch(error => {
-        console.error('Error playing bird audio:', error);
-      });
-      setPlaying(true);
+    try {
+      if (playing) {
+        audioElement.pause();
+        setPlaying(false);
+      } else {
+        // Ensure audio is loaded before playing
+        if (audioElement.readyState < 2) {
+          await audioElement.load();
+        }
+        await audioElement.play();
+        setPlaying(true);
+      }
+    } catch (error) {
+      console.error('Error playing bird audio:', error);
     }
   };
 
