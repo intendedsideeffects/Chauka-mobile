@@ -930,11 +930,9 @@ function YellowStarAudioPlayer() {
   );
 }
 
-// Refactor BlueCircleAudioPlayer to use AudioPlayer
+// Blue Circle Audio Player Component
 function BlueCircleAudioPlayer() {
   const [playing, setPlaying] = React.useState(false);
-  const [audioLoaded, setAudioLoaded] = React.useState(false);
-  const [audioError, setAudioError] = React.useState(false);
   const [showButtons, setShowButtons] = React.useState(true);
   const [audioElement, setAudioElement] = React.useState(null);
 
@@ -946,39 +944,26 @@ function BlueCircleAudioPlayer() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleToggle = () => {
-    console.log('Blue button clicked!', { audioLoaded, audioError, audioElement, playing });
-    console.log('Blue audio element:', audioElement);
-    console.log('Blue audio readyState:', audioElement?.readyState);
-    console.log('Blue audio paused:', audioElement?.paused);
-    if (!audioElement) {
-      console.log('No blue audio element found');
-      return;
-    }
-    
-    // Try to play/pause regardless of loading state
-    if (audioElement) {
-      if (playing) {
-        console.log('Pausing blue audio');
-        audioElement.pause();
-      } else {
-        console.log('Playing blue audio');
-        audioElement.play().catch(error => {
-          console.error('Error playing blue audio:', error);
-        });
-      }
-    }
-  };
-
-  const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
-    console.log('Blue state change:', { newPlaying, newAudioLoaded, newAudioError });
-    setPlaying(newPlaying);
-    setAudioLoaded(newAudioLoaded);
-    setAudioError(newAudioError);
-  };
-
-  const handleAudioRef = (audio) => {
+  React.useEffect(() => {
+    const audio = new Audio('/oceansound.m4a');
+    audio.volume = 0.03;
+    audio.loop = true;
+    audio.preload = 'auto';
     setAudioElement(audio);
+  }, []);
+
+  const handleToggle = () => {
+    if (!audioElement) return;
+    
+    if (playing) {
+      audioElement.pause();
+      setPlaying(false);
+    } else {
+      audioElement.play().catch(error => {
+        console.error('Error playing ocean audio:', error);
+      });
+      setPlaying(true);
+    }
   };
 
   return (
@@ -1033,11 +1018,6 @@ function BlueCircleAudioPlayer() {
           </g>
         )}
       </svg>
-      {audioError && (
-        <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '8px 16px', borderRadius: 8, zIndex: 20 }}>
-          Audio failed to load.
-        </div>
-      )}
       <style>{`
         @keyframes pulse {
           0% { r: 36; opacity: 0.7; }
@@ -1052,40 +1032,32 @@ function BlueCircleAudioPlayer() {
 // Bird Audio Player Component
 function BirdAudioPlayer() {
   const [playing, setPlaying] = React.useState(false);
-  const [audioLoaded, setAudioLoaded] = React.useState(false);
-  const [audioError, setAudioError] = React.useState(false);
   const [audioElement, setAudioElement] = React.useState(null);
 
-  const handleToggle = () => {
-    console.log('Bird button clicked!', { audioLoaded, audioError, audioElement, playing });
-    if (!audioElement) {
-      console.log('No bird audio element found');
-      return;
-    }
+  React.useEffect(() => {
+    const audio = new Audio('/chaukasound.mp3');
+    audio.volume = 0.3;
+    audio.preload = 'auto';
     
-    // Try to play/pause regardless of loading state
-    if (audioElement) {
-      if (playing) {
-        console.log('Pausing bird audio');
-        audioElement.pause();
-      } else {
-        console.log('Playing bird audio');
-        audioElement.play().catch(error => {
-          console.error('Error playing bird audio:', error);
-        });
-      }
-    }
-  };
-
-  const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
-    console.log('Bird state change:', { newPlaying, newAudioLoaded, newAudioError });
-    setPlaying(newPlaying);
-    setAudioLoaded(newAudioLoaded);
-    setAudioError(newAudioError);
-  };
-
-  const handleAudioRef = (audio) => {
+    audio.addEventListener('ended', () => {
+      setPlaying(false);
+    });
+    
     setAudioElement(audio);
+  }, []);
+
+  const handleToggle = () => {
+    if (!audioElement) return;
+    
+    if (playing) {
+      audioElement.pause();
+      setPlaying(false);
+    } else {
+      audioElement.play().catch(error => {
+        console.error('Error playing bird audio:', error);
+      });
+      setPlaying(true);
+    }
   };
 
   return (
@@ -1102,7 +1074,6 @@ function BirdAudioPlayer() {
       onClick={handleToggle}
       aria-label="Play or pause Chauka call"
     >
-      {/* AudioPlayer removed to eliminate missing file error */}
       <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         {!playing && (
           <polygon points="35,30 50,40 35,50" fill="#676b8b" style={{ opacity: 0.8 }} />
@@ -1114,11 +1085,6 @@ function BirdAudioPlayer() {
           </g>
         )}
       </svg>
-      {audioError && (
-        <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '4px 8px', borderRadius: 4, zIndex: 20, fontSize: '10px' }}>
-          Audio failed to load.
-        </div>
-      )}
     </div>
   );
 }
