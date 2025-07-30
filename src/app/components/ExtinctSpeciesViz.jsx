@@ -74,7 +74,13 @@ const ExtinctSpeciesViz = () => {
   const visibleData = data;
 
   return (
-    <div ref={scatterSectionRef} style={{ width: '100vw', maxWidth: '100%', overflow: 'visible' }}>
+    <div ref={scatterSectionRef} style={{ 
+      width: '100vw', 
+      maxWidth: '100%', 
+      overflow: 'visible',
+      position: 'relative',
+      zIndex: 9999
+    }}>
       {isLoading ? (
         <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading chart data...</div>
       ) : (

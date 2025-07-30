@@ -161,11 +161,12 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             // console.log('Dot size for', d.disaster_type, d.country, 'affected:', d.total_affected, 'size:', size, 'y:', y);
             return {
                 ...d,
-                fill: '#d3d3d3', // very light grey
-                opacity: 0.6, // reduced opacity to make it lighter
+                fill: '#0066cc', // blue
+                opacity: 1, // full opacity
                 future: !!isFuture,
                 size,
-                x: Math.round(d.x),
+                // Spread dots to the sides, avoiding the center
+                x: Math.round(d.x < 0 ? d.x - 300 : d.x + 300),
                 y,
             };
         });
@@ -227,7 +228,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 position: 'relative',
                 backgroundColor: 'transparent',
                 color: 'black',
-                overflow: 'visible'
+                overflow: 'visible',
+                zIndex: 9999,
+                pointerEvents: 'none'
             }}>
             
             {/* Hidden audio element for purple dots */}
@@ -300,7 +303,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
                 <ScatterChart
                     key="main-scatter-chart"
-                    style={{ background: 'transparent', overflow: 'visible' }}
+                    style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
                     margin={{ top: 113, right: 0, bottom: 113, left: 0 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
@@ -308,7 +311,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                          <XAxis
                          type="number"
                          dataKey="x"
-                         domain={[-STATUS_WIDTH / 2, STATUS_WIDTH / 2]}
+                         domain={[-STATUS_WIDTH, STATUS_WIDTH]}
                          hide
                      />
                                                                                    <YAxis
@@ -413,16 +416,18 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     <Scatter
                         data={stabilizedVisibleData}
                         shape={(props) => (
-                            <FloatingDot
-                                cx={props.cx}
-                                cy={props.cy}
-                                r={props.payload.size}
-                                payload={props.payload}
-                                fill={props.payload.fill}
-                                opacity={props.payload.opacity}
-                                onMouseEnter={() => handleMouseEnter(props.payload)}
-                                onMouseLeave={() => handleMouseLeave(props.payload)}
-                            />
+                            <g style={{ pointerEvents: 'auto' }}>
+                                <FloatingDot
+                                    cx={props.cx}
+                                    cy={props.cy}
+                                    r={props.payload.size}
+                                    payload={props.payload}
+                                    fill={props.payload.fill}
+                                    opacity={props.payload.opacity}
+                                    onMouseEnter={() => handleMouseEnter(props.payload)}
+                                    onMouseLeave={() => handleMouseLeave(props.payload)}
+                                />
+                            </g>
                         )}
                     />
 

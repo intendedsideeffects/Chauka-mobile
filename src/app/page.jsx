@@ -231,10 +231,10 @@ export default function TestScroll() {
         left: '20px',
         width: 'calc(100vw - 40px)',
         height: '700vh', // 7 segments * 100vh each
-        zIndex: 100, // Very low z-index so it doesn't block interactions
+        zIndex: 9999, // High z-index to show above charts
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
-        opacity: 0.7 // More visible but still transparent
+        opacity: 1 // Fully opaque
       }}>
         <ExtinctSpeciesViz />
       </div>

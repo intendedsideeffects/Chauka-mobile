@@ -27,8 +27,8 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
     // Use the passed-in opacity prop
     const blur = Math.max(0, (1 - scale) * 2);
 
-    // Determine dot color based on size (all black)
-    const dotFill = 'black';
+    // Blue with glow effect
+    const dotFill = '#0066cc';
 
     const groupStyle = {
       cursor: 'pointer',
@@ -55,15 +55,40 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
           onMouseLeave();
         }}>
         {/* Outline removed */}
+        {/* Glow filter */}
+        <defs>
+          <filter id={`glow-${cx}-${cy}`}>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Blurry outline */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={isHovered ? baseSize * 3 + 4 : baseSize + 4}
+          fill="#0066cc"
+          style={{
+            opacity: 0.3,
+            filter: `url(#glow-${cx}-${cy})`,
+            transition: 'all 0.2s',
+          }}
+        />
+
         {/* Main dot */}
         <circle
           cx={cx}
           cy={cy}
           r={isHovered ? baseSize * 3 : baseSize}
-          fill={fill}
+          fill="#0066cc"
           style={{
-            opacity: isHovered ? Math.min(1, (opacity || 0.6) + 0.2) : (opacity || 0.6),
-            transition: 'opacity 0.2s',
+            opacity: 1,
+            filter: `url(#glow-${cx}-${cy})`,
+            transition: 'all 0.2s',
           }}
         />
 
