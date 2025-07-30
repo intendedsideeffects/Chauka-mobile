@@ -399,6 +399,27 @@ export default function TestScroll() {
             }
           }}
         />
+        
+        {/* Annotation for section 3 - positioned outside chart container */}
+        <div style={{
+          position: 'absolute',
+          top: 'calc(40vh - 230px)',
+          left: 'calc(80vw - 30px)',
+          zIndex: 9999,
+          pointerEvents: 'none',
+          fontSize: '14px',
+          fontFamily: 'Helvetica World, Arial, sans-serif',
+          color: '#0066cc',
+          fontWeight: 'normal',
+          lineHeight: '1.4',
+          maxWidth: '300px'
+        }}>
+          ~25 cm of sea level rise is expected<br/>
+          under 1.5°C to 2.0°C of global warming<br/>
+          by 2050.
+        </div>
+        
+
       </div>
 
       {/* Another test segment */}

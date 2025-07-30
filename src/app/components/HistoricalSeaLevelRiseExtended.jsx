@@ -200,7 +200,7 @@ const HistoricalSeaLevelRiseExtended = () => {
       boxSizing: 'border-box', 
       pointerEvents: 'auto', 
       position: 'relative', 
-      overflow: 'visible',
+      overflow: 'visible', // changed back to 'visible' to allow annotation to show
       marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
       zIndex: 1002, // Higher than text content
       border: 'none',
@@ -278,43 +278,8 @@ const HistoricalSeaLevelRiseExtended = () => {
           </LineChart>
         </ResponsiveContainer>
 
-        {/* Annotation text for projection */}
-        {data.combined && data.combined.length > 0 && (
-          <svg 
-            style={{ 
-              position: 'absolute', 
-              top: 0, 
-              left: 0, 
-              width: '100%', 
-              height: '100%', 
-              overflow: 'visible',
-              pointerEvents: 'none'
-            }}
-          >
-            {/* Annotation text */}
-            <text
-              x={(() => {
-                const chartWidth = 800;
-                const startX = chartWidth + 209;
-                return startX + 40;
-              })()}
-              y={(() => {
-                const chartHeight = 585; // Updated for new chart height (665 - 80 for padding)
-                const yRange = 10 - (-20);
-                const satelliteData = data.combined.filter(d => d.year >= 1993);
-                const lastPoint = satelliteData[satelliteData.length - 1];
-                const startY = chartHeight - ((lastPoint.value - (-20)) / yRange) * chartHeight;
-                return startY - ((22 / yRange) * chartHeight) - 15;
-              })()}
-              textAnchor="start"
-              fontSize="14"
-              fontFamily="Helvetica World, Arial, sans-serif"
-              fill="#0066cc"
-            >
-              Sea level is projected to rise ~25cm by 2050
-            </text>
-          </svg>
-        )}
+
+
       </div>
     </div>
   );
