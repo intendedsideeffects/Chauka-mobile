@@ -149,9 +149,8 @@ export default function TestScroll() {
             objectFit: 'cover',
             zIndex: 2,
             pointerEvents: 'none',
-            // WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
-            // maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
-            border: '2px solid red', // Temporary debug border
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
           }}
         />
         {/* Black bar between video and star globe */}
@@ -951,7 +950,7 @@ function BlueCircleAudioPlayer() {
 
   React.useEffect(() => {
     const audio = new Audio('/oceansound.m4a');
-    audio.volume = 0.03;
+    audio.volume = 0.20;
     audio.loop = true;
     audio.preload = 'auto';
     setAudioElement(audio);
