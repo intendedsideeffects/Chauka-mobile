@@ -81,33 +81,65 @@ const HighestElevationChart = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '400px', pointerEvents: 'none' }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={highestElevationData} margin={{ top: 80, right: 30, left: 20, bottom: 5 }}>
-          {/* Remove gridlines by not rendering CartesianGrid */}
-          <XAxis 
-            dataKey="country" 
-            tickLine={false}
-            axisLine={false}
-            tick={false}
-            height={0}
-          />
-          <YAxis 
-            tickLine={false}
-            axisLine={false}
-            width={0}
-            tick={false}
-            domain={['dataMin', 'dataMax']}
-          />
-          <Tooltip 
-            labelFormatter={(label) => `Country: ${label}`}
-            formatter={(value, name) => [value, 'Elevation (M)']}
-          />
-          <Bar dataKey="elevation" fill="#000000" barSize={60}>
-            <LabelList content={<CustomBarLabel />} />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
+      {/* Zero line */}
+      <div style={{
+        position: 'absolute',
+        left: '50px',
+        right: '30px',
+        top: '385px',
+        height: '1px',
+        background: '#666',
+        zIndex: 2
+      }} />
+
+      {/* Blue gradient area below 0 (sea level) */}
+      <div style={{
+        position: 'absolute',
+        left: '50px',  // Match chart margin
+        right: '30px', // Match chart margin
+        top: '385px',  // Position right below the chart area
+        height: '50px',
+        background: 'linear-gradient(to top, transparent, rgba(59, 130, 246, 0.3))',
+        zIndex: 0
+      }} />
+      
+      {/* Main chart area */}
+      <div style={{ 
+        width: '100%', 
+        height: '400px', 
+        position: 'relative'
+      }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart 
+            data={highestElevationData} 
+            margin={{ top: 80, right: 30, left: 20, bottom: 15 }}
+            baseValue={0}
+          >
+            <XAxis 
+              dataKey="country" 
+              tickLine={false}
+              axisLine={false}
+              tick={false}
+              height={0}
+            />
+            <YAxis 
+              tickLine={false}
+              axisLine={false}
+              width={0}
+              tick={false}
+              domain={['dataMin', 'dataMax']}
+            />
+            <Tooltip 
+              labelFormatter={(label) => `Country: ${label}`}
+              formatter={(value, name) => [value, 'Elevation (M)']}
+            />
+            <Bar dataKey="elevation" fill="#000000" barSize={60}>
+              <LabelList content={<CustomBarLabel />} />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
