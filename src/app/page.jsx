@@ -136,6 +136,10 @@ export default function TestScroll() {
           loop
           muted
           playsInline
+          onLoadStart={() => console.log('Ocean video loading started')}
+          onCanPlay={() => console.log('Ocean video can play')}
+          onError={(e) => console.error('Ocean video error:', e)}
+          onPlay={() => console.log('Ocean video started playing')}
           style={{
             position: 'absolute',
             left: 0,
@@ -145,12 +149,14 @@ export default function TestScroll() {
             objectFit: 'cover',
             zIndex: 2,
             pointerEvents: 'none',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
-            maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            // WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            // maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            border: '2px solid red', // Temporary debug border
           }}
         />
         {/* Black bar between video and star globe */}
-        <div
+        {/* Temporarily commented out for debugging */}
+        {/* <div
           style={{
             position: 'absolute',
             left: 0,
@@ -161,7 +167,7 @@ export default function TestScroll() {
             pointerEvents: 'none',
             background: '#000',
           }}
-        />
+        /> */}
         {/* Scene overlay image */}
         <img
           src="/scene.png"
