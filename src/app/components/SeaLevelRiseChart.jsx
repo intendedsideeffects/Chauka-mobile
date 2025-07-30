@@ -240,7 +240,7 @@ const SeaLevelRiseChart = () => {
       <div className="flex items-end justify-between h-[350px] relative">
         {/* Dynamic blue gradient rectangle behind bars */}
         <div 
-          className="absolute left-0 right-0 z-5"
+                                     className="absolute left-0 right-0 z-20"
           style={{
             top: `${350 - (currentGlobalRise / 1.0) * 280}px`,
             height: `${(currentGlobalRise / 1.0) * 280}px`,

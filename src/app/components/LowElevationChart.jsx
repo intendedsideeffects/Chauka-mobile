@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
 
 const LowElevationChart = () => {
   const [lowElevationData, setLowElevationData] = useState([]);
@@ -12,28 +12,40 @@ const LowElevationChart = () => {
         const csvText = await response.text();
         
         // Parse CSV
+        console.log('Raw CSV text:', csvText.slice(0, 200)); // Show first 200 chars
         const lines = csvText.split('\n');
+        console.log('First few lines:', lines.slice(0, 3));
+        
         const data = lines.slice(1).filter(line => line.trim() !== '').map(line => {
           const values = line.split(';');
+          console.log('Split values:', values);
           return {
-            country: values[0],
-            elevation: values[1],
-            elevationDesc: values[2],
-            timePeriod: values[3],
-            obsValue: parseInt(values[4]) || 0,
-            highestElevation: parseInt(values[5]) || 0
+            country: values[0], // Pacific Island Countries and territories
+            elevation: values[1], // ELEVATION
+            elevationDesc: values[2], // Elevation
+            timePeriod: values[3], // TIME_PERIOD
+            obsValue: parseFloat(values[4]) || 0, // OBS_VALUE
+            highestElevation: parseFloat(values[5]) || 0 // Island highest elevation
           };
         });
 
-        // Filter for 0-5 meters elevation data
+        // Filter for 0-5 meters elevation data and get top 9
+        // Log raw data to check structure
+        console.log('Raw data first item:', data[0]);
+        
+        // Filter for 5M elevation, remove empty entries, and get top 9
         const lowElevation = data
-          .filter(item => item.elevation === '5M')
+          .filter(item => item.elevation === '5M' && item.country && item.obsValue)
           .map(item => ({
-            country: item.country,
-            population: item.obsValue
+            "Pacific Island Countries and territories": item.country.replace(" (Federated States of)", ""),
+            OBS_VALUE: parseFloat(item.obsValue)  // Make sure it's a number
           }))
-          .sort((a, b) => b.population - a.population);
+          .sort((a, b) => b.OBS_VALUE - a.OBS_VALUE)
+          .slice(0, 9);
+        
+        console.log('Final processed data:', lowElevation);
 
+        console.log('Processed data:', lowElevation);
         setLowElevationData(lowElevation);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -43,30 +55,100 @@ const LowElevationChart = () => {
     fetchData();
   }, []);
 
+  // Custom label component for bar labels
+  const CustomBarLabel = ({ x, y, width, value, payload }) => {
+    console.log('CustomBarLabel props:', { x, y, width, value, payload });
+    
+    if (!x || !y || !width || !payload) {
+      console.log('Missing required props');
+      return null;
+    }
+
+    return (
+      <g>
+        <text
+          x={x + width / 2}
+          y={y - 35}
+          textAnchor="middle"
+          fill="#000"
+          fontSize={12}
+          style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+        >
+          {payload["Pacific Island Countries and territories"]}
+        </text>
+        <text
+          x={x + width / 2}
+          y={y - 20}
+          textAnchor="middle"
+          fill="#666"
+          fontSize={11}
+          style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+        >
+          {`${payload.OBS_VALUE.toFixed(1)}%`}
+        </text>
+      </g>
+    );
+  };
+
   return (
-    <div style={{ width: '100%', height: '400px', pointerEvents: 'none' }}>
+    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
+      {/* Zero line */}
+      <div style={{
+        position: 'absolute',
+        left: '50px',
+        right: '30px',
+        bottom: '50px',  // Adjusted to match chart bottom margin
+        height: '1px',
+        background: '#666',
+        zIndex: 2
+      }} />
+
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={lowElevationData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid horizontal={true} vertical={false} />
+        <BarChart 
+          data={lowElevationData} 
+          margin={{ top: 100, right: 30, left: 50, bottom: 50 }}  // Increased bottom margin
+          baseValue={0}
+        >
           <XAxis 
-            dataKey="country" 
+            dataKey="Pacific Island Countries and territories" 
             tickLine={false}
             axisLine={false}
-            angle={-45}
-            textAnchor="end"
-            height={100}
-            fontSize={12}
+            tick={false}
+            height={0}
           />
           <YAxis 
             tickLine={false}
             axisLine={false}
-            width={60}
+            tick={false}
+            width={0}
           />
           <Tooltip 
             labelFormatter={(label) => `Country: ${label}`}
-            formatter={(value, name) => [value, 'Population']}
+            formatter={(value) => [`${Math.round(value)}%`, 'Population 0-5M']}
           />
-          <Bar dataKey="population" fill="#000000" barSize={60} />
+          <Bar 
+            dataKey="OBS_VALUE" 
+            fill="#000000" 
+            barSize={60}
+          >
+            <LabelList
+              dataKey="Pacific Island Countries and territories"
+              position="top"
+              offset={35}
+              fill="#000"
+              fontSize={12}
+              style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+            />
+            <LabelList
+              dataKey="OBS_VALUE"
+              position="top"
+              offset={20}
+              fill="#666"
+              fontSize={11}
+              style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+              formatter={(value) => `${Math.round(value)}%`}
+            />
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

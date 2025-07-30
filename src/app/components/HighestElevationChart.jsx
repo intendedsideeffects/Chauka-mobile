@@ -100,7 +100,7 @@ const HighestElevationChart = () => {
         right: '30px', // Match chart margin
         top: '385px',  // Position right below the chart area
         height: '50px',
-        background: 'linear-gradient(to top, transparent, rgba(59, 130, 246, 0.3))',
+        background: 'linear-gradient(to top, transparent 0%, rgba(59, 130, 246, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)',
         zIndex: 0
       }} />
       
