@@ -564,32 +564,9 @@ export default function TestScroll() {
         />
       </div>
 
-             {/* Segment 9 (now 10) */}
-       <div style={{position: 'relative'}}>
-         <div style={{
-           position: 'absolute',
-           top: 20,
-           left: 20,
-           fontSize: '5rem',
-           color: 'rgba(0,0,0,0.10)',
-           fontWeight: 900,
-           zIndex: 2000,
-           pointerEvents: 'none',
-         }}>10</div>
-                         <SegmentTemplate
-          header="A Century of Disruptions, Warnings and Resistance"
-          text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            }
-          }}
-        />
-      </div>
 
-      {/* Placeholder Segment 11 */}
+
+      {/* Placeholder Segment 10 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -600,9 +577,9 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>11</div>
+         }}>10</div>
         <SegmentTemplate
-          header="Placeholder Segment 11"
+          header="Placeholder Segment 10"
           text="This is a placeholder segment that will be filled with content later. It follows the same structure as other segments in the project."
           styles={{
             header: {
@@ -614,30 +591,7 @@ export default function TestScroll() {
         />
       </div>
 
-      {/* Placeholder Segment 12 */}
-      <div style={{position: 'relative'}}>
-        <div style={{
-          position: 'absolute',
-          top: 20,
-          left: 20,
-          fontSize: '5rem',
-          color: 'rgba(0,0,0,0.10)',
-          fontWeight: 900,
-          zIndex: 2000,
-          pointerEvents: 'none',
-        }}>12</div>
-        <SegmentTemplate
-          header="Placeholder Segment 12"
-          text="This is another placeholder segment that will be filled with content later. It maintains consistency with the project's segment structure."
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            }
-          }}
-        />
-      </div>
+
 
 
 
@@ -652,7 +606,7 @@ export default function TestScroll() {
            fontWeight: 900,
            zIndex: 2000,
            pointerEvents: 'none',
-         }}>13</div>
+         }}>11</div>
                    <section style={{
             width: '100%',
             height: '100vh',
@@ -678,17 +632,17 @@ export default function TestScroll() {
            }} />
 
            {/* Star Globe in front of sunrise */}
-           <div style={{ 
+             <div style={{
              position: 'absolute', 
              top: 0, 
              left: 0, 
-             width: '100%', 
+               width: '100%',
              height: '100%', 
              zIndex: 20, 
              pointerEvents: 'auto'
            }}>
              <InteractiveStarGlobe />
-           </div>
+             </div>
              
              {/* Collaborators wanted image */}
              <div style={{
@@ -717,7 +671,7 @@ export default function TestScroll() {
                  onLoad={() => console.log('Collaborators image loaded successfully')}
                  onError={(e) => console.error('Error loading image:', e)}
                />
-             </div>
+           </div>
          </section>
       </div>
 
@@ -937,11 +891,11 @@ function BlueCircleAudioPlayer() {
   const handleToggle = () => {
     if (!audioElement) return;
     
-    if (playing) {
-      audioElement.pause();
+      if (playing) {
+        audioElement.pause();
       setPlaying(false);
-    } else {
-      audioElement.play().catch(error => {
+      } else {
+        audioElement.play().catch(error => {
         console.error('Error playing ocean audio:', error);
       });
       setPlaying(true);
@@ -1083,7 +1037,7 @@ function BirdAudioPlayer() {
           </g>
         )}
       </svg>
-    </div>
+        </div>
   );
 }
 

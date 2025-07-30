@@ -125,8 +125,8 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
                     </defs>
-                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '2' ? "#000" : "#d3d3d3"} strokeWidth="1" />
-                     <text fill={selectedDegree === '2' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#ffffff"} stroke={selectedDegree === '2' ? "#000" : "#000000"} strokeWidth={selectedDegree === '2' ? "1" : "2"} />
+                                           <text fill={selectedDegree === '2' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
                         2°C
                     </text>
                   </svg>
@@ -148,8 +148,8 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
                     </defs>
-                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '4' ? "#000" : "#d3d3d3"} strokeWidth="1" />
-                     <text fill={selectedDegree === '4' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "1" : "2"} />
+                                           <text fill={selectedDegree === '4' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
                         4°C
                     </text>
                   </svg>
@@ -171,8 +171,8 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
                     </defs>
-                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2050' ? "#000" : "#d3d3d3"} strokeWidth="1" />
-                     <text fill={selectedYear === '2050' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
+                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#ffffff"} stroke={selectedYear === '2050' ? "#000" : "#000000"} strokeWidth={selectedYear === '2050' ? "1" : "2"} />
+                                           <text fill={selectedYear === '2050' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         2050
                     </text>
                   </svg>
@@ -201,8 +201,8 @@ const SeaLevelRiseChart = () => {
                         Click!
                       </textPath>
                     </text>
-                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2100' ? "#000" : "#d3d3d3"} strokeWidth="1" />
-                    <text fill={selectedYear === '2100' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#ffffff"} stroke={selectedYear === '2100' ? "#000" : "#000000"} strokeWidth={selectedYear === '2100' ? "1" : "2"} />
+                    <text fill={selectedYear === '2100' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                       2100
                     </text>
                   </svg>
