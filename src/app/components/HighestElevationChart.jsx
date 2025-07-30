@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
 
 const HighestElevationChart = () => {
   const [highestElevationData, setHighestElevationData] = useState([]);
@@ -37,7 +37,8 @@ const HighestElevationChart = () => {
             }
             return acc;
           }, [])
-          .sort((a, b) => a.elevation - b.elevation);
+          .sort((a, b) => a.elevation - b.elevation)
+          .slice(0, 9); // Only show the 9 lowest islands
 
         setHighestElevationData(highestElevation);
       } catch (error) {
@@ -48,30 +49,63 @@ const HighestElevationChart = () => {
     fetchData();
   }, []);
 
+  // Custom label component for bar labels
+  const CustomBarLabel = (props) => {
+    const { x, y, width, value, index } = props;
+    const dataPoint = highestElevationData[index];
+    
+    return (
+      <g>
+        {/* Island name above bar */}
+        <text 
+          x={x + width / 2} 
+          y={y - 20} 
+          textAnchor="middle" 
+          fill="#000000" 
+          fontSize={12}
+        >
+          {dataPoint?.country}
+        </text>
+        {/* Elevation info below island name */}
+        <text 
+          x={x + width / 2} 
+          y={y - 5} 
+          textAnchor="middle" 
+          fill="#666666" 
+          fontSize={10}
+        >
+          {dataPoint ? `${dataPoint.elevation}M` : ''}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <div style={{ width: '100%', height: '400px', pointerEvents: 'none' }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={highestElevationData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid horizontal={true} vertical={false} />
+        <BarChart data={highestElevationData} margin={{ top: 80, right: 30, left: 20, bottom: 5 }}>
+          {/* Remove gridlines by not rendering CartesianGrid */}
           <XAxis 
             dataKey="country" 
             tickLine={false}
             axisLine={false}
-            angle={-45}
-            textAnchor="end"
-            height={100}
-            fontSize={12}
+            tick={false}
+            height={0}
           />
           <YAxis 
             tickLine={false}
             axisLine={false}
-            width={60}
+            width={0}
+            tick={false}
+            domain={['dataMin', 'dataMax']}
           />
           <Tooltip 
             labelFormatter={(label) => `Country: ${label}`}
-            formatter={(value, name) => [value, 'Elevation (m)']}
+            formatter={(value, name) => [value, 'Elevation (M)']}
           />
-          <Bar dataKey="elevation" fill="#000000" />
+          <Bar dataKey="elevation" fill="#000000">
+            <LabelList content={<CustomBarLabel />} />
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

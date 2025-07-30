@@ -19,30 +19,30 @@ export const BUTTON_POSITIONS = {
   
   // Temperature buttons
   TEMP_2C: {
-    left: '140px',
-    top: '120px',
+    left: '8px', // 65px - 57px = 8px
+    top: '82px', // 120px - 38px = 82px
     width: '80px',
     height: '80px'
   },
   
   TEMP_4C: {
-    left: '240px',
-    top: '160px',
+    left: '108px', // 165px - 57px = 108px
+    top: '122px', // 160px - 38px = 122px
     width: '80px',
     height: '80px'
   },
   
   // Year buttons
   YEAR_2050: {
-    left: '140px',
-    top: '-20px',
+    left: '8px', // 65px - 57px = 8px
+    top: '-58px', // -20px - 38px = -58px
     width: '120px',
     height: '120px'
   },
   
   YEAR_2100: {
-    left: '260px',
-    top: '0px',
+    left: '128px', // 185px - 57px = 128px
+    top: '-38px', // 0px - 38px = -38px
     width: '120px',
     height: '120px'
   }
