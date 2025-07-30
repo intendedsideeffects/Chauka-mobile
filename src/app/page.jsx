@@ -380,14 +380,14 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>3</div>
         <SegmentTemplate 
-          header="Sea levels were steady for centuries,"
+          header="Sea levels held steady for a millennium,"
           headerSecondLine="until now."
-          text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and coastal communities are under threat."
+          text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>."
           chartComponent={<HistoricalSeaLevelRiseExtended />}
-          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
+          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
-              fontSize: '2.5rem',
+              fontSize: '2.6rem',
               fontWeight: 'normal',
               fontFamily: 'Helvetica World, Arial, sans-serif'
             },
@@ -400,6 +400,23 @@ export default function TestScroll() {
           }}
         />
         
+        {/* Projection label */}
+        <div style={{
+          position: 'absolute',
+          top: 'calc(40vh - 250px)',
+          left: 'calc(80vw - 30px)',
+          zIndex: 9999,
+          pointerEvents: 'none',
+          fontSize: '14px',
+          fontFamily: 'Helvetica World, Arial, sans-serif',
+          color: '#000000',
+          fontWeight: 'bold',
+          lineHeight: '1.4',
+          maxWidth: '300px'
+        }}>
+          <strong>Projection</strong>
+        </div>
+        
         {/* Annotation for section 3 - positioned outside chart container */}
         <div style={{
           position: 'absolute',
@@ -409,14 +426,14 @@ export default function TestScroll() {
           pointerEvents: 'none',
           fontSize: '14px',
           fontFamily: 'Helvetica World, Arial, sans-serif',
-          color: '#0066cc',
+          color: '#000000',
           fontWeight: 'normal',
           lineHeight: '1.4',
           maxWidth: '300px'
         }}>
-          ~25 cm of sea level rise is expected<br/>
-          under 1.5°C to 2.0°C of global warming<br/>
-          by 2050.
+          Under 1.5°C to 2.0°C of global warming,<br/>
+          sea level rise is expected to increase by<br/>
+          <strong>~25 cm in 2050.</strong>
         </div>
         
 
