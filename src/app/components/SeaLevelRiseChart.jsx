@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { BUTTON_POSITIONS, CHART_DIMENSIONS, GLOBAL_SEA_LEVEL_RISE } from './SeaLevelRiseChartConstants';
-import { LabelList } from 'recharts';
-import { BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 
 // ⚠️ CRITICAL: Button positioning has been carefully calibrated
 // DO NOT modify BUTTON_POSITIONS without testing on multiple screen sizes
@@ -71,13 +70,13 @@ const SeaLevelRiseChart = () => {
   };
 
   const selectedData = getSelectedData();
-  const maxValue = Math.max(...selectedData.map(d => d.selectedValue));
-  
   const currentGlobalRise = GLOBAL_SEA_LEVEL_RISE[selectedYear][selectedDegree];
 
   // CustomBarLabel SVG component (copied from section 5 style)
   const CustomBarLabel = (props) => {
-    const { x, y, width, value, index, payload } = props;
+    const { x, y, width, value, payload } = props;
+    if (!payload || !value) return null;
+    
     return (
       <g>
         {/* Island name above bar */}
@@ -104,8 +103,8 @@ const SeaLevelRiseChart = () => {
     );
   };
 
-  return (
-    <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto'}}>
+                             return (
+      <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto'}}>
                                                                                                                         {/* Controls - Scattered in top-right corner of page */}
                   <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
                    
@@ -122,15 +121,15 @@ const SeaLevelRiseChart = () => {
                         }}
                         onClick={() => setSelectedDegree('2')}
                       >
-                                     <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                     <defs>
-                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
-                     </defs>
+                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                    </defs>
                      <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '2' ? "#000" : "#d3d3d3"} strokeWidth="1" />
                      <text fill={selectedDegree === '2' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
-                       2°C
-                     </text>
-                   </svg>
+                        2°C
+                    </text>
+                  </svg>
                 </div>
 
                                                                                                                                                                                                                                                                                                      {/* 4°C Button - positioned randomly in top-right */}
@@ -145,15 +144,15 @@ const SeaLevelRiseChart = () => {
                         }}
                         onClick={() => setSelectedDegree('4')}
                       >
-                                     <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                     <defs>
-                       <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
-                     </defs>
+                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                    </defs>
                      <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#f0f0f0"} stroke={selectedDegree === '4' ? "#000" : "#d3d3d3"} strokeWidth="1" />
                      <text fill={selectedDegree === '4' ? "#fff" : "#666"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
-                       4°C
-                     </text>
-                   </svg>
+                        4°C
+                    </text>
+                  </svg>
                 </div>
 
                                                                                                                                                                                                                                                                                {/* 2050 Button - positioned randomly in top-right */}
@@ -168,15 +167,15 @@ const SeaLevelRiseChart = () => {
                       }}
                       onClick={() => setSelectedYear('2050')}
                     >
-                                     <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                     <defs>
-                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
-                     </defs>
+                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
+                    </defs>
                      <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2050' ? "#000" : "#d3d3d3"} strokeWidth="1" />
                      <text fill={selectedYear === '2050' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
-                       2050
-                     </text>
-                   </svg>
+                        2050
+                    </text>
+                  </svg>
                 </div>
 
                                                                    {/* 2100 Button - positioned randomly in top-right */}
@@ -191,20 +190,20 @@ const SeaLevelRiseChart = () => {
                     }}
                     onClick={() => setSelectedYear('2100')}
                   >
-                                     <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
-                     <defs>
-                       <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
-                     </defs>
+                  <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                    <defs>
+                      <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
+                    </defs>
                      <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2100' ? "#000" : "#d3d3d3"} strokeWidth="1" />
                      <text fill={selectedYear === '2100' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
-                       2100
-                     </text>
-                   </svg>
+                        2100
+                    </text>
+                  </svg>
                 </div>
                 
                                  {/* Simple rectangular buttons - HIDDEN FOR NOW */}
                  {/* <div style={{
-                   display: 'flex',
+                  display: 'flex',
                    flexDirection: 'row',
                    gap: '10px',
                    justifyContent: 'center',
@@ -238,67 +237,78 @@ const SeaLevelRiseChart = () => {
                       <div className="border-t border-gray-400" style={{ height: '1px' }}></div>
                     </div>
                    {/* Chart area with bars */}
-                           <div className="flex items-end justify-between h-[350px] relative">
-                         {/* Dynamic blue gradient rectangle behind bars */}
-                         <div 
-                           className="absolute left-0 right-0 z-5"
-                           style={{
-                             top: `${350 - (currentGlobalRise / 1.0) * 280}px`,
-                             height: `${(currentGlobalRise / 1.0) * 280}px`,
-                             background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%)',
-                             border: 'none'
-                           }}
-                         />
-                         {/* Zero line positioned directly under bars */}
-             <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
-            
-                                                  {selectedData.map((item, index) => {
-                           const barHeight = (item.selectedValue / 1.0) * 280;
-                           const globalLineHeight = (currentGlobalRise / 1.0) * 280;
-                           const isAboveGlobal = item.selectedValue > currentGlobalRise;
-                           
-                           return (
-                    <div key={index} className="flex flex-col items-center flex-1 mx-1">
-                      {/* Bar */}
-                      <div className="relative flex justify-center">
-                        {isAboveGlobal ? (
-                          <>
-                            {/* Blue portion above global average */}
-                            <div
-                              className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                              style={{
-                                height: `${barHeight - globalLineHeight}px`,
-                                minHeight: '0px',
-                                width: '40px',
-                                position: 'absolute',
-                                bottom: `${globalLineHeight}px`,
-                              }}
-                            />
-                            {/* Black portion below global average */}
-                            <div
-                              className="bg-black hover:bg-[#1d203b] relative z-10"
-                              style={{
-                                height: `${globalLineHeight}px`,
-                                minHeight: '30px',
-                                width: '40px',
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <div
-                            className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
-                            style={{
-                              height: `${barHeight}px`,
-                              minHeight: '30px',
-                              width: '40px',
-                            }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  );
-                         })}
-        </div>
+      <div className="flex items-end justify-between h-[350px] relative">
+        {/* Dynamic blue gradient rectangle behind bars */}
+        <div 
+          className="absolute left-0 right-0 z-5"
+          style={{
+            top: `${350 - (currentGlobalRise / 1.0) * 280}px`,
+            height: `${(currentGlobalRise / 1.0) * 280}px`,
+            background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%)',
+            border: 'none'
+          }}
+        />
+        {/* Zero line positioned directly under bars */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
+       
+        {selectedData.map((item, index) => {
+          const barHeight = (item.selectedValue / 1.0) * 280;
+          const globalLineHeight = (currentGlobalRise / 1.0) * 280;
+          const isAboveGlobal = item.selectedValue > currentGlobalRise;
+          
+          return (
+            <div key={index} className="flex flex-col items-center flex-1 mx-1">
+              {/* Labels above bar */}
+              <div style={{
+                position: 'absolute',
+                top: `${350 - barHeight - 60}px`,
+                textAlign: 'center',
+                width: '100%'
+              }}>
+                <div style={{ fontSize: '12px', color: '#000' }}>{item.country}</div>
+                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}M</div>
+              </div>
+              
+              {/* Bar */}
+              <div className="relative flex justify-center">
+                {isAboveGlobal ? (
+                  <>
+                    {/* Blue portion above global average */}
+                    <div 
+                      className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                      style={{ 
+                        height: `${barHeight - globalLineHeight}px`,
+                        minHeight: '0px',
+                        width: '60px',
+                        position: 'absolute',
+                        bottom: `${globalLineHeight}px`
+                      }}
+                    />
+                    {/* Black portion below global average */}
+                    <div 
+                      className="bg-black hover:bg-[#1d203b] relative z-10"
+                      style={{ 
+                        height: `${globalLineHeight}px`,
+                        minHeight: '30px',
+                        width: '60px'
+                      }}
+                    />
+                  </>
+                ) : (
+                  <div 
+                    className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
+                    style={{ 
+                      height: `${barHeight}px`,
+                      minHeight: '30px',
+                      width: '40px'
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
         
         {/* Country labels below the chart - REMOVED since names are now above bars */}
              </div>

@@ -66,7 +66,7 @@ const LowElevationChart = () => {
             labelFormatter={(label) => `Country: ${label}`}
             formatter={(value, name) => [value, 'Population']}
           />
-          <Bar dataKey="population" fill="#000000" />
+          <Bar dataKey="population" fill="#000000" barSize={60} />
         </BarChart>
       </ResponsiveContainer>
     </div>

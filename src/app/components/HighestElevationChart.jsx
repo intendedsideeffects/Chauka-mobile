@@ -103,7 +103,7 @@ const HighestElevationChart = () => {
             labelFormatter={(label) => `Country: ${label}`}
             formatter={(value, name) => [value, 'Elevation (M)']}
           />
-          <Bar dataKey="elevation" fill="#000000">
+          <Bar dataKey="elevation" fill="#000000" barSize={60}>
             <LabelList content={<CustomBarLabel />} />
           </Bar>
         </BarChart>
