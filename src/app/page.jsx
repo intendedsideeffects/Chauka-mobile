@@ -411,7 +411,32 @@ export default function TestScroll() {
 
 
 
-             {/* Segment 9 */}
+             {/* New Segment */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>9</div>
+        <SegmentTemplate
+          header="Placeholder Header"
+          text="Placeholder text for the new segment that will be added here. This section will contain new content and potentially a new visualization."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            }
+          }}
+        />
+      </div>
+
+             {/* Segment 9 (now 10) */}
        <div style={{position: 'relative'}}>
          <div style={{
            position: 'absolute',
@@ -422,7 +447,7 @@ export default function TestScroll() {
            fontWeight: 900,
            zIndex: 2000,
            pointerEvents: 'none',
-         }}>9</div>
+         }}>10</div>
                          <SegmentTemplate
           header="A Century of Disruptions, Warnings and Resistance"
           text="Natural disasters in the Pacific have become far more frequent over the past century. Since 1925, recorded events such as floods, storms, droughts, and other extremes have increased sharply. These disruptions serve as both a warning of accelerating climate risks and a backdrop to growing resistance through activism, legal action, and calls for climate justice."
@@ -436,7 +461,7 @@ export default function TestScroll() {
         />
       </div>
 
-       {/* New Segment 10 */}
+      {/* Placeholder Segment 11 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -447,101 +472,46 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-         }}>10</div>
-         <section style={{ 
-           position: 'relative', 
-           height: '100vh', 
-           width: '100%', 
-           background: '#d6f525', 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'center', 
-           overflow: 'hidden',
-           scrollSnapAlign: 'start'
-         }}>
-           {/* Star Globe as background */}
-           <InteractiveStarGlobe />
-           {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
-           <video
-             ref={oceanVideoRef}
-             src="/ocean.mp4"
-             autoPlay
-             loop
-             muted
-             volume={0}
-             playsInline
-             style={{
-               position: 'absolute',
-               left: 0,
-               top: '15vh',
-               width: '100vw',
-               height: '85vh',
-               objectFit: 'cover',
-               zIndex: 2,
-               pointerEvents: 'none',
-               WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
-               maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
-             }}
-           />
-           {/* Black bar between video and star globe */}
-           <div
-             style={{
-               position: 'absolute',
-               left: 0,
-               top: '15vh',
-               width: '100vw',
-               height: '85vh', // Match the video height
-               zIndex: 2.5, // Between star globe and video
-               pointerEvents: 'none',
-               background: '#d6f525',
-             }}
-           />
-           {/* Scene overlay image */}
-           <img
-             src="/scene.png"
-             alt="Scene overlay"
-             style={{
-               position: 'absolute',
-               left: 0,
-               top: '15vh',
-               width: '100vw',
-               height: '85vh',
-               objectFit: 'cover',
-               zIndex: 3, // Above video and black bar
-               pointerEvents: 'none',
-             }}
-           />
-           {/* Audio buttons positioned relative to video section */}
-           <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
-             <YellowStarAudioPlayer />
-           </div>
-           <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
-             <BlueCircleAudioPlayer />
-           </div>
-           {/* Bird audio button positioned over the bird in the scene */}
-           <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
-             <BirdAudioPlayer />
-           </div>
-           {/* Project attribution on video */}
-           <div style={{ 
-             position: 'absolute', 
-             bottom: '20px', 
-             left: '50%', 
-             transform: 'translateX(-50%)', 
-             zIndex: 1000, 
-             pointerEvents: 'auto'
-           }}>
-             <div style={{
-               fontSize: '1rem',
-               color: '#676b8b',
-               fontWeight: 400,
-               textAlign: 'center'
-             }}>
-               Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> | Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
-             </div>
-           </div>
-         </section>
-       </div>
+        }}>11</div>
+        <SegmentTemplate
+          header="Placeholder Segment 11"
+          text="This is a placeholder segment that will be filled with content later. It follows the same structure as other segments in the project."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            }
+          }}
+        />
+      </div>
+
+      {/* Placeholder Segment 12 */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>12</div>
+        <SegmentTemplate
+          header="Placeholder Segment 12"
+          text="This is another placeholder segment that will be filled with content later. It maintains consistency with the project's segment structure."
+          styles={{
+            header: {
+              fontSize: '2.5rem',
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica World, Arial, sans-serif'
+            }
+          }}
+        />
+      </div>
+
+
 
        {/* Final Section - Custom styled without chart */}
        <div style={{position: 'relative'}}>
@@ -554,11 +524,11 @@ export default function TestScroll() {
            fontWeight: 900,
            zIndex: 2000,
            pointerEvents: 'none',
-         }}>11</div>
+         }}>13</div>
                    <section style={{
             width: '100%',
             height: '100vh',
-            background: '#d6f525',
+            background: '#3d557a',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -567,49 +537,59 @@ export default function TestScroll() {
             scrollSnapAlign: 'start',
             borderBottom: '3px solid #9ca3af',
           }}>
+           {/* Sunrise effect */}
            <div style={{
-             display: 'flex',
-             flexDirection: 'column',
-             alignItems: 'center',
-             justifyContent: 'center',
+             position: 'absolute',
+             bottom: 0,
+             left: 0,
              width: '100%',
-             maxWidth: '1050px',
-             margin: '0 auto',
-             marginTop: '-50px',
-             gap: '2rem'
+             height: '80%',
+             background: 'radial-gradient(ellipse 80% 120% at 30% 135%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 0, 0.8) 10%, rgba(255, 165, 0, 0.7) 25%, rgba(255, 140, 0, 0.5) 40%, rgba(255, 69, 0, 0.3) 60%, rgba(61, 85, 122, 0.8) 80%, rgba(61, 85, 122, 1) 100%)',
+             zIndex: 15,
+             pointerEvents: 'none'
+           }} />
+
+           {/* Star Globe in front of sunrise */}
+           <div style={{ 
+             position: 'absolute', 
+             top: 0, 
+             left: 0, 
+             width: '100%', 
+             height: '100%', 
+             zIndex: 20, 
+             pointerEvents: 'auto'
            }}>
-             {/* Header */}
-             <div style={{
-               width: '100%',
-               maxWidth: '800px',
-               textAlign: 'left'
-             }}>
-               <h1 style={{
-                 fontSize: '2.5rem',
-                 fontWeight: 'bold',
-                 color: '#000',
-                 marginBottom: '0',
-                 textAlign: 'left',
-                 marginTop: '5rem'
-               }}>Final Section Title</h1>
-             </div>
+             <InteractiveStarGlobe />
+           </div>
              
-             {/* Text content */}
+             {/* Collaborators wanted image */}
              <div style={{
-               width: '100%',
-               maxWidth: '800px',
-               textAlign: 'left'
+               position: 'absolute',
+               top: 0,
+               left: '-50px',
+               width: 'calc(100% + 100px)',
+               height: '100%',
+               zIndex: 25,
+               margin: 0,
+               padding: 0,
+               pointerEvents: 'none',
+               backgroundColor: 'rgba(255,0,0,0.1)'
              }}>
-               <p style={{
-                 fontSize: '1.4rem',
-                 color: '#000',
-                 marginBottom: '2rem',
-                 lineHeight: 1.5
-               }}
-               dangerouslySetInnerHTML={{ __html: "This is the final section content. It uses the same styling and formatting as the SegmentTemplate but without a chart placeholder. You can add your final text content here." }}
+               <img 
+                 src="/Collaborators wanted.svg" 
+                 alt="Collaborators wanted" 
+                 style={{
+                   width: '100%',
+                   height: '100%',
+                   objectFit: 'cover',
+                   margin: 0,
+                   padding: 0,
+                   display: 'block'
+                 }}
+                 onLoad={() => console.log('Collaborators image loaded successfully')}
+                 onError={(e) => console.error('Error loading image:', e)}
                />
              </div>
-           </div>
          </section>
       </div>
 

@@ -183,8 +183,8 @@ const TitleSection = ({
       <div style={mergedStyles.contentWrapper}>
         {/* Title */}
         <div>
-          <h1 style={mergedStyles.title}>This is a</h1>
-          <h1 style={mergedStyles.titleSecondLine}>Global Warning.</h1>
+          <h1 style={mergedStyles.title}>Chauka</h1>
+          <h1 style={mergedStyles.titleSecondLine}>Or: This is a global warning.</h1>
         </div>
         
         {/* Main content */}

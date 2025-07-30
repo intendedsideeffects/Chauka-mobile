@@ -27,7 +27,7 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
 
 const STATUS_HEIGHT = 7000; // Reduced from 11290 to match segments 3-9 height
 const STATUS_WIDTH = 1600;
-const YEAR_MIN = 1922;
+const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;
 const getYearPosition = (year) => {
   return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
@@ -187,10 +187,10 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const futureHeight = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
     const futureY = nowY;
 
-    // Generate y-axis ticks for 1925, 1930, ..., 2025
+    // Generate y-axis ticks for 1900, 1910, ..., 2020
     const yAxisTicks = [];
     const yAxisTickLabels = [];
-    for (let year = 1925; year <= YEAR_MAX; year += 5) {
+    for (let year = 1900; year <= YEAR_MAX; year += 10) {
       yAxisTicks.push(((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT);
       yAxisTickLabels.push(year);
     }
@@ -304,7 +304,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 <ScatterChart
                     key="main-scatter-chart"
                     style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
-                    margin={{ top: 113, right: 0, bottom: 113, left: 0 }}
+                    margin={{ top: 113, right: 80, bottom: 113, left: 0 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
@@ -314,31 +314,35 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                          domain={[-STATUS_WIDTH, STATUS_WIDTH]}
                          hide
                      />
-                                                                                   <YAxis
+                          <YAxis
                           type="number"
                           dataKey="y"
                           domain={[0, STATUS_HEIGHT]}
                           orientation="right"
                           ticks={yAxisTicks}
-                                                     tick={({ x, y, payload }) => {
-                               // payload.value is the y position, find its index
-                               const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
-                               const year = yAxisTickLabels[idx];
-                               return (
-                                   <text
-                                       x={x - 8}
-                                       y={y + 4}
-                                       fontSize={16}
-                                       fill={'#000'}
-                                       textAnchor="end"
-                                   >
-                                       {year || ''}
-                                   </text>
-                               );
-                           }}
-                        axisLine={(props) => {
+                          position="right"
+                          offset={-40}  // Move axis 40px to the left
+                          tickLine={{ stroke: '#000', strokeWidth: 1 }}
+                          tickSize={6}
+                          tick={({ x, y, payload }) => {
+                            // payload.value is the y position, find its index
+                            const idx = yAxisTicks.findIndex(tick => Math.abs(tick - payload.value) < 2);
+                            const year = yAxisTickLabels[idx];
+                            return (
+                              <text
+                                x={x - 12}
+                                y={y + 4}
+                                fontSize={16}
+                                fill={'#000'}
+                                textAnchor="end"
+                              >
+                                {year || ''}
+                              </text>
+                            );
+                          }}
+                          axisLine={(props) => {
                             // Calculate the y-pixel for PRESENT_YEAR (2025) using the same formula as the NOW line
-                            const yearMin = 1922;
+                            const yearMin = 1900;
                             const yearMax = 2025;
                             const nowY = ((yearMax - PRESENT_YEAR) / (yearMax - yearMin)) * STATUS_HEIGHT;
                             return (
@@ -361,9 +365,22 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                         stroke="#e0b800"
                                         strokeWidth={2}
                                     />
+                                    {/* Tick marks */}
+                                    {yAxisTicks.map((tick, i) => (
+                                        <line
+                                            key={tick}
+                                            x1={props.x}
+                                            y1={tick}
+                                            x2={props.x - 6}  // 6px tick length to the left
+                                            y2={tick}
+                                            stroke="#000"
+                                            strokeWidth={1}
+                                        />
+                                    ))}
                                 </g>
                             );
                         }}
+                        tickLine={false}  // Disable default tick marks
                     />
 
 

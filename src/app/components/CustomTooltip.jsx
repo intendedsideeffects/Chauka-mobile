@@ -5,9 +5,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (!d.disaster_type) return null;
   return (
     <div style={{
-      backgroundColor: '#ffffff',
-      backdropFilter: 'none',
-      WebkitBackdropFilter: 'none',
+      backgroundColor: 'rgba(255, 255, 255, 1)',
       color: 'black',
       padding: '16px',
       borderRadius: '4px',

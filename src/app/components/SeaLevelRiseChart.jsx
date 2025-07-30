@@ -193,10 +193,17 @@ const SeaLevelRiseChart = () => {
                   <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
+                      <path id="circlePathText2100" d="M60,10 A60,60 0 0,1 120,60" />
                     </defs>
-                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2100' ? "#000" : "#d3d3d3"} strokeWidth="1" />
-                     <text fill={selectedYear === '2100' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
-                        2100
+                    {/* Wrapped text above the dot */}
+                    <text fill="#666" fontSize="12" fontWeight="normal" letterSpacing="0.05em">
+                      <textPath xlinkHref="#circlePathText2100" startOffset="25%" textAnchor="middle">
+                        Click!
+                      </textPath>
+                    </text>
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#f0f0f0"} stroke={selectedYear === '2100' ? "#000" : "#d3d3d3"} strokeWidth="1" />
+                    <text fill={selectedYear === '2100' ? "#fff" : "#666"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
+                      2100
                     </text>
                   </svg>
                 </div>
