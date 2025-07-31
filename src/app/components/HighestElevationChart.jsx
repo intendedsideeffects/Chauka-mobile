@@ -1,9 +1,24 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList, Cell } from 'recharts';
+import React, { useState, useEffect, useRef } from 'react';
 
 const HighestElevationChart = () => {
   const [highestElevationData, setHighestElevationData] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const chartAreaRef = useRef(null);
+  const [chartAreaWidth, setChartAreaWidth] = useState(0);
+
+  useEffect(() => {
+    if (chartAreaRef.current) {
+      setChartAreaWidth(chartAreaRef.current.offsetWidth);
+    }
+    const handleResize = () => {
+      if (chartAreaRef.current) {
+        setChartAreaWidth(chartAreaRef.current.offsetWidth);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,58 +89,21 @@ const HighestElevationChart = () => {
     fetchData();
   }, []);
 
-  // Custom label component for bar labels
-  const CustomBarLabel = (props) => {
-    const { x, y, width, value, index } = props;
-    const dataPoint = highestElevationData[index];
-    
-    return (
-      <g>
-        {/* Island name above bar */}
-        <text 
-          x={x + width / 2} 
-          y={y - 20} 
-          textAnchor="middle" 
-          fill="#000000" 
-          fontSize={12}
-        >
-          {dataPoint?.country}
-        </text>
-        {/* Elevation info below island name */}
-        <text 
-          x={x + width / 2} 
-          y={y - 5} 
-          textAnchor="middle" 
-          fill="#666666" 
-          fontSize={10}
-        >
-          {dataPoint ? `${dataPoint.elevation.toString().replace('.', ',')}m` : ''}
-        </text>
-      </g>
-    );
-  };
+
 
 
   
   return (
-    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
-      {/* Zero line */}
-      <div style={{
-        position: 'absolute',
-        left: '40px',
-        right: '30px',
-        top: '400px',
-        height: '1px',
-        background: '#666',
-        zIndex: 2
-      }} />
+    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
+
+
 
       {/* Blue gradient area below 0 (sea level) */}
       <div style={{
         position: 'absolute',
-        left: '40px',  // Align with chart left margin
-        right: '30px', // Match chart right margin
-        top: '400px',  // Position right below the chart area
+        left: '16px',  // Match chart left margin (40px - 24px for mx-4)
+        right: '16px', // Match chart right margin (30px - 14px for mx-4)
+        top: '350px',  // Align with x-axis (chart bottom)
         height: '50px',
         background: 'linear-gradient(to top, transparent 0%, rgba(59, 130, 246, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)',
         zIndex: 0
@@ -150,53 +128,96 @@ const HighestElevationChart = () => {
         (in m)
       </div>
       
-      {/* Main chart area */}
-      <div style={{ 
-        width: '100%', 
-        height: '400px', 
-        position: 'relative',
-        padding: '0'
-      }}>
-        <ResponsiveContainer width="100%" height="100%" style={{ padding: 0, margin: 0 }}>
-          <BarChart 
-            data={highestElevationData} 
-            margin={{ top: 80, right: 30, left: 0, bottom: 0 }}
-            baseValue={0}
-            barGap={0}
-            barSize={60}
-          >
-            <XAxis 
-              dataKey="country" 
-              tickLine={false}
-              axisLine={false}
-              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-              height={0}
-            />
-            <YAxis 
-              tickLine={false}
-              axisLine={false}
-              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-              width={40}
-              domain={[0, 'dataMax']}
-            />
-            <CartesianGrid 
-              horizontal={true} 
-              vertical={false} 
-              stroke="#e5e7eb"
-            />
-            <Tooltip 
-              labelFormatter={(label) => `Country: ${label}`}
-              formatter={(value, name) => [value, 'Elevation (M)']}
-            />
-            <Bar dataKey="elevation" fill="#000000" radius={0}>
-              {highestElevationData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.isLowest ? '#3b82f6' : '#000000'} />
-              ))}
-              <LabelList content={<CustomBarLabel />} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+      {/* Chart area with bars */}
+      <div ref={chartAreaRef} className="flex items-end justify-between h-[350px] relative mx-4" style={{ transition: 'height 1.5s ease' }}>
+        {/* Horizontal gridlines */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
+          <div 
+            key={index}
+            className="absolute left-0 right-0 z-10" 
+            style={{ 
+              top: `${350 - (value * 280)}px`,
+              height: '1px',
+              background: '#e5e7eb'
+            }}
+          />
+        ))}
+        
+        {/* Y-axis labels */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => {
+          const maxElevation = highestElevationData.length > 0 ? Math.max(...highestElevationData.map(d => d.elevation)) : 0;
+          return (
+            <div 
+              key={index}
+              className="absolute z-20" 
+              style={{ 
+                top: `${350 - (value * 280) - 8}px`,
+                left: '-25px',
+                fontSize: '12px',
+                color: '#666666',
+                fontFamily: 'Helvetica World, Arial, sans-serif'
+              }}
+            >
+              {Math.round(value * maxElevation)}
+            </div>
+          );
+        })}
+        
+        {/* Zero line positioned directly under bars */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
+       
+        {highestElevationData.map((item, index) => {
+          // Use max elevation for scaling
+          const maxElevation = highestElevationData.length > 0 ? Math.max(...highestElevationData.map(d => d.elevation)) : 1;
+          // Simple linear scale with minimum height for very small values
+          const minBarHeight = 10; // Minimum 10px height for visibility
+          const maxBarHeight = 280;
+          const linearHeight = (item.elevation / maxElevation) * maxBarHeight;
+          const barHeight = Math.max(linearHeight, minBarHeight);
+          const isHovered = hoveredIndex === index;
+          const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
+          return (
+            <div 
+              key={index} 
+              className="flex flex-col items-center flex-1 mx-1"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              style={{
+                transition: 'opacity 0.2s ease',
+                opacity: shouldReduceOpacity ? 0.4 : 1,
+                cursor: 'pointer',
+                zIndex: isHovered ? 40 : 20
+              }}
+            >
+              {/* Labels above bar */}
+              <div style={{ 
+                marginBottom: '10px',
+                textAlign: 'center',
+                fontSize: '12px',
+                color: '#000'
+              }}>
+                <div>{item.country}</div>
+                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.elevation.toString().replace('.', ',')}m</div>
+              </div>
+              {/* Bar */}
+              <div className="relative flex justify-center">
+                <div 
+                  className="rounded-t-sm relative z-10"
+                  style={{ 
+                    height: `${barHeight}px`,
+                    minHeight: '30px',
+                    width: '60px',
+                    transition: 'height 1.5s ease, background-color 0.2s ease',
+                    backgroundColor: isHovered ? (item.isLowest ? '#1d4ed8' : '#374151') : (item.isLowest ? '#3b82f6' : '#000000')
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
+      
+
     </div>
   );
 };

@@ -9,6 +9,7 @@ const NewChartComponent = () => {
   const [hoveredBar, setHoveredBar] = useState(null);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [currentImageData, setCurrentImageData] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   // Function to format numbers as K
   const formatAsK = (value) => {
@@ -30,6 +31,7 @@ const NewChartComponent = () => {
   // Handle bar hover
   const handleBarMouseEnter = (data, index) => {
     setHoveredBar(index);
+    setHoveredIndex(index);
     setCurrentImageData({
       year: data.year,
       affectedPeople: data.affectedPeople,
@@ -39,6 +41,7 @@ const NewChartComponent = () => {
 
   const handleBarMouseLeave = () => {
     setHoveredBar(null);
+    setHoveredIndex(null);
     setCurrentImageData(null);
   };
 
@@ -121,7 +124,15 @@ const NewChartComponent = () => {
 
   return (
     <div style={{ width: '100%', height: '450px', position: 'relative' }}>
-            <ResponsiveContainer width="100%" height="100%">
+      <style>
+        {`
+          .recharts-bar-rectangle:hover {
+            opacity: 0.8 !important;
+            transition: opacity 0.2s ease !important;
+          }
+        `}
+      </style>
+      <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ left: 5, right: 20, top: 30, bottom: 0 }}>
           <CartesianGrid stroke="#e5e7eb" horizontal={true} vertical={false} strokeDasharray="0" />
           <XAxis 
@@ -150,9 +161,13 @@ const NewChartComponent = () => {
             onMouseLeave={handleBarMouseLeave}
             onClick={handleBarClick}
             style={{ cursor: 'pointer' }}
+            radius={[2, 2, 0, 0]}
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={[2016, 2018, 2020].includes(entry.year) ? '#3b82f6' : '#000000'} />
+              <Cell 
+                key={`cell-${index}`} 
+                fill={[2016, 2018, 2020].includes(entry.year) ? '#3b82f6' : '#000000'}
+              />
             ))}
                          <LabelList 
                dataKey="affectedPeople" 
@@ -175,7 +190,6 @@ const NewChartComponent = () => {
                        fill="#3b82f6"
                        fontSize={14}
                        fontFamily="Helvetica World, Arial, sans-serif"
-
                      >
                        {formatAsK(value)}
                      </text>

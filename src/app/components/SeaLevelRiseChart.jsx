@@ -330,7 +330,7 @@ const SeaLevelRiseChart = () => {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               style={{
-                transition: 'opacity 1s ease',
+                transition: 'opacity 0.2s ease',
                 opacity: shouldReduceOpacity ? 0.4 : 1,
                 cursor: 'pointer',
                 zIndex: isHovered ? 40 : 20
@@ -347,7 +347,7 @@ const SeaLevelRiseChart = () => {
                       height: `${barHeight}px`,
                       minHeight: '30px',
                       width: '60px',
-                      transition: 'height 1.5s ease, background-color 1s ease',
+                      transition: 'height 1.5s ease, background-color 0.2s ease',
                       backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
                     }}
                   />
@@ -359,7 +359,7 @@ const SeaLevelRiseChart = () => {
                       minHeight: '30px',
                       width: '60px',
                       opacity: '0.5',
-                      transition: 'height 1.5s ease, background-color 1s ease',
+                      transition: 'height 1.5s ease, background-color 0.2s ease',
                       backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
                     }}
                   />
@@ -387,8 +387,8 @@ const SeaLevelRiseChart = () => {
               left: `${(index / selectedData.length) * 100}%`,
               width: `${100 / selectedData.length}%`,
               textAlign: 'center',
-              transition: 'opacity 1s ease',
-              opacity: shouldReduceOpacity ? 0.3 : 1,
+                                              transition: 'opacity 0.2s ease',
+                opacity: 1,
               zIndex: 200,
               pointerEvents: 'none'
             }}
