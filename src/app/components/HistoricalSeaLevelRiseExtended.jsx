@@ -199,7 +199,6 @@ const HistoricalSeaLevelRiseExtended = () => {
       overflow: 'visible', // changed back to 'visible' to allow annotation to show
       marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
       zIndex: 1002, // Higher than text content
-      border: '2px solid red',
       outline: 'none'
     }}>
       <div style={{ 
