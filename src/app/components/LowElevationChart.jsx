@@ -109,6 +109,14 @@ const LowElevationChart = () => {
           margin={{ top: 100, right: 30, left: 0, bottom: 50 }}
           baseValue={0}
         >
+                     <defs>
+             <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+               <stop offset="0%" stopColor="#000000" />
+               <stop offset="70%" stopColor="#000000" />
+               <stop offset="100%" stopColor="rgba(59, 130, 246, 0.8)" />
+             </linearGradient>
+           </defs>
+
           <XAxis 
             dataKey="Pacific Island Countries and territories" 
             tickLine={false}
@@ -131,29 +139,29 @@ const LowElevationChart = () => {
             labelFormatter={(label) => `Country: ${label}`}
             formatter={(value) => [`${Math.round(value)}%`, 'Population 0-5M']}
           />
-          <Bar 
-            dataKey="OBS_VALUE" 
-            fill="#000000" 
-            barSize={60}
-          >
-            <LabelList
-              dataKey="Pacific Island Countries and territories"
-              position="top"
-              offset={35}
-              fill="#000"
-              fontSize={12}
-              style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            />
-            <LabelList
-              dataKey="OBS_VALUE"
-              position="top"
-              offset={20}
-              fill="#666"
-              fontSize={11}
-              style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-              formatter={(value) => `${Math.round(value)}%`}
-            />
-          </Bar>
+                     <Bar 
+             dataKey="OBS_VALUE" 
+             fill="url(#barGradient)" 
+             barSize={60}
+           >
+             <LabelList
+               dataKey="Pacific Island Countries and territories"
+               position="top"
+               offset={35}
+               fill="#000"
+               fontSize={12}
+               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+             />
+             <LabelList
+               dataKey="OBS_VALUE"
+               position="top"
+               offset={20}
+               fill="#666"
+               fontSize={11}
+               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
+               formatter={(value) => `${Math.round(value)}%`}
+             />
+           </Bar>
         </BarChart>
       </ResponsiveContainer>
       
