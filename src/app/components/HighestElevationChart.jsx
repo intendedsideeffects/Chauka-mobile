@@ -98,7 +98,7 @@ const HighestElevationChart = () => {
 
   
   return (
-    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
+    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative', border: '2px solid red' }}>
       {/* Zero line */}
       <div style={{
         position: 'absolute',
@@ -113,13 +113,32 @@ const HighestElevationChart = () => {
       {/* Blue gradient area below 0 (sea level) */}
       <div style={{
         position: 'absolute',
-        left: '20px',  // Match chart left margin
+        left: '0px',  // Align with chart left edge
         right: '30px', // Match chart right margin
         top: '400px',  // Position right below the chart area
         height: '50px',
         background: 'linear-gradient(to top, transparent 0%, rgba(59, 130, 246, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)',
         zIndex: 0
       }} />
+
+      {/* Y-axis annotation */}
+      <div style={{
+        position: 'absolute',
+        left: '-100px',
+        top: 'calc(50% - 180px)',
+        transform: 'translateY(-50%)',
+        fontSize: '12px',
+        fontFamily: 'Helvetica World, Arial, sans-serif',
+        color: '#666666',
+        textAlign: 'right',
+        pointerEvents: 'none',
+        lineHeight: '1.2',
+        width: '80px'
+      }}>
+        Average elevation<br/>
+        of Pacific Island<br/>
+        (in m)
+      </div>
       
       {/* Main chart area */}
       <div style={{ 
@@ -131,7 +150,7 @@ const HighestElevationChart = () => {
         <ResponsiveContainer width="100%" height="100%" style={{ padding: 0, margin: 0 }}>
           <BarChart 
             data={highestElevationData} 
-            margin={{ top: 80, right: 30, left: 20, bottom: 0 }}
+            margin={{ top: 80, right: 30, left: 0, bottom: 0 }}
             baseValue={0}
             barGap={0}
             barSize={60}
@@ -140,15 +159,20 @@ const HighestElevationChart = () => {
               dataKey="country" 
               tickLine={false}
               axisLine={false}
-              tick={false}
+              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
               height={0}
             />
             <YAxis 
               tickLine={false}
               axisLine={false}
-              width={0}
-              tick={false}
+              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
+              width={40}
               domain={[0, 'dataMax']}
+            />
+            <CartesianGrid 
+              horizontal={true} 
+              vertical={false} 
+              stroke="#e5e7eb"
             />
             <Tooltip 
               labelFormatter={(label) => `Country: ${label}`}

@@ -185,7 +185,7 @@ const SegmentTemplate = ({
             width: '100%',
             maxWidth: '800px',
             textAlign: 'left',
-            marginTop: '1rem'
+            marginTop: '0rem'
           }}>
             <p style={{
               fontSize: '0.9rem',

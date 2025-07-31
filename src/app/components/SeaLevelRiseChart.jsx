@@ -104,7 +104,7 @@ const SeaLevelRiseChart = () => {
   };
 
                              return (
-      <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto'}}>
+      <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto', border: '2px solid red', padding: '0 30px'}}>
                                                                                                                         {/* Controls - Scattered in top-right corner of page */}
                   <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
                    
@@ -237,18 +237,20 @@ const SeaLevelRiseChart = () => {
                    {/* Y-axis label - positioned outside chart area */}
                    <div style={{
                      position: 'absolute',
-                     left: '-80px',
-                     top: 'calc(50% - 80px)',
+                     left: '-120px',
+                     top: 'calc(50% - 140px)',
                      transform: 'translateY(-50%)',
                      fontSize: '12px',
                      fontFamily: 'Helvetica World, Arial, sans-serif',
                      color: '#666666',
                      textAlign: 'right',
                      pointerEvents: 'none',
-                     lineHeight: '1.2'
+                     lineHeight: '1.2',
+                     width: '80px'
                    }}>
                      Sea level rise<br/>
-                     in meters
+                     in meters<br/>
+                     (in m)
                    </div>
                    
                    {/* Global sea level rise annotation */}
@@ -261,12 +263,45 @@ const SeaLevelRiseChart = () => {
                      </div>
                    </div>
                    
-                                       {/* Extended line across the chart */}
+                   {/* Extended line across the chart */}
                     <div className="absolute left-0 right-0 z-25" style={{ 
                        top: `${350 - (currentGlobalRise / 1.0) * 280}px`
                     }}>
                       <div className="border-t border-gray-400" style={{ height: '1px' }}></div>
                     </div>
+
+                   {/* Horizontal gridlines */}
+                   {[0, 0.5, 1.0].map((value, index) => (
+                     <div 
+                       key={index}
+                       className="absolute left-0 right-0 z-15" 
+                       style={{ 
+                         top: `${350 - (value / 1.0) * 280}px`
+                       }}
+                     >
+                       <div className="border-t border-gray-200" style={{ height: '1px' }}></div>
+                     </div>
+                   ))}
+
+                   {/* Y-axis labels */}
+                   {[0, 0.5, 1.0].map((value, index) => (
+                     <div 
+                       key={index}
+                       className="absolute z-20" 
+                       style={{ 
+                         top: `${350 - (value / 1.0) * 280 - 8}px`,
+                         left: '-30px',
+                         fontSize: '12px',
+                         color: '#666666',
+                         fontFamily: 'Helvetica World, Arial, sans-serif',
+                         textAlign: 'right',
+                         width: '30px'
+                       }}
+                     >
+                       {value.toFixed(1)}
+                     </div>
+                   ))}
+
                    {/* Chart area with bars */}
       <div className="flex items-end justify-between h-[350px] relative">
         {/* Dynamic blue gradient rectangle behind bars */}

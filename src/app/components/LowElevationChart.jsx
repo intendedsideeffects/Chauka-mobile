@@ -91,7 +91,7 @@ const LowElevationChart = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
+    <div style={{ width: '100%', height: '450px', position: 'relative', border: '2px solid red' }}>
       {/* Zero line */}
       <div style={{
         position: 'absolute',
@@ -106,21 +106,21 @@ const LowElevationChart = () => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={lowElevationData} 
-          margin={{ top: 100, right: 30, left: 5, bottom: 50 }}
+          margin={{ top: 100, right: 30, left: 0, bottom: 50 }}
           baseValue={0}
         >
           <XAxis 
             dataKey="Pacific Island Countries and territories" 
             tickLine={false}
             axisLine={false}
-            tick={false}
+            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
             height={0}
           />
           <YAxis 
             tickLine={false}
             axisLine={false}
             tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            width={60}
+            width={40}
           />
           <CartesianGrid 
             horizontal={true} 
@@ -160,8 +160,8 @@ const LowElevationChart = () => {
       {/* Y-axis label - positioned outside chart area */}
       <div style={{
         position: 'absolute',
-        left: '-60px',
-        top: 'calc(50% - 160px)',
+        left: '-100px',
+        top: 'calc(50% - 180px)',
         transform: 'translateY(-50%)',
         fontSize: '12px',
         fontFamily: 'Helvetica World, Arial, sans-serif',

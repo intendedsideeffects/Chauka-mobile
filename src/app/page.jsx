@@ -403,7 +403,7 @@ export default function TestScroll() {
         {/* Projection label */}
         <div style={{
           position: 'absolute',
-          top: 'calc(40vh - 250px)',
+          top: 'calc(40vh - 240px)',
           left: 'calc(80vw - 30px)',
           zIndex: 9999,
           pointerEvents: 'none',
@@ -433,7 +433,7 @@ export default function TestScroll() {
         }}>
           Under 1.5°C to 2.0°C of global warming,<br/>
           sea level rise is expected to increase by<br/>
-          <strong>~25 cm in 2050.</strong>
+          <strong>~25 cm in 2050 (in cm).</strong>
         </div>
         
 

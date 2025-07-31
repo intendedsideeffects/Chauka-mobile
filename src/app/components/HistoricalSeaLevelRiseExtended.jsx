@@ -142,7 +142,10 @@ const HistoricalSeaLevelRiseExtended = () => {
         // Separate data by type
         const historicalData = allData.filter(d => d.year < 1993);
         const satelliteData = allData.filter(d => d.year >= 1993 && d.year < 2024);
-        const projectionData = allData.filter(d => d.year >= 2024);
+        
+        // Generate projection data from the last satellite data point
+        const lastSatellitePoint = satelliteData[satelliteData.length - 1];
+        const projectionData = generateProjection(lastSatellitePoint, 2050);
         
         // Combine historical and satellite data
         const combinedData = [...historicalData, ...satelliteData];
@@ -196,7 +199,7 @@ const HistoricalSeaLevelRiseExtended = () => {
       overflow: 'visible', // changed back to 'visible' to allow annotation to show
       marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
       zIndex: 1002, // Higher than text content
-      border: 'none',
+      border: '2px solid red',
       outline: 'none'
     }}>
       <div style={{ 
@@ -206,8 +209,19 @@ const HistoricalSeaLevelRiseExtended = () => {
         border: 'none',
         outline: 'none'
       }}>
+        {/* White box to cover top line */}
+        <div style={{
+          position: 'absolute',
+          top: '18px',
+          left: '0px',
+          right: '0px',
+          height: '3px',
+          backgroundColor: 'white',
+          zIndex: 10
+        }} />
+        
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data.allData} margin={{ left: -15, right: 0, top: 20, bottom: 20 }}>
+          <ComposedChart data={data.allData} margin={{ left: 0, right: 0, top: 20, bottom: 20 }}>
             <defs>
               <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="rgba(59, 130, 246, 0.7)" />
@@ -217,11 +231,9 @@ const HistoricalSeaLevelRiseExtended = () => {
               </linearGradient>
             </defs>
             <CartesianGrid 
-              strokeDasharray="3 3" 
+              stroke="#e5e7eb"
               horizontal={true} 
               vertical={false}
-              horizontalPoints={[-20, -10]}
-              verticalPoints={[]}
             />
             
 
@@ -230,22 +242,21 @@ const HistoricalSeaLevelRiseExtended = () => {
               type="number"
               domain={[1000, 2050]}
               ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024, 2050]}
+              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
               allowDataOverflow={false}
               scale="linear"
             />
             <YAxis 
-              dx={-10} 
-              width={60} 
+              dx={0} 
+              width={40} 
               tickLine={false}
               axisLine={false}
+              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
               domain={[-20, 35]}
-              ticks={[-20, -10, 0, 10, 20, 30, 35]}
+              ticks={[-20, -10, 0, 10]}
               tickFormatter={(value) => {
-                if (value === 20 || value === 30 || value === 35) {
-                  return '';
-                }
                 return Math.round(value);
               }}
               hide={false}
@@ -285,7 +296,7 @@ const HistoricalSeaLevelRiseExtended = () => {
               dataKey="value" 
               data={animationStep >= 1 ? data.allData.filter(d => d.year < 2025) : data.combined.filter(d => d.year < 1993)}
               stroke="#000000" 
-              strokeWidth={2}
+              strokeWidth={0.5}
               dot={(props) => {
                 // Only show dots for specific years
                 const year = Math.round(props.payload.year);
