@@ -400,27 +400,10 @@ export default function TestScroll() {
           }}
         />
         
-        {/* Projection label */}
-        <div style={{
-          position: 'absolute',
-          top: 'calc(40vh - 240px)',
-          left: 'calc(80vw - 30px)',
-          zIndex: 9999,
-          pointerEvents: 'none',
-          fontSize: '14px',
-          fontFamily: 'Helvetica World, Arial, sans-serif',
-          color: '#000000',
-          fontWeight: 'bold',
-          lineHeight: '1.4',
-          maxWidth: '300px'
-        }}>
-          <strong>Projection</strong>
-        </div>
-        
         {/* Annotation for section 3 - positioned outside chart container */}
         <div style={{
           position: 'absolute',
-          top: 'calc(40vh - 230px)',
+          top: 'calc(40vh - 120px)',
           left: 'calc(80vw - 30px)',
           zIndex: 9999,
           pointerEvents: 'none',
@@ -431,9 +414,10 @@ export default function TestScroll() {
           lineHeight: '1.4',
           maxWidth: '300px'
         }}>
+          <strong>Projection</strong><br/>
           Under 1.5°C to 2.0°C of global warming,<br/>
           sea level rise is expected to increase by<br/>
-          <strong>~25 cm in 2050 (in cm).</strong>
+          <strong>~25 cm in 2050.</strong>
         </div>
         
 

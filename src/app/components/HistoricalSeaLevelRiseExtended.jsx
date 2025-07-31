@@ -405,7 +405,7 @@ const HistoricalSeaLevelRiseExtended = () => {
         }}>
           Global Mean<br/>
           Sea Level<br/>
-          (cm)
+          (in cm)
         </div>
         
         {/* X-axis label - positioned outside chart area on the right */}
