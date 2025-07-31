@@ -104,7 +104,7 @@ const SeaLevelRiseChart = () => {
   };
 
                              return (
-      <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto', border: '2px solid red', padding: '0 30px'}}>
+              <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto', padding: '0 30px'}}>
                                                                                                                         {/* Controls - Scattered in top-right corner of page */}
                   <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
                    
