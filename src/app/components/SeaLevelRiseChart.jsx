@@ -13,6 +13,7 @@ const SeaLevelRiseChart = () => {
   const [loading, setLoading] = useState(true);
   const [selectedDegree, setSelectedDegree] = useState('2');
   const [selectedYear, setSelectedYear] = useState('2050');
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -125,7 +126,7 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
                     </defs>
-                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#ffffff"} stroke={selectedDegree === '2' ? "#000" : "#000000"} strokeWidth={selectedDegree === '2' ? "1" : "2"} />
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#ffffff"} stroke={selectedDegree === '2' ? "#000" : "#000000"} strokeWidth={selectedDegree === '2' ? "0.5" : "1"} />
                                            <text fill={selectedDegree === '2' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
                         2°C
                     </text>
@@ -155,7 +156,7 @@ const SeaLevelRiseChart = () => {
                         Select warming
                       </textPath>
                     </text>
-                     <circle cx="60" cy="60" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "1" : "2"} />
+                     <circle cx="60" cy="60" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "0.5" : "1"} />
                                            <text fill={selectedDegree === '4' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         4°C
                     </text>
@@ -178,7 +179,7 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
                     </defs>
-                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#ffffff"} stroke={selectedYear === '2050' ? "#000" : "#000000"} strokeWidth={selectedYear === '2050' ? "1" : "2"} />
+                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#ffffff"} stroke={selectedYear === '2050' ? "#000" : "#000000"} strokeWidth={selectedYear === '2050' ? "0.5" : "1"} />
                                            <text fill={selectedYear === '2050' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         2050
                     </text>
@@ -208,7 +209,7 @@ const SeaLevelRiseChart = () => {
                         Select year
                       </textPath>
                     </text>
-                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#ffffff"} stroke={selectedYear === '2100' ? "#000" : "#000000"} strokeWidth={selectedYear === '2100' ? "1" : "2"} />
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#ffffff"} stroke={selectedYear === '2100' ? "#000" : "#000000"} strokeWidth={selectedYear === '2100' ? "0.5" : "1"} />
                     <text fill={selectedYear === '2100' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                       2100
                     </text>
@@ -301,7 +302,7 @@ const SeaLevelRiseChart = () => {
                    ))}
 
                    {/* Chart area with bars */}
-      <div className="flex items-end justify-between h-[350px] relative">
+      <div className="flex items-end justify-between h-[350px] relative" style={{ transition: 'height 1.5s ease' }}>
         {/* Dynamic blue gradient rectangle behind bars */}
         <div 
                                      className="absolute left-0 right-0 z-20"
@@ -319,47 +320,84 @@ const SeaLevelRiseChart = () => {
           const barHeight = (item.selectedValue / 1.0) * 280;
           const globalLineHeight = (currentGlobalRise / 1.0) * 280;
           const isAboveGlobal = item.selectedValue > currentGlobalRise;
+          const isHovered = hoveredIndex === index;
+          const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
           
           return (
-            <div key={index} className="flex flex-col items-center flex-1 mx-1">
-              {/* Labels above bar */}
-              <div style={{
-                position: 'absolute',
-                top: `${350 - barHeight - 60}px`,
-                textAlign: 'center',
-                width: '100%'
-              }}>
-                <div style={{ fontSize: '12px', color: '#000' }}>{item.country}</div>
-                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}m</div>
-              </div>
+            <div 
+              key={index} 
+              className="flex flex-col items-center flex-1 mx-1"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              style={{
+                transition: 'opacity 1s ease',
+                opacity: shouldReduceOpacity ? 0.4 : 1,
+                cursor: 'pointer',
+                zIndex: isHovered ? 40 : 20
+              }}
+            >
+
               
               {/* Bar */}
               <div className="relative flex justify-center">
-                                 {isAboveGlobal ? (
-                   <div 
-                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                     style={{ 
-                       height: `${barHeight}px`,
-                       minHeight: '30px',
-                       width: '60px'
-                     }}
-                   />
-                 ) : (
-                   <div 
-                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                     style={{ 
-                       height: `${barHeight}px`,
-                       minHeight: '30px',
-                       width: '60px',
-                       opacity: '0.5'
-                     }}
-                   />
-                 )}
+                {isAboveGlobal ? (
+                  <div 
+                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                    style={{ 
+                      height: `${barHeight}px`,
+                      minHeight: '30px',
+                      width: '60px',
+                      transition: 'height 1.5s ease, background-color 1s ease',
+                      backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
+                    }}
+                  />
+                ) : (
+                  <div 
+                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                    style={{ 
+                      height: `${barHeight}px`,
+                      minHeight: '30px',
+                      width: '60px',
+                      opacity: '0.5',
+                      transition: 'height 1.5s ease, background-color 1s ease',
+                      backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
+                    }}
+                  />
+                )}
               </div>
+              
+
             </div>
           );
         })}
       </div>
+      
+      {/* Labels positioned absolutely above the chart */}
+      {selectedData.map((item, index) => {
+        const barHeight = (item.selectedValue / 1.0) * 280;
+        const isHovered = hoveredIndex === index;
+        const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
+        
+        return (
+          <div 
+            key={`label-${index}`}
+            style={{
+              position: 'absolute',
+              top: `${350 - barHeight - 60}px`,
+              left: `${(index / selectedData.length) * 100}%`,
+              width: `${100 / selectedData.length}%`,
+              textAlign: 'center',
+              transition: 'opacity 1s ease',
+              opacity: shouldReduceOpacity ? 0.3 : 1,
+              zIndex: 200,
+              pointerEvents: 'none'
+            }}
+          >
+            <div style={{ fontSize: '12px', color: '#000' }}>{item.country}</div>
+            <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}m</div>
+          </div>
+        );
+      })}
         
         {/* Country labels below the chart - REMOVED since names are now above bars */}
              </div>

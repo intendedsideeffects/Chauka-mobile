@@ -253,7 +253,7 @@ export default function TestScroll() {
         }}>4</div>
         <SegmentTemplate 
           header="Rising Seas, Unequal Burden"
-          text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
+          text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding. We will continue here."
           chartComponent={<SeaLevelRiseChart />}
         />
       </div>
