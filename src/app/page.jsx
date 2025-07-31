@@ -506,7 +506,7 @@ export default function TestScroll() {
         <SegmentTemplate 
           header="Many islanders live just above sea level,"
           headerSecondLine="where sea rise is already felt."
-          text="Many Pacific Island nations have significant populations living in low-lying coastal areas. These communities are particularly vulnerable to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
+          text="Many Pacific Island nations have significant <strong>populations living in low-lying coastal areas</strong>. These communities are <strong>particularly vulnerable</strong> to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
           chartComponent={<LowElevationChart />}
           caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations. Data: Pacific Data Hub <a href='https://pacificdata.org/data/dataset/population-living-in-low-elevation-coastal-zones-0-10m-and-0-20m-above-sea-level-df-pop-lecz' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
@@ -601,15 +601,32 @@ export default function TestScroll() {
           pointerEvents: 'none',
          }}>10</div>
         <SegmentTemplate
-          header="Placeholder Segment 10"
-          text="This is a placeholder segment that will be filled with content later. It follows the same structure as other segments in the project."
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            }
-          }}
+          header="Conclusion"
+          text="The Pacific is on the <strong>front lines</strong> of the climate crisis. While sea levels are rising globally, their impacts are <strong>not evenly distributed</strong>. Low-lying island nations such as Tuvalu, Kiribati, and the Marshall Islands, with an average elevation of just <strong>2 meters</strong>, face an existential threat from even modest increases in sea level. These islands have little elevation to buffer rising tides and no higher ground for retreat.
+
+<br/><br/>
+
+But elevation alone does not tell the full story. <strong>Ocean currents</strong>, land movement, and storm exposure all contribute to risk, making some regions more vulnerable than others. Climate hazards that were once rare are becoming more <strong>frequent</strong> and <strong>disruptive</strong>.
+
+<br/><br/>
+
+In recent years, hundreds of thousands of people in the Pacific have been affected by <strong>floods</strong>, <strong>cyclones</strong>, and <strong>droughts</strong>, showing a sharp rise in human impact.
+
+<br/><br/>
+
+The data points to a clear trend: as the <strong>climate warms</strong>, the risks for Pacific communities are increasing. What is happening in these islands is not just a warning, but a <strong>preview</strong> of what coastal regions around the world may face if emissions and sea level rise are not brought under control."
+          chartComponent={null}
+                      styles={{
+              header: {
+                fontSize: '2.5rem',
+                fontWeight: 'normal',
+                fontFamily: 'Helvetica World, Arial, sans-serif'
+              },
+              placeholderChart: {
+                display: 'none'
+              }
+            }}
+            caption=""
         />
       </div>
 

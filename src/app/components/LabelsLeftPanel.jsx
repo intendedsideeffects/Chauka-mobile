@@ -63,6 +63,9 @@ function LabelsLeftPanel({
       <div
         style={{
           padding: '16px',
+          background: 'linear-gradient(to right, transparent, rgba(59, 130, 246, 0.1))',
+          borderRight: '2px solid',
+          borderImage: 'linear-gradient(to bottom, transparent, #3b82f6) 1',
         }}>
         <div style={{ marginBottom: '48px' }}>
           <div
