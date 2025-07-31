@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, LabelList } from 'recharts';
+
 
 const NewChartComponent = () => {
   const [data, setData] = useState([]);
@@ -114,7 +114,6 @@ const NewChartComponent = () => {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        backgroundColor: '#f3f4f6',
         borderRadius: '8px'
       }}>
         <div style={{ fontSize: '1.2rem', color: '#6b7280' }}>Loading disaster data...</div>
@@ -132,75 +131,122 @@ const NewChartComponent = () => {
           }
         `}
       </style>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ left: 5, right: 20, top: 30, bottom: 0 }}>
-          <CartesianGrid stroke="#e5e7eb" horizontal={true} vertical={false} strokeDasharray="0" />
-          <XAxis 
-            dataKey="year" 
-            tickLine={false}
-            axisLine={false}
-            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            type="number"
-            domain={['dataMin', 'dataMax']}
+      {/* Chart area with bars */}
+      <div className="flex items-end justify-between h-[350px] relative" style={{ 
+        transition: 'height 1.5s ease',
+        marginLeft: '80px',
+        marginRight: '20px'
+      }}>
+        {/* Horizontal gridlines */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
+          <div 
+            key={index}
+            className="absolute left-0 right-0 z-10" 
+            style={{ 
+              top: `${350 - (value * 280)}px`,
+              height: '1px',
+              background: '#e5e7eb'
+            }}
           />
-          <YAxis 
-            width={40}
-            tickLine={false}
-            axisLine={false}
-            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            tickFormatter={hideZeroLabel}
-          />
-          <Tooltip 
-            formatter={(value, name) => [formatAsK(value), 'People Affected']}
-            labelFormatter={(label) => `Year: ${label}`}
-          />
-          <Bar 
-            dataKey="affectedPeople" 
-            fill="#000000"
-            onMouseEnter={handleBarMouseEnter}
-            onMouseLeave={handleBarMouseLeave}
-            onClick={handleBarClick}
-            style={{ cursor: 'pointer' }}
-            radius={[2, 2, 0, 0]}
-          >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={[2016, 2018, 2020].includes(entry.year) ? '#3b82f6' : '#000000'}
-              />
-            ))}
-                         <LabelList 
-               dataKey="affectedPeople" 
-               position="top" 
-               fill="#3b82f6"
-               fontSize={14}
-               fontFamily="Helvetica World, Arial, sans-serif"
-               offset={20}
-               fontWeight="bold"
-               content={(props) => {
-                 const { value, x, y, width, index } = props;
-                 const entry = data[index];
-                 
-                 if (entry && [2016, 2018, 2020].includes(entry.year)) {
-                   return (
-                     <text
-                       x={x + width / 2}
-                       y={y - 10}
-                       textAnchor="middle"
-                       fill="#3b82f6"
-                       fontSize={14}
-                       fontFamily="Helvetica World, Arial, sans-serif"
-                     >
-                       {formatAsK(value)}
-                     </text>
-                   );
-                 }
-                 return null;
-               }}
-             />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+        ))}
+        
+        {/* Y-axis labels */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => {
+          const maxValue = data.length > 0 ? Math.max(...data.map(d => d.affectedPeople)) : 1;
+          return (
+            <div 
+              key={index}
+              className="absolute z-20" 
+              style={{ 
+                top: `${350 - (value * 280) - 8}px`,
+                left: '-25px',
+                fontSize: '12px',
+                color: '#666666',
+                fontFamily: 'Helvetica World, Arial, sans-serif'
+              }}
+            >
+              {formatAsK(Math.round(value * maxValue))}
+            </div>
+          );
+        })}
+        
+        {/* Zero line positioned directly under bars */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
+       
+        {data.map((item, index) => {
+          // Use max value for scaling
+          const maxValue = data.length > 0 ? Math.max(...data.map(d => d.affectedPeople)) : 1;
+          
+          // Simple linear scale
+          const maxBarHeight = 280;
+          const barHeight = (item.affectedPeople / maxValue) * maxBarHeight;
+          const isHovered = hoveredIndex === index;
+          const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
+          
+          return (
+            <div 
+              key={index} 
+              className="flex flex-col items-center flex-1"
+              style={{ margin: '0 2px' }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => handleBarClick(item, index)}
+                              style={{
+                  transition: 'opacity 0.2s ease',
+                  opacity: shouldReduceOpacity ? 0.6 : 1,
+                  cursor: 'pointer',
+                  zIndex: isHovered ? 40 : 20
+                }}
+            >
+
+              
+              {/* Bar */}
+              <div className="relative flex justify-center" style={{ alignSelf: 'flex-end' }}>
+                <div 
+                  className="rounded-t-sm relative z-10"
+                  style={{ 
+                    height: `${Math.max(barHeight, 1)}px`,
+                    width: 'calc(100% - 4px)',
+                    minWidth: '20px',
+                    maxWidth: '80px',
+                    minHeight: '1px',
+                    transition: 'height 1.5s ease, background-color 0.2s ease, width 0.3s ease',
+                    backgroundColor: isHovered ? 
+                      ([2016, 2018, 2020].includes(item.year) ? '#1d4ed8' : '#374151') : 
+                      ([2016, 2018, 2020].includes(item.year) ? '#3b82f6' : '#000000')
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+        
+        {/* X-axis year labels */}
+        {[2005, 2016, 2018, 2020, 2023].map((year, index) => {
+          const yearIndex = data.findIndex(item => item.year === year);
+          if (yearIndex === -1) return null; // Skip if year not in data
+          
+          return (
+            <div 
+              key={year}
+              className="absolute z-20" 
+              style={{ 
+                bottom: '-30px',
+                left: `${(yearIndex / (data.length - 1)) * 100}%`,
+                transform: 'translateX(-50%)',
+                fontSize: '12px',
+                color: '#666666',
+                fontFamily: 'Helvetica World, Arial, sans-serif',
+                textAlign: 'center',
+                width: '40px'
+              }}
+            >
+              {year}
+            </div>
+          );
+        })}
+          
+      </div>
       
       {/* Y-axis label - positioned outside chart area */}
       <div style={{
@@ -221,16 +267,7 @@ const NewChartComponent = () => {
         hazards
       </div>
       
-      {/* Zero line aligned with gridlines */}
-      <div style={{
-        position: 'absolute',
-        bottom: '0px',
-        left: '80px',
-        right: '20px',
-        height: '1px',
-        backgroundColor: '#e5e7eb',
-        zIndex: 1
-      }} />
+
       
       {/* Fullscreen image overlay */}
       {showFullscreenImage && currentImageData && (
