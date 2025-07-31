@@ -186,113 +186,49 @@ export default function TestScroll() {
             msUserSelect: 'none'
           }}
         />
-        {/* Round Button with Text - Top of Video Section */}
-        <div style={{
-          position: 'absolute',
-          top: '33vh',
-          left: '33vw',
-          zIndex: 1000,
-          pointerEvents: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}
-        onMouseEnter={(e) => {
-          const popup = e.currentTarget.querySelector('.hover-popup');
-          if (popup) popup.style.display = 'block';
-        }}
-        onMouseLeave={(e) => {
-          const popup = e.currentTarget.querySelector('.hover-popup');
-          if (popup) popup.style.display = 'none';
-        }}
+        
+        {/* Speech bubble centered and down */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '40%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            pointerEvents: 'none',
+          }}
         >
-          {/* Circular Button with Directional Triangles */}
-          <div style={{
-            position: 'relative',
-            width: '45px',
-            height: '45px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-                        {/* Triangles removed */}
-            
-            {/* Animated Hand Button */}
-                              <div
-                    style={{
-                      width: '45px',
-                      height: '45px',
-                      borderRadius: '50%',
-                      background: '#eba728',
-                      border: 'none',
-                      cursor: 'grab',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '11px',
-                      fontWeight: 'bold',
-                      color: '#f4d47c',
-                      fontFamily: 'Helvetica World, Arial, sans-serif',
-                      boxShadow: '0 4px 12px rgba(235, 167, 40, 0.3)',
-                      transition: 'all 0.3s ease',
-                      zIndex: 10,
-                      lineHeight: '1',
-                      padding: '0',
-                      pointerEvents: 'auto',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      MozUserSelect: 'none',
-                      msUserSelect: 'none',
-                      textAlign: 'center',
-                      opacity: 0.9
-                    }}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#d49522';
-                e.target.style.transform = 'scale(1.1)';
-                e.target.style.cursor = 'grabbing';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#eba728';
-                e.target.style.transform = 'scale(1)';
-                e.target.style.cursor = 'grab';
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ animation: 'pointing 2s ease-in-out infinite' }}>
-                <path d="M13.64 21.97C13.14 22.16 12.54 22 12.31 21.55L9.07 14.56C8.82 14.07 8.5 13.73 8.13 13.53C7.76 13.33 7.35 13.28 6.96 13.38L4.75 13.97C4.16 14.13 3.5 13.87 3.21 13.34L2.21 11.34C1.92 10.81 2.08 10.15 2.59 9.88L4.59 8.88C5.12 8.59 5.78 8.75 6.07 9.28L7.07 11.28C7.36 11.81 7.92 12.07 8.51 11.91L10.72 11.32C11.11 11.22 11.52 11.27 11.89 11.47C12.26 11.67 12.58 12.01 12.83 12.5L16.07 19.49C16.3 19.94 16.14 20.54 15.64 20.73L13.64 21.97Z"/>
-                <path d="M17.5 8.5C18.5 8.5 19.5 7.5 19.5 6.5C19.5 5.5 18.5 4.5 17.5 4.5C16.5 4.5 15.5 5.5 15.5 6.5C15.5 7.5 16.5 8.5 17.5 8.5Z"/>
-              </svg>
-            </div>
-          </div>
-          
-          {/* Hover Popup */}
-          <div 
-            className="hover-popup"
+          <img 
+            src="/speechbubble.svg" 
+            alt="Speech bubble" 
+            style={{ 
+              width: '200px', 
+              height: 'auto',
+              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+              opacity: 0.7
+            }} 
+          />
+          <div
             style={{
               position: 'absolute',
-              top: '-80px',
+              top: '40%',
               left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'rgba(0, 0, 0, 0.8)',
-              color: 'white',
-              padding: '12px 16px',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif',
+              transform: 'translate(-50%, -50%)',
+              color: '#333',
+              fontSize: '12px',
+              fontWeight: '500',
               textAlign: 'center',
-              whiteSpace: 'nowrap',
-              zIndex: 1001,
-              display: 'none',
-              pointerEvents: 'none',
-              maxWidth: '200px',
-              lineHeight: '1.4'
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              width: '80%',
+              lineHeight: '1.2'
             }}
           >
-            Can you find the Southern Cross?<br/>
-            Explore the night sky by dragging.
+            Can you find<br />
+            the Southern Cross?<br />
+            Drag sky to explore.
           </div>
         </div>
+
 
         {/* Music Button on Canoe Area - Hidden for now */}
         {/* <div style={{
