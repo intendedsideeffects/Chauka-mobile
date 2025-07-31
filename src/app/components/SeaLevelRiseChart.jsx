@@ -97,7 +97,7 @@ const SeaLevelRiseChart = () => {
           fill="#666"
           fontSize={11}
         >
-          {value.toFixed(2)}M
+          {value.toFixed(2)}m
         </text>
       </g>
     );
@@ -257,7 +257,7 @@ const SeaLevelRiseChart = () => {
                       left: '-200px'
                    }}>
                      <div className="text-sm text-gray-600 font-medium text-right">
-                       Global Sea Level Rise: {currentGlobalRise.toFixed(2)}M
+                       Global Sea Level Rise: {currentGlobalRise.toFixed(2)}m
                      </div>
                    </div>
                    
@@ -297,7 +297,7 @@ const SeaLevelRiseChart = () => {
                 width: '100%'
               }}>
                 <div style={{ fontSize: '12px', color: '#000' }}>{item.country}</div>
-                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}M</div>
+                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}m</div>
               </div>
               
               {/* Bar */}

@@ -488,9 +488,9 @@ export default function TestScroll() {
                          <SegmentTemplate 
           header="Impact varies across Pacific islands"
           headerSecondLine="low-laying islands are exposed more."
-          text="The <strong>risk of flooding</strong> depends on more than rising seas alone. Elevation, coastal shape, and land movement all influence how soon and how often flooding occurs. On low-lying islands, even small increases in sea level can breach <strong>thresholds</strong> that once kept high tides at bay, making flooding more frequent and more severe."
+          text="Low elevation makes many Pacific islands especially vulnerable to sea level rise. When land sits just a few meters above the ocean, even small increases can <strong>overwhelm coastlines</strong>. With nowhere higher to go, communities face growing challenges to stay safe, maintain clean water, and protect their homes."
           chartComponent={<HighestElevationChart />}
-          caption="<strong>Fig 3:</strong> Maximum elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
+          caption="<strong>Fig 3:</strong> Average elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
               fontSize: '2.5rem',

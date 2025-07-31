@@ -15,18 +15,20 @@ const HighestElevationChart = () => {
         const lines = csvText.split('\n');
         const data = lines.slice(1).filter(line => line.trim() !== '').map(line => {
           const values = line.split(';');
+          // Handle both comma and dot decimal formats
+          const elevationValue = values[5] ? parseFloat(values[5].replace(',', '.')) : 0;
           return {
             country: values[0],
             elevation: values[1],
             elevationDesc: values[2],
             timePeriod: values[3],
             obsValue: parseInt(values[4]) || 0,
-            highestElevation: parseInt(values[5]) || 0
+            highestElevation: elevationValue
           };
         });
 
-        // Get unique countries with their highest elevation
-        const highestElevation = data
+        // Get unique countries with their average elevation
+        const averageElevation = data
           .filter(item => item.highestElevation > 0)
           .reduce((acc, item) => {
             if (!acc.find(c => c.country === item.country)) {
@@ -38,9 +40,22 @@ const HighestElevationChart = () => {
             return acc;
           }, [])
           .sort((a, b) => a.elevation - b.elevation)
-          .slice(0, 9); // Only show the 9 lowest islands
+          .slice(0, 9) // Only show the 9 lowest islands
+          .map((item, index) => ({
+            ...item,
+            isLowest: index < 4 // Mark the 4 lowest islands
+          }));
 
-        setHighestElevationData(highestElevation);
+        // Swap Tuvalu and Tokelau positions
+        const swappedData = [...averageElevation];
+        const tuvaluIndex = swappedData.findIndex(item => item.country === 'Tuvalu');
+        const tokelauIndex = swappedData.findIndex(item => item.country === 'Tokelau');
+        
+        if (tuvaluIndex !== -1 && tokelauIndex !== -1) {
+          [swappedData[tuvaluIndex], swappedData[tokelauIndex]] = [swappedData[tokelauIndex], swappedData[tuvaluIndex]];
+        }
+
+        setHighestElevationData(swappedData);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -74,20 +89,22 @@ const HighestElevationChart = () => {
           fill="#666666" 
           fontSize={10}
         >
-          {dataPoint ? `${dataPoint.elevation}M` : ''}
+          {dataPoint ? `${dataPoint.elevation.toString().replace('.', ',')}m` : ''}
         </text>
       </g>
     );
   };
 
+
+  
   return (
     <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
       {/* Zero line */}
       <div style={{
         position: 'absolute',
-        left: '50px',
+        left: '20px',
         right: '30px',
-        top: '385px',
+        top: '400px',
         height: '1px',
         background: '#666',
         zIndex: 2
@@ -96,9 +113,9 @@ const HighestElevationChart = () => {
       {/* Blue gradient area below 0 (sea level) */}
       <div style={{
         position: 'absolute',
-        left: '50px',  // Match chart margin
-        right: '30px', // Match chart margin
-        top: '385px',  // Position right below the chart area
+        left: '20px',  // Match chart left margin
+        right: '30px', // Match chart right margin
+        top: '400px',  // Position right below the chart area
         height: '50px',
         background: 'linear-gradient(to top, transparent 0%, rgba(59, 130, 246, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)',
         zIndex: 0
@@ -108,13 +125,16 @@ const HighestElevationChart = () => {
       <div style={{ 
         width: '100%', 
         height: '400px', 
-        position: 'relative'
+        position: 'relative',
+        padding: '0'
       }}>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" style={{ padding: 0, margin: 0 }}>
           <BarChart 
             data={highestElevationData} 
-            margin={{ top: 80, right: 30, left: -40, bottom: 15 }}
+            margin={{ top: 80, right: 30, left: 20, bottom: 0 }}
             baseValue={0}
+            barGap={0}
+            barSize={60}
           >
             <XAxis 
               dataKey="country" 
@@ -128,13 +148,13 @@ const HighestElevationChart = () => {
               axisLine={false}
               width={0}
               tick={false}
-              domain={['dataMin', 'dataMax']}
+              domain={[0, 'dataMax']}
             />
             <Tooltip 
               labelFormatter={(label) => `Country: ${label}`}
               formatter={(value, name) => [value, 'Elevation (M)']}
             />
-            <Bar dataKey="elevation" fill="#000000" barSize={60}>
+            <Bar dataKey="elevation" fill="#000000" radius={0}>
               <LabelList content={<CustomBarLabel />} />
             </Bar>
           </BarChart>
