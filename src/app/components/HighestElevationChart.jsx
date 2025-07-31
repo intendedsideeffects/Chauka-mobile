@@ -102,7 +102,7 @@ const HighestElevationChart = () => {
       {/* Zero line */}
       <div style={{
         position: 'absolute',
-        left: '20px',
+        left: '40px',
         right: '30px',
         top: '400px',
         height: '1px',
@@ -113,7 +113,7 @@ const HighestElevationChart = () => {
       {/* Blue gradient area below 0 (sea level) */}
       <div style={{
         position: 'absolute',
-        left: '0px',  // Align with chart left edge
+        left: '40px',  // Align with chart left margin
         right: '30px', // Match chart right margin
         top: '400px',  // Position right below the chart area
         height: '50px',

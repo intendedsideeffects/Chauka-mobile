@@ -256,7 +256,7 @@ const SeaLevelRiseChart = () => {
                    {/* Global sea level rise annotation */}
                    <div className="absolute z-30" style={{ 
                       top: `${350 - (currentGlobalRise / 1.0) * 280 - 8}px`,
-                      left: '-200px'
+                      right: '-200px'
                    }}>
                      <div className="text-sm text-gray-600 font-medium text-right">
                        Global Sea Level Rise: {currentGlobalRise.toFixed(2)}m
@@ -290,12 +290,10 @@ const SeaLevelRiseChart = () => {
                        className="absolute z-20" 
                        style={{ 
                          top: `${350 - (value / 1.0) * 280 - 8}px`,
-                         left: '-30px',
+                         left: '-25px',
                          fontSize: '12px',
                          color: '#666666',
-                         fontFamily: 'Helvetica World, Arial, sans-serif',
-                         textAlign: 'right',
-                         width: '30px'
+                         fontFamily: 'Helvetica World, Arial, sans-serif'
                        }}
                      >
                        {value.toFixed(1)}
