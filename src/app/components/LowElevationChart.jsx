@@ -1,9 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList, CartesianGrid } from 'recharts';
 
 const LowElevationChart = () => {
   const [lowElevationData, setLowElevationData] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,117 +55,11 @@ const LowElevationChart = () => {
     fetchData();
   }, []);
 
-  // Custom label component for bar labels
-  const CustomBarLabel = ({ x, y, width, value, payload }) => {
-    console.log('CustomBarLabel props:', { x, y, width, value, payload });
-    
-    if (!x || !y || !width || !payload) {
-      console.log('Missing required props');
-      return null;
-    }
+
 
     return (
-      <g>
-        <text
-          x={x + width / 2}
-          y={y - 35}
-          textAnchor="middle"
-          fill="#000"
-          fontSize={12}
-          style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-        >
-          {payload["Pacific Island Countries and territories"]}
-        </text>
-        <text
-          x={x + width / 2}
-          y={y - 20}
-          textAnchor="middle"
-          fill="#666"
-          fontSize={11}
-          style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-        >
-          {`${payload.OBS_VALUE.toFixed(1)}%`}
-        </text>
-      </g>
-    );
-  };
-
-  return (
-              <div style={{ width: '100%', height: '450px', position: 'relative' }}>
-      {/* Zero line */}
-      <div style={{
-        position: 'absolute',
-        left: '70px',
-        right: '30px',
-        bottom: '50px',  // Adjusted to match chart bottom margin
-        height: '1px',
-        background: '#666',
-        zIndex: 2
-      }} />
-
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart 
-          data={lowElevationData} 
-          margin={{ top: 100, right: 30, left: 0, bottom: 50 }}
-          baseValue={0}
-        >
-                     <defs>
-             <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-               <stop offset="0%" stopColor="#000000" />
-               <stop offset="70%" stopColor="#000000" />
-               <stop offset="100%" stopColor="rgba(59, 130, 246, 0.8)" />
-             </linearGradient>
-           </defs>
-
-          <XAxis 
-            dataKey="Pacific Island Countries and territories" 
-            tickLine={false}
-            axisLine={false}
-            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            height={0}
-          />
-          <YAxis 
-            tickLine={false}
-            axisLine={false}
-            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
-            width={40}
-          />
-          <CartesianGrid 
-            horizontal={true} 
-            vertical={false} 
-            stroke="#e5e7eb"
-          />
-          <Tooltip 
-            labelFormatter={(label) => `Country: ${label}`}
-            formatter={(value) => [`${Math.round(value)}%`, 'Population 0-5M']}
-          />
-                     <Bar 
-             dataKey="OBS_VALUE" 
-             fill="url(#barGradient)" 
-             barSize={60}
-           >
-             <LabelList
-               dataKey="Pacific Island Countries and territories"
-               position="top"
-               offset={35}
-               fill="#000"
-               fontSize={12}
-               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-             />
-             <LabelList
-               dataKey="OBS_VALUE"
-               position="top"
-               offset={20}
-               fill="#666"
-               fontSize={11}
-               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
-               formatter={(value) => `${Math.round(value)}%`}
-             />
-           </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-      
-      {/* Y-axis label - positioned outside chart area */}
+    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
+      {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
         left: '-100px',
@@ -183,6 +77,102 @@ const LowElevationChart = () => {
         0–5m above sea level<br/>
         (in %)
       </div>
+      
+      {/* Chart area with bars */}
+      <div className="flex items-end justify-between h-[350px] relative mx-4" style={{ transition: 'height 1.5s ease' }}>
+        {/* Horizontal gridlines */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
+          <div 
+            key={index}
+            className="absolute left-0 right-0 z-10" 
+            style={{ 
+              top: `${350 - (value * 280)}px`,
+              height: '1px',
+              background: '#e5e7eb'
+            }}
+          />
+        ))}
+        
+        {/* Y-axis labels */}
+        {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => {
+          const maxValue = lowElevationData.length > 0 ? Math.max(...lowElevationData.map(d => d.OBS_VALUE)) : 1;
+          return (
+            <div 
+              key={index}
+              className="absolute z-20" 
+              style={{ 
+                top: `${350 - (value * 280) - 8}px`,
+                left: '-25px',
+                fontSize: '12px',
+                color: '#666666',
+                fontFamily: 'Helvetica World, Arial, sans-serif'
+              }}
+            >
+              {Math.round(value * maxValue)}
+            </div>
+          );
+        })}
+        
+        {/* Zero line positioned directly under bars */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
+       
+        {lowElevationData.map((item, index) => {
+          // Use max value for scaling
+          const maxValue = lowElevationData.length > 0 ? Math.max(...lowElevationData.map(d => d.OBS_VALUE)) : 1;
+          
+          // Simple linear scale with minimum height for very small values
+          const minBarHeight = 10; // Minimum 10px height for visibility
+          const maxBarHeight = 280;
+          const linearHeight = (item.OBS_VALUE / maxValue) * maxBarHeight;
+          const barHeight = Math.max(linearHeight, minBarHeight);
+          const isHovered = hoveredIndex === index;
+          const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
+          
+          return (
+            <div 
+              key={index} 
+              className="flex flex-col items-center flex-1 mx-1"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              style={{
+                transition: 'opacity 0.2s ease',
+                opacity: shouldReduceOpacity ? 0.4 : 1,
+                cursor: 'pointer',
+                zIndex: isHovered ? 40 : 20
+              }}
+            >
+              {/* Labels above bar */}
+              <div style={{ 
+                marginBottom: '10px',
+                textAlign: 'center',
+                fontSize: '12px',
+                color: '#000'
+              }}>
+                <div>{item["Pacific Island Countries and territories"]}</div>
+                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{Math.round(item.OBS_VALUE)}%</div>
+              </div>
+              
+              {/* Bar */}
+              <div className="relative flex justify-center">
+                <div 
+                  className="rounded-t-sm relative z-10"
+                  style={{ 
+                    height: `${barHeight}px`,
+                    minHeight: '30px',
+                    width: '60px',
+                    transition: 'height 1.5s ease, background-color 0.2s ease',
+                    background: isHovered ? 
+                      'linear-gradient(to top, #374151 0%, #374151 70%, rgba(59, 130, 246, 0.8) 100%)' : 
+                      'linear-gradient(to top, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.8) 30%, #000000 100%)'
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
+
     </div>
   );
 };

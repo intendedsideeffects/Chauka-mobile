@@ -169,11 +169,9 @@ const HighestElevationChart = () => {
         {highestElevationData.map((item, index) => {
           // Use max elevation for scaling
           const maxElevation = highestElevationData.length > 0 ? Math.max(...highestElevationData.map(d => d.elevation)) : 1;
-          // Simple linear scale with minimum height for very small values
-          const minBarHeight = 10; // Minimum 10px height for visibility
+          // Simple linear scale - no minimum height to preserve true proportions
           const maxBarHeight = 280;
-          const linearHeight = (item.elevation / maxElevation) * maxBarHeight;
-          const barHeight = Math.max(linearHeight, minBarHeight);
+          const barHeight = (item.elevation / maxElevation) * maxBarHeight;
           const isHovered = hoveredIndex === index;
           const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
           return (
@@ -205,7 +203,6 @@ const HighestElevationChart = () => {
                   className="rounded-t-sm relative z-10"
                   style={{ 
                     height: `${barHeight}px`,
-                    minHeight: '30px',
                     width: '60px',
                     transition: 'height 1.5s ease, background-color 0.2s ease',
                     backgroundColor: isHovered ? (item.isLowest ? '#1d4ed8' : '#374151') : (item.isLowest ? '#3b82f6' : '#000000')
