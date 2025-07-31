@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList, CartesianGrid } from 'recharts';
 
 const LowElevationChart = () => {
   const [lowElevationData, setLowElevationData] = useState([]);
@@ -95,7 +95,7 @@ const LowElevationChart = () => {
       {/* Zero line */}
       <div style={{
         position: 'absolute',
-        left: '50px',
+        left: '70px',
         right: '30px',
         bottom: '50px',  // Adjusted to match chart bottom margin
         height: '1px',
@@ -106,7 +106,7 @@ const LowElevationChart = () => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={lowElevationData} 
-          margin={{ top: 100, right: 30, left: 80, bottom: 50 }}  // Increased left margin for label
+          margin={{ top: 100, right: 30, left: 5, bottom: 50 }}
           baseValue={0}
         >
           <XAxis 
@@ -119,8 +119,13 @@ const LowElevationChart = () => {
           <YAxis 
             tickLine={false}
             axisLine={false}
-            tick={false}
-            width={0}
+            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
+            width={60}
+          />
+          <CartesianGrid 
+            horizontal={true} 
+            vertical={false} 
+            stroke="#e5e7eb"
           />
           <Tooltip 
             labelFormatter={(label) => `Country: ${label}`}
@@ -155,21 +160,20 @@ const LowElevationChart = () => {
       {/* Y-axis label - positioned outside chart area */}
       <div style={{
         position: 'absolute',
-        left: '5px',
-        top: '200px',
-        fontSize: '16px',
+        left: '-60px',
+        top: 'calc(50% - 160px)',
+        transform: 'translateY(-50%)',
+        fontSize: '12px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
-        color: '#000000',
+        color: '#666666',
         textAlign: 'right',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        zIndex: 9999,
-        fontWeight: 'bold',
-        backgroundColor: 'white',
-        padding: '5px'
+        width: '80px'
       }}>
-        Sea level rise<br/>
-        in meters
+        Populations living between<br/>
+        0–5m above sea level<br/>
+        (in %)
       </div>
     </div>
   );
