@@ -7,6 +7,7 @@ const HistoricalSeaLevelRiseExtended = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [animationStep, setAnimationStep] = useState(0); // 0: historical, 1: satellite + projection
+  const [tooltip, setTooltip] = useState({ show: false, text: '', x: 0, y: 0 });
 
   // Function to calculate moving average
   const calculateMovingAverage = (data, windowSize) => {
@@ -96,6 +97,8 @@ const HistoricalSeaLevelRiseExtended = () => {
     return { startX, startY, endX, endY };
   };
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -121,10 +124,10 @@ const HistoricalSeaLevelRiseExtended = () => {
             const year = parseFloat(values[0].replace(',', '.')); // Year
             const value = parseFloat(values[1].replace(',', '.')) / 10;  // mm converted to cm
             
-            return {
+          return {
               year: year,
               value: value
-            };
+          };
           } catch (error) {
             console.warn('Error parsing line:', line, error);
             return null;
@@ -132,7 +135,7 @@ const HistoricalSeaLevelRiseExtended = () => {
         }).filter(item => 
           item !== null &&
           !isNaN(item.year) && 
-          !isNaN(item.value) &&
+          !isNaN(item.value) && 
           item.year >= 1000
         ).sort((a, b) => a.year - b.year);
 
@@ -283,7 +286,38 @@ const HistoricalSeaLevelRiseExtended = () => {
               data={animationStep >= 1 ? data.allData.filter(d => d.year < 2025) : data.combined.filter(d => d.year < 1993)}
               stroke="#000000" 
               strokeWidth={2}
-              dot={false}
+              dot={(props) => {
+                // Only show dots for specific years
+                const year = Math.round(props.payload.year);
+                if (year === 1880 || year === 1993) {
+                  const tooltipText = year === 1880 ? "1880: Beginning of industrial revolution" : "1993: Satellite data";
+                  
+                  return (
+                    <g key={`dot-${year}-${props.payload.value}`}>
+                      <circle
+                        cx={props.cx}
+                        cy={props.cy}
+                        r={8}
+                        fill="#000000"
+                        stroke="none"
+                        onMouseEnter={(e) => {
+                          setTooltip({
+                            show: true,
+                            text: tooltipText,
+                            x: e.clientX,
+                            y: e.clientY
+                          });
+                        }}
+                        onMouseLeave={() => {
+                          setTooltip({ show: false, text: '', x: 0, y: 0 });
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </g>
+                  );
+                }
+                return null;
+              }}
               activeDot={false}
               connectNulls={true}
               name="seaLevel"
@@ -305,22 +339,45 @@ const HistoricalSeaLevelRiseExtended = () => {
             
             {/* Black projection line overlay - dashed */}
             {animationStep >= 1 && (
-              <Line 
-                type="monotone" 
-                dataKey="value" 
+            <Line 
+              type="monotone" 
+              dataKey="value" 
                 data={data.projection}
-                stroke="#000000" 
+              stroke="#000000" 
                 strokeWidth={3}
                 strokeDasharray="5,5"
-                dot={false}
+              dot={false}
                 activeDot={false}
-                connectNulls={true}
+              connectNulls={true}
                 name="projection"
               />
             )}
             {/* Zero reference line removed - gridline at y=0 is sufficient */}
           </ComposedChart>
         </ResponsiveContainer>
+
+        {/* Custom tooltip */}
+        {tooltip.show && (
+          <div
+            style={{ 
+              position: 'fixed',
+              left: tooltip.x + 10,
+              top: tooltip.y - 40,
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              zIndex: 10000,
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+            }}
+          >
+            {tooltip.text}
+          </div>
+        )}
         
         {/* Y-axis label - positioned outside chart area */}
         <div style={{

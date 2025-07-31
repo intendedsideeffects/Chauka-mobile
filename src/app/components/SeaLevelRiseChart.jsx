@@ -144,12 +144,19 @@ const SeaLevelRiseChart = () => {
                         }}
                         onClick={() => setSelectedDegree('4')}
                       >
-                  <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
+                  <svg width="140" height="140" style={{ position: 'absolute', left: -30, top: -30, pointerEvents: 'none' }}>
                     <defs>
-                      <path id="circlePath4C" d="M40,10 A30,30 0 1,1 39.99,10" />
+                      <path id="circlePath4C" d="M60,30 A30,30 0 1,1 59.99,30" />
+                      <path id="circlePathText4C" d="M60,30 A30,30 0 1,1 60,90" />
                     </defs>
-                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "1" : "2"} />
-                                           <text fill={selectedDegree === '4' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
+                    {/* Wrapped text above the dot */}
+                    <text fill="#666" fontSize="10" fontWeight="normal" letterSpacing="0.05em">
+                      <textPath xlinkHref="#circlePathText4C" startOffset="50%" textAnchor="middle">
+                        Select warming
+                      </textPath>
+                    </text>
+                     <circle cx="60" cy="60" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "1" : "2"} />
+                                           <text fill={selectedDegree === '4' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         4°C
                     </text>
                   </svg>
@@ -193,12 +200,12 @@ const SeaLevelRiseChart = () => {
                   <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
-                      <path id="circlePathText2100" d="M60,10 A60,60 0 0,1 120,60" />
+                      <path id="circlePathText2100" d="M60,10 A55,55 0 0,1 115,60" />
                     </defs>
                     {/* Wrapped text above the dot */}
                     <text fill="#666" fontSize="12" fontWeight="normal" letterSpacing="0.05em">
-                      <textPath xlinkHref="#circlePathText2100" startOffset="25%" textAnchor="middle">
-                        Click!
+                      <textPath xlinkHref="#circlePathText2100" startOffset="50%" textAnchor="middle">
+                        Select year
                       </textPath>
                     </text>
                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#ffffff"} stroke={selectedYear === '2100' ? "#000" : "#000000"} strokeWidth={selectedYear === '2100' ? "1" : "2"} />
@@ -227,6 +234,23 @@ const SeaLevelRiseChart = () => {
                                                            <div>
 
                              <div className="relative" style={{ width: '100%', height: '100%' }}>
+                   {/* Y-axis label - positioned outside chart area */}
+                   <div style={{
+                     position: 'absolute',
+                     left: '-80px',
+                     top: 'calc(50% - 80px)',
+                     transform: 'translateY(-50%)',
+                     fontSize: '12px',
+                     fontFamily: 'Helvetica World, Arial, sans-serif',
+                     color: '#666666',
+                     textAlign: 'right',
+                     pointerEvents: 'none',
+                     lineHeight: '1.2'
+                   }}>
+                     Sea level rise<br/>
+                     in meters
+                   </div>
+                   
                    {/* Global sea level rise annotation */}
                    <div className="absolute z-30" style={{ 
                       top: `${350 - (currentGlobalRise / 1.0) * 280 - 8}px`,
@@ -279,35 +303,22 @@ const SeaLevelRiseChart = () => {
               {/* Bar */}
               <div className="relative flex justify-center">
                 {isAboveGlobal ? (
-                  <>
-                    {/* Blue portion above global average */}
-                    <div 
-                      className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                      style={{ 
-                        height: `${barHeight - globalLineHeight}px`,
-                        minHeight: '0px',
-                        width: '60px',
-                        position: 'absolute',
-                        bottom: `${globalLineHeight}px`
-                      }}
-                    />
-                    {/* Black portion below global average */}
-                    <div 
-                      className="bg-black hover:bg-[#1d203b] relative z-10"
-                      style={{ 
-                        height: `${globalLineHeight}px`,
-                        minHeight: '30px',
-                        width: '60px'
-                      }}
-                    />
-                  </>
-                ) : (
                   <div 
-                    className="bg-black rounded-t-sm hover:bg-[#1d203b] relative z-10"
+                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
                     style={{ 
                       height: `${barHeight}px`,
                       minHeight: '30px',
-                      width: '40px'
+                      width: '60px'
+                    }}
+                  />
+                ) : (
+                  <div 
+                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                    style={{ 
+                      height: `${barHeight}px`,
+                      minHeight: '30px',
+                      width: '60px',
+                      opacity: '0.5'
                     }}
                   />
                 )}

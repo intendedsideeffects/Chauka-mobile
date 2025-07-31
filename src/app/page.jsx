@@ -452,9 +452,9 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>4</div>
         <SegmentTemplate 
-          header="The Pacific is rising,"
-          headerSecondLine="but unevenly."
-          text="These changes are <strong>not felt equally</strong>. Pacific Island nations, though among the least responsible for global warming, face some of its harshest impacts. With little elevation or room to retreat, rising seas already bring saltwater, erosion, and flooding."
+          header="Sea level is rising,"
+          headerSecondLine="but not at the same rate."
+          text="Sea level rise is <strong>uneven</strong>. The Pacific is a <strong>hotspot</strong>. Driven by ocean patterns, melting ice, and land movement, some islands are seeing <strong>faster-than-average</strong> increases. For nations with limited land and elevation, these trends bring real and immediate threats."
           chartComponent={<SeaLevelRiseChart />}
           caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{

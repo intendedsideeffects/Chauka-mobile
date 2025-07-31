@@ -91,7 +91,7 @@ const LowElevationChart = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
+    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
       {/* Zero line */}
       <div style={{
         position: 'absolute',
@@ -106,7 +106,7 @@ const LowElevationChart = () => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={lowElevationData} 
-          margin={{ top: 100, right: 30, left: 50, bottom: 50 }}  // Increased bottom margin
+          margin={{ top: 100, right: 30, left: 80, bottom: 50 }}  // Increased left margin for label
           baseValue={0}
         >
           <XAxis 
@@ -151,6 +151,26 @@ const LowElevationChart = () => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+      
+      {/* Y-axis label - positioned outside chart area */}
+      <div style={{
+        position: 'absolute',
+        left: '5px',
+        top: '200px',
+        fontSize: '16px',
+        fontFamily: 'Helvetica World, Arial, sans-serif',
+        color: '#000000',
+        textAlign: 'right',
+        pointerEvents: 'none',
+        lineHeight: '1.2',
+        zIndex: 9999,
+        fontWeight: 'bold',
+        backgroundColor: 'white',
+        padding: '5px'
+      }}>
+        Sea level rise<br/>
+        in meters
+      </div>
     </div>
   );
 };
