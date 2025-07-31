@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import '../PulseDot.css';
-import InteractiveStarGlobe from '../components/InteractiveStarGlobe';
+import InteractiveStarGlobeYellow from '../components/InteractiveStarGlobeYellow';
 import TitleSection from '../../components/sections/TitleSection';
 import SegmentTemplate from '../../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from '../components/SeaLevelRiseChart';
@@ -123,7 +123,7 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>1</div>
         {/* Star Globe as background */}
-        <InteractiveStarGlobe />
+        <InteractiveStarGlobeYellow />
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
         <video
           ref={oceanVideoRef}
