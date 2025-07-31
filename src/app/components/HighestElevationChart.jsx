@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList, Cell } from 'recharts';
 
 const HighestElevationChart = () => {
   const [highestElevationData, setHighestElevationData] = useState([]);
@@ -40,11 +40,7 @@ const HighestElevationChart = () => {
             return acc;
           }, [])
           .sort((a, b) => a.elevation - b.elevation)
-          .slice(0, 9) // Only show the 9 lowest islands
-          .map((item, index) => ({
-            ...item,
-            isLowest: index < 4 // Mark the 4 lowest islands
-          }));
+          .slice(0, 9); // Only show the 9 lowest islands
 
         // Swap Tuvalu and Tokelau positions
         const swappedData = [...averageElevation];
@@ -55,7 +51,21 @@ const HighestElevationChart = () => {
           [swappedData[tuvaluIndex], swappedData[tokelauIndex]] = [swappedData[tokelauIndex], swappedData[tuvaluIndex]];
         }
 
-        setHighestElevationData(swappedData);
+        // Mark the 4 lowest values after swapping
+        const finalData = swappedData.map((item, index) => {
+          // Get the 4 lowest elevation values
+          const lowest4 = swappedData
+            .sort((a, b) => a.elevation - b.elevation)
+            .slice(0, 4)
+            .map(item => item.elevation);
+          
+          return {
+            ...item,
+            isLowest: lowest4.includes(item.elevation)
+          };
+        });
+
+        setHighestElevationData(finalData);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -98,7 +108,7 @@ const HighestElevationChart = () => {
 
   
   return (
-    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative', border: '2px solid red' }}>
+    <div style={{ width: '100%', height: '450px', pointerEvents: 'none', position: 'relative' }}>
       {/* Zero line */}
       <div style={{
         position: 'absolute',
@@ -179,6 +189,9 @@ const HighestElevationChart = () => {
               formatter={(value, name) => [value, 'Elevation (M)']}
             />
             <Bar dataKey="elevation" fill="#000000" radius={0}>
+              {highestElevationData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.isLowest ? '#3b82f6' : '#000000'} />
+              ))}
               <LabelList content={<CustomBarLabel />} />
             </Bar>
           </BarChart>

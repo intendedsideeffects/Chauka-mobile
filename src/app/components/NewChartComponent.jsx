@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, LabelList } from 'recharts';
 
 const NewChartComponent = () => {
   const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ const NewChartComponent = () => {
   // Function to format numbers as K
   const formatAsK = (value) => {
     if (value >= 1000) {
-      return `${(value / 1000).toFixed(1)}K`;
+      return `${Math.round(value / 1000)}K`;
     }
     return value.toString();
   };
@@ -120,14 +120,15 @@ const NewChartComponent = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '400px', boxSizing: 'border-box', position: 'relative', pointerEvents: 'none' }}>
+    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ left: 5, right: 20, top: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                 <BarChart data={data} margin={{ left: 5, right: 20, top: 30, bottom: 0 }}>
+          <CartesianGrid stroke="#e5e7eb" horizontal={true} vertical={false} strokeDasharray="0" />
           <XAxis 
             dataKey="year" 
             tickLine={false}
             axisLine={false}
+            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
             type="number"
             domain={['dataMin', 'dataMax']}
           />
@@ -135,6 +136,7 @@ const NewChartComponent = () => {
             width={40}
             tickLine={false}
             axisLine={false}
+            tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
             tickFormatter={hideZeroLabel}
           />
           <Tooltip 
@@ -148,9 +150,73 @@ const NewChartComponent = () => {
             onMouseLeave={handleBarMouseLeave}
             onClick={handleBarClick}
             style={{ cursor: 'pointer' }}
-          />
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={[2016, 2018, 2020].includes(entry.year) ? '#3b82f6' : '#000000'} />
+            ))}
+                         <LabelList 
+               dataKey="affectedPeople" 
+               position="top" 
+               fill="#3b82f6"
+               fontSize={14}
+               fontFamily="Helvetica World, Arial, sans-serif"
+               offset={20}
+               fontWeight="bold"
+               content={(props) => {
+                 const { value, x, y, width, index } = props;
+                 const entry = data[index];
+                 
+                 if (entry && [2016, 2018, 2020].includes(entry.year)) {
+                   return (
+                     <text
+                       x={x + width / 2}
+                       y={y - 10}
+                       textAnchor="middle"
+                       fill="#3b82f6"
+                       fontSize={14}
+                       fontFamily="Helvetica World, Arial, sans-serif"
+
+                     >
+                       {formatAsK(value)}
+                     </text>
+                   );
+                 }
+                 return null;
+               }}
+             />
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
+      
+      {/* Y-axis label - positioned outside chart area */}
+      <div style={{
+        position: 'absolute',
+        left: '-100px',
+        top: 'calc(50% - 200px)',
+        transform: 'translateY(-50%)',
+        fontSize: '12px',
+        fontFamily: 'Helvetica World, Arial, sans-serif',
+        color: '#666666',
+        textAlign: 'right',
+        pointerEvents: 'none',
+        lineHeight: '1.2',
+        width: '80px'
+      }}>
+        People affected by<br/>
+        climate-related<br/>
+        hazards
+      </div>
+      
+      {/* Zero line aligned with gridlines */}
+      <div style={{
+        position: 'absolute',
+        bottom: '0px',
+        left: '80px',
+        right: '20px',
+        height: '1px',
+        backgroundColor: '#e5e7eb',
+        zIndex: 1
+      }} />
       
       {/* Fullscreen image overlay */}
       {showFullscreenImage && currentImageData && (
