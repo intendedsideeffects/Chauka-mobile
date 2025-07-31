@@ -221,14 +221,14 @@ const HistoricalSeaLevelRiseExtended = () => {
         
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data.allData} margin={{ left: 0, right: 0, top: 20, bottom: 20 }}>
-            <defs>
-              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(59, 130, 246, 0.7)" />
-                <stop offset="60%" stopColor="rgba(59, 130, 246, 0.2)" />
-                <stop offset="85%" stopColor="rgba(59, 130, 246, 0.05)" />
-                <stop offset="100%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
+                         <defs>
+               <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                 <stop offset="0%" stopColor="rgba(59, 130, 246, 0.7)" />
+                 <stop offset="60%" stopColor="rgba(59, 130, 246, 0.2)" />
+                 <stop offset="85%" stopColor="rgba(59, 130, 246, 0.05)" />
+                 <stop offset="100%" stopColor="transparent" />
+               </linearGradient>
+             </defs>
             <CartesianGrid 
               stroke="#e5e7eb"
               horizontal={true} 
@@ -303,7 +303,7 @@ const HistoricalSeaLevelRiseExtended = () => {
                   const tooltipText = year === 1880 ? "1880: Beginning of industrial revolution" : "1993: Satellite data";
                   
                   return (
-                    <g key={`dot-${year}-${props.payload.value}`}>
+                    <g key={`dot-${year}-${Math.round(props.payload.value * 100)}-${Math.random().toFixed(6)}`}>
                       <circle
                         cx={props.cx}
                         cy={props.cy}

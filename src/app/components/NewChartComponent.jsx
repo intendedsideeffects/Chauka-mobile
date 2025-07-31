@@ -121,8 +121,8 @@ const NewChartComponent = () => {
 
   return (
     <div style={{ width: '100%', height: '450px', position: 'relative' }}>
-      <ResponsiveContainer width="100%" height="100%">
-                 <BarChart data={data} margin={{ left: 5, right: 20, top: 30, bottom: 0 }}>
+            <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ left: 5, right: 20, top: 30, bottom: 0 }}>
           <CartesianGrid stroke="#e5e7eb" horizontal={true} vertical={false} strokeDasharray="0" />
           <XAxis 
             dataKey="year" 

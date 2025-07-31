@@ -218,7 +218,7 @@ export default function TestScroll() {
           }}>
                         {/* Triangles removed */}
             
-            {/* Main Circular Button */}
+            {/* Animated Hand Button */}
                               <div
                     style={{
                       width: '45px',
@@ -258,7 +258,10 @@ export default function TestScroll() {
                 e.target.style.cursor = 'grab';
               }}
             >
-              explore<br/>sky
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ animation: 'pointing 2s ease-in-out infinite' }}>
+                <path d="M13.64 21.97C13.14 22.16 12.54 22 12.31 21.55L9.07 14.56C8.82 14.07 8.5 13.73 8.13 13.53C7.76 13.33 7.35 13.28 6.96 13.38L4.75 13.97C4.16 14.13 3.5 13.87 3.21 13.34L2.21 11.34C1.92 10.81 2.08 10.15 2.59 9.88L4.59 8.88C5.12 8.59 5.78 8.75 6.07 9.28L7.07 11.28C7.36 11.81 7.92 12.07 8.51 11.91L10.72 11.32C11.11 11.22 11.52 11.27 11.89 11.47C12.26 11.67 12.58 12.01 12.83 12.5L16.07 19.49C16.3 19.94 16.14 20.54 15.64 20.73L13.64 21.97Z"/>
+                <path d="M17.5 8.5C18.5 8.5 19.5 7.5 19.5 6.5C19.5 5.5 18.5 4.5 17.5 4.5C16.5 4.5 15.5 5.5 15.5 6.5C15.5 7.5 16.5 8.5 17.5 8.5Z"/>
+              </svg>
             </div>
           </div>
           
@@ -796,6 +799,7 @@ function YellowStarAudioPlayer() {
   const [audioError, setAudioError] = React.useState(false);
   const [showButtons, setShowButtons] = React.useState(true);
   const [audioElement, setAudioElement] = React.useState(null);
+  const [showTooltip, setShowTooltip] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -806,27 +810,7 @@ function YellowStarAudioPlayer() {
   }, []);
 
   const handleToggle = () => {
-    console.log('Yellow button clicked!', { audioLoaded, audioError, audioElement, playing });
-    console.log('Yellow audio element:', audioElement);
-    console.log('Yellow audio readyState:', audioElement?.readyState);
-    console.log('Yellow audio paused:', audioElement?.paused);
-    if (!audioElement) {
-      console.log('No audio element found');
-      return;
-    }
-    
-    // Try to play/pause regardless of loading state
-    if (audioElement) {
-      if (playing) {
-        console.log('Pausing yellow audio');
-        audioElement.pause();
-      } else {
-        console.log('Playing yellow audio');
-        audioElement.play().catch(error => {
-          console.error('Error playing yellow audio:', error);
-        });
-      }
-    }
+    setShowTooltip(!showTooltip);
   };
 
   const handleStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
@@ -888,6 +872,77 @@ function YellowStarAudioPlayer() {
           Audio failed to load.
         </div>
       )}
+      
+      {/* Tooltip */}
+      {showTooltip && (
+        <div style={{
+          position: 'fixed',
+          top: '15%',
+          left: '70%',
+          transform: 'translateX(-50%)',
+          backgroundColor: 'rgba(0, 10, 30, 0.8)',
+          color: '#e0e0e0',
+          padding: '30px',
+          borderRadius: '12px',
+          maxWidth: '400px',
+          zIndex: 10000,
+          fontFamily: 'Helvetica World, Arial, sans-serif',
+          fontSize: '16px',
+          lineHeight: '1.6',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <div style={{ marginBottom: '20px' }}>
+            This video collage is inspired by the <strong>Chauka</strong>, a bird found only on <strong>Manus Island</strong> in Papua New Guinea. It plays a role in daily life and is deeply respected, appearing often in local stories. People say its calls help mark the passage of time, acting as a kind of <strong>timekeeper</strong>. But in many legends, the Chauka also appears as a <strong>warning</strong>.
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            The story behind this visualization is about a man who brings home a new wife. Not long after, the Chauka begins calling again and again. The villagers pay attention. They sense something is wrong. The woman is not who she says she is. She is a spirit in disguise. The villagers listen to the bird and decide to leave the island by boat.
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            Stories like this are still told on Manus. The Chauka is seen as a bird that notices things before people do. It speaks up when something is off, when something is coming.
+          </div>
+          
+          <div style={{ 
+            fontStyle: 'italic', 
+            fontSize: '14px', 
+            opacity: 0.8,
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+            paddingTop: '15px'
+          }}>
+            Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
+          </div>
+          
+          <button 
+            onClick={() => setShowTooltip(false)}
+            style={{
+              position: 'absolute',
+              top: '15px',
+              right: '15px',
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              fontSize: '24px',
+              cursor: 'pointer',
+              padding: '5px',
+              borderRadius: '50%',
+              width: '30px',
+              height: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            ×
+          </button>
+        </div>
+      )}
+      
       <style>{`
         @keyframes pulse {
           0% { 
@@ -899,6 +954,10 @@ function YellowStarAudioPlayer() {
           100% { 
             opacity: 0.8;
           }
+        }
+        @keyframes pointing {
+          0%, 100% { transform: translateX(0px) rotate(0deg); }
+          50% { transform: translateX(2px) rotate(5deg); }
         }
       `}</style>
     </div>

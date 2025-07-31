@@ -335,26 +335,26 @@ const SeaLevelRiseChart = () => {
               
               {/* Bar */}
               <div className="relative flex justify-center">
-                {isAboveGlobal ? (
-                  <div 
-                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                    style={{ 
-                      height: `${barHeight}px`,
-                      minHeight: '30px',
-                      width: '60px'
-                    }}
-                  />
-                ) : (
-                  <div 
-                    className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                    style={{ 
-                      height: `${barHeight}px`,
-                      minHeight: '30px',
-                      width: '60px',
-                      opacity: '0.5'
-                    }}
-                  />
-                )}
+                                 {isAboveGlobal ? (
+                   <div 
+                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                     style={{ 
+                       height: `${barHeight}px`,
+                       minHeight: '30px',
+                       width: '60px'
+                     }}
+                   />
+                 ) : (
+                   <div 
+                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
+                     style={{ 
+                       height: `${barHeight}px`,
+                       minHeight: '30px',
+                       width: '60px',
+                       opacity: '0.5'
+                     }}
+                   />
+                 )}
               </div>
             </div>
           );
