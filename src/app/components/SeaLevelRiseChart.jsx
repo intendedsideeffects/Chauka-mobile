@@ -126,7 +126,7 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
                     </defs>
-                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "#000" : "#ffffff"} stroke={selectedDegree === '2' ? "#000" : "#000000"} strokeWidth={selectedDegree === '2' ? "0.5" : "1"} />
+                     <circle cx="40" cy="40" r="25" fill={selectedDegree === '2' ? "rgba(0, 0, 0, 0.9)" : "#ffffff"} stroke={selectedDegree === '2' ? "rgba(0, 0, 0, 0.9)" : "#000000"} strokeWidth={selectedDegree === '2' ? "0.5" : "1"} />
                                            <text fill={selectedDegree === '2' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="40" y="40">
                         2°C
                     </text>
@@ -156,7 +156,7 @@ const SeaLevelRiseChart = () => {
                         Select warming
                       </textPath>
                     </text>
-                     <circle cx="60" cy="60" r="25" fill={selectedDegree === '4' ? "#000" : "#ffffff"} stroke={selectedDegree === '4' ? "#000" : "#000000"} strokeWidth={selectedDegree === '4' ? "0.5" : "1"} />
+                     <circle cx="60" cy="60" r="25" fill={selectedDegree === '4' ? "rgba(0, 0, 0, 0.9)" : "#ffffff"} stroke={selectedDegree === '4' ? "rgba(0, 0, 0, 0.9)" : "#000000"} strokeWidth={selectedDegree === '4' ? "0.5" : "1"} />
                                            <text fill={selectedDegree === '4' ? "#fff" : "#000"} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         4°C
                     </text>
@@ -179,7 +179,7 @@ const SeaLevelRiseChart = () => {
                     <defs>
                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
                     </defs>
-                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "#000" : "#ffffff"} stroke={selectedYear === '2050' ? "#000" : "#000000"} strokeWidth={selectedYear === '2050' ? "0.5" : "1"} />
+                     <circle cx="60" cy="60" r="40" fill={selectedYear === '2050' ? "rgba(0, 0, 0, 0.9)" : "#ffffff"} stroke={selectedYear === '2050' ? "rgba(0, 0, 0, 0.9)" : "#000000"} strokeWidth={selectedYear === '2050' ? "0.5" : "1"} />
                                            <text fill={selectedYear === '2050' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                         2050
                     </text>
@@ -209,7 +209,7 @@ const SeaLevelRiseChart = () => {
                         Select year
                       </textPath>
                     </text>
-                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "#000" : "#ffffff"} stroke={selectedYear === '2100' ? "#000" : "#000000"} strokeWidth={selectedYear === '2100' ? "0.5" : "1"} />
+                    <circle cx="60" cy="60" r="40" fill={selectedYear === '2100' ? "rgba(0, 0, 0, 0.9)" : "#ffffff"} stroke={selectedYear === '2100' ? "rgba(0, 0, 0, 0.9)" : "#000000"} strokeWidth={selectedYear === '2100' ? "0.5" : "1"} />
                     <text fill={selectedYear === '2100' ? "#fff" : "#000"} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" x="60" y="60">
                       2100
                     </text>
@@ -238,20 +238,19 @@ const SeaLevelRiseChart = () => {
                    {/* Y-axis label - positioned outside chart area */}
                    <div style={{
                      position: 'absolute',
-                     left: '-120px',
-                     top: 'calc(50% - 140px)',
+                     left: '-352px',
+                     top: 'calc(50% - 92px)',
                      transform: 'translateY(-50%)',
-                     fontSize: '12px',
+                     fontSize: '14px',
                      fontFamily: 'Helvetica World, Arial, sans-serif',
                      color: '#666666',
                      textAlign: 'right',
                      pointerEvents: 'none',
                      lineHeight: '1.2',
-                     width: '80px'
+                     width: '320px'
                    }}>
-                     Sea level rise<br/>
-                     in meters<br/>
-                     (in m)
+                     SEA LEVEL RISE<br/>
+                     IN METERS (M)
                    </div>
                    
                    {/* Global sea level rise annotation */}
@@ -348,7 +347,7 @@ const SeaLevelRiseChart = () => {
                       minHeight: '30px',
                       width: '60px',
                       transition: 'height 1.5s ease, background-color 0.2s ease',
-                      backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
+                      backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
                     }}
                   />
                 ) : (
@@ -360,7 +359,7 @@ const SeaLevelRiseChart = () => {
                       width: '60px',
                       opacity: '0.5',
                       transition: 'height 1.5s ease, background-color 0.2s ease',
-                      backgroundColor: isHovered ? '#1d4ed8' : '#3b82f6'
+                      backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
                     }}
                   />
                 )}
@@ -372,7 +371,7 @@ const SeaLevelRiseChart = () => {
         })}
       </div>
       
-      {/* Labels positioned absolutely above the chart */}
+      {/* Labels positioned above bars */}
       {selectedData.map((item, index) => {
         const barHeight = (item.selectedValue / 1.0) * 280;
         const isHovered = hoveredIndex === index;
@@ -383,18 +382,18 @@ const SeaLevelRiseChart = () => {
             key={`label-${index}`}
             style={{
               position: 'absolute',
-              top: `${350 - barHeight - 60}px`,
+              top: `${350 - barHeight - 40}px`,
               left: `${(index / selectedData.length) * 100}%`,
               width: `${100 / selectedData.length}%`,
               textAlign: 'center',
-                                              transition: 'opacity 0.2s ease',
-                opacity: 1,
+              transition: 'opacity 0.2s ease',
+              opacity: 1,
               zIndex: 200,
               pointerEvents: 'none'
             }}
           >
-            <div style={{ fontSize: '12px', color: '#000' }}>{item.country}</div>
-            <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.selectedValue.toFixed(2)}m</div>
+            <div style={{ fontSize: '12px', color: '#000', fontWeight: '500' }}>{item.country}</div>
+            <div style={{ fontSize: '11px', color: '#000', marginTop: '2px', fontWeight: '500' }}>{item.selectedValue.toFixed(2)}m</div>
           </div>
         );
       })}

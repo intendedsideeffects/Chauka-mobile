@@ -63,7 +63,7 @@ const SegmentTemplate = ({
          lineHeight: '1.1'
        },
     text: {
-      fontSize: '1.3rem',
+              fontSize: '1.1rem',
       color: '#000',
       marginBottom: '2rem',
       lineHeight: 1.5,
@@ -157,28 +157,24 @@ const SegmentTemplate = ({
             />
           </div>
          
-                              {/* Chart Container */}
-           <div style={{
-             width: '100%',
-             maxWidth: '1050px',
-             display: 'flex',
-             flexDirection: 'column',
-             alignItems: 'center',
-             justifyContent: 'center',
-                      marginTop: 0,
-                      marginBottom: 0,
-                      marginLeft: 'auto',
-                      marginRight: 'auto',
-                      padding: '20px',
-           }}>
-            {chartComponent ? (
-              chartComponent
-            ) : (
-              <div style={mergedStyles.placeholderChart}>
-                Chart Placeholder - Replace with actual chart component
-              </div>
-                         )}
-          </div>
+                              {/* Chart Container - only show if chartComponent is provided */}
+          {chartComponent && (
+            <div style={{
+              width: '100%',
+              maxWidth: '1050px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+                       marginTop: 0,
+                       marginBottom: 0,
+                       marginLeft: 'auto',
+                       marginRight: 'auto',
+                       padding: '20px',
+            }}>
+              {chartComponent}
+            </div>
+          )}
           
           {/* Figure Caption - under chart but aligned with text width */}
           <div style={{

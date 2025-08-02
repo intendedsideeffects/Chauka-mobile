@@ -510,6 +510,15 @@ export default function TestScroll() {
             marginBottom: '24px',
             textAlign: 'left'
           }}>
+            <a href="https://www.youtube.com/watch?v=9naA6Ji3QS0" target="_blank" rel="noopener noreferrer" style={{ color: '#cad6fa', textDecoration: 'underline' }}><strong>Leve Yam - Keni Lucas Ponyalou</strong></a>
+          </div>
+          <div style={{
+            color: '#cad6fa',
+            fontSize: '1.2rem',
+            lineHeight: '1.6',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
             This project is a collaboration between <strong>Bertha Ngahan</strong> (Storytelling) and <strong>Janina Grauel</strong> (Visualization) for the <strong>Pacific Data Challenge</strong>.
           </div>
 

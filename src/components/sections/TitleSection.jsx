@@ -6,7 +6,7 @@ const TitleSection = ({
   title = "This is a global warning.",
   subtitle = "",
   mapTrigger = "MAP",
-  content = "The ocean is <strong>one connected body</strong>, and like any body it sends <strong>signals</strong>. On Manus, the Chauka bird once warned villagers when something was wrong. Its call meant it was time to pay attention.<br/><br/>Now, it's the ocean that is calling. Through rising tides, floods, and salt creeping into gardens, it tells us that something is <strong>changing</strong>. Pacific island nations are the first to feel these shifts. They did not cause this crisis, but they are living with its consequences.<br/><br/>Others, far away, may not pay attention yet. But the warning is already here. This is a <strong>global warning</strong>.",
+  content = "On Manus Island, the Chauka bird once warned villagers when something was wrong. Its call meant: stop and pay attention.<br/><br/>Now, the ocean is calling.<br/><br/>It sends signals through rising tides, salt in gardens, and floods that reach farther each year. Pacific Island nations are the first to feel this. They didn't cause the crisis, but they are living with its consequences.<br/><br/>Elsewhere, people may not notice yet. But the warning is already here.<br/><br/><strong>This is a global warning.</strong>",
   styles = {}
 }) => {
   const defaultStyles = {
@@ -25,7 +25,7 @@ const TitleSection = ({
     contentWrapper: {
       color: '#000',
       fontSize: '1.5rem',
-      maxWidth: '45%',
+      maxWidth: '30%',
       textAlign: 'left',
       fontFamily: 'Helvetica World, Arial, sans-serif',
       fontWeight: 400,
@@ -35,7 +35,7 @@ const TitleSection = ({
       flexShrink: 0,
     },
     title: {
-      fontSize: '4rem',
+      fontSize: '8rem',
       fontWeight: 'normal', // Changed from 'bold' to 'normal'
       color: '#000',
       marginBottom: '0',
@@ -45,7 +45,7 @@ const TitleSection = ({
       lineHeight: '1'
     },
     titleSecondLine: {
-      fontSize: '4rem',
+      fontSize: '3.2rem',
       fontWeight: 'bold', // Changed from 'normal' to 'bold'
       color: '#000',
       marginBottom: '4rem',
@@ -67,7 +67,7 @@ const TitleSection = ({
     },
     content: {
       marginBottom: '2rem',
-      fontSize: '1.4rem',
+      fontSize: '1.3rem',
       color: '#000',
       marginTop: '0',
       fontFamily: 'Helvetica World, Arial, sans-serif'
@@ -76,14 +76,15 @@ const TitleSection = ({
       height: '1rem'
     },
     spilhausContainer: {
-      width: '55%',
+      width: '70%',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
       position: 'relative',
-      marginTop: '-10vh'
+      marginTop: '0vh',
+      marginLeft: '0%'
     },
     spilhausWrapper: {
       width: '100%',
@@ -93,27 +94,28 @@ const TitleSection = ({
       justifyContent: 'center'
     },
     spilhausImage: {
-      width: '120%',
+      width: '200%',
       height: 'auto',
       maxHeight: '100vh',
       objectFit: 'contain',
       display: 'block',
       filter: 'none',
       opacity: 1,
-      transform: 'rotate(-60deg)',
-      marginLeft: '-30%'
+      transform: 'rotate(0deg)',
+      marginLeft: '0%',
+      marginTop: '50px'
     },
     pulsingDot: {
       position: 'absolute',
-      width: '400px',
-      height: '400px',
+      width: '200px',
+      height: '200px',
       borderRadius: '50%',
       background: 'radial-gradient(circle, rgba(67, 97, 238, 0.95) 0%, rgba(67, 97, 238, 0.7) 50%, rgba(67, 97, 238, 0.2) 100%)',
       filter: 'blur(8px)',
       animation: 'pulse 3s ease-in-out infinite',
       zIndex: 1,
-      top: '25%',
-      left: '30%',
+      top: '35%',
+      left: '70%',
       transform: 'translate(-50%, -50%) rotate(-90deg)',
       pointerEvents: 'none'
     },
@@ -192,8 +194,8 @@ const TitleSection = ({
 
         {/* Title */}
         <div>
-          <h1 style={mergedStyles.title}>This is a</h1>
-          <h1 style={mergedStyles.titleSecondLine}>global warning.</h1>
+          <h1 style={mergedStyles.title}>Chauka</h1>
+          <h1 style={mergedStyles.titleSecondLine}>This is a global warning.</h1>
         </div>
         
         {/* Main content */}
@@ -212,94 +214,251 @@ const TitleSection = ({
             style={mergedStyles.spilhausImage}
           />
           
+
+          
           {/* Footnote */}
           <div style={{
-            marginTop: '520px',
+            position: 'absolute',
+            top: '134px',
+            right: '20px',
             fontSize: '0.9rem',
             color: '#000000',
             fontWeight: 400,
             textAlign: 'left',
-            maxWidth: '20%',
-            lineHeight: '1.2',
-            marginLeft: '-350px',
-            marginRight: '0'
+            maxWidth: '25%',
+            lineHeight: '1.2'
           }}>
-            This is the <strong>Spilhaus projection</strong>. It shows the ocean as one <strong>connected body</strong>, not broken up like on most maps. It helps us see that what happens in one part of the ocean affects all others. The ocean is the <strong>focus</strong>, not the background.
+            The Spilhaus projection shows the ocean as one connected body, not broken apart like most maps. It helps us see that what happens in one part affects all others. The ocean is the focus, not the background.
           </div>
+          
+          {/* Annotation line - horizontal under footer */}
+          <div style={{
+            position: 'absolute',
+            top: '224px',
+            right: '205px',
+            width: '124px',
+            height: '1px',
+            backgroundColor: '#000',
+            zIndex: 1
+          }} />
+          
+          {/* Annotation line - angled down to map */}
+          <div style={{
+            position: 'absolute',
+            top: '224px',
+            right: '329px',
+            width: '1px',
+            height: '300px',
+            backgroundColor: '#000',
+            transform: 'rotate(15deg)',
+            transformOrigin: 'top left',
+            zIndex: 1
+          }} />
           
           {/* 9 Small Pulsing Dots in Pacific Islands */}
           <div style={{
             ...mergedStyles.smallPulsingDot,
             width: '80px',
             height: '80px',
-            top: '30%',
-            left: '35%',
+            top: '40%',
+            left: '65%',
             animationDelay: '0s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '60px',
-            height: '60px',
-            top: '35%',
-            left: '40%',
+            width: '30px',
+            height: '30px',
+            top: '45%',
+            left: '70%',
             animationDelay: '0.3s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '70px',
-            height: '70px',
-            top: '35%',
-            left: '45%',
+            width: '35px',
+            height: '35px',
+            top: '45%',
+            left: '75%',
             animationDelay: '0.6s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '55px',
-            height: '55px',
-            top: '25%',
-            left: '43%',
+            width: '28px',
+            height: '28px',
+            top: '38%',
+            left: '68%',
             animationDelay: '0.9s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '65px',
-            height: '65px',
-            top: '40%',
-            left: '37%',
+            width: '32px',
+            height: '32px',
+            top: '45%',
+            left: '62%',
             animationDelay: '1.2s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '50px',
-            height: '50px',
-            top: '32%',
-            left: '47%',
+            width: '25px',
+            height: '25px',
+            top: '42%',
+            left: '72%',
             animationDelay: '1.5s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '75px',
-            height: '75px',
-            top: '38%',
-            left: '33%',
+            width: '38px',
+            height: '38px',
+            top: '43%',
+            left: '58%',
             animationDelay: '1.8s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '58px',
-            height: '58px',
-            top: '28%',
-            left: '38%',
+            width: '29px',
+            height: '29px',
+            top: '38%',
+            left: '63%',
             animationDelay: '2.1s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '62px',
-            height: '62px',
-            top: '25%',
-            left: '42%',
+            width: '31px',
+            height: '31px',
+            top: '38%',
+            left: '67%',
             animationDelay: '2.4s'
           }} />
+          <div style={{
+            ...mergedStyles.smallPulsingDot,
+            width: '35px',
+            height: '35px',
+            top: '42%',
+            left: '55%',
+            animationDelay: '2.7s'
+          }} />
+          <div style={{
+            ...mergedStyles.smallPulsingDot,
+            width: '48px',
+            height: '48px',
+            top: '52%',
+            left: '60%',
+            animationDelay: '3.0s'
+          }} />
+          <div style={{
+            ...mergedStyles.smallPulsingDot,
+            width: '19px',
+            height: '19px',
+            top: '47%',
+            left: '70%',
+            animationDelay: '3.3s'
+          }} />
+          
+          {/* Large and small blue static dots in bottom right corner - exact FloatingDot style */}
+          <svg style={{
+            position: 'absolute',
+            top: '77%',
+            left: '82%',
+            width: '150px',
+            height: '150px',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}>
+            <defs>
+              <filter id="glow-large">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            {/* Blurry outline - exact FloatingDot calculation */}
+            <circle
+              cx="75"
+              cy="75"
+              r="34"
+              fill="#0066cc"
+              style={{
+                opacity: 0.3,
+                filter: 'url(#glow-large)',
+              }}
+            />
+                         {/* Main dot - exact FloatingDot calculation */}
+             <circle
+               cx="75"
+               cy="75"
+               r="30"
+               fill="#0066cc"
+               style={{
+                 opacity: 0.8,
+                 filter: 'url(#glow-large)',
+               }}
+             />
+            {/* Annotation */}
+            <text
+              x="75"
+              y="130"
+              textAnchor="middle"
+              fill="#000000"
+              fontSize="12"
+              fontFamily="Helvetica World, Arial, sans-serif"
+            >
+              large flood
+            </text>
+          </svg>
+          
+          <svg style={{
+            position: 'absolute',
+            top: '81%',
+            left: '92%',
+            width: '100px',
+            height: '100px',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}>
+            <defs>
+              <filter id="glow-small">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            {/* Blurry outline - exact FloatingDot calculation */}
+            <circle
+              cx="50"
+              cy="50"
+              r="19"
+              fill="#0066cc"
+              style={{
+                opacity: 0.3,
+                filter: 'url(#glow-small)',
+              }}
+            />
+                         {/* Main dot - exact FloatingDot calculation */}
+             <circle
+               cx="50"
+               cy="50"
+               r="15"
+               fill="#0066cc"
+               style={{
+                 opacity: 0.8,
+                 filter: 'url(#glow-small)',
+               }}
+             />
+            {/* Annotation */}
+            <text
+              x="50"
+              y="90"
+              textAnchor="middle"
+              fill="#000000"
+              fontSize="12"
+              fontFamily="Helvetica World, Arial, sans-serif"
+            >
+              small flood
+            </text>
+          </svg>
         </div>
       </div>
     </section>

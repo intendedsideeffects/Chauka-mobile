@@ -326,8 +326,8 @@ export default function TestScroll() {
           pointerEvents: 'none',
         }}>8</div>
         <SegmentTemplate 
-          header="Segment 8 Title"
-          text="This is placeholder text for segment 8."
+          header=""
+          text=""
         />
       </div>
 

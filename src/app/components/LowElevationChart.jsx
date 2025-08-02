@@ -62,20 +62,19 @@ const LowElevationChart = () => {
       {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
-        left: '-100px',
-        top: 'calc(50% - 180px)',
+        left: '-320px',
+        top: 'calc(50% - 143px)',
         transform: 'translateY(-50%)',
-        fontSize: '12px',
+        fontSize: '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
         textAlign: 'right',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        width: '80px'
+        width: '300px'
       }}>
-        Populations living between<br/>
-        0–5m above sea level<br/>
-        (in %)
+        POPULATIONS LIVING 0-5M<br/>
+        ABOVE SEA LEVEL (%)
       </div>
       
       {/* Chart area with bars */}
@@ -95,7 +94,6 @@ const LowElevationChart = () => {
         
         {/* Y-axis labels */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => {
-          const maxValue = lowElevationData.length > 0 ? Math.max(...lowElevationData.map(d => d.OBS_VALUE)) : 1;
           return (
             <div 
               key={index}
@@ -108,7 +106,7 @@ const LowElevationChart = () => {
                 fontFamily: 'Helvetica World, Arial, sans-serif'
               }}
             >
-              {Math.round(value * maxValue)}
+              {Math.round(value * 100)}
             </div>
           );
         })}
@@ -117,8 +115,8 @@ const LowElevationChart = () => {
         <div className="absolute bottom-0 left-0 right-0 border-t border-black"></div>
        
         {lowElevationData.map((item, index) => {
-          // Use max value for scaling
-          const maxValue = lowElevationData.length > 0 ? Math.max(...lowElevationData.map(d => d.OBS_VALUE)) : 1;
+          // Use 100 as max value for scaling
+          const maxValue = 100;
           
           // Simple linear scale with minimum height for very small values
           const minBarHeight = 10; // Minimum 10px height for visibility
@@ -141,37 +139,67 @@ const LowElevationChart = () => {
                 zIndex: isHovered ? 40 : 20
               }}
             >
-              {/* Labels above bar */}
-              <div style={{ 
-                marginBottom: '10px',
-                textAlign: 'center',
-                fontSize: '12px',
-                color: '#000'
-              }}>
-                <div>{item["Pacific Island Countries and territories"]}</div>
-                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{Math.round(item.OBS_VALUE)}%</div>
-              </div>
-              
               {/* Bar */}
               <div className="relative flex justify-center">
                 <div 
                   className="rounded-t-sm relative z-10"
                   style={{ 
-                    height: `${barHeight}px`,
-                    minHeight: '30px',
+                    height: '280px',
                     width: '60px',
-                    transition: 'height 1.5s ease, background-color 0.2s ease',
-                    background: isHovered ? 
-                      'linear-gradient(to top, #374151 0%, #374151 70%, rgba(59, 130, 246, 0.8) 100%)' : 
-                      'linear-gradient(to top, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.8) 30%, #000000 100%)'
+                    transition: 'height 0.4s ease, background-color 0.05s ease',
+                    background: 'rgba(0, 0, 0, 0.9)'
                   }}
                 />
+                {/* Blue percentage overlay */}
+                <div 
+                  className="absolute rounded-t-sm z-20"
+                  style={{ 
+                    height: `${(item.OBS_VALUE / 100) * 280}px`,
+                    width: '60px',
+                    background: 'rgba(0, 102, 204, 0.9)',
+                    bottom: '0'
+                  }}
+                />
+                {/* Percentage label inside bar at bottom */}
+                <div 
+                  className="absolute z-30"
+                  style={{ 
+                    bottom: '5px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    fontSize: '11px',
+                    color: 'rgba(153, 204, 255, 0.9)',
+                    textAlign: 'center',
+                    fontWeight: '500'
+                  }}
+                >
+                  {Math.round(item.OBS_VALUE)}%
+                </div>
               </div>
+              
+
             </div>
           );
         })}
       </div>
       
+      {/* Country names below x-axis */}
+      <div className="flex items-end justify-between relative mx-4 mt-4">
+        {lowElevationData.map((item, index) => (
+          <div 
+            key={index}
+            className="flex flex-col items-center flex-1 mx-1"
+            style={{ 
+              textAlign: 'center',
+              fontSize: '12px',
+              color: '#000',
+              width: '60px'
+            }}
+          >
+            {item["Pacific Island Countries and territories"]}
+          </div>
+        ))}
+      </div>
 
     </div>
   );

@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './PulseDot.css';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
+import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
 import TitleSection from '../components/sections/TitleSection';
 import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
@@ -16,6 +17,12 @@ import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isOceanPlaying, setIsOceanPlaying] = useState(true);
+  const [showLepeyamTooltip, setShowLepeyamTooltip] = useState(false);
+  const [showChaukaTooltip, setShowChaukaTooltip] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [musicAudioLoaded, setMusicAudioLoaded] = useState(false);
+  const [musicAudioError, setMusicAudioError] = useState(false);
+  const [musicAudioElement, setMusicAudioElement] = useState(null);
   const videoRef = useRef();
   const oceanVideoRef = useRef();
 
@@ -101,6 +108,38 @@ export default function TestScroll() {
     }
   };
 
+  // Music button functions
+  const handleMusicToggle = () => {
+    console.log('Music button clicked!', { musicAudioLoaded, musicAudioError, musicAudioElement, musicPlaying });
+    if (!musicAudioElement) {
+      console.log('No music audio element found');
+      return;
+    }
+    
+    if (musicAudioElement) {
+      if (musicPlaying) {
+        console.log('Pausing music audio');
+        musicAudioElement.pause();
+      } else {
+        console.log('Playing music audio');
+        musicAudioElement.play().catch(error => {
+          console.error('Error playing music audio:', error);
+        });
+      }
+    }
+  };
+
+  const handleMusicStateChange = ({ playing: newPlaying, audioLoaded: newAudioLoaded, audioError: newAudioError }) => {
+    console.log('Music state change:', { newPlaying, newAudioLoaded, newAudioError });
+    setMusicPlaying(newPlaying);
+    setMusicAudioLoaded(newAudioLoaded);
+    setMusicAudioError(newAudioError);
+  };
+
+  const handleMusicAudioRef = (audio) => {
+    setMusicAudioElement(audio);
+  };
+
   return (
     <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden', position: 'relative', minHeight: '100vh' }}>
       {/* Video Section */}
@@ -116,16 +155,7 @@ export default function TestScroll() {
         scrollSnapAlign: 'start'
       }}>
         {/* Segment Number */}
-        <div style={{
-          position: 'absolute',
-          top: 20,
-          left: 20,
-          fontSize: '5rem',
-          color: 'rgba(255,255,255,0.15)',
-          fontWeight: 900,
-          zIndex: 2000,
-          pointerEvents: 'none',
-        }}>1</div>
+
         {/* Star Globe as background */}
         <InteractiveStarGlobe />
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
@@ -136,10 +166,12 @@ export default function TestScroll() {
           loop
           muted
           playsInline
+          preload="auto"
           onLoadStart={() => console.log('Ocean video loading started')}
           onCanPlay={() => console.log('Ocean video can play')}
           onError={(e) => console.error('Ocean video error:', e)}
           onPlay={() => console.log('Ocean video started playing')}
+          onLoadedData={() => console.log('Ocean video data loaded')}
           style={{
             position: 'absolute',
             left: 0,
@@ -247,7 +279,44 @@ export default function TestScroll() {
 
         {/* Audio buttons positioned relative to video section */}
         <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
-          <YellowStarAudioPlayer />
+          <button
+            style={{
+              width: '300px',
+              height: '300px',
+              border: 'none',
+              background: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={() => setShowChaukaTooltip(true)}
+            aria-label="Click for story"
+          >
+            <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+              <defs>
+                <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#cad6fa" stopOpacity="0.8" />
+                </radialGradient>
+                <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+                  <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <path id="circlePath" d="M150,75 A75,75 0 1,1 149.99,75" />
+              </defs>
+              <circle cx="150" cy="150" r="40" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
+              <circle cx="150" cy="150" r="50" fill="transparent" style={{ filter: 'url(#glow)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
+              <text fill="#94a0c4" fontSize="18" fontWeight="normal" letterSpacing="0.08em">
+                <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                  Click for story!
+                </textPath>
+              </text>
+            </svg>
+          </button>
         </div>
         <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
           <BlueCircleAudioPlayer />
@@ -276,28 +345,91 @@ export default function TestScroll() {
         </div>
       </section>
 
+      {/* Chauka Story Tooltip */}
+      {showChaukaTooltip && (
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          color: '#000',
+          padding: '40px',
+          borderRadius: '12px',
+          maxWidth: '600px',
+          maxHeight: '80vh',
+          overflowY: 'auto',
+          zIndex: 10000,
+          fontFamily: 'Helvetica World, Arial, sans-serif',
+          fontSize: '16px',
+          lineHeight: '1.6',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(0,0,0,0.1)'
+        }}>
+          <div style={{ marginBottom: '20px' }}>
+            This video collage is inspired by the Chauka, a bird found only on Manus Island in Papua New Guinea. It plays a role in daily life and is deeply respected, appearing often in local stories. People say its calls help mark the passage of time, acting as a kind of timekeeper. But in many legends, the Chauka also appears as a warning.
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            The story behind this visualization is about a man who brings home his newly wed wife. But soon the Chauka begins calling again and again. The villagers are alert, they sense something is wrong. The woman is not who she says she is. She is a spirit in disguise. The villagers listen to the bird and decide to leave the island by boat.
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            Stories like this are still told on Manus. The Chauka is seen as a bird that notices things before people do. It speaks up when something is off, when something is coming.
+          </div>
+          
+          <div style={{ 
+            fontStyle: 'italic', 
+            fontSize: '14px', 
+            opacity: 0.8,
+            borderTop: '1px solid rgba(0,0,0,0.2)',
+            paddingTop: '15px',
+            marginTop: '20px'
+          }}>
+            Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
+          </div>
+          
+          <button 
+            onClick={() => setShowChaukaTooltip(false)}
+            style={{
+              position: 'absolute',
+              top: '15px',
+              right: '15px',
+              background: 'none',
+              border: 'none',
+              color: '#333',
+              fontSize: '24px',
+              cursor: 'pointer',
+              padding: '5px',
+              borderRadius: '50%',
+              width: '30px',
+              height: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.1)'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Title Section */}
       <div style={{position: 'relative'}}>
-        <div style={{
-          position: 'absolute',
-          top: 20,
-          left: 20,
-          fontSize: '5rem',
-          color: 'rgba(0,0,0,0.10)',
-          fontWeight: 900,
-          zIndex: 2000,
-          pointerEvents: 'none',
-        }}>2</div>
         <TitleSection />
       </div>
 
-      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-9 */}
+      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-10 */}
       <div style={{
         position: 'absolute',
         top: '200vh', // Start after segment 3 (which is 200vh tall)
         left: '20px',
         width: 'calc(100vw - 40px)',
-        height: '700vh', // 7 segments * 100vh each
+        height: '800vh', // 8 segments * 100vh each (3-10)
         zIndex: 9999, // High z-index to show above charts
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
@@ -317,7 +449,7 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>3</div>
+        }}>1</div>
         <SegmentTemplate 
           header="Sea levels held steady for a millennium,"
           headerSecondLine="until now."
@@ -342,7 +474,7 @@ export default function TestScroll() {
         {/* Annotation for section 3 - positioned outside chart container */}
         <div style={{
           position: 'absolute',
-          top: 'calc(40vh - 120px)',
+          top: 'calc(35vh - 125px)',
           left: 'calc(80vw - 30px)',
           zIndex: 9999,
           pointerEvents: 'none',
@@ -373,7 +505,7 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>4</div>
+        }}>2</div>
         <SegmentTemplate 
           header="Sea level is rising,"
           headerSecondLine="but not at the same rate."
@@ -407,7 +539,7 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>5</div>
+        }}>3</div>
                          <SegmentTemplate 
           header="Impact varies across Pacific islands"
           headerSecondLine="low-laying islands are exposed more."
@@ -441,7 +573,7 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>6</div>
+        }}>4</div>
         <SegmentTemplate 
           header="Many islanders live just above sea level,"
           headerSecondLine="where sea rise is already felt."
@@ -462,6 +594,8 @@ export default function TestScroll() {
             }
           }}
         />
+
+
       </div>
 
             {/* Segment 7 */}
@@ -475,7 +609,7 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-        }}>7</div>
+        }}>5</div>
                  <SegmentTemplate 
            header="Climate risks are rising in the Pacific."
            headerSecondLine="So is human impact."
@@ -501,7 +635,8 @@ export default function TestScroll() {
 
 
              {/* New Segment */}
-      <div style={{position: 'relative'}}>
+      {/* Section 9 - HIDDEN FOR NOW */}
+      {/* <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
           top: 20,
@@ -523,11 +658,11 @@ export default function TestScroll() {
             }
           }}
         />
-      </div>
+      </div> */}
 
 
 
-      {/* Placeholder Segment 10 */}
+      {/* Placeholder Segment 9 */}
       <div style={{position: 'relative'}}>
         <div style={{
           position: 'absolute',
@@ -538,22 +673,34 @@ export default function TestScroll() {
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-         }}>10</div>
+         }}>6</div>
         <SegmentTemplate
           header="Conclusion"
-          text="The Pacific is on the <strong>front lines</strong> of the climate crisis. While sea levels are rising globally, their impacts are <strong>not evenly distributed</strong>. Low-lying island nations such as Tuvalu, Kiribati, and the Marshall Islands, with an average elevation of just <strong>2 meters</strong>, face an existential threat from even modest increases in sea level. These islands have little elevation to buffer rising tides and no higher ground for retreat.
+          text="The Pacific is on the front lines of the climate crisis. While sea levels are rising globally, their impacts are not evenly distributed. Low-lying island nations such as <strong>Tuvalu</strong>, <strong>Kiribati</strong>, and the <strong>Marshall Islands</strong>, with an average elevation of just 2 meters, face an existential threat from even modest increases in sea level. These islands have little elevation to buffer rising tides and no higher ground for retreat.
 
 <br/><br/>
 
-But elevation alone does not tell the full story. <strong>Ocean currents</strong>, land movement, and storm exposure all contribute to risk, making some regions more vulnerable than others. Climate hazards that were once rare are becoming more <strong>frequent</strong> and <strong>disruptive</strong>.
+But elevation alone does not tell the full story. <strong>Ocean currents</strong>, <strong>land movement</strong>, and <strong>storm exposure</strong> all contribute to risk, making some regions more vulnerable than others. Climate hazards that were once rare are becoming more frequent and disruptive.
 
 <br/><br/>
 
-In recent years, hundreds of thousands of people in the Pacific have been affected by <strong>floods</strong>, <strong>cyclones</strong>, and <strong>droughts</strong>, showing a sharp rise in human impact.
+In recent years, hundreds of thousands of people in the Pacific have been affected by floods, cyclones, and droughts, showing a sharp rise in human impact.
 
 <br/><br/>
 
-The data points to a clear trend: as the <strong>climate warms</strong>, the risks for Pacific communities are increasing. What is happening in these islands is not just a warning, but a <strong>preview</strong> of what coastal regions around the world may face if emissions and sea level rise are not brought under control."
+The data points to a clear trend: as the climate warms, the risks for Pacific communities are increasing. What is happening in these islands is not just a warning, but a preview of what coastal regions around the world may face if emissions and sea level rise are not brought under control.
+
+<br/><br/>
+
+And yet, these islands are not only sites of risk. They are also places of <strong>resilience</strong>. Across the region, communities are responding with <strong>deep-rooted knowledge</strong>, <strong>creative adaptation</strong>, and <strong>collective action</strong>. From youth-led campaigns to cultural expression and traditional practices, Pacific peoples are drawing on both <strong>heritage</strong> and <strong>innovation</strong> to protect what matters.
+
+<br/><br/>
+
+The rising sea threatens homes and homelands, but it cannot erase <strong>identity</strong>, <strong>memory</strong>, or the <strong>will to adapt</strong>.
+
+<br/><br/>
+
+This is not only a story of loss. It is also one of <strong>resilience</strong>."
           chartComponent={null}
                       styles={{
               header: {
@@ -584,11 +731,11 @@ The data points to a clear trend: as the <strong>climate warms</strong>, the ris
            fontWeight: 900,
            zIndex: 2000,
            pointerEvents: 'none',
-         }}>11</div>
+         }}>7</div>
                    <section style={{
             width: '100%',
             height: '100vh',
-            background: '#3d557a',
+            background: 'transparent',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -597,17 +744,7 @@ The data points to a clear trend: as the <strong>climate warms</strong>, the ris
             scrollSnapAlign: 'start',
             borderBottom: '3px solid #9ca3af',
           }}>
-           {/* Sunrise effect */}
-           <div style={{
-             position: 'absolute',
-             bottom: 0,
-             left: 0,
-             width: '100%',
-             height: '80%',
-             background: 'radial-gradient(ellipse 80% 120% at 30% 135%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 0, 0.8) 10%, rgba(255, 165, 0, 0.7) 25%, rgba(255, 140, 0, 0.5) 40%, rgba(255, 69, 0, 0.3) 60%, rgba(61, 85, 122, 0.8) 80%, rgba(61, 85, 122, 1) 100%)',
-             zIndex: 15,
-             pointerEvents: 'none'
-           }} />
+
 
            {/* Star Globe in front of sunrise */}
              <div style={{
@@ -619,38 +756,264 @@ The data points to a clear trend: as the <strong>climate warms</strong>, the ris
              zIndex: 20, 
              pointerEvents: 'auto'
            }}>
-             <InteractiveStarGlobe />
+             <InteractiveStarGlobeYellow />
              </div>
-             
-             {/* Collaborators wanted image */}
-             <div style={{
-               position: 'absolute',
-               top: 0,
-               left: '-50px',
-               width: 'calc(100% + 100px)',
-               height: '100%',
-               zIndex: 25,
-               margin: 0,
-               padding: 0,
-               pointerEvents: 'none',
-               backgroundColor: 'rgba(255,0,0,0.1)'
-             }}>
-               <img 
-                 src="/Collaborators wanted.svg" 
-                 alt="Collaborators wanted" 
-                 style={{
-                   width: '100%',
-                   height: '100%',
-                   objectFit: 'cover',
-                   margin: 0,
-                   padding: 0,
-                   display: 'block'
-                 }}
-                 onLoad={() => console.log('Collaborators image loaded successfully')}
-                 onError={(e) => console.error('Error loading image:', e)}
+
+             {/* Click for Story Button */}
+             <button
+               style={{
+                 position: 'absolute',
+                 bottom: '50px',
+                 right: '50px',
+                 width: '300px',
+                 height: '300px',
+                 border: 'none',
+                 background: 'none',
+                 cursor: 'pointer',
+                 zIndex: 30,
+               }}
+               onClick={() => setShowLepeyamTooltip(true)}
+               aria-label="Click for story"
+             >
+               <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+                 <defs>
+                   <radialGradient id="pulse-section7" cx="50%" cy="50%" r="50%">
+                     <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
+                     <stop offset="100%" stopColor="#cad6fa" stopOpacity="0.8" />
+                   </radialGradient>
+                   <filter id="glow-section7" x="-200%" y="-200%" width="500%" height="500%">
+                     <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+                     <feMerge>
+                       <feMergeNode in="coloredBlur" />
+                       <feMergeNode in="SourceGraphic" />
+                     </feMerge>
+                   </filter>
+                   <path id="circlePath-section7" d="M150,75 A75,75 0 1,1 149.99,75" />
+                 </defs>
+                 <circle cx="150" cy="150" r="40" fill="#cad6fa" style={{ filter: 'url(#glow-section7)' }} />
+                 <circle cx="150" cy="150" r="50" fill="transparent" style={{ filter: 'url(#glow-section7)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
+                 <text fill="#94a0c4" fontSize="18" fontWeight="normal" letterSpacing="0.08em">
+                   <textPath xlinkHref="#circlePath-section7" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                     Click for story!
+                   </textPath>
+                 </text>
+               </svg>
+             </button>
+
+             {/* Click for Music Button */}
+             <div
+               style={{
+                 position: 'absolute',
+                 bottom: '50px',
+                 left: '50px',
+                 width: '240px',
+                 height: '240px',
+                 display: 'flex',
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 pointerEvents: 'auto',
+                 background: 'none',
+                 cursor: 'pointer',
+                 zIndex: 30,
+               }}
+               onClick={handleMusicToggle}
+               aria-label="Play or pause music"
+             >
+               <AudioPlayer
+                 id="music-audio"
+                 src="/Leve Yam.mp3"
+                 volume={0.3}
+                 loop={true}
+                 onEnded={() => setMusicPlaying(false)}
+                 onStateChange={handleMusicStateChange}
+                 onRef={handleMusicAudioRef}
                />
-           </div>
+               <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+                 <defs>
+                   <radialGradient id="pulseMusic" cx="50%" cy="50%" r="50%">
+                     <stop offset="0%" stopColor="#3d557a" stopOpacity="1" />
+                     <stop offset="100%" stopColor="#3d557a" stopOpacity="0" />
+                   </radialGradient>
+                   <filter id="glowMusic" x="-200%" y="-200%" width="500%" height="500%">
+                     <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+                     <feMerge>
+                       <feMergeNode in="coloredBlur" />
+                       <feMergeNode in="SourceGraphic" />
+                     </feMerge>
+                   </filter>
+                   <path id="circlePathMusicText" d="M60,130 A60,60 0 1,1 180,130" />
+                 </defs>
+                 <text fill="#3d557a" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
+                   <textPath xlinkHref="#circlePathMusicText" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                     Click for music!
+                   </textPath>
+                 </text>
+                 <circle cx="120" cy="120" r="48" fill="url(#pulseMusic)" style={{ animation: 'pulse 1.5s infinite', filter: 'url(#glowMusic)' }} />
+                 <circle cx="120" cy="120" r="30" fill="#3d557a" style={{ filter: 'url(#glowMusic)' }} />
+                 {!musicPlaying && (
+                   <polygon points="115,112 131,120 115,128" fill="#b8c6e6" style={{ opacity: 1 }} />
+                 )}
+                 {musicPlaying && (
+                   <g>
+                     <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
+                     <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
+                   </g>
+                 )}
+               </svg>
+               {musicAudioError && (
+                 <div style={{ position: 'absolute', top: 10, left: 10, color: 'red', background: 'rgba(0,0,0,0.7)', padding: '8px 16px', borderRadius: 8, zIndex: 20 }}>
+                   Audio failed to load.
+                 </div>
+               )}
+               <style>{`
+                 @keyframes pulse {
+                   0% { r: 36; opacity: 0.7; }
+                   50% { r: 48; opacity: 0.2; }
+                   100% { r: 36; opacity: 0.7; }
+                 }
+               `}</style>
+             </div>
+
+             {/* Lepeyam Story Tooltip */}
+             {showLepeyamTooltip && (
+               <div style={{
+                 position: 'fixed',
+                 top: '50%',
+                 left: '50%',
+                 transform: 'translate(-50%, -50%)',
+                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                 color: '#222',
+                 padding: '40px',
+                 borderRadius: '12px',
+                 maxWidth: '600px',
+                 maxHeight: '80vh',
+                 overflowY: 'auto',
+                 zIndex: 10000,
+                 fontFamily: 'Helvetica World, Arial, sans-serif',
+                 fontSize: '16px',
+                 lineHeight: '1.6',
+                 boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                 backdropFilter: 'blur(10px)',
+                 border: '1px solid rgba(0,0,0,0.1)'
+               }}>
+                 <h2 style={{ 
+                   marginBottom: '20px', 
+                   fontSize: '24px', 
+                   fontWeight: 'bold',
+                   color: '#333'
+                 }}>
+                   Lepeyam
+                 </h2>
+                 
+                 <div style={{ 
+                   fontStyle: 'italic', 
+                   fontSize: '14px', 
+                   opacity: 0.8,
+                   marginBottom: '20px',
+                   color: '#666'
+                 }}>
+                   Translated from Tok Pisin
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   Lepeyam was a woman from Htopolonu who lived with her children in the village. One day, people were preparing for a big cultural celebration with dancing, singing, and traditional food. Many women were fetching water from a tap at the park using plastic containers.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   Lepeyam told one of them, "You and your children should fetch water too." But when they got to the tap, a strange woman was already there. She was not from the village. She was a masalai meri, a spirit woman. She blocked Lepeyam and her children from collecting water. Then, without speaking, she filled their containers for them and disappeared.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   That night, the masalai came to Lepeyam in her sleep. She sang a chant in a language Lepeyam could not understand. In the chant, she mentioned the Chauka bird. In Manus, the Chauka is known as a signal bird, used to mark time or warn of changes. The dream left Lepeyam confused and unsettled.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   The next morning, she left the house without saying anything. She walked out of the village as if in a trance, following a voice that only she could hear. She was gone for days.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   While she was missing, a kind couple took in her children. They brought them home, gave them food, and looked after them. One of the grandmothers told the children not to worry. She cooked food from the garden and sat with them. When they were ready to eat, she asked gently, "Do you know how to eat properly with your hands like we do here?" Then she showed them how.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   Days later, Lepeyam returned. She was dirty and tired. People saw her drinking from puddles and chewing betelnut. Her body looked thin, and her behavior was strange. The masalai had taken her into the bush and taught her strange ways.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   When she came back to the village, people gathered and called her children. "Here is your mother," they said. But the children did not recognize her.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   Lepeyam sat quietly. Sometimes she took food from other people's plates. Her voice and movements were not her own. At one point, the real masalai woman appeared again, dancing and talking in riddles. She took food and spoke as if through Lepeyam.
+                 </div>
+                 
+                 <div style={{ marginBottom: '20px' }}>
+                   Eventually, the villagers brought Lepeyam back to her house. She sat down with her children and said softly, "I am still your mother, but I am not the same."
+                 </div>
+                 
+                 <div style={{ 
+                   fontStyle: 'italic', 
+                   fontSize: '14px', 
+                   opacity: 0.8,
+                   borderTop: '1px solid rgba(0,0,0,0.2)',
+                   paddingTop: '15px',
+                   marginTop: '20px'
+                 }}>
+                   This story was later turned into a traditional song and dance performance.
+                 </div>
+                 
+                 <button 
+                   onClick={() => setShowLepeyamTooltip(false)}
+                   style={{
+                     position: 'absolute',
+                     top: '15px',
+                     right: '15px',
+                     background: 'none',
+                     border: 'none',
+                     color: '#333',
+                     fontSize: '24px',
+                     cursor: 'pointer',
+                     padding: '5px',
+                     borderRadius: '50%',
+                     width: '30px',
+                     height: '30px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     transition: 'background-color 0.2s'
+                   }}
+                   onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.1)'}
+                   onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                 >
+                   ×
+                 </button>
+               </div>
+             )}
+
+
+             
+
          </section>
+      </div>
+
+      {/* Section 11 - Material and Method */}
+      <div style={{position: 'relative'}}>
+        <div style={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>8</div>
+        <SegmentTemplate 
+          header="Material and Method"
+          text="This project is built with <strong>Next.js</strong>, <strong>React</strong>, and <strong>Three.js</strong>, combining interactive 3D mapping and data visualization. Charts are rendered using <strong>Recharts</strong> and <strong>D3.js</strong>, while styling is handled with <strong>Tailwind CSS</strong> and <strong>PostCSS</strong>. The source code is available on <a href='https://github.com/intendedsideeffects/Chauka' target='_blank' style='color: #000; text-decoration: underline;'><strong>GitHub</strong></a>.<br/><br/>The 3D star globe is based on data from the <strong>Hipparcos and Tycho Catalogues</strong>. Additional charts use data from the <strong>Pacific Data Hub</strong> and the <strong>EM-DAT public disaster database</strong>. Exact datasets are linked in the captions of each visualization.<br/><br/>The narrative is rooted in a story from <strong>Manus Island</strong>. It is woven into the experience alongside <strong>sound</strong> to create a layered, sensory way of engaging with the data.<br/><br/>Music: <a href='https://www.youtube.com/watch?v=9naA6Ji3QS0' target='_blank' style='color: #000; text-decoration: underline;'><strong>Leve Yam - Keni Lucas Ponyalou</strong></a><br/><br/>This project is a collaboration between <a href='https://www.linkedin.com/in/bertha-ngahan-a9b405145/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Bertha Ngahan</strong></a> (Storytelling) and <a href='https://www.linkedin.com/in/j-grauel/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Janina Grauel</strong></a> (Visualization) for the <a href='https://pacificdatavizchallenge.org/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Pacific Data Challenge</strong></a>."
+          caption=""
+          styles={{}}
+        />
       </div>
 
     </div>

@@ -40,11 +40,14 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const purpleDotAudioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [hoveredDot, setHoveredDot] = useState(null);
+    const [hoveredBlueDot, setHoveredBlueDot] = useState(null);
+    const tooltipTimeoutRef = useRef(null);
     const [isHoveringPurpleDot, setIsHoveringPurpleDot] = useState(false);
     const [isPurpleAudioPlaying, setIsPurpleAudioPlaying] = useState(false);
     const purpleDotAudio = useRef(null);
     const [memories, setMemories] = useState([]);
     const [showYAxis, setShowYAxis] = useState(false);
+    const [climateResistanceData, setClimateResistanceData] = useState([]);
 
     // Debug: log when showYAxis changes
     useEffect(() => {
@@ -72,6 +75,54 @@ function PlotsScatterChart({ timelineData, visibleData }) {
       fetchMemories();
     }, []);
 
+    // Load climate resistance data
+    useEffect(() => {
+      async function fetchClimateResistanceData() {
+        try {
+          const response = await fetch('/Climate_Resistance_Tooltips.csv');
+          const text = await response.text();
+          const lines = text.split('\n').slice(1); // Skip header
+          const data = lines
+            .filter(line => line.trim())
+            .map((line, index) => {
+              // Find the first comma to separate year from the rest
+              const firstCommaIndex = line.indexOf(',');
+              if (firstCommaIndex === -1) return null;
+              
+              const year = line.substring(0, firstCommaIndex);
+              const tooltipText = line.substring(firstCommaIndex + 1); // Everything after the first comma
+              
+              const yearNum = parseInt(year);
+              if (isNaN(yearNum)) return null;
+              
+              // Calculate position using same logic as blue dots
+              const yBase = getYearPosition(yearNum);
+              const yOffset = (Math.random() - 0.5) * 2 * 19; // Same offset as blue dots
+              const y = yBase + yOffset;
+              
+              // Spread dots to the sides like blue dots
+              const x = Math.round((Math.random() - 0.5) * STATUS_WIDTH * 0.8);
+              
+              return {
+                id: `climate-${index}`,
+                year: yearNum,
+                tooltipText: tooltipText.replace(/"/g, ''), // Remove quotes
+                x: x,
+                y: y,
+                type: 'climate-resistance'
+              };
+            })
+            .filter(item => item !== null);
+          
+          console.log('Loaded climate resistance data:', data);
+          setClimateResistanceData(data);
+        } catch (error) {
+          console.error('Error loading climate resistance data:', error);
+        }
+      }
+      fetchClimateResistanceData();
+    }, []);
+
     const handleMouseEnter = (dot) => {
         if (dot.highlighted && !isPlaying) {
             setIsPlaying(true);
@@ -91,6 +142,137 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             }
         }
     };
+
+    const handleYellowDotMouseEnter = (dot, event) => {
+        // Clear any existing timeout
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+        
+        // Clear any existing blue dot tooltip to prevent multiple tooltips
+        setHoveredBlueDot(null);
+        
+        // Store mouse position for tooltip positioning
+        dot.mouseX = event.clientX;
+        dot.mouseY = event.clientY;
+        setHoveredDot(dot);
+    };
+
+    const handleYellowDotMouseLeave = () => {
+        console.log('Yellow dot mouse leave, clearing tooltip');
+        // Set a timeout to clear the tooltip after a short delay
+        tooltipTimeoutRef.current = setTimeout(() => {
+            setHoveredDot(null);
+            tooltipTimeoutRef.current = null;
+        }, 200); // Increased delay to allow hover effect to be more visible
+    };
+
+    const handleBlueDotMouseEnter = (dot, event) => {
+        // Clear any existing timeout
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+        
+        // Clear any existing yellow dot tooltip to prevent multiple tooltips
+        setHoveredDot(null);
+        
+        // Store mouse position for tooltip positioning
+        dot.mouseX = event.clientX;
+        dot.mouseY = event.clientY;
+        
+        setHoveredBlueDot(dot);
+    };
+
+    const handleBlueDotMouseLeave = () => {
+        console.log('Blue dot mouse leave, clearing tooltip');
+        // Set a timeout to clear the tooltip after a short delay
+        tooltipTimeoutRef.current = setTimeout(() => {
+            setHoveredBlueDot(null);
+            tooltipTimeoutRef.current = null;
+        }, 200); // Increased delay to allow hover effect to be more visible
+    };
+
+    // Function to calculate smart tooltip positioning
+    const getTooltipPosition = (mouseX, mouseY, tooltipWidth = 400, tooltipHeight = 200) => {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Default offset from mouse
+        let left = mouseX + 20;
+        let top = mouseY - 100;
+        
+        // Check if tooltip would go off the right edge
+        if (left + tooltipWidth > viewportWidth - 20) {
+            left = mouseX - tooltipWidth - 20;
+        }
+        
+        // Check if tooltip would go off the left edge
+        if (left < 20) {
+            left = 20;
+        }
+        
+        // Check if tooltip would go off the bottom edge
+        if (top + tooltipHeight > viewportHeight - 20) {
+            top = mouseY - tooltipHeight - 20;
+        }
+        
+        // Check if tooltip would go off the top edge
+        if (top < 20) {
+            top = 20;
+        }
+        
+        return { left, top };
+    };
+
+    // Add scroll event listener to clear tooltip when scrolling
+    useEffect(() => {
+        const handleScroll = () => {
+            if (hoveredDot) {
+                setHoveredDot(null);
+            }
+            if (hoveredBlueDot) {
+                setHoveredBlueDot(null);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [hoveredDot, hoveredBlueDot]);
+
+    // Add global mouse move listener to clear tooltips when mouse is not over dots
+    useEffect(() => {
+        const handleGlobalMouseMove = (event) => {
+            // Check if mouse is over the plot container
+            const plotContainer = document.getElementById('plot-container');
+            if (plotContainer && !plotContainer.contains(event.target)) {
+                // Mouse is outside the plot container, clear all tooltips immediately
+                if (hoveredDot || hoveredBlueDot) {
+                    console.log('Mouse outside plot container, clearing all tooltips');
+                    setHoveredDot(null);
+                    setHoveredBlueDot(null);
+                    // Clear any pending timeout
+                    if (tooltipTimeoutRef.current) {
+                        clearTimeout(tooltipTimeoutRef.current);
+                        tooltipTimeoutRef.current = null;
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+        return () => {
+            window.removeEventListener('mousemove', handleGlobalMouseMove);
+            // Clear any pending timeout
+            if (tooltipTimeoutRef.current) {
+                clearTimeout(tooltipTimeoutRef.current);
+                tooltipTimeoutRef.current = null;
+            }
+        };
+    }, [hoveredDot, hoveredBlueDot]);
 
     const handleMouseLeave = (dot) => {
         if (audioRef.current) {
@@ -258,9 +440,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         position: 'absolute',
                         right: 0,
                         top: 0,
-                        width: '200px',
+                        width: '50px',
                         height: '100%',
-                        background: 'rgba(0,102,204,0.5)',
+                        background: 'transparent',
                         zIndex: 999,
                         pointerEvents: 'none',
                     }}
@@ -275,10 +457,10 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 }}
                 style={{
                     position: 'absolute',
-                    right: '0px',
+                    right: '-10px',
                     top: '0px',
-                    background: showYAxis ? '#0066cc' : '#4a90e2',
-                    border: 'none',
+                    background: showYAxis ? '#ffffff' : '#ffffff',
+                    border: '1px solid #666666',
                     borderRadius: '0px',
                     width: '20px',
                     height: '100%',
@@ -289,77 +471,217 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     justifyContent: 'center',
                     fontSize: '12px',
                     fontWeight: 'bold',
-                    color: 'white',
+                    color: '#000000',
                     boxShadow: 'none',
                     transition: 'background-color 0.3s ease',
                     pointerEvents: 'auto'
                 }}
                 onMouseEnter={(e) => {
-                    e.target.style.background = showYAxis ? '#0052a3' : '#357abd';
+                    e.target.style.background = showYAxis ? '#f0f0f0' : '#f0f0f0';
                 }}
                 onMouseLeave={(e) => {
-                    e.target.style.background = showYAxis ? '#0066cc' : '#4a90e2';
+                    e.target.style.background = showYAxis ? '#ffffff' : '#ffffff';
                 }}
             >
                 {showYAxis ? '−' : '+'}
             </button>
 
-            {/* Custom tooltip for colored dots and memory dots */}
-            {hoveredDot && hoveredDot.type === 'memory' && (
-              console.log('Rendering tooltip for:', hoveredDot),
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '20px',
-                  transform: 'translateX(-50%)',
-                  background: 'white',
-                  color: '#222',
-                  border: '1px solid #5a3f6e',
-                  borderRadius: 8,
-                  padding: '1rem',
-                  minWidth: 220,
-                  fontSize: '1rem',
-                  boxShadow: '0 2px 12px #0002',
-                  zIndex: 1000,
-                }}
-              >
-                <strong>
-                  {hoveredDot.type === 'image' ? 'Image Memory' : 'Memory'}
-                </strong>
-                <div style={{ marginTop: 8 }}>
-                  {hoveredDot.type === 'image' ? (
-                    <img src={hoveredDot.content} alt="memory" style={{ maxWidth: 180 }} />
+
+
+
+
+            {/* Custom tooltip for memory dots and climate resistance dots */}
+            {hoveredDot && (hoveredDot.type === 'memory' || hoveredDot.type === 'climate-resistance') && (() => {
+              const tooltipWidth = hoveredDot.type === 'climate-resistance' ? 400 : 384;
+              const tooltipHeight = 200; // Estimated height
+              const position = hoveredDot.mouseX && hoveredDot.mouseY 
+                ? getTooltipPosition(hoveredDot.mouseX, hoveredDot.mouseY, tooltipWidth, tooltipHeight)
+                : { left: '50%', top: '200px' };
+              
+              return (
+                <div
+                  style={{
+                    position: 'fixed',
+                    left: typeof position.left === 'number' ? `${position.left}px` : position.left,
+                    top: typeof position.top === 'number' ? `${position.top}px` : position.top,
+                    transform: typeof position.left === 'number' ? 'none' : 'translateX(-50%)',
+                    background: 'rgba(255, 255, 255, 1)',
+                    color: 'black',
+                    padding: '16px',
+                    borderRadius: '4px',
+                    border: '1px solid #d1d5db',
+                    width: `${tooltipWidth}px`,
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                    fontFamily: 'Arial, sans-serif',
+                    fontSize: '16px',
+                    zIndex: 1000,
+                  }}
+                >
+                  {hoveredDot.type === 'memory' ? (
+                    <>
+                      <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
+                        {hoveredDot.type === 'image' ? 'Image Memory' : 'Memory'}
+                      </p>
+                      <div style={{ marginBottom: '8px' }}>
+                        {hoveredDot.type === 'image' ? (
+                          <img src={hoveredDot.content} alt="memory" style={{ maxWidth: 180 }} />
+                        ) : (
+                          <div>{hoveredDot.content}</div>
+                        )}
+                      </div>
+                      <p style={{ fontStyle: 'italic', marginBottom: '8px' }}>
+                        {hoveredDot.author} ({hoveredDot.year})
+                      </p>
+                      {/* Show delete button for all non-sound memories */}
+                      {hoveredDot.type !== 'sound' && (
+                        <button
+                          style={{
+                            marginTop: 12,
+                            background: '#e74c3c',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: 4,
+                            padding: '6px 12px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => handleDeleteMemory(hoveredDot.id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </>
                   ) : (
-                    <div>{hoveredDot.content}</div>
+                    <>
+                      <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
+                        Resistance
+                      </p>
+                      <p style={{ fontStyle: 'italic', marginBottom: '8px' }}>
+                        {hoveredDot.year}
+                      </p>
+                      <p style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e5e7eb', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
+                        {hoveredDot.tooltipText}
+                      </p>
+                    </>
                   )}
                 </div>
-                <div>
-                  <small>
-                    {hoveredDot.author} ({hoveredDot.year})
-                  </small>
-                </div>
-                {/* Show delete button for all non-sound memories */}
-                {hoveredDot.type !== 'sound' && (
-                  <button
+              );
+                         })()}
+             
+                                       {/* Cross indicator for blue dots - spans entire screen */}
+              {hoveredBlueDot && (
+                <svg
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    pointerEvents: 'none',
+                    zIndex: 999,
+                  }}
+                >
+                  {/* Horizontal line spanning entire width */}
+                  <line
+                    x1="0"
+                    y1={hoveredBlueDot.cy || 0}
+                    x2="100%"
+                    y2={hoveredBlueDot.cy || 0}
+                    stroke="#000000"
+                    strokeWidth="0.5"
+                    opacity="0.6"
+                  />
+                  {/* Vertical line spanning entire height */}
+                  <line
+                    x1={hoveredBlueDot.cx || 0}
+                    y1="0"
+                    x2={hoveredBlueDot.cx || 0}
+                    y2="100%"
+                    stroke="#000000"
+                    strokeWidth="0.5"
+                    opacity="0.6"
+                  />
+                </svg>
+              )}
+
+             {/* Cross indicator for yellow dots (climate resistance) - spans entire screen */}
+              {hoveredDot && hoveredDot.type === 'climate-resistance' && (
+                <svg
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    pointerEvents: 'none',
+                    zIndex: 999,
+                  }}
+                >
+                  {/* Horizontal line spanning entire width */}
+                  <line
+                    x1="0"
+                    y1={hoveredDot.cy || 0}
+                    x2="100%"
+                    y2={hoveredDot.cy || 0}
+                    stroke="#000000"
+                    strokeWidth="0.5"
+                    opacity="0.6"
+                  />
+                  {/* Vertical line spanning entire height */}
+                  <line
+                    x1={hoveredDot.cx || 0}
+                    y1="0"
+                    x2={hoveredDot.cx || 0}
+                    y2="100%"
+                    stroke="#000000"
+                    strokeWidth="0.5"
+                    opacity="0.6"
+                  />
+                </svg>
+              )}
+
+             {/* Custom tooltip for blue dots (disaster data) */}
+              {hoveredBlueDot && (() => {
+                const tooltipWidth = 384;
+                const tooltipHeight = 200; // Estimated height
+                const position = hoveredBlueDot.mouseX && hoveredBlueDot.mouseY 
+                  ? getTooltipPosition(hoveredBlueDot.mouseX, hoveredBlueDot.mouseY, tooltipWidth, tooltipHeight)
+                  : { left: '50%', top: '200px' };
+                
+                return (
+                  <div
                     style={{
-                      marginTop: 12,
-                      background: '#e74c3c',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: 4,
-                      padding: '6px 12px',
-                      cursor: 'pointer'
+                      position: 'fixed',
+                      left: typeof position.left === 'number' ? `${position.left}px` : position.left,
+                      top: typeof position.top === 'number' ? `${position.top}px` : position.top,
+                      transform: typeof position.left === 'number' ? 'none' : 'translateX(-50%)',
+                      background: 'rgba(255, 255, 255, 1)',
+                      color: 'black',
+                      padding: '16px',
+                      borderRadius: '4px',
+                      border: '1px solid #d1d5db',
+                      width: `${tooltipWidth}px`,
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                      fontFamily: 'Arial, sans-serif',
+                      fontSize: '18px',
+                      zIndex: 1000,
                     }}
-                    onClick={() => handleDeleteMemory(hoveredDot.id)}
                   >
-                    Delete
-                  </button>
-                )}
-              </div>
-            )}
+                    <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
+                      {hoveredBlueDot.disaster_type} in {hoveredBlueDot.country}
+                    </p>
+                    <p style={{ fontStyle: 'italic', marginBottom: '8px' }}>
+                      Start year: {hoveredBlueDot.start_year}
+                    </p>
+                    {hoveredBlueDot.summary && (
+                      <p style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e5e7eb', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
+                        {hoveredBlueDot.summary}
+                      </p>
+                    )}
+                  </div>
+                );
+              })()}
             
-            <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
+             <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
                 <ScatterChart
                     key="main-scatter-chart"
                     style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
@@ -491,29 +813,98 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         }}
                     />
 
-                    <Scatter
-                        data={stabilizedVisibleData}
-                        shape={(props) => (
-                            <g style={{ pointerEvents: 'auto' }}>
-                                <FloatingDot
-                                    cx={props.cx}
-                                    cy={props.cy}
-                                    r={props.payload.size}
-                                    payload={props.payload}
-                                    fill={props.payload.fill}
-                                    opacity={props.payload.opacity}
-                                    onMouseEnter={() => handleMouseEnter(props.payload)}
-                                    onMouseLeave={() => handleMouseLeave(props.payload)}
-                                />
-                            </g>
-                        )}
+                                                                                   <Scatter
+                          data={stabilizedVisibleData}
+                          shape={(props) => (
+                              <g style={{ pointerEvents: 'auto' }}>
+                                  <FloatingDot
+                                      cx={props.cx}
+                                      cy={props.cy}
+                                      r={props.payload.size}
+                                      payload={props.payload}
+                                      fill={props.payload.fill}
+                                      opacity={props.payload.opacity}
+                                      onMouseEnter={(e) => {
+                                          // Store the coordinates for the cross indicator
+                                          props.payload.cx = props.cx;
+                                          props.payload.cy = props.cy;
+                                          handleBlueDotMouseEnter(props.payload, e);
+                                      }}
+                                      onMouseLeave={handleBlueDotMouseLeave}
+                                  />
+                              </g>
+                          )}
+                      />
+
+                                         <Scatter
+                         data={climateResistanceData}
+                         shape={(props) => {
+                             const isHovered = hoveredDot?.id === props.payload.id;
+                             const baseSize = 15;
+                             const hitboxSize = baseSize * 3;
+                             
+                             return (
+                                 <g 
+                                     style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                                     onMouseEnter={(e) => {
+                                         // Store the coordinates for the cross indicator
+                                         props.payload.cx = props.cx;
+                                         props.payload.cy = props.cy;
+                                         handleYellowDotMouseEnter(props.payload, e);
+                                     }}
+                                     onMouseLeave={handleYellowDotMouseLeave}
+                                 >
+                                    {/* Glow filter */}
+                                    <defs>
+                                        <filter id={`yellow-glow-${props.payload.id}`}>
+                                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                            <feMerge>
+                                                <feMergeNode in="coloredBlur"/>
+                                                <feMergeNode in="SourceGraphic"/>
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+
+                                    {/* Blurry outline with glow */}
+                                    <circle
+                                        cx={props.cx}
+                                        cy={props.cy}
+                                        r={isHovered ? baseSize * 3 + 6 : baseSize + 6}
+                                        fill="#edf551"
+                                        style={{
+                                            opacity: isHovered ? 0.6 : 0.4,
+                                            filter: `url(#yellow-glow-${props.payload.id})`,
+                                            transition: 'all 0.3s ease',
+                                        }}
+                                    />
+
+                                                                         {/* Main dot with glow */}
+                                     <circle
+                                         cx={props.cx}
+                                         cy={props.cy}
+                                         r={isHovered ? baseSize * 3 : baseSize}
+                                         fill="#edf551"
+                                         style={{
+                                             opacity: isHovered ? 1 : 0.8,
+                                             filter: `url(#yellow-glow-${props.payload.id})`,
+                                             transition: 'all 0.3s ease',
+                                         }}
+                                     />
+
+                                    {/* Hitbox (invisible but handles hover) */}
+                                    <circle
+                                        cx={props.cx}
+                                        cy={props.cy}
+                                        r={hitboxSize}
+                                        fill="transparent"
+                                        style={{ pointerEvents: 'all' }}
+                                    />
+                                </g>
+                            );
+                        }}
                     />
 
-                    <Tooltip 
-                        content={<CustomTooltip />}
-                        cursor={{ stroke: '#666' }}
-                        isAnimationActive={false}
-                    />
+                                         {/* Custom tooltips are handled above, no need for default Recharts Tooltip */}
 
                 </ScatterChart>
             </ResponsiveContainer>

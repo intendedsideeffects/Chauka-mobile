@@ -295,7 +295,7 @@ const HistoricalSeaLevelRiseExtended = () => {
               dataKey="value" 
               data={animationStep >= 1 ? data.allData.filter(d => d.year < 2025) : data.combined.filter(d => d.year < 1993)}
               stroke="#000000" 
-              strokeWidth={0.5}
+              strokeWidth={1}
               dot={(props) => {
                 // Only show dots for specific years
                 const year = Math.round(props.payload.year);
@@ -314,8 +314,8 @@ const HistoricalSeaLevelRiseExtended = () => {
                           setTooltip({
                             show: true,
                             text: tooltipText,
-                            x: e.clientX,
-                            y: e.clientY
+                            x: props.cx,
+                            y: props.cy
                           });
                         }}
                         onMouseLeave={() => {
@@ -354,8 +354,8 @@ const HistoricalSeaLevelRiseExtended = () => {
               dataKey="value" 
                 data={data.projection}
               stroke="#000000" 
-                strokeWidth={3}
-                strokeDasharray="5,5"
+                strokeWidth={1}
+                strokeDasharray="2,2"
               dot={false}
                 activeDot={false}
               connectNulls={true}
@@ -370,9 +370,9 @@ const HistoricalSeaLevelRiseExtended = () => {
         {tooltip.show && (
           <div
             style={{ 
-              position: 'fixed',
-              left: tooltip.x + 10,
-              top: tooltip.y - 40,
+              position: 'absolute',
+              left: tooltip.x + 20,
+              top: tooltip.y - 60,
               backgroundColor: '#000000',
               color: '#ffffff',
               padding: '8px 12px',
@@ -392,19 +392,19 @@ const HistoricalSeaLevelRiseExtended = () => {
         {/* Y-axis label - positioned outside chart area */}
         <div style={{
           position: 'absolute',
-          left: '-80px',
-          top: 'calc(50% - 80px)',
+          left: '-269px',
+          top: 'calc(50% - 32px)',
           transform: 'translateY(-50%)',
-          fontSize: '12px',
+          fontSize: '14px',
           fontFamily: 'Helvetica World, Arial, sans-serif',
           color: '#666666',
           textAlign: 'right',
           pointerEvents: 'none',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          width: '280px'
         }}>
-          Global Mean<br/>
-          Sea Level<br/>
-          (in cm)
+          GLOBAL MEAN SEA<br/>
+          LEVEL (CM)
         </div>
         
         {/* X-axis label - positioned outside chart area on the right */}

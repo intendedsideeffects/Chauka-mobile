@@ -112,24 +112,25 @@ const HighestElevationChart = () => {
       {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
-        left: '-100px',
-        top: 'calc(50% - 180px)',
+        left: '-319px',
+        top: 'calc(50% - 143px)',
         transform: 'translateY(-50%)',
-        fontSize: '12px',
+        fontSize: '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
         textAlign: 'right',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        width: '80px'
+        width: '300px'
       }}>
-        Average elevation<br/>
-        of Pacific Island<br/>
-        (in m)
+        AVERAGE ELEVATION OF<br/>
+        PACIFIC ISLANDS (M)
       </div>
       
       {/* Chart area with bars */}
       <div ref={chartAreaRef} className="flex items-end justify-between h-[350px] relative mx-4" style={{ transition: 'height 1.5s ease' }}>
+
+        
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
           <div 
@@ -205,7 +206,7 @@ const HighestElevationChart = () => {
                     height: `${barHeight}px`,
                     width: '60px',
                     transition: 'height 1.5s ease, background-color 0.2s ease',
-                    backgroundColor: isHovered ? (item.isLowest ? '#1d4ed8' : '#374151') : (item.isLowest ? '#3b82f6' : '#000000')
+                    backgroundColor: isHovered ? (item.isLowest ? 'rgba(29, 78, 216, 0.9)' : 'rgba(55, 65, 81, 0.9)') : (item.isLowest ? 'rgba(59, 130, 246, 0.9)' : 'rgba(0, 0, 0, 0.9)')
                   }}
                 />
               </div>

@@ -32,7 +32,7 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
         failIfMajorPerformanceCaveat: false
       });
       renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-      renderer.setClearColor(0xedf05d, 1); // Yellow background for last page
+      renderer.setClearColor(0x000000, 0); // Transparent background
       mountRef.current.appendChild(renderer.domElement);
       rendererRef.current = renderer;
     } catch (error) {
@@ -41,7 +41,7 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
       const fallbackDiv = document.createElement('div');
       fallbackDiv.style.width = '100%';
       fallbackDiv.style.height = '100%';
-      fallbackDiv.style.backgroundColor = '#edf05d';
+      fallbackDiv.style.backgroundColor = 'transparent';
       mountRef.current.appendChild(fallbackDiv);
       return; // Exit early if WebGL fails
     }

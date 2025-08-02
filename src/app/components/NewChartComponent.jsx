@@ -187,7 +187,7 @@ const NewChartComponent = () => {
             <div 
               key={index} 
               className="flex flex-col items-center flex-1"
-              style={{ margin: '0 2px' }}
+              style={{ margin: '0 1px' }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleBarClick(item, index)}
@@ -202,18 +202,34 @@ const NewChartComponent = () => {
               
               {/* Bar */}
               <div className="relative flex justify-center" style={{ alignSelf: 'flex-end' }}>
+                {/* Label above bar - only for blue bars */}
+                {[2016, 2018, 2020].includes(item.year) && (
+                  <div 
+                    className="absolute z-30"
+                    style={{ 
+                      bottom: `${Math.max(barHeight, 1) + 10}px`,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      fontSize: '11px',
+                      color: '#000',
+                      textAlign: 'center'
+                    }}
+                  >
+                    {formatAsK(item.affectedPeople)}
+                  </div>
+                )}
                 <div 
                   className="rounded-t-sm relative z-10"
                   style={{ 
                     height: `${Math.max(barHeight, 1)}px`,
-                    width: 'calc(100% - 4px)',
-                    minWidth: '20px',
-                    maxWidth: '80px',
+                    width: 'calc(100% - 2px)',
+                    minWidth: '30px',
+                    maxWidth: '120px',
                     minHeight: '1px',
                     transition: 'height 1.5s ease, background-color 0.2s ease, width 0.3s ease',
                     backgroundColor: isHovered ? 
-                      ([2016, 2018, 2020].includes(item.year) ? '#1d4ed8' : '#374151') : 
-                      ([2016, 2018, 2020].includes(item.year) ? '#3b82f6' : '#000000')
+                      ([2016, 2018, 2020].includes(item.year) ? 'rgba(29, 78, 216, 0.9)' : 'rgba(55, 65, 81, 0.9)') : 
+                      ([2016, 2018, 2020].includes(item.year) ? 'rgba(59, 130, 246, 0.9)' : 'rgba(0, 0, 0, 0.9)')
                   }}
                 />
               </div>
@@ -251,20 +267,19 @@ const NewChartComponent = () => {
       {/* Y-axis label - positioned outside chart area */}
       <div style={{
         position: 'absolute',
-        left: '-100px',
-        top: 'calc(50% - 200px)',
+        left: '-155px',
+        top: 'calc(50% - 145px)',
         transform: 'translateY(-50%)',
-        fontSize: '12px',
+        fontSize: '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
         textAlign: 'right',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        width: '80px'
+        width: '200px'
       }}>
-        People affected by<br/>
-        climate-related<br/>
-        hazards
+        PEOPLE AFFECTED BY<br/>
+        CLIMATE-RELATED HAZARDS
       </div>
       
 

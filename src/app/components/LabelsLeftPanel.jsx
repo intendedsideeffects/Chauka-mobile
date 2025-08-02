@@ -36,7 +36,7 @@ function LabelsLeftPanel({
           transform: 'translateY(-50%)',
           width: '40px',
           height: '120px',
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                     backgroundColor: 'rgba(255, 255, 255, 0.2)',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
@@ -63,7 +63,7 @@ function LabelsLeftPanel({
       <div
         style={{
           padding: '16px',
-          background: 'linear-gradient(to right, transparent, rgba(59, 130, 246, 0.1))',
+          background: 'linear-gradient(to right, transparent 0%, transparent 98%, rgba(59, 130, 246, 0.2) 100%)',
           borderRight: '2px solid',
           borderImage: 'linear-gradient(to bottom, transparent, #3b82f6) 1',
         }}>

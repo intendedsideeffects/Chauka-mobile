@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
@@ -9,9 +9,20 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
   const rendererRef = useRef(null);
   const controlsRef = useRef(null);
   const starPointsRef = useRef(null);
+  const [showFallback, setShowFallback] = useState(false);
 
   useEffect(() => {
     if (!mountRef.current) return;
+    
+    // Clean up any existing renderer first
+    if (rendererRef.current) {
+      try {
+        rendererRef.current.dispose();
+        rendererRef.current = null;
+      } catch (error) {
+        console.warn('Error disposing existing renderer:', error);
+      }
+    }
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -22,6 +33,34 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
     camera.position.set(0, 0, 1); // Camera slightly away from center for OrbitControls
     cameraRef.current = camera;
 
+    // WebGL context event handlers
+    const handleContextLost = (event) => {
+      console.warn('WebGL context lost:', event);
+      event.preventDefault();
+      // Mark renderer as lost
+      rendererRef.current = null;
+      setShowFallback(true);
+      if (typeof onStarsLoaded === 'function') {
+        onStarsLoaded();
+      }
+    };
+    
+    const handleContextRestored = () => {
+      console.log('WebGL context restored');
+      setShowFallback(false);
+      // Reinitialize the entire scene
+      if (mountRef.current) {
+        // Force re-initialization by calling the effect again
+        setTimeout(() => {
+          if (mountRef.current && !rendererRef.current) {
+            // Re-trigger the effect
+            const event = new Event('resize');
+            window.dispatchEvent(event);
+          }
+        }, 100);
+      }
+    };
+
     // Renderer setup with error handling
     let renderer;
     try {
@@ -29,20 +68,26 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         antialias: true, 
         alpha: true,
         powerPreference: "default",
-        failIfMajorPerformanceCaveat: false
+        failIfMajorPerformanceCaveat: false,
+        preserveDrawingBuffer: false,
+        stencil: false,
+        depth: false
       });
       renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
       renderer.setClearColor(0x000000, 0); // Transparent background
       mountRef.current.appendChild(renderer.domElement);
       rendererRef.current = renderer;
+      
+      // Add WebGL context event listeners
+      renderer.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+      renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored, false);
+      
     } catch (error) {
       console.warn('WebGL not supported or context creation failed:', error);
-      // Create a fallback div instead
-      const fallbackDiv = document.createElement('div');
-      fallbackDiv.style.width = '100%';
-      fallbackDiv.style.height = '100%';
-      fallbackDiv.style.backgroundColor = '#000';
-      mountRef.current.appendChild(fallbackDiv);
+      setShowFallback(true);
+      if (typeof onStarsLoaded === 'function') {
+        onStarsLoaded();
+      }
       return; // Exit early if WebGL fails
     }
 
@@ -326,14 +371,15 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
 
     // Initialize the star map
     async function init() {
-      // Check if renderer was successfully created
-      if (!rendererRef.current) {
-        console.warn('Renderer not available, skipping star globe initialization');
-        if (typeof onStarsLoaded === 'function') {
-          onStarsLoaded();
-        }
-        return;
-      }
+             // Check if renderer was successfully created
+       if (!rendererRef.current) {
+         console.warn('Renderer not available, skipping star globe initialization');
+         setShowFallback(true);
+         if (typeof onStarsLoaded === 'function') {
+           onStarsLoaded();
+         }
+         return;
+       }
 
       const stars = await loadStars();
       if (stars.length > 0) {
@@ -341,22 +387,41 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         if (typeof onStarsLoaded === 'function') {
           onStarsLoaded();
         }
-      } else if (typeof onStarsLoaded === 'function') {
-        // If no stars, still hide loader to avoid infinite loading
-        onStarsLoaded();
-      }
+             } else if (typeof onStarsLoaded === 'function') {
+         // If no stars, show fallback and hide loader
+         setShowFallback(true);
+         onStarsLoaded();
+       }
       
-      // Animation loop
-      function animate() {
-        if (controlsRef.current) {
-          controlsRef.current.update();
-        }
-        if (rendererRef.current && sceneRef.current && cameraRef.current) {
-          rendererRef.current.render(sceneRef.current, cameraRef.current);
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
+           // Animation loop
+     let animationId;
+     function animate() {
+       // Check if renderer is still valid
+       if (!rendererRef.current || !sceneRef.current || !cameraRef.current) {
+         console.log('Renderer not available, stopping animation');
+         return;
+       }
+       
+       if (controlsRef.current) {
+         controlsRef.current.update();
+       }
+       
+       try {
+         rendererRef.current.render(sceneRef.current, cameraRef.current);
+       } catch (error) {
+         console.warn('Error rendering scene:', error);
+         // Stop animation if rendering fails
+         if (animationId) {
+           cancelAnimationFrame(animationId);
+         }
+         // Set fallback if WebGL context is lost
+         setShowFallback(true);
+         return;
+       }
+       
+       animationId = requestAnimationFrame(animate);
+     }
+     animate();
     }
     init();
     // Handle window resizing
@@ -371,10 +436,63 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         }
       }
     };
-    window.addEventListener('resize', handleResize);
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
+         window.addEventListener('resize', handleResize);
+     
+     // Handle page visibility changes
+     const handleVisibilityChange = () => {
+       if (document.visibilityState === 'visible') {
+         console.log('Page became visible, checking WebGL context');
+         // Check if we need to reinitialize
+         if (!rendererRef.current || showFallback) {
+           console.log('Reinitializing WebGL context after visibility change');
+           setShowFallback(false);
+           // Force re-initialization
+           setTimeout(() => {
+             if (mountRef.current) {
+               // Re-trigger the effect by dispatching a resize event
+               const event = new Event('resize');
+               window.dispatchEvent(event);
+             }
+           }, 300);
+         }
+       }
+     };
+     document.addEventListener('visibilitychange', handleVisibilityChange);
+     
+     // Periodic WebGL context health check
+     const healthCheckInterval = setInterval(() => {
+       if (rendererRef.current && rendererRef.current.getContext()) {
+         const gl = rendererRef.current.getContext();
+         if (gl.isContextLost()) {
+           console.warn('WebGL context lost detected in health check');
+           setShowFallback(true);
+           rendererRef.current = null;
+         }
+       }
+     }, 5000); // Check every 5 seconds
+         // Cleanup
+     return () => {
+       window.removeEventListener('resize', handleResize);
+       document.removeEventListener('visibilitychange', handleVisibilityChange);
+       
+       // Clear health check interval
+       clearInterval(healthCheckInterval);
+       
+       // Cancel animation frame
+       if (animationId) {
+         cancelAnimationFrame(animationId);
+       }
+       
+       // Remove WebGL context event listeners
+       if (rendererRef.current && rendererRef.current.domElement) {
+         try {
+           rendererRef.current.domElement.removeEventListener('webglcontextlost', handleContextLost);
+           rendererRef.current.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+         } catch (error) {
+           console.warn('Error removing WebGL event listeners:', error);
+         }
+       }
+      
       if (mountRef.current && rendererRef.current && rendererRef.current.domElement) {
         try {
           mountRef.current.removeChild(rendererRef.current.domElement);
@@ -382,20 +500,29 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
           console.warn('Error removing renderer element:', error);
         }
       }
+      
       if (rendererRef.current) {
         try {
           rendererRef.current.dispose();
+          rendererRef.current = null;
         } catch (error) {
           console.warn('Error disposing renderer:', error);
         }
       }
+      
       if (controlsRef.current) {
         try {
           controlsRef.current.dispose();
+          controlsRef.current = null;
         } catch (error) {
           console.warn('Error disposing controls:', error);
         }
       }
+      
+      // Clear refs
+      sceneRef.current = null;
+      cameraRef.current = null;
+      starPointsRef.current = null;
     };
   }, []);
 
@@ -411,6 +538,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         zIndex: 2,
         cursor: 'grab',
         overflow: 'hidden',
+        backgroundColor: showFallback ? '#000' : 'transparent',
       }} 
     />
   );

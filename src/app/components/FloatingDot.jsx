@@ -46,13 +46,13 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
     return (
       <g
         style={groupStyle}
-        onMouseEnter={() => {
+        onMouseEnter={(e) => {
           setIsHovered(true);
-          onMouseEnter();
+          onMouseEnter(e);
         }}
-        onMouseLeave={() => {
+        onMouseLeave={(e) => {
           setIsHovered(false);
-          onMouseLeave();
+          onMouseLeave(e);
         }}>
         {/* Outline removed */}
         {/* Glow filter */}
@@ -70,12 +70,12 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
         <circle
           cx={cx}
           cy={cy}
-          r={isHovered ? baseSize * 3 + 4 : baseSize + 4}
+          r={isHovered ? baseSize * 4 + 6 : baseSize + 4}
           fill="#0066cc"
           style={{
-            opacity: 0.3,
+            opacity: isHovered ? 0.5 : 0.3,
             filter: `url(#glow-${cx}-${cy})`,
-            transition: 'all 0.2s',
+            transition: 'all 0.3s ease',
           }}
         />
 
@@ -83,12 +83,12 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
         <circle
           cx={cx}
           cy={cy}
-          r={isHovered ? baseSize * 3 : baseSize}
+          r={isHovered ? baseSize * 4 : baseSize}
           fill="#0066cc"
           style={{
-            opacity: 1,
+            opacity: isHovered ? 1.0 : 0.8,
             filter: `url(#glow-${cx}-${cy})`,
-            transition: 'all 0.2s',
+            transition: 'all 0.3s ease',
           }}
         />
 
@@ -100,6 +100,8 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
           fill="transparent"
           style={{ pointerEvents: 'all' }}
         />
+
+
       </g>
     );
   }
