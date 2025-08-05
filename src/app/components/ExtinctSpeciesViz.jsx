@@ -1,8 +1,5 @@
 "use client"
-import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
-import { debounce } from 'lodash';
-import historicalEvents from "../data/historicalPoints"
-import birdArr from '../data/birdArray';
+import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
 
 const STATUS_HEIGHT = 7000; // Reduced to match segments 3-9 height
