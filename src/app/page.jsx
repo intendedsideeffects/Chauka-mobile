@@ -175,9 +175,9 @@ export default function TestScroll() {
           style={{
             position: 'absolute',
             left: 0,
-            top: '15vh',
+            top: responsive.isMobile() ? '10vh' : '15vh',
             width: '100vw',
-            height: '85vh',
+            height: responsive.isMobile() ? '90vh' : '85vh',
             objectFit: 'cover',
             zIndex: 2,
             pointerEvents: 'none',
@@ -206,9 +206,9 @@ export default function TestScroll() {
           style={{
             position: 'absolute',
             left: 0,
-            top: '15vh',
+            top: responsive.isMobile() ? '10vh' : '15vh',
             width: '100vw',
-            height: '85vh',
+            height: responsive.isMobile() ? '90vh' : '85vh',
             objectFit: 'cover',
             zIndex: 3, // Above video and black bar
             pointerEvents: 'none',
@@ -223,8 +223,8 @@ export default function TestScroll() {
         <div
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '40%',
+            top: responsive.isMobile() ? '60%' : '50%',
+            left: responsive.isMobile() ? '50%' : '40%',
             transform: 'translateX(-50%)',
             zIndex: 9999,
             pointerEvents: 'none',
@@ -234,7 +234,7 @@ export default function TestScroll() {
             src="/speechbubble.svg" 
             alt="Speech bubble" 
             style={{ 
-              width: '200px', 
+              width: responsive.isMobile() ? '120px' : '200px', 
               height: 'auto',
               filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
               opacity: 0.7
@@ -247,7 +247,7 @@ export default function TestScroll() {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               color: '#333',
-              fontSize: '12px',
+              fontSize: responsive.isMobile() ? '8px' : '12px',
               fontWeight: '500',
               textAlign: 'center',
               fontFamily: 'Helvetica World, Arial, sans-serif',
