@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-// Responsive utility functions for mobile compatibility
+// SSR-safe responsive utility
 export const responsive = {
   // Screen breakpoints
   breakpoints: {
@@ -9,12 +9,21 @@ export const responsive = {
     desktop: 1280,
   },
 
-  // Check if current screen is mobile
-  isMobile: () => typeof window !== 'undefined' && window.innerWidth < 768,
-  isTablet: () => typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024,
-  isDesktop: () => typeof window !== 'undefined' && window.innerWidth >= 1024,
+  // SSR-safe check functions - return false during SSR, actual values on client
+  isMobile: () => {
+    if (typeof window === 'undefined') return false; // Default to desktop during SSR
+    return window.innerWidth < 768;
+  },
+  isTablet: () => {
+    if (typeof window === 'undefined') return false; // Default to desktop during SSR
+    return window.innerWidth >= 768 && window.innerWidth < 1024;
+  },
+  isDesktop: () => {
+    if (typeof window === 'undefined') return true; // Default to desktop during SSR
+    return window.innerWidth >= 1024;
+  },
 
-  // Responsive sizing functions
+  // Responsive sizing utilities
   size: {
     // Width utilities
     width: {
@@ -60,6 +69,12 @@ export const responsive = {
       md: () => responsive.isMobile() ? '14px' : '16px',
       lg: () => responsive.isMobile() ? '16px' : '18px',
       xl: () => responsive.isMobile() ? '18px' : '24px',
+    },
+    
+    // Text size function
+    text: (size) => {
+      if (typeof window === 'undefined') return `${size}px`; // Default to desktop during SSR
+      return responsive.isMobile() ? `${size * 0.8}px` : `${size}px`;
     },
   },
 
@@ -108,6 +123,24 @@ export const responsive = {
         left: responsive.isMobile() ? '20px' : '50px',
       }),
     },
+
+    // Simple positioning functions
+    top: (value) => {
+      if (typeof window === 'undefined') return `${value}px`; // Default to desktop during SSR
+      return responsive.isMobile() ? `${value * 0.5}px` : `${value}px`;
+    },
+    right: (value) => {
+      if (typeof window === 'undefined') return `${value}px`; // Default to desktop during SSR
+      return responsive.isMobile() ? `${value * 0.5}px` : `${value}px`;
+    },
+    left: (value) => {
+      if (typeof window === 'undefined') return `${value}px`; // Default to desktop during SSR
+      return responsive.isMobile() ? `${value * 0.5}px` : `${value}px`;
+    },
+    bottom: (value) => {
+      if (typeof window === 'undefined') return `${value}px`; // Default to desktop during SSR
+      return responsive.isMobile() ? `${value * 0.5}px` : `${value}px`;
+    },
   },
 
   // Container styles
@@ -122,6 +155,16 @@ export const responsive = {
       width: responsive.isMobile() ? '280px' : '300px',
       height: responsive.isMobile() ? '280px' : '300px',
     }),
+    mobile: {
+      padding: '1rem',
+      fontSize: '14px',
+      maxWidth: '100%',
+    },
+    desktop: {
+      padding: '4rem',
+      fontSize: '16px',
+      maxWidth: '1200px',
+    },
   },
 
   // Get responsive value based on screen size
@@ -132,25 +175,36 @@ export const responsive = {
   },
 };
 
-// Hook for responsive values
+// Hook for responsive values (client-side only)
 export const useResponsive = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
-    const updateResponsive = () => {
-      setIsMobile(window.innerWidth < responsive.breakpoints.mobile);
-      setIsTablet(window.innerWidth >= responsive.breakpoints.mobile && window.innerWidth < responsive.breakpoints.tablet);
-      setIsDesktop(window.innerWidth >= responsive.breakpoints.tablet);
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+      setIsDesktop(width >= 1024);
     };
 
-    updateResponsive();
-    window.addEventListener('resize', updateResponsive);
-    return () => window.removeEventListener('resize', updateResponsive);
+    // Check on mount
+    checkScreenSize();
+
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
-  return { isMobile, isTablet, isDesktop, responsive };
+  return {
+    isMobile,
+    isTablet,
+    isDesktop,
+    responsive,
+  };
 };
 
 export default responsive; 
