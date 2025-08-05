@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { responsive } from '../../app/utils/responsive';
 
 const SegmentTemplate = ({
   header = "Sample Header",
@@ -23,12 +24,12 @@ const SegmentTemplate = ({
          scrollSnapAlign: 'start',
          borderBottom: '3px solid #9ca3af',
          pointerEvents: 'auto', // Enable interactions
-         paddingLeft: '4rem',
+         paddingLeft: responsive.isMobile() ? '1rem' : '4rem',
        },
                                        contentWrapper: {
          color: '#0e224f',
-         fontSize: '1.5rem',
-         maxWidth: '700px',
+         fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+         maxWidth: responsive.isMobile() ? '90%' : '700px',
          textAlign: 'left',
          fontFamily: 'Helvetica World, Arial, sans-serif',
          fontWeight: 400,
@@ -36,24 +37,24 @@ const SegmentTemplate = ({
          zIndex: 1000, // Higher z-index to be above scatterplot
          position: 'absolute',
          top: '50%',
-         left: '4rem',
+         left: responsive.isMobile() ? '1rem' : '4rem',
          transform: 'translateY(-50%)',
          margin: '0',
          flexShrink: 0,
          pointerEvents: 'auto', // Enable interactions
        },
                                        header: {
-         fontSize: '2.5rem',
+         fontSize: responsive.isMobile() ? '1.8rem' : '2.5rem',
          fontWeight: 'bold',
          color: '#000',
          marginBottom: '0',
          textAlign: 'left',
-         marginTop: '5rem',
+         marginTop: responsive.isMobile() ? '2rem' : '5rem',
          fontFamily: 'Times New Roman, serif',
          lineHeight: '1.1'
        },
        headerSecondLine: {
-         fontSize: '2.5rem',
+         fontSize: responsive.isMobile() ? '1.8rem' : '2.5rem',
          fontWeight: 'bold',
          color: '#000',
          marginBottom: '0',
@@ -63,28 +64,28 @@ const SegmentTemplate = ({
          lineHeight: '1.1'
        },
     text: {
-              fontSize: '1.1rem',
+              fontSize: responsive.isMobile() ? '1rem' : '1.1rem',
       color: '#000',
-      marginBottom: '2rem',
+      marginBottom: responsive.isMobile() ? '1.5rem' : '2rem',
       lineHeight: 1.5,
       fontFamily: 'Helvetica World, Arial, sans-serif'
     },
                                                                                                                                                                                                                                                                                                                                                                        chartContainer: {
           width: '100%',
-          maxWidth: '1050px',
+          maxWidth: responsive.isMobile() ? '90%' : '1050px',
           marginTop: '0',
-          marginBottom: '2rem',
+          marginBottom: responsive.isMobile() ? '1rem' : '2rem',
           textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          top: 'calc(50% + 200px)',
+          top: responsive.isMobile() ? 'calc(50% + 100px)' : 'calc(50% + 200px)',
           left: '0',
           right: '0',
           margin: '0 auto',
-          transform: 'translateX(-2cm)',
+          transform: responsive.isMobile() ? 'translateX(-1cm)' : 'translateX(-2cm)',
           pointerEvents: 'auto', // Enable interactions
           zIndex: 1001, // Higher than scatterplot
         },

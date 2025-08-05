@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { responsive } from '../../app/utils/responsive';
 
 const TitleSection = ({ 
   title = "This is a global warning.",
@@ -15,17 +16,17 @@ const TitleSection = ({
       height: '100vh',
       background: 'white',
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'row', // Keep row layout even on mobile
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 4rem',
+      padding: responsive.isMobile() ? '0 1rem' : '0 4rem',
       position: 'relative',
       scrollSnapAlign: 'start',
     },
     contentWrapper: {
       color: '#000',
-      fontSize: '1.5rem',
-      maxWidth: '30%',
+      fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+      maxWidth: responsive.isMobile() ? '45%' : '30%', // Reduce width on mobile but keep left side
       textAlign: 'left',
       fontFamily: 'Helvetica World, Arial, sans-serif',
       fontWeight: 400,
@@ -35,7 +36,7 @@ const TitleSection = ({
       flexShrink: 0,
     },
     title: {
-      fontSize: '8rem',
+      fontSize: responsive.isMobile() ? '4rem' : '8rem',
       fontWeight: 'normal', // Changed from 'bold' to 'normal'
       color: '#000',
       marginBottom: '0',
@@ -45,10 +46,10 @@ const TitleSection = ({
       lineHeight: '1'
     },
     titleSecondLine: {
-      fontSize: '3.2rem',
+      fontSize: responsive.isMobile() ? '1.8rem' : '3.2rem',
       fontWeight: 'bold', // Changed from 'normal' to 'bold'
       color: '#000',
-      marginBottom: '4rem',
+      marginBottom: responsive.isMobile() ? '2rem' : '4rem',
       textAlign: 'left', // Changed from 'center' to 'left'
       marginTop: '0.1rem', // Reduced from '0.5rem' to '0.1rem' to bring lines closer
       fontFamily: 'Times New Roman, serif', // Changed from Helvetica World to Times New Roman
@@ -76,8 +77,8 @@ const TitleSection = ({
       height: '1rem'
     },
     spilhausContainer: {
-      width: '70%',
-      height: '100%',
+      width: responsive.isMobile() ? '100%' : '70%',
+      height: responsive.isMobile() ? '50%' : '100%',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

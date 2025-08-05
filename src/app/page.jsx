@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
+import { responsive } from './utils/responsive';
 import TitleSection from '../components/sections/TitleSection';
 import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
@@ -277,11 +278,11 @@ export default function TestScroll() {
         </div> */}
 
         {/* Audio buttons positioned relative to video section */}
-        <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
+        <div style={{ ...responsive.position.absolute.topRight(), zIndex: 1000, pointerEvents: 'auto' }}>
           <button
             style={{
-              width: '300px',
-              height: '300px',
+              width: responsive.size.width.chart(),
+              height: responsive.size.height.chart(),
               border: 'none',
               background: 'none',
               cursor: 'pointer',
@@ -292,7 +293,7 @@ export default function TestScroll() {
             onClick={() => setShowChaukaTooltip(true)}
             aria-label="Click for story"
           >
-            <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+            <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
               <defs>
                 <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
@@ -317,17 +318,23 @@ export default function TestScroll() {
             </svg>
           </button>
         </div>
-        <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
+        <div style={{ ...responsive.position.absolute.bottomLeft(), zIndex: 1000, pointerEvents: 'auto' }}>
           <BlueCircleAudioPlayer />
         </div>
         {/* Bird audio button positioned over the bird in the scene */}
-        <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
+        <div style={{ 
+          position: 'absolute', 
+          top: responsive.isMobile() ? 'calc(60px + 4cm)' : 'calc(80px + 6cm)', 
+          left: responsive.isMobile() ? 'calc(60px + 5cm)' : 'calc(80px + 7cm)', 
+          zIndex: 1000, 
+          pointerEvents: 'auto' 
+        }}>
           <BirdAudioPlayer />
         </div>
         {/* Project attribution on video */}
         <div style={{ 
           position: 'absolute', 
-          bottom: '20px', 
+          bottom: responsive.size.spacing.md(), 
           left: '50%', 
           transform: 'translateX(-50%)', 
           zIndex: 1000, 
@@ -353,38 +360,36 @@ export default function TestScroll() {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'rgba(255, 255, 255, 0.8)',
           color: '#000',
-          padding: '40px',
-          borderRadius: '12px',
-          maxWidth: '600px',
+          ...responsive.container.modal(),
           maxHeight: '80vh',
           overflowY: 'auto',
           zIndex: 10000,
           fontFamily: 'Helvetica World, Arial, sans-serif',
-          fontSize: '16px',
+          fontSize: responsive.size.fontSize.md(),
           lineHeight: '1.6',
           boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(0,0,0,0.1)'
         }}>
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: responsive.size.spacing.md() }}>
             This video collage is inspired by the Chauka, a bird found only on Manus Island in Papua New Guinea. It plays a role in daily life and is deeply respected, appearing often in local stories. People say its calls help mark the passage of time, acting as a kind of timekeeper. But in many legends, the Chauka also appears as a warning.
           </div>
           
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: responsive.size.spacing.md() }}>
             The story behind this visualization is about a man who brings home his newly wed wife. But soon the Chauka begins calling again and again. The villagers are alert, they sense something is wrong. The woman is not who she says she is. She is a spirit in disguise. The villagers listen to the bird and decide to leave the island by boat.
           </div>
           
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: responsive.size.spacing.md() }}>
             Stories like this are still told on Manus. The Chauka is seen as a bird that notices things before people do. It speaks up when something is off, when something is coming.
           </div>
           
           <div style={{ 
             fontStyle: 'italic', 
-            fontSize: '14px', 
+            fontSize: responsive.size.fontSize.sm(), 
             opacity: 0.8,
             borderTop: '1px solid rgba(0,0,0,0.2)',
-            paddingTop: '15px',
-            marginTop: '20px'
+            paddingTop: responsive.size.spacing.sm(),
+            marginTop: responsive.size.spacing.md()
           }}>
             Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
           </div>
@@ -393,17 +398,17 @@ export default function TestScroll() {
             onClick={() => setShowChaukaTooltip(false)}
             style={{
               position: 'absolute',
-              top: '15px',
-              right: '15px',
+              top: responsive.size.spacing.sm(),
+              right: responsive.size.spacing.sm(),
               background: 'none',
               border: 'none',
               color: '#333',
-              fontSize: '24px',
+              fontSize: responsive.size.fontSize.xl(),
               cursor: 'pointer',
-              padding: '5px',
+              padding: responsive.size.spacing.xs(),
               borderRadius: '50%',
-              width: '30px',
-              height: '30px',
+              width: responsive.size.icon.medium(),
+              height: responsive.size.icon.medium(),
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -426,8 +431,8 @@ export default function TestScroll() {
       <div style={{
         position: 'absolute',
         top: '200vh', // Start after segment 3 (which is 200vh tall)
-        left: '20px',
-        width: 'calc(100vw - 40px)',
+        left: responsive.size.spacing.md(),
+        width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
         height: '800vh', // 8 segments * 100vh each (3-10)
         zIndex: 9999, // High z-index to show above charts
         pointerEvents: 'none', // Don't capture click events
@@ -470,19 +475,19 @@ export default function TestScroll() {
           }}
         />
         
-        {/* Annotation for section 3 - positioned outside chart container */}
-        <div style={{
-          position: 'absolute',
-          top: 'calc(35vh - 125px)',
-          left: 'calc(80vw - 30px)',
-          zIndex: 9999,
-          pointerEvents: 'none',
-          fontSize: '14px',
+                                                                                                                                                                                       {/* Annotation for section 3 - positioned outside chart container */}
+                         <div style={{
+                           position: 'absolute',
+                           top: responsive.isMobile() ? 'calc(22vh - 50px)' : 'calc(27vh - 70px)',
+                           right: responsive.isMobile() ? '100px' : '140px',
+                           zIndex: 9999,
+                           pointerEvents: 'none',
+          fontSize: responsive.size.fontSize.sm(),
           fontFamily: 'Helvetica World, Arial, sans-serif',
           color: '#000000',
           fontWeight: 'normal',
           lineHeight: '1.4',
-          maxWidth: '300px'
+          maxWidth: responsive.isMobile() ? '250px' : '300px'
         }}>
           <strong>Projection</strong><br/>
           Under 1.5°C to 2.0°C of global warming,<br/>
@@ -761,11 +766,8 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              {/* Click for Story Button */}
              <button
                style={{
-                 position: 'absolute',
-                 bottom: '50px',
-                 right: '50px',
-                 width: '300px',
-                 height: '300px',
+                 ...responsive.position.absolute.bottomRight(),
+                 ...responsive.container.chart(),
                  border: 'none',
                  background: 'none',
                  cursor: 'pointer',
@@ -774,7 +776,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                onClick={() => setShowLepeyamTooltip(true)}
                aria-label="Click for story"
              >
-               <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+               <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulse-section7" cx="50%" cy="50%" r="50%">
                      <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
@@ -802,11 +804,9 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              {/* Click for Music Button */}
              <div
                style={{
-                 position: 'absolute',
-                 bottom: '50px',
-                 left: '50px',
-                 width: '240px',
-                 height: '240px',
+                 ...responsive.position.absolute.bottomLeft(),
+                 width: responsive.isMobile() ? '200px' : '240px',
+                 height: responsive.isMobile() ? '200px' : '240px',
                  display: 'flex',
                  alignItems: 'center',
                  justifyContent: 'center',
@@ -827,7 +827,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  onStateChange={handleMusicStateChange}
                  onRef={handleMusicAudioRef}
                />
-               <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+               <svg width={responsive.isMobile() ? "200" : "240"} height={responsive.isMobile() ? "200" : "240"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulseMusic" cx="50%" cy="50%" r="50%">
                      <stop offset="0%" stopColor="#3d557a" stopOpacity="1" />
@@ -875,29 +875,27 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
 
              {/* Lepeyam Story Tooltip */}
              {showLepeyamTooltip && (
-               <div style={{
+               <div                style={{
                  position: 'fixed',
                  top: '50%',
                  left: '50%',
                  transform: 'translate(-50%, -50%)',
                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
                  color: '#222',
-                 padding: '40px',
-                 borderRadius: '12px',
-                 maxWidth: '600px',
+                 ...responsive.container.modal(),
                  maxHeight: '80vh',
                  overflowY: 'auto',
                  zIndex: 10000,
                  fontFamily: 'Helvetica World, Arial, sans-serif',
-                 fontSize: '16px',
+                 fontSize: responsive.size.fontSize.md(),
                  lineHeight: '1.6',
                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                  backdropFilter: 'blur(10px)',
                  border: '1px solid rgba(0,0,0,0.1)'
                }}>
                  <h2 style={{ 
-                   marginBottom: '20px', 
-                   fontSize: '24px', 
+                   marginBottom: responsive.size.spacing.md(), 
+                   fontSize: responsive.size.fontSize.xl(), 
                    fontWeight: 'bold',
                    color: '#333'
                  }}>
@@ -906,57 +904,57 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  
                  <div style={{ 
                    fontStyle: 'italic', 
-                   fontSize: '14px', 
+                   fontSize: responsive.size.fontSize.sm(), 
                    opacity: 0.8,
-                   marginBottom: '20px',
+                   marginBottom: responsive.size.spacing.md(),
                    color: '#666'
                  }}>
                    Translated from Tok Pisin
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    Lepeyam was a woman from Htopolonu who lived with her children in the village. One day, people were preparing for a big cultural celebration with dancing, singing, and traditional food. Many women were fetching water from a tap at the park using plastic containers.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    Lepeyam told one of them, "You and your children should fetch water too." But when they got to the tap, a strange woman was already there. She was not from the village. She was a masalai meri, a spirit woman. She blocked Lepeyam and her children from collecting water. Then, without speaking, she filled their containers for them and disappeared.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    That night, the masalai came to Lepeyam in her sleep. She sang a chant in a language Lepeyam could not understand. In the chant, she mentioned the Chauka bird. In Manus, the Chauka is known as a signal bird, used to mark time or warn of changes. The dream left Lepeyam confused and unsettled.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    The next morning, she left the house without saying anything. She walked out of the village as if in a trance, following a voice that only she could hear. She was gone for days.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    While she was missing, a kind couple took in her children. They brought them home, gave them food, and looked after them. One of the grandmothers told the children not to worry. She cooked food from the garden and sat with them. When they were ready to eat, she asked gently, "Do you know how to eat properly with your hands like we do here?" Then she showed them how.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    Days later, Lepeyam returned. She was dirty and tired. People saw her drinking from puddles and chewing betelnut. Her body looked thin, and her behavior was strange. The masalai had taken her into the bush and taught her strange ways.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    When she came back to the village, people gathered and called her children. "Here is your mother," they said. But the children did not recognize her.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    Lepeyam sat quietly. Sometimes she took food from other people's plates. Her voice and movements were not her own. At one point, the real masalai woman appeared again, dancing and talking in riddles. She took food and spoke as if through Lepeyam.
                  </div>
                  
-                 <div style={{ marginBottom: '20px' }}>
+                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
                    Eventually, the villagers brought Lepeyam back to her house. She sat down with her children and said softly, "I am still your mother, but I am not the same."
                  </div>
                  
                  <div style={{ 
                    fontStyle: 'italic', 
-                   fontSize: '14px', 
+                   fontSize: responsive.size.fontSize.sm(), 
                    opacity: 0.8,
                    borderTop: '1px solid rgba(0,0,0,0.2)',
-                   paddingTop: '15px',
-                   marginTop: '20px'
+                   paddingTop: responsive.size.spacing.sm(),
+                   marginTop: responsive.size.spacing.md()
                  }}>
                    This story was later turned into a traditional song and dance performance.
                  </div>
@@ -965,17 +963,17 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                    onClick={() => setShowLepeyamTooltip(false)}
                    style={{
                      position: 'absolute',
-                     top: '15px',
-                     right: '15px',
+                     top: responsive.size.spacing.sm(),
+                     right: responsive.size.spacing.sm(),
                      background: 'none',
                      border: 'none',
                      color: '#333',
-                     fontSize: '24px',
+                     fontSize: responsive.size.fontSize.xl(),
                      cursor: 'pointer',
-                     padding: '5px',
+                     padding: responsive.size.spacing.xs(),
                      borderRadius: '50%',
-                     width: '30px',
-                     height: '30px',
+                     width: responsive.size.icon.medium(),
+                     height: responsive.size.icon.medium(),
                      display: 'flex',
                      alignItems: 'center',
                      justifyContent: 'center',
