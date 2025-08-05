@@ -388,6 +388,9 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       console.log(`Star field created in ${(endTime - startTime).toFixed(2)}ms`);
     }
 
+    // Animation loop variable
+    let animationId;
+    
     // Initialize the star map
     async function init() {
       if (!rendererRef.current) {
@@ -411,7 +414,6 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       }
       
       // Animation loop
-      let animationId;
       function animate() {
         if (!rendererRef.current || !sceneRef.current || !cameraRef.current) {
           console.log('Renderer not available, stopping animation');

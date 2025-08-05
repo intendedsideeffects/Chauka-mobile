@@ -3,7 +3,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Refe
 import getRegionColor from '../data/colorPointsData';
 import CustomTooltip from './CustomTooltip';
 import { FloatingDot } from './FloatingDot';
-import { supabase } from '../utils/supabaseClient';
+
 
 // Helper: avoid overlaps for dots
 function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
@@ -45,7 +45,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const [isHoveringPurpleDot, setIsHoveringPurpleDot] = useState(false);
     const [isPurpleAudioPlaying, setIsPurpleAudioPlaying] = useState(false);
     const purpleDotAudio = useRef(null);
-    const [memories, setMemories] = useState([]);
+
     const [showYAxis, setShowYAxis] = useState(false);
     const [climateResistanceData, setClimateResistanceData] = useState([]);
 
@@ -67,13 +67,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
         enableAudio();
     }, []);
 
-    useEffect(() => {
-      async function fetchMemories() {
-        const { data, error } = await supabase.from('memories').select('*');
-        if (!error) setMemories(data);
-      }
-      fetchMemories();
-    }, []);
+
 
     // Load climate resistance data
     useEffect(() => {
@@ -383,29 +377,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
       yAxisTickLabels.push(year);
     }
 
-    // Memory dots: fixed x, y from year, purple color
-    const MEMORY_X = 600;
-    const MEMORY_SIZE = 24;
-    const memoryDots = memories
-      .filter(m => m.year && m.year >= YEAR_MIN && m.year <= YEAR_MAX)
-      .map((m, i) => ({
-        x: MEMORY_X + i * 40,
-        y: ((YEAR_MAX - m.year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT,
-        title: m.type === 'image' ? 'Image Memory' : m.type === 'sound' ? 'Sound Memory' : 'Memory',
-        size: MEMORY_SIZE,
-        type: m.type,
-        content: m.content,
-        author: m.author,
-        year: m.year,
-        id: m.id,
-      }));
 
-    // Add delete handler for memories
-    const handleDeleteMemory = async (id) => {
-      await supabase.from('memories').delete().eq('id', id);
-      setMemories(memories => memories.filter(m => m.id !== id));
-      setHoveredDot(null);
-    };
 
     return (
         <div
@@ -544,7 +516,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                             padding: '6px 12px',
                             cursor: 'pointer'
                           }}
-                          onClick={() => handleDeleteMemory(hoveredDot.id)}
+                          
                         >
                           Delete
                         </button>
