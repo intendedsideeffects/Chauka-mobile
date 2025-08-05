@@ -11,8 +11,6 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",
     "d3": "^7.9.0",
-    "d3-fetch": "^3.0.1",
-    "d3-geo-projection": "github:toja/d3-geo-projection",
     "d3-scale": "^4.0.2",
     "d3-scale-chromatic": "^3.1.0",
     "d3-selection": "^3.0.0",
@@ -20,12 +18,10 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.474.0",
     "next": "^15.1.5",
-    "papaparse": "^5.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.4",
-    "three": "^0.178.0",
-    "topojson-client": "^3.1.0"
+    "three": "^0.178.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
