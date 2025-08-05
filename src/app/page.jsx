@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import './PulseDot.css';
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
 import TitleSection from '../components/sections/TitleSection';
@@ -161,7 +160,7 @@ export default function TestScroll() {
         {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
         <video
           ref={oceanVideoRef}
-          src="/ocean.mp4"
+          src="/ocean_compressed.mp4"
           autoPlay
           loop
           muted
@@ -201,7 +200,7 @@ export default function TestScroll() {
         /> */}
         {/* Scene overlay image */}
         <img
-          src="/scene.png"
+          src="/scene.webp"
           alt="Scene overlay"
           style={{
             position: 'absolute',
@@ -821,7 +820,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              >
                <AudioPlayer
                  id="music-audio"
-                 src="/Leve Yam.mp3"
+                 src="/Leve Yam_compressed.mp3"
                  volume={0.3}
                  loop={true}
                  onEnded={() => setMusicPlaying(false)}
@@ -1278,7 +1277,7 @@ function BlueCircleAudioPlayer() {
   }, []);
 
   React.useEffect(() => {
-    const audio = new Audio('/oceansound.m4a');
+          const audio = new Audio('/oceansound_compressed.m4a');
     audio.volume = 0.20;
     audio.loop = true;
     audio.preload = 'auto';

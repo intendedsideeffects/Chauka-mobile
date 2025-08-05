@@ -10,6 +10,8 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
   const controlsRef = useRef(null);
   const starPointsRef = useRef(null);
   const [showFallback, setShowFallback] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -67,7 +69,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       renderer = new THREE.WebGLRenderer({ 
         antialias: true, 
         alpha: true,
-        powerPreference: "default",
+        powerPreference: "high-performance",
         failIfMajorPerformanceCaveat: false,
         preserveDrawingBuffer: false,
         stencil: false,
@@ -113,17 +115,12 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       minMagnitude: -1.5,
       maxStarSize: 16.9,
       minStarSize: 3.0,
-      baseStarSize: 4.5,
-      brightestThreshold: 4.5,
-      brightThreshold: 2.5,
-      brightestStarColor: 0xffffff,
-      brightStarColor: 0xe6f0ff,
       fadeFactor: 2.0
     };
 
     const radius = 150; // Increased radius to make star map bigger
 
-    // Function to convert B-V color index to RGB color
+    // Optimized color conversion function
     function bvToColor(bv, brightness) {
       const rand = Math.random();
       let color;
@@ -145,52 +142,90 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
       return color.getHex();
     }
 
-    // Function to load star data
+    // Optimized star data loading with chunked processing
     async function loadStars() {
       try {
+        console.log('Starting star data loading...');
+        setIsLoading(true);
+        setLoadingProgress(0);
+        const startTime = performance.now();
+        
         const response = await fetch('/stars.csv');
         const text = await response.text();
-        const rows = text.split('\n').slice(1);
-        const stars = rows
-          .map((row, index) => {
-            const [, , , , , Vmag, , , RAdeg, DEdeg, , B_V] = row.split(',');
-            const brightness = parseFloat(Vmag);
-            const bv = parseFloat(B_V);
-            const x = radius * Math.cos(parseFloat(RAdeg) * (Math.PI / 180)) * Math.cos(parseFloat(DEdeg) * (Math.PI / 180));
-            const y = radius * Math.sin(parseFloat(DEdeg) * (Math.PI / 180));
-            const z = radius * Math.sin(parseFloat(RAdeg) * (Math.PI / 180)) * Math.cos(parseFloat(DEdeg) * (Math.PI / 180));
-            let size = Math.max(
-              starConfig.minStarSize * (1.1 - brightness / starConfig.maxMagnitude),
-              starConfig.maxStarSize * Math.pow(0.75, brightness)
-            );
-            if (brightness > 5.0) {
-              size *= 0.7;
-            }
-            return {
-              id: index + 1,
+        
+        console.log('CSV loaded, processing data...');
+        const lines = text.split('\n');
+        const dataLines = lines.slice(1);
+        
+        // Pre-allocate arrays for better performance
+        const stars = [];
+        const chunkSize = 1000; // Process in chunks to avoid blocking UI
+        
+        for (let i = 0; i < dataLines.length; i += chunkSize) {
+          const chunk = dataLines.slice(i, i + chunkSize);
+          
+          // Process chunk
+          for (let j = 0; j < chunk.length; j++) {
+            const row = chunk[j];
+            if (!row.trim()) continue;
+            
+            const values = row.split(',');
+            if (values.length < 12) continue;
+            
+            const Vmag = parseFloat(values[5]);
+            const B_V = parseFloat(values[11]);
+            const RAdeg = parseFloat(values[8]);
+            const DEdeg = parseFloat(values[9]);
+            
+            // Skip invalid data
+            if (isNaN(Vmag) || isNaN(RAdeg) || isNaN(DEdeg)) continue;
+            if (Vmag > starConfig.maxMagnitude || Vmag < starConfig.minMagnitude) continue;
+            
+            // Optimized coordinate calculation
+            const raRad = RAdeg * (Math.PI / 180);
+            const decRad = DEdeg * (Math.PI / 180);
+            const cosDec = Math.cos(decRad);
+            
+            const x = radius * Math.cos(raRad) * cosDec;
+            const y = radius * Math.sin(decRad);
+            const z = radius * Math.sin(raRad) * cosDec;
+            
+            // Optimized size calculation
+            const size = Math.max(
+              starConfig.minStarSize * (1.1 - Vmag / starConfig.maxMagnitude),
+              starConfig.maxStarSize * Math.pow(0.75, Vmag)
+            ) * (Vmag > 5.0 ? 0.7 : 1.0);
+            
+            stars.push({
+              id: i + j + 1,
               x, y, z,
-              brightness,
-              color: bvToColor(bv, brightness),
+              brightness: Vmag,
+              color: bvToColor(B_V, Vmag),
               size: size,
-            };
-          })
-          .filter(star => !isNaN(star.x) && !isNaN(star.y) && !isNaN(star.z) && 
-                          star.brightness <= starConfig.maxMagnitude && 
-                          star.brightness >= starConfig.minMagnitude);
+            });
+          }
+          
+          // Update progress
+          const progress = Math.min(100, ((i + chunkSize) / dataLines.length) * 100);
+          setLoadingProgress(progress);
+          
+          // Yield to main thread to prevent blocking
+          if (i % (chunkSize * 5) === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
+        }
 
-        // Add Southern Cross constellation stars
+        // Add Southern Cross constellation stars - more prominent
         const southernCrossStars = [
-          // Alpha Crucis (Acrux) - brightest star in Southern Cross
           {
             id: 'acrux',
             name: 'Acrux',
-            ra: 186.6495, // Right Ascension in degrees
-            dec: -63.0991, // Declination in degrees
+            ra: 186.6495,
+            dec: -63.0991,
             brightness: 0.77,
             color: 0xffffff,
-            size: starConfig.maxStarSize * 1.5
+            size: starConfig.maxStarSize * 1.8 // More prominent
           },
-          // Beta Crucis (Mimosa)
           {
             id: 'mimosa',
             name: 'Mimosa',
@@ -198,9 +233,8 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
             dec: -59.6888,
             brightness: 1.25,
             color: 0x87ceeb,
-            size: starConfig.maxStarSize * 1.3
+            size: starConfig.maxStarSize * 1.6 // More prominent
           },
-          // Gamma Crucis (Gacrux)
           {
             id: 'gacrux',
             name: 'Gacrux',
@@ -208,9 +242,8 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
             dec: -57.1138,
             brightness: 1.59,
             color: 0xffd700,
-            size: starConfig.maxStarSize * 1.2
+            size: starConfig.maxStarSize * 1.5 // More prominent
           },
-          // Delta Crucis (Imai)
           {
             id: 'imai',
             name: 'Imai',
@@ -218,7 +251,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
             dec: -58.7489,
             brightness: 2.79,
             color: 0xffffff,
-            size: starConfig.maxStarSize * 1.1
+            size: starConfig.maxStarSize * 1.4 // More prominent
           }
         ];
 
@@ -226,14 +259,14 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         const southernCross3D = southernCrossStars.map(star => {
           const raRad = star.ra * (Math.PI / 180);
           const decRad = star.dec * (Math.PI / 180);
-          const x = radius * Math.cos(raRad) * Math.cos(decRad);
-          const y = radius * Math.sin(decRad);
-          const z = radius * Math.sin(raRad) * Math.cos(decRad);
+          const cosDec = Math.cos(decRad);
           
           return {
             id: star.id,
             name: star.name,
-            x, y, z,
+            x: radius * Math.cos(raRad) * cosDec,
+            y: radius * Math.sin(decRad),
+            z: radius * Math.sin(raRad) * cosDec,
             brightness: star.brightness,
             color: star.color,
             size: star.size,
@@ -242,39 +275,58 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
           };
         });
 
-        // Combine regular stars with Southern Cross stars
-        return [...stars, ...southernCross3D];
-      } catch (error) {
-        return [];
-      }
+        const allStars = [...stars, ...southernCross3D];
+        const endTime = performance.now();
+        console.log(`Star processing completed in ${(endTime - startTime).toFixed(2)}ms. Total stars: ${allStars.length}`);
+        setIsLoading(false);
+        
+        return allStars;
+             } catch (error) {
+         console.error('Error loading stars:', error);
+         setIsLoading(false);
+         return [];
+       }
     }
 
-    // Function to create the star field
+    // Optimized star field creation
     function createStarField(stars) {
-      // Check if scene exists
       if (!sceneRef.current) {
         console.warn('Scene not available, cannot create star field');
         return;
       }
 
-      const geometry = new THREE.BufferGeometry();
+      console.log('Creating star field with', stars.length, 'stars...');
+      const startTime = performance.now();
+
+      // Pre-allocate typed arrays for better performance
       const positions = new Float32Array(stars.length * 3);
       const colors = new Float32Array(stars.length * 3);
       const sizes = new Float32Array(stars.length);
-      stars.forEach((star, i) => {
-        positions[i * 3] = star.x;
-        positions[i * 3 + 1] = star.y;
-        positions[i * 3 + 2] = star.z;
+      
+      // Batch process all stars
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        const idx = i * 3;
+        
+        positions[idx] = star.x;
+        positions[idx + 1] = star.y;
+        positions[idx + 2] = star.z;
+        
+        // Convert hex color to RGB
         const color = new THREE.Color(star.color);
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        colors[idx] = color.r;
+        colors[idx + 1] = color.g;
+        colors[idx + 2] = color.b;
+        
         sizes[i] = star.size;
-      });
+      }
+
+      const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
       geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-      // Create custom shader material
+
+      // Optimized shader material
       const material = new THREE.ShaderMaterial({
         uniforms: {
           attenuation: { value: true },
@@ -327,59 +379,25 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
+
       const starPoints = new THREE.Points(geometry, material);
       sceneRef.current.add(starPoints);
       starPointsRef.current = starPoints;
 
-      // Add constellation lines for Southern Cross
-      const constellationStars = stars.filter(star => star.isConstellation);
-      if (constellationStars.length >= 5) {
-        // Find the Southern Cross stars by their IDs
-        const acrux = constellationStars.find(s => s.id === 'acrux');
-        const mimosa = constellationStars.find(s => s.id === 'mimosa');
-        const gacrux = constellationStars.find(s => s.id === 'gacrux');
-        const imai = constellationStars.find(s => s.id === 'imai');
-
-        if (acrux && mimosa && gacrux && imai) {
-          // Create lines connecting the Southern Cross
-          const lineGeometry = new THREE.BufferGeometry();
-          const linePositions = [
-            // Main cross: Acrux to Mimosa (vertical)
-            acrux.x, acrux.y, acrux.z,
-            mimosa.x, mimosa.y, mimosa.z,
-            // Horizontal cross: Gacrux to Imai
-            gacrux.x, gacrux.y, gacrux.z,
-            imai.x, imai.y, imai.z
-          ];
-          
-          lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-          
-          const lineMaterial = new THREE.LineBasicMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 1.0,
-            linewidth: 3
-          });
-          
-          const constellationLines = new THREE.LineSegments(lineGeometry, lineMaterial);
-          sceneRef.current.add(constellationLines);
-        }
-      }
-
-      return positions;
+      const endTime = performance.now();
+      console.log(`Star field created in ${(endTime - startTime).toFixed(2)}ms`);
     }
 
     // Initialize the star map
     async function init() {
-             // Check if renderer was successfully created
-       if (!rendererRef.current) {
-         console.warn('Renderer not available, skipping star globe initialization');
-         setShowFallback(true);
-         if (typeof onStarsLoaded === 'function') {
-           onStarsLoaded();
-         }
-         return;
-       }
+      if (!rendererRef.current) {
+        console.warn('Renderer not available, skipping star globe initialization');
+        setShowFallback(true);
+        if (typeof onStarsLoaded === 'function') {
+          onStarsLoaded();
+        }
+        return;
+      }
 
       const stars = await loadStars();
       if (stars.length > 0) {
@@ -387,43 +405,40 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         if (typeof onStarsLoaded === 'function') {
           onStarsLoaded();
         }
-             } else if (typeof onStarsLoaded === 'function') {
-         // If no stars, show fallback and hide loader
-         setShowFallback(true);
-         onStarsLoaded();
-       }
+      } else if (typeof onStarsLoaded === 'function') {
+        setShowFallback(true);
+        onStarsLoaded();
+      }
       
-           // Animation loop
-     let animationId;
-     function animate() {
-       // Check if renderer is still valid
-       if (!rendererRef.current || !sceneRef.current || !cameraRef.current) {
-         console.log('Renderer not available, stopping animation');
-         return;
-       }
-       
-       if (controlsRef.current) {
-         controlsRef.current.update();
-       }
-       
-       try {
-         rendererRef.current.render(sceneRef.current, cameraRef.current);
-       } catch (error) {
-         console.warn('Error rendering scene:', error);
-         // Stop animation if rendering fails
-         if (animationId) {
-           cancelAnimationFrame(animationId);
-         }
-         // Set fallback if WebGL context is lost
-         setShowFallback(true);
-         return;
-       }
-       
-       animationId = requestAnimationFrame(animate);
-     }
-     animate();
+      // Animation loop
+      let animationId;
+      function animate() {
+        if (!rendererRef.current || !sceneRef.current || !cameraRef.current) {
+          console.log('Renderer not available, stopping animation');
+          return;
+        }
+        
+        if (controlsRef.current) {
+          controlsRef.current.update();
+        }
+        
+        try {
+          rendererRef.current.render(sceneRef.current, cameraRef.current);
+        } catch (error) {
+          console.warn('Error rendering scene:', error);
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+          }
+          setShowFallback(true);
+          return;
+        }
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      animate();
     }
     init();
+
     // Handle window resizing
     const handleResize = () => {
       if (mountRef.current && cameraRef.current && rendererRef.current) {
@@ -436,62 +451,56 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         }
       }
     };
-         window.addEventListener('resize', handleResize);
-     
-     // Handle page visibility changes
-     const handleVisibilityChange = () => {
-       if (document.visibilityState === 'visible') {
-         console.log('Page became visible, checking WebGL context');
-         // Check if we need to reinitialize
-         if (!rendererRef.current || showFallback) {
-           console.log('Reinitializing WebGL context after visibility change');
-           setShowFallback(false);
-           // Force re-initialization
-           setTimeout(() => {
-             if (mountRef.current) {
-               // Re-trigger the effect by dispatching a resize event
-               const event = new Event('resize');
-               window.dispatchEvent(event);
-             }
-           }, 300);
-         }
-       }
-     };
-     document.addEventListener('visibilitychange', handleVisibilityChange);
-     
-     // Periodic WebGL context health check
-     const healthCheckInterval = setInterval(() => {
-       if (rendererRef.current && rendererRef.current.getContext()) {
-         const gl = rendererRef.current.getContext();
-         if (gl.isContextLost()) {
-           console.warn('WebGL context lost detected in health check');
-           setShowFallback(true);
-           rendererRef.current = null;
-         }
-       }
-     }, 5000); // Check every 5 seconds
-         // Cleanup
-     return () => {
-       window.removeEventListener('resize', handleResize);
-       document.removeEventListener('visibilitychange', handleVisibilityChange);
-       
-       // Clear health check interval
-       clearInterval(healthCheckInterval);
-       
-       // Cancel animation frame
-       if (animationId) {
-         cancelAnimationFrame(animationId);
-       }
-       
-       // Remove WebGL context event listeners
-       if (rendererRef.current && rendererRef.current.domElement) {
-         try {
-           rendererRef.current.domElement.removeEventListener('webglcontextlost', handleContextLost);
-           rendererRef.current.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
-         } catch (error) {
-           console.warn('Error removing WebGL event listeners:', error);
-         }
-       }
+    window.addEventListener('resize', handleResize);
+    
+    // Handle page visibility changes
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        console.log('Page became visible, checking WebGL context');
+        if (!rendererRef.current || showFallback) {
+          console.log('Reinitializing WebGL context after visibility change');
+          setShowFallback(false);
+          setTimeout(() => {
+            if (mountRef.current) {
+              const event = new Event('resize');
+              window.dispatchEvent(event);
+            }
+          }, 300);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Periodic WebGL context health check
+    const healthCheckInterval = setInterval(() => {
+      if (rendererRef.current && rendererRef.current.getContext()) {
+        const gl = rendererRef.current.getContext();
+        if (gl.isContextLost()) {
+          console.warn('WebGL context lost detected in health check');
+          setShowFallback(true);
+          rendererRef.current = null;
+        }
+      }
+    }, 5000);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearInterval(healthCheckInterval);
+      
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      
+      if (rendererRef.current && rendererRef.current.domElement) {
+        try {
+          rendererRef.current.domElement.removeEventListener('webglcontextlost', handleContextLost);
+          rendererRef.current.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+        } catch (error) {
+          console.warn('Error removing WebGL event listeners:', error);
+        }
+      }
       
       if (mountRef.current && rendererRef.current && rendererRef.current.domElement) {
         try {
@@ -519,7 +528,6 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         }
       }
       
-      // Clear refs
       sceneRef.current = null;
       cameraRef.current = null;
       starPointsRef.current = null;
@@ -540,7 +548,24 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         overflow: 'hidden',
         backgroundColor: showFallback ? '#000' : 'transparent',
       }} 
-    />
+    >
+             {isLoading && (
+         <div style={{
+           position: 'absolute',
+           top: '50%',
+           left: '50%',
+           transform: 'translate(-50%, -50%)',
+           color: 'white',
+           fontSize: '16px',
+           zIndex: 10,
+           backgroundColor: 'rgba(0,0,0,0.7)',
+           padding: '10px 20px',
+           borderRadius: '5px'
+         }}>
+           {loadingProgress > 0 ? `Loading stars: ${Math.round(loadingProgress)}%` : 'Loading stars...'}
+         </div>
+       )}
+    </div>
   );
 };
 
