@@ -139,26 +139,26 @@ function BirdAudioPlayer() {
     }
   };
 
-  return (
-    <div style={{ 
-      width: responsive.isMobile() ? '60px' : '80px', 
-      height: responsive.isMobile() ? '60px' : '80px', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      background: 'none', 
-      cursor: 'pointer',
-    }} onClick={handleToggle} aria-label="Play or pause Chauka call">
-      <svg width={responsive.isMobile() ? "60" : "80"} height={responsive.isMobile() ? "60" : "80"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
-        {!playing && (
-          <polygon points={responsive.isMobile() ? "26,22 37,30 26,38" : "35,30 50,40 35,50"} fill="#676b8b" style={{ opacity: 0.8 }} />
-        )}
-        {playing && (
-          <g>
-            <rect x={responsive.isMobile() ? "24.5" : "32.5"} y={responsive.isMobile() ? "23.5" : "31.5"} width={responsive.isMobile() ? "3" : "4"} height={responsive.isMobile() ? "12" : "16"} rx={responsive.isMobile() ? "0.8" : "1"} fill="#676b8b" style={{ opacity: 0.8 }} />
-            <rect x={responsive.isMobile() ? "30.5" : "40.5"} y={responsive.isMobile() ? "23.5" : "31.5"} width={responsive.isMobile() ? "3" : "4"} height={responsive.isMobile() ? "12" : "16"} rx={responsive.isMobile() ? "0.8" : "1"} fill="#676b8b" style={{ opacity: 0.8 }} />
-          </g>
-        )}
+           return (
+      <div style={{ 
+        width: responsive.isMobile() ? '60px' : '120px', 
+        height: responsive.isMobile() ? '60px' : '120px', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        background: 'none', 
+        cursor: 'pointer',
+      }} onClick={handleToggle} aria-label="Play or pause Chauka call">
+        <svg width={responsive.isMobile() ? "60" : "120"} height={responsive.isMobile() ? "60" : "120"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+                                   {!playing && (
+            <polygon points={responsive.isMobile() ? "26,22 37,30 26,38" : "53,46 74,60 53,74"} fill="#676b8b" style={{ opacity: 0.8 }} />
+          )}
+          {playing && (
+            <g>
+              <rect x={responsive.isMobile() ? "24.5" : "49"} y={responsive.isMobile() ? "23.5" : "47"} width={responsive.isMobile() ? "3" : "6"} height={responsive.isMobile() ? "12" : "24"} rx={responsive.isMobile() ? "0.8" : "1.5"} fill="#676b8b" style={{ opacity: 0.8 }} />
+              <rect x={responsive.isMobile() ? "30.5" : "61"} y={responsive.isMobile() ? "23.5" : "47"} width={responsive.isMobile() ? "3" : "6"} height={responsive.isMobile() ? "12" : "24"} rx={responsive.isMobile() ? "0.8" : "1.5"} fill="#676b8b" style={{ opacity: 0.8 }} />
+            </g>
+          )}
       </svg>
     </div>
   );
@@ -361,16 +361,16 @@ export default function LandingPage({
         <BlueCircleAudioPlayer />
       </div>
       
-      {/* Bird audio button - positioned relative to left third overlay */}
-      <div style={{ 
-        position: 'absolute', 
-        top: responsive.isMobile() ? 'calc(10vh + 20%)' : 'calc(15vh + 25%)', 
-        left: responsive.isMobile() ? 'calc(33.33vw * 0.15)' : 'calc(33.33vw * 0.2)', 
-        zIndex: 1000, 
-        pointerEvents: 'auto' 
-      }}>
-        <BirdAudioPlayer />
-      </div>
+             {/* Bird audio button - positioned directly on the bird */}
+       <div style={{ 
+         position: 'absolute', 
+         top: (responsive.isMobile() && isPortrait) ? 'calc(15vh + 15%)' : (responsive.isMobile() ? 'calc(10vh + 15%)' : 'calc(15vh + 12%)'), 
+         left: (responsive.isMobile() && isPortrait) ? 'calc(80vw * 0.4)' : (responsive.isMobile() ? 'calc(100vw * 0.16)' : 'calc(100vw * 0.18)'), 
+         zIndex: 1000, 
+         pointerEvents: 'auto' 
+       }}>
+         <BirdAudioPlayer />
+       </div>
       
       {/* Project attribution - improved mobile positioning */}
       <div style={{ 
