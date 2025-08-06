@@ -10,25 +10,42 @@ const TitleSection = ({
   content = "On Manus Island, the Chauka bird once warned villagers when something was wrong. Its call meant: stop and pay attention.<br/><br/>Now, the ocean is calling.<br/><br/>It sends signals through rising tides, salt in gardens, and floods that reach farther each year. Pacific Island nations are the first to feel this. They didn't cause the crisis, but they are living with its consequences.<br/><br/>Elsewhere, people may not notice yet. But the warning is already here.<br/><br/><strong>This is a global warning.</strong>",
   styles = {}
 }) => {
+  const [isPortrait, setIsPortrait] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
   const defaultStyles = {
     container: {
       width: '100%',
-      height: '100vh',
+      height: (responsive.isMobile() && isPortrait) ? 'auto' : '100vh',
       background: 'white',
       display: 'flex',
-      flexDirection: 'row', // Keep row layout even on mobile
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: responsive.isMobile() ? '0 1rem' : '0 4rem',
+      flexDirection: (responsive.isMobile() && isPortrait) ? 'column' : 'row', // Column only for portrait mobile
+      alignItems: (responsive.isMobile() && isPortrait) ? 'flex-start' : 'center',
+      justifyContent: (responsive.isMobile() && isPortrait) ? 'flex-start' : 'space-between',
+      padding: responsive.isMobile() ? '2rem 1rem' : '0 4rem',
       position: 'relative',
-      scrollSnapAlign: 'start',
+      scrollSnapAlign: (responsive.isMobile() && isPortrait) ? 'none' : 'start',
       overflow: 'hidden', // Prevent any content from bleeding out
-      isolation: 'isolate' // Create new stacking context
+      isolation: 'isolate', // Create new stacking context
+      zIndex: 2000 // Higher than SegmentTemplate's z-index of 1000
     },
     contentWrapper: {
       color: '#000',
       fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
-      maxWidth: responsive.isMobile() ? '45%' : '30%', // Reduce width on mobile but keep left side
+      maxWidth: (responsive.isMobile() && isPortrait) ? '95%' : '30%', // Wider width for portrait mobile
       textAlign: 'left',
       fontFamily: 'Helvetica World, Arial, sans-serif',
       fontWeight: 400,
@@ -38,7 +55,7 @@ const TitleSection = ({
       flexShrink: 0,
     },
     title: {
-      fontSize: responsive.isMobile() ? '4rem' : '8rem',
+      fontSize: (responsive.isMobile() && isPortrait) ? '4rem' : (responsive.isMobile() ? '3rem' : '8rem'),
       fontWeight: 'normal', // Changed from 'bold' to 'normal'
       color: '#000',
       marginBottom: '0',
@@ -48,10 +65,10 @@ const TitleSection = ({
       lineHeight: '1'
     },
     titleSecondLine: {
-      fontSize: responsive.isMobile() ? '1.8rem' : '3.2rem',
+      fontSize: (responsive.isMobile() && isPortrait) ? '2rem' : (responsive.isMobile() ? '1.4rem' : '3.2rem'),
       fontWeight: 'bold', // Changed from 'normal' to 'bold'
       color: '#000',
-      marginBottom: responsive.isMobile() ? '2rem' : '4rem',
+      marginBottom: (responsive.isMobile() && isPortrait) ? '2rem' : (responsive.isMobile() ? '1.5rem' : '4rem'),
       textAlign: 'left', // Changed from 'center' to 'left'
       marginTop: '0.1rem', // Reduced from '0.5rem' to '0.1rem' to bring lines closer
       fontFamily: 'Times New Roman, serif', // Changed from Helvetica World to Times New Roman
@@ -69,8 +86,8 @@ const TitleSection = ({
       color: 'transparent'
     },
     content: {
-      marginBottom: '2rem',
-      fontSize: '1.3rem',
+      marginBottom: (responsive.isMobile() && isPortrait) ? '3rem' : '2rem',
+      fontSize: (responsive.isMobile() && isPortrait) ? '1.2rem' : (responsive.isMobile() ? '1rem' : '1.3rem'),
       color: '#000',
       marginTop: '0',
       fontFamily: 'Helvetica World, Arial, sans-serif'
@@ -79,15 +96,15 @@ const TitleSection = ({
       height: '1rem'
     },
     spilhausContainer: {
-      width: responsive.isMobile() ? '100%' : '70%',
-      height: responsive.isMobile() ? '50%' : '100%',
+      width: (responsive.isMobile() && isPortrait) ? '100vw' : '70%',
+      height: (responsive.isMobile() && isPortrait) ? '100vh' : (responsive.isMobile() ? '50%' : '100%'),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'flex-start',
+      justifyContent: (responsive.isMobile() && isPortrait) ? 'flex-end' : 'flex-start',
       position: 'relative',
-      marginTop: '0vh',
-      marginLeft: '0%'
+      marginTop: (responsive.isMobile() && isPortrait) ? '0.5rem' : '0vh',
+      marginLeft: (responsive.isMobile() && isPortrait) ? '-2rem' : '0%'
     },
     spilhausWrapper: {
       width: '100%',
@@ -97,16 +114,17 @@ const TitleSection = ({
       justifyContent: 'center'
     },
     spilhausImage: {
-      width: '200%',
+      width: (responsive.isMobile() && isPortrait) ? '700%' : '200%',
       height: 'auto',
-      maxHeight: '100vh',
+      maxHeight: (responsive.isMobile() && isPortrait) ? '90vh' : '100vh',
       objectFit: 'contain',
       display: 'block',
       filter: 'none',
       opacity: 1,
       transform: 'rotate(0deg)',
-      marginLeft: '0%',
-      marginTop: '50px'
+      marginLeft: (responsive.isMobile() && isPortrait) ? '-50%' : '0%',
+      marginRight: (responsive.isMobile() && isPortrait) ? '-50%' : '0%',
+      marginTop: (responsive.isMobile() && isPortrait) ? '0px' : '50px'
     },
     pulsingDot: {
       position: 'absolute',
@@ -219,18 +237,19 @@ const TitleSection = ({
           
 
           
-          {/* Footnote */}
-          <div style={{
-            position: 'absolute',
-            top: '134px',
-            right: '20px',
-            fontSize: '0.9rem',
-            color: '#000000',
-            fontWeight: 400,
-            textAlign: 'left',
-            maxWidth: '25%',
-            lineHeight: '1.2'
-          }}>
+                     {/* Footnote */}
+           <div style={{
+             position: 'absolute',
+             top: (responsive.isMobile() && isPortrait) ? '50px' : '134px',
+             right: (responsive.isMobile() && isPortrait) ? '10px' : '20px',
+             fontSize: (responsive.isMobile() && isPortrait) ? '0.8rem' : '0.9rem',
+             color: '#000000',
+             fontWeight: 400,
+             textAlign: 'left',
+             maxWidth: (responsive.isMobile() && isPortrait) ? '30%' : '25%',
+             lineHeight: '1.2',
+             zIndex: 10
+           }}>
             The Spilhaus projection shows the ocean as one connected body, not broken apart like most maps. It helps us see that what happens in one part affects all others. The ocean is the focus, not the background.
           </div>
           
@@ -258,29 +277,29 @@ const TitleSection = ({
             zIndex: 1
           }} />
           
-          {/* 9 Small Pulsing Dots in Pacific Islands */}
+                     {/* 9 Small Pulsing Dots in Pacific Islands */}
+           <div style={{
+             ...mergedStyles.smallPulsingDot,
+             width: (responsive.isMobile() && isPortrait) ? '60px' : '80px',
+             height: (responsive.isMobile() && isPortrait) ? '60px' : '80px',
+             top: (responsive.isMobile() && isPortrait) ? '45%' : '40%',
+             left: (responsive.isMobile() && isPortrait) ? '75%' : '65%',
+             animationDelay: '0s'
+           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '80px',
-            height: '80px',
-            top: '40%',
-            left: '65%',
-            animationDelay: '0s'
-          }} />
-          <div style={{
-            ...mergedStyles.smallPulsingDot,
-            width: '30px',
-            height: '30px',
+            width: (responsive.isMobile() && isPortrait) ? '25px' : '30px',
+            height: (responsive.isMobile() && isPortrait) ? '25px' : '30px',
             top: '45%',
-            left: '70%',
+            left: (responsive.isMobile() && isPortrait) ? '80%' : '70%',
             animationDelay: '0.3s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
-            width: '35px',
-            height: '35px',
+            width: (responsive.isMobile() && isPortrait) ? '30px' : '35px',
+            height: (responsive.isMobile() && isPortrait) ? '30px' : '35px',
             top: '45%',
-            left: '75%',
+            left: (responsive.isMobile() && isPortrait) ? '85%' : '75%',
             animationDelay: '0.6s'
           }} />
           <div style={{
@@ -357,15 +376,15 @@ const TitleSection = ({
           }} />
           
           {/* Large and small blue static dots in bottom right corner - exact FloatingDot style */}
-          <svg style={{
-            position: 'absolute',
-            top: '77%',
-            left: '82%',
-            width: '150px',
-            height: '150px',
-            zIndex: 1,
-            pointerEvents: 'none'
-          }}>
+                     <svg style={{
+             position: 'absolute',
+             top: (responsive.isMobile() && isPortrait) ? '85%' : '77%',
+             left: (responsive.isMobile() && isPortrait) ? '75%' : '82%',
+             width: (responsive.isMobile() && isPortrait) ? '120px' : '150px',
+             height: (responsive.isMobile() && isPortrait) ? '120px' : '150px',
+             zIndex: 1,
+             pointerEvents: 'none'
+           }}>
             <defs>
               <filter id="glow-large">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -410,15 +429,15 @@ const TitleSection = ({
             </text>
           </svg>
           
-          <svg style={{
-            position: 'absolute',
-            top: '81%',
-            left: '92%',
-            width: '100px',
-            height: '100px',
-            zIndex: 1,
-            pointerEvents: 'none'
-          }}>
+                     <svg style={{
+             position: 'absolute',
+             top: (responsive.isMobile() && isPortrait) ? '90%' : '81%',
+             left: (responsive.isMobile() && isPortrait) ? '88%' : '92%',
+             width: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
+             height: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
+             zIndex: 1,
+             pointerEvents: 'none'
+           }}>
             <defs>
               <filter id="glow-small">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>

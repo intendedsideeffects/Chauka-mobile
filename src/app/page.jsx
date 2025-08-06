@@ -24,8 +24,25 @@ export default function TestScroll() {
   const [musicAudioLoaded, setMusicAudioLoaded] = useState(false);
   const [musicAudioError, setMusicAudioError] = useState(false);
   const [musicAudioElement, setMusicAudioElement] = useState(null);
+  const [isPortrait, setIsPortrait] = useState(false);
   const videoRef = useRef();
   const oceanVideoRef = useRef();
+
+  // Add orientation detection for portrait mobile
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
 
   // Ensure video plays properly
   useEffect(() => {
@@ -143,11 +160,11 @@ export default function TestScroll() {
 
   return (
     <div style={{ 
-      scrollSnapType: 'y mandatory', 
-      height: '100vh', 
+      scrollSnapType: (responsive.isMobile() && isPortrait) ? 'none' : 'y mandatory', 
+      height: (responsive.isMobile() && isPortrait) ? 'auto' : '100vh', 
       overflowY: 'auto', 
       overflowX: 'hidden', 
-      position: 'relative', 
+        position: 'relative', 
       minHeight: '100vh',
       isolation: 'isolate' // Create new stacking context
     }}>
@@ -230,13 +247,7 @@ export default function TestScroll() {
       )}
 
       {/* Title Section */}
-      <div style={{
-        position: 'relative',
-        overflow: 'hidden', // Prevent any content from bleeding out
-        isolation: 'isolate' // Create new stacking context
-      }}>
         <TitleSection />
-      </div>
 
       {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-10 */}
       <div style={{
@@ -248,7 +259,8 @@ export default function TestScroll() {
         zIndex: 9999, // High z-index to show above charts
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
-        opacity: 1 // Fully opaque
+        opacity: (responsive.isMobile() && isPortrait) ? 0 : 1, // Hide in portrait mobile
+        display: (responsive.isMobile() && isPortrait) ? 'none' : 'block' // Hide in portrait mobile
       }}>
         <ExtinctSpeciesViz />
       </div>
