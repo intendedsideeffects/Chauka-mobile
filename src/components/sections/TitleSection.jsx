@@ -96,7 +96,7 @@ const TitleSection = ({
       height: '1rem'
     },
     spilhausContainer: {
-      width: (responsive.isMobile() && isPortrait) ? '100vw' : '70%',
+      width: (responsive.isMobile() && isPortrait) ? '120vw' : '70%',
       height: (responsive.isMobile() && isPortrait) ? '100vh' : (responsive.isMobile() ? '50%' : '100%'),
       display: 'flex',
       flexDirection: 'column',
@@ -104,7 +104,8 @@ const TitleSection = ({
       justifyContent: (responsive.isMobile() && isPortrait) ? 'flex-end' : 'flex-start',
       position: 'relative',
       marginTop: (responsive.isMobile() && isPortrait) ? '0.5rem' : '0vh',
-      marginLeft: (responsive.isMobile() && isPortrait) ? '-2rem' : '0%'
+      marginLeft: (responsive.isMobile() && isPortrait) ? '-4rem' : '0%',
+      marginRight: (responsive.isMobile() && isPortrait) ? '-4rem' : '0%'
     },
     spilhausWrapper: {
       width: '100%',
@@ -114,16 +115,16 @@ const TitleSection = ({
       justifyContent: 'center'
     },
     spilhausImage: {
-      width: (responsive.isMobile() && isPortrait) ? '700%' : '200%',
+      width: (responsive.isMobile() && isPortrait) ? '120%' : '200%',
       height: 'auto',
       maxHeight: (responsive.isMobile() && isPortrait) ? '90vh' : '100vh',
-      objectFit: 'contain',
+      objectFit: (responsive.isMobile() && isPortrait) ? 'cover' : 'contain',
       display: 'block',
       filter: 'none',
       opacity: 1,
       transform: 'rotate(0deg)',
-      marginLeft: (responsive.isMobile() && isPortrait) ? '-50%' : '0%',
-      marginRight: (responsive.isMobile() && isPortrait) ? '-50%' : '0%',
+      marginLeft: (responsive.isMobile() && isPortrait) ? '-10%' : '0%',
+      marginRight: (responsive.isMobile() && isPortrait) ? '-10%' : '0%',
       marginTop: (responsive.isMobile() && isPortrait) ? '0px' : '50px'
     },
     pulsingDot: {
@@ -240,8 +241,8 @@ const TitleSection = ({
                      {/* Footnote */}
            <div style={{
              position: 'absolute',
-             top: (responsive.isMobile() && isPortrait) ? '50px' : '134px',
-             right: (responsive.isMobile() && isPortrait) ? '10px' : '20px',
+             top: (responsive.isMobile() && isPortrait) ? '75%' : '134px',
+             right: (responsive.isMobile() && isPortrait) ? '50px' : '20px',
              fontSize: (responsive.isMobile() && isPortrait) ? '0.8rem' : '0.9rem',
              color: '#000000',
              fontWeight: 400,
@@ -256,9 +257,9 @@ const TitleSection = ({
           {/* Annotation line - horizontal under footer */}
           <div style={{
             position: 'absolute',
-            top: '224px',
-            right: '205px',
-            width: '124px',
+            top: (responsive.isMobile() && isPortrait) ? '74%' : '224px',
+            right: (responsive.isMobile() && isPortrait) ? '50px' : '205px',
+            width: (responsive.isMobile() && isPortrait) ? '30%' : '124px',
             height: '1px',
             backgroundColor: '#000',
             zIndex: 1
@@ -267,13 +268,13 @@ const TitleSection = ({
           {/* Annotation line - angled down to map */}
           <div style={{
             position: 'absolute',
-            top: '224px',
-            right: '329px',
+            top: (responsive.isMobile() && isPortrait) ? '74%' : '224px',
+            right: (responsive.isMobile() && isPortrait) ? '80%' : '329px',
             width: '1px',
-            height: '300px',
+            height: (responsive.isMobile() && isPortrait) ? '150px' : '300px',
             backgroundColor: '#000',
-            transform: 'rotate(15deg)',
-            transformOrigin: 'top left',
+            transform: (responsive.isMobile() && isPortrait) ? 'rotate(25deg)' : 'rotate(15deg)',
+            transformOrigin: 'bottom left',
             zIndex: 1
           }} />
           
@@ -378,11 +379,11 @@ const TitleSection = ({
           {/* Large and small blue static dots in bottom right corner - exact FloatingDot style */}
                      <svg style={{
              position: 'absolute',
-             top: (responsive.isMobile() && isPortrait) ? '85%' : '77%',
-             left: (responsive.isMobile() && isPortrait) ? '75%' : '82%',
+             top: (responsive.isMobile() && isPortrait) ? '10%' : '77%',
+             left: (responsive.isMobile() && isPortrait) ? '10%' : '82%',
              width: (responsive.isMobile() && isPortrait) ? '120px' : '150px',
              height: (responsive.isMobile() && isPortrait) ? '120px' : '150px',
-             zIndex: 1,
+             zIndex: 1000,
              pointerEvents: 'none'
            }}>
             <defs>
@@ -416,26 +417,42 @@ const TitleSection = ({
                  filter: 'url(#glow-large)',
                }}
              />
-            {/* Annotation */}
-            <text
-              x="75"
-              y="130"
-              textAnchor="middle"
-              fill="#000000"
-              fontSize="12"
-              fontFamily="Helvetica World, Arial, sans-serif"
-            >
+                         {/* Annotation */}
+             <text
+               x="75"
+               y="140"
+               textAnchor="middle"
+               fill="#000000"
+               fontSize="12"
+               fontFamily="Helvetica World, Arial, sans-serif"
+               style={{ display: 'block', zIndex: 1000 }}
+             >
+               large flood
+             </text>
+                      </svg>
+            
+            {/* Large flood text label */}
+            <div style={{
+              position: 'absolute',
+              top: (responsive.isMobile() && isPortrait) ? '25%' : '85%',
+              left: (responsive.isMobile() && isPortrait) ? '10%' : '82%',
+              color: '#000000',
+              fontSize: '12px',
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              textAlign: 'center',
+              width: '120px',
+              zIndex: 1001
+            }}>
               large flood
-            </text>
-          </svg>
-          
-                     <svg style={{
+            </div>
+            
+           <svg style={{
              position: 'absolute',
-             top: (responsive.isMobile() && isPortrait) ? '90%' : '81%',
-             left: (responsive.isMobile() && isPortrait) ? '88%' : '92%',
+             top: (responsive.isMobile() && isPortrait) ? '25%' : '81%',
+             left: (responsive.isMobile() && isPortrait) ? '10%' : '92%',
              width: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
              height: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
-             zIndex: 1,
+             zIndex: 1000,
              pointerEvents: 'none'
            }}>
             <defs>
@@ -469,19 +486,35 @@ const TitleSection = ({
                  filter: 'url(#glow-small)',
                }}
              />
-            {/* Annotation */}
-            <text
-              x="50"
-              y="90"
-              textAnchor="middle"
-              fill="#000000"
-              fontSize="12"
-              fontFamily="Helvetica World, Arial, sans-serif"
-            >
+                         {/* Annotation */}
+             <text
+               x="50"
+               y="100"
+               textAnchor="middle"
+               fill="#000000"
+               fontSize="12"
+               fontFamily="Helvetica World, Arial, sans-serif"
+               style={{ display: 'block', zIndex: 1000 }}
+             >
+               small flood
+             </text>
+                      </svg>
+            
+            {/* Small flood text label */}
+            <div style={{
+              position: 'absolute',
+              top: (responsive.isMobile() && isPortrait) ? '40%' : '90%',
+              left: (responsive.isMobile() && isPortrait) ? '10%' : '92%',
+              color: '#000000',
+              fontSize: '12px',
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              textAlign: 'center',
+              width: '80px',
+              zIndex: 1001
+            }}>
               small flood
-            </text>
-          </svg>
-        </div>
+            </div>
+          </div>
       </div>
     </section>
   );
