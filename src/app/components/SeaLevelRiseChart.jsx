@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { BUTTON_POSITIONS, CHART_DIMENSIONS, GLOBAL_SEA_LEVEL_RISE } from './SeaLevelRiseChartConstants';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
+import { responsive } from '../utils/responsive';
 
 // ⚠️ CRITICAL: Button positioning has been carefully calibrated
 // DO NOT modify BUTTON_POSITIONS without testing on multiple screen sizes
@@ -104,24 +105,39 @@ const SeaLevelRiseChart = () => {
     );
   };
 
-                             return (
-              <div className="w-full bg-transparent relative" style={{...CHART_DIMENSIONS.container, pointerEvents: 'auto', padding: '0 30px'}}>
-                                                                                                                        {/* Controls - Scattered in top-right corner of page */}
-                  <div className="absolute z-50" style={BUTTON_POSITIONS.CONTAINER}>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               return (
+                 <div className="w-full bg-transparent relative" style={{
+                   ...CHART_DIMENSIONS.container, 
+                   pointerEvents: 'auto', 
+                   padding: responsive.isMobile() ? '0 20px' : '0 30px',
+                   maxWidth: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
+                   overflow: 'visible',
+                   width: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
+                   marginLeft: responsive.isMobile() ? '20px' : '0px',
+                   marginRight: responsive.isMobile() ? '20px' : '0px'
+                 }}>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   {/* Controls - Scattered in top-right corner of page */}
+                    <div className="absolute z-50" style={{
+                      ...BUTTON_POSITIONS.CONTAINER,
+                      left: responsive.isMobile() ? '20px' : '100%',
+                      transform: responsive.isMobile() ? 'none' : 'none'
+                    }}>
                    
                                                                           
-                                                                                                                                                                                                                                                                                                     {/* 2°C Button - positioned randomly in top-right */}
-                      <div 
-                        className="absolute"
-                                                style={{
-                                                                                                                                                                                                                                     ...BUTTON_POSITIONS.TEMP_2C,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => setSelectedDegree('2')}
-                      >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       {/* 2°C Button - positioned randomly in top-right */}
+                        <div 
+                          className="absolute"
+                                                  style={{
+                                                                                                                                                                                                                                       ...BUTTON_POSITIONS.TEMP_2C,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            left: responsive.isMobile() ? '0px' : BUTTON_POSITIONS.TEMP_2C.left,
+                            top: responsive.isMobile() ? '10px' : BUTTON_POSITIONS.TEMP_2C.top,
+                          }}
+                          onClick={() => setSelectedDegree('2')}
+                        >
                   <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2C" d="M40,10 A30,30 0 1,1 39.99,10" />
@@ -133,18 +149,20 @@ const SeaLevelRiseChart = () => {
                   </svg>
                 </div>
 
-                                                                                                                                                                                                                                                                                                     {/* 4°C Button - positioned randomly in top-right */}
-                      <div 
-                        className="absolute"
-                                                style={{
-                                                                                                                                                                                                                                   ...BUTTON_POSITIONS.TEMP_4C,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => setSelectedDegree('4')}
-                      >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       {/* 4°C Button - positioned randomly in top-right */}
+                        <div 
+                          className="absolute"
+                                                  style={{
+                                                                                                                                                                                                                                     ...BUTTON_POSITIONS.TEMP_4C,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            left: responsive.isMobile() ? '80px' : BUTTON_POSITIONS.TEMP_4C.left,
+                            top: responsive.isMobile() ? '10px' : BUTTON_POSITIONS.TEMP_4C.top,
+                          }}
+                          onClick={() => setSelectedDegree('4')}
+                        >
                   <svg width="140" height="140" style={{ position: 'absolute', left: -30, top: -30, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath4C" d="M60,30 A30,30 0 1,1 59.99,30" />
@@ -163,18 +181,20 @@ const SeaLevelRiseChart = () => {
                   </svg>
                 </div>
 
-                                                                                                                                                                                                                                                                               {/* 2050 Button - positioned randomly in top-right */}
-                    <div 
-                      className="absolute"
-                                             style={{
-                                                                                                                                                                                                                                                                                                                                                                                                                                           ...BUTTON_POSITIONS.YEAR_2050,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => setSelectedYear('2050')}
-                    >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               {/* 2050 Button - positioned randomly in top-right */}
+                       <div 
+                         className="absolute"
+                                                style={{
+                                                                                                                                                                                                                                                                                                                                                                                                                                              ...BUTTON_POSITIONS.YEAR_2050,
+                           display: 'flex',
+                           alignItems: 'center',
+                           justifyContent: 'center',
+                           cursor: 'pointer',
+                           left: responsive.isMobile() ? '120px' : BUTTON_POSITIONS.YEAR_2050.left,
+                           top: responsive.isMobile() ? '100px' : BUTTON_POSITIONS.YEAR_2050.top,
+                         }}
+                         onClick={() => setSelectedYear('2050')}
+                       >
                   <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2050" d="M60,15 A45,45 0 1,1 59.99,15" />
@@ -186,18 +206,20 @@ const SeaLevelRiseChart = () => {
                   </svg>
                 </div>
 
-                                                                   {/* 2100 Button - positioned randomly in top-right */}
-                  <div 
-                    className="absolute"
-                                         style={{
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ...BUTTON_POSITIONS.YEAR_2100,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => setSelectedYear('2100')}
-                  >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               {/* 2100 Button - positioned randomly in top-right */}
+                     <div 
+                       className="absolute"
+                                            style={{
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ...BUTTON_POSITIONS.YEAR_2100,
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         cursor: 'pointer',
+                         left: responsive.isMobile() ? '240px' : BUTTON_POSITIONS.YEAR_2100.left,
+                         top: responsive.isMobile() ? '100px' : BUTTON_POSITIONS.YEAR_2100.top,
+                       }}
+                       onClick={() => setSelectedYear('2100')}
+                     >
                   <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, pointerEvents: 'none' }}>
                     <defs>
                       <path id="circlePath2100" d="M60,15 A45,45 0 1,1 59.99,15" />
@@ -235,33 +257,25 @@ const SeaLevelRiseChart = () => {
                                                            <div>
 
                              <div className="relative" style={{ width: '100%', height: '100%' }}>
-                   {/* Y-axis label - positioned outside chart area */}
-                   <div style={{
-                     position: 'absolute',
-                     left: '-352px',
-                     top: 'calc(50% - 92px)',
-                     transform: 'translateY(-50%)',
-                     fontSize: '14px',
-                     fontFamily: 'Helvetica World, Arial, sans-serif',
-                     color: '#666666',
-                     textAlign: 'right',
-                     pointerEvents: 'none',
-                     lineHeight: '1.2',
-                     width: '320px'
-                   }}>
-                     SEA LEVEL RISE<br/>
-                     IN METERS (M)
-                   </div>
-                   
-                   {/* Global sea level rise annotation */}
-                   <div className="absolute z-30" style={{ 
-                      top: `${350 - (currentGlobalRise / 1.0) * 280 - 8}px`,
-                      right: '-200px'
-                   }}>
-                     <div className="text-sm text-gray-600 font-medium text-right">
-                       Global Sea Level Rise: {currentGlobalRise.toFixed(2)}m
-                     </div>
-                   </div>
+                                                                                                                                                               {/* Y-axis label - positioned ON THE RIGHT SIDE of y-axis like section 1 */}
+                      <div style={{
+                        position: 'absolute',
+                        top: '50px',
+                        left: responsive.isMobile() ? '10px' : '10px',
+                        fontSize: responsive.isMobile() ? '12px' : '14px',
+                        fontFamily: 'Helvetica World, Arial, sans-serif',
+                        color: '#666666',
+                        textAlign: 'left',
+                        pointerEvents: 'none',
+                        lineHeight: '1.2',
+                        zIndex: 1001,
+                        width: responsive.isMobile() ? '120px' : '150px'
+                      }}>
+                        SEA LEVEL RISE<br/>
+                        IN METERS (M)
+                      </div>
+                       
+                       {/* Global sea level rise annotation - REMOVED */}
                    
                    {/* Extended line across the chart */}
                     <div className="absolute left-0 right-0 z-25" style={{ 
@@ -283,25 +297,31 @@ const SeaLevelRiseChart = () => {
                      </div>
                    ))}
 
-                   {/* Y-axis labels */}
-                   {[0, 0.5, 1.0].map((value, index) => (
-                     <div 
-                       key={index}
-                       className="absolute z-20" 
-                       style={{ 
-                         top: `${350 - (value / 1.0) * 280 - 8}px`,
-                         left: '-25px',
-                         fontSize: '12px',
-                         color: '#666666',
-                         fontFamily: 'Helvetica World, Arial, sans-serif'
-                       }}
-                     >
-                       {value.toFixed(1)}
-                     </div>
-                   ))}
+                                                                               {/* Y-axis labels - positioned to the right of y-axis */}
+                     {[0, 0.5, 1.0].map((value, index) => (
+                       <div 
+                         key={index}
+                         style={{ 
+                           position: 'absolute',
+                           top: `${350 - (value / 1.0) * 280 - 8}px`,
+                           left: responsive.isMobile() ? '-25px' : '-30px',
+                           fontSize: responsive.isMobile() ? '10px' : '12px',
+                           color: '#666666',
+                           fontFamily: 'Helvetica World, Arial, sans-serif',
+                           zIndex: 1001,
+                           pointerEvents: 'none'
+                         }}
+                       >
+                         {value.toFixed(1)}
+                       </div>
+                     ))}
 
-                   {/* Chart area with bars */}
-      <div className="flex items-end justify-between h-[350px] relative" style={{ transition: 'height 1.5s ease' }}>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               {/* Chart area with bars */}
+                <div className="flex items-end justify-between h-[350px] relative" style={{ 
+                  transition: 'height 1.5s ease',
+                  width: '100%',
+                  maxWidth: '100%'
+                }}>
         {/* Dynamic blue gradient rectangle behind bars */}
         <div 
                                      className="absolute left-0 right-0 z-20"
@@ -323,18 +343,20 @@ const SeaLevelRiseChart = () => {
           const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
           
           return (
-            <div 
-              key={index} 
-              className="flex flex-col items-center flex-1 mx-1"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              style={{
-                transition: 'opacity 0.2s ease',
-                opacity: shouldReduceOpacity ? 0.4 : 1,
-                cursor: 'pointer',
-                zIndex: isHovered ? 40 : 20
-              }}
-            >
+                                                   <div 
+                key={index} 
+                className="flex flex-col items-center flex-1"
+                style={{
+                  marginLeft: responsive.isMobile() ? '0px' : '4px',
+                  marginRight: responsive.isMobile() ? '0px' : '4px',
+                  transition: 'opacity 0.2s ease',
+                  opacity: shouldReduceOpacity ? 0.4 : 1,
+                  cursor: 'pointer',
+                  zIndex: isHovered ? 40 : 20
+                }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
 
               
               {/* Bar */}
@@ -342,25 +364,25 @@ const SeaLevelRiseChart = () => {
                 {isAboveGlobal ? (
                   <div 
                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                    style={{ 
-                      height: `${barHeight}px`,
-                      minHeight: '30px',
-                      width: '60px',
-                      transition: 'height 1.5s ease, background-color 0.2s ease',
-                      backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
-                    }}
+                                         style={{ 
+                       height: `${barHeight}px`,
+                       minHeight: '30px',
+                       width: responsive.isMobile() ? '25px' : '60px',
+                       transition: 'height 1.5s ease, background-color 0.2s ease',
+                       backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
+                     }}
                   />
                 ) : (
                   <div 
                     className="bg-blue-500 rounded-t-sm hover:bg-blue-600 relative z-10"
-                    style={{ 
-                      height: `${barHeight}px`,
-                      minHeight: '30px',
-                      width: '60px',
-                      opacity: '0.5',
-                      transition: 'height 1.5s ease, background-color 0.2s ease',
-                      backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
-                    }}
+                                         style={{ 
+                       height: `${barHeight}px`,
+                       minHeight: '30px',
+                       width: responsive.isMobile() ? '25px' : '60px',
+                       opacity: '0.5',
+                       transition: 'height 1.5s ease, background-color 0.2s ease',
+                       backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
+                     }}
                   />
                 )}
               </div>
@@ -371,32 +393,37 @@ const SeaLevelRiseChart = () => {
         })}
       </div>
       
-      {/* Labels positioned above bars */}
-      {selectedData.map((item, index) => {
-        const barHeight = (item.selectedValue / 1.0) * 280;
-        const isHovered = hoveredIndex === index;
-        const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
-        
-        return (
-          <div 
-            key={`label-${index}`}
-            style={{
-              position: 'absolute',
-              top: `${350 - barHeight - 40}px`,
-              left: `${(index / selectedData.length) * 100}%`,
-              width: `${100 / selectedData.length}%`,
-              textAlign: 'center',
-              transition: 'opacity 0.2s ease',
-              opacity: 1,
-              zIndex: 200,
-              pointerEvents: 'none'
-            }}
-          >
-            <div style={{ fontSize: '12px', color: '#000', fontWeight: '500' }}>{item.country}</div>
-            <div style={{ fontSize: '11px', color: '#000', marginTop: '2px', fontWeight: '500' }}>{item.selectedValue.toFixed(2)}m</div>
-          </div>
-        );
-      })}
+             {/* Labels positioned above bars */}
+       {selectedData.map((item, index) => {
+         const barHeight = (item.selectedValue / 1.0) * 280;
+         const isHovered = hoveredIndex === index;
+         const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
+         
+         // Adjust label position for Marshall Islands and Cook Islands to prevent overlap
+         const isMarshallIslands = item.country.toLowerCase().includes('marshall');
+         const isCookIslands = item.country.toLowerCase().includes('cook');
+         const labelOffset = (isMarshallIslands || isCookIslands) ? 60 : 40;
+         
+         return (
+           <div 
+             key={`label-${index}`}
+             style={{
+               position: 'absolute',
+               top: `${350 - barHeight - labelOffset}px`,
+               left: `${(index / selectedData.length) * 100}%`,
+               width: `${100 / selectedData.length}%`,
+               textAlign: 'center',
+               transition: 'opacity 0.2s ease',
+               opacity: 1,
+               zIndex: 200,
+               pointerEvents: 'none'
+             }}
+           >
+             <div style={{ fontSize: '10px', color: '#000', fontWeight: '500' }}>{item.country}</div>
+             <div style={{ fontSize: '9px', color: '#000', marginTop: '2px', fontWeight: '500' }}>{item.selectedValue.toFixed(2)}m</div>
+           </div>
+         );
+       })}
         
         {/* Country labels below the chart - REMOVED since names are now above bars */}
              </div>

@@ -73,7 +73,7 @@ const SegmentTemplate = ({
      },
                                                                                                                                                                                                                                                                                                                                                                        chartContainer: {
           width: '100%',
-          maxWidth: responsive.isMobile() ? '90%' : '1050px',
+          maxWidth: responsive.isMobile() ? '95vw' : '1050px',
           marginTop: '0',
           marginBottom: responsive.isMobile() ? '1rem' : '2rem',
           textAlign: 'center',
@@ -86,7 +86,7 @@ const SegmentTemplate = ({
           left: '0',
           right: '0',
           margin: '0 auto',
-          transform: responsive.isMobile() ? 'translateX(-1cm)' : 'translateX(-2cm)',
+          transform: responsive.isMobile() ? 'translateX(0)' : 'translateX(-2cm)',
           pointerEvents: 'auto', // Enable interactions
           zIndex: 1001, // Higher than scatterplot
         },
@@ -172,8 +172,8 @@ const SegmentTemplate = ({
                     justifyContent: 'center',
                              marginTop: responsive.isMobile() ? '12rem' : 0,
                              marginBottom: 0,
-                             marginLeft: responsive.isMobile() ? '-1.5rem' : 0,
-                             marginRight: responsive.isMobile() ? '-4rem' : 0,
+                             marginLeft: responsive.isMobile() ? '0' : 0,
+                             marginRight: responsive.isMobile() ? '0' : 0,
                              padding: 0,
                              overflow: 'visible',
                   }}>
