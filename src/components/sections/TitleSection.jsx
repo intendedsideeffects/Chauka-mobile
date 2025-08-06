@@ -22,6 +22,8 @@ const TitleSection = ({
       padding: responsive.isMobile() ? '0 1rem' : '0 4rem',
       position: 'relative',
       scrollSnapAlign: 'start',
+      overflow: 'hidden', // Prevent any content from bleeding out
+      isolation: 'isolate' // Create new stacking context
     },
     contentWrapper: {
       color: '#000',

@@ -41,8 +41,8 @@ function BlueCircleAudioPlayer() {
 
   return (
     <div style={{ 
-      width: '240px', 
-      height: '240px', 
+      width: responsive.isMobile() ? '180px' : '240px', 
+      height: responsive.isMobile() ? '180px' : '240px', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
@@ -52,45 +52,45 @@ function BlueCircleAudioPlayer() {
       opacity: showButtons ? 1 : 0, 
       transition: 'opacity 0.4s',
     }} onClick={handleToggle} aria-label="Play or pause ocean sound">
-      <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+      <svg width={responsive.isMobile() ? "180" : "240"} height={responsive.isMobile() ? "180" : "240"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulseBlue" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#3d557a" stopOpacity="1" />
             <stop offset="100%" stopColor="#3d557a" stopOpacity="0" />
           </radialGradient>
           <filter id="glowBlue" x="-200%" y="-200%" width="500%" height="500%">
-            <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+            <feGaussianBlur stdDeviation={responsive.isMobile() ? "30" : "40"} result="coloredBlur" />
             <feMerge>
               <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
           {/* Arc path for text wrapping around the top half of the dot */}
-          <path id="circlePathBlueText" d="M60,120 A60,60 0 1,1 180,120" />
+          <path id="circlePathBlueText" d={responsive.isMobile() ? "M45,90 A45,45 0 1,1 135,90" : "M60,120 A60,60 0 1,1 180,120"} />
         </defs>
         {/* Wrapped text above the dot */}
-        <text fill="#3d557a" fontSize="15" fontWeight="normal" letterSpacing="0.08em">
+        <text fill="#3d557a" fontSize={responsive.isMobile() ? "12" : "15"} fontWeight="normal" letterSpacing="0.08em">
           <textPath xlinkHref="#circlePathBlueText" startOffset="0%" dominantBaseline="middle">
             Click for ocean sound!
           </textPath>
         </text>
-        <circle cx="120" cy="120" r="48" fill="url(#pulseBlue)" style={{ animation: 'pulse 1.5s infinite', filter: 'url(#glowBlue)' }} />
-        <circle cx="120" cy="120" r="30" fill="#3d557a" style={{ filter: 'url(#glowBlue)' }} />
+        <circle cx={responsive.isMobile() ? "90" : "120"} cy={responsive.isMobile() ? "90" : "120"} r={responsive.isMobile() ? "36" : "48"} fill="url(#pulseBlue)" style={{ animation: 'pulse 1.5s infinite', filter: 'url(#glowBlue)' }} />
+        <circle cx={responsive.isMobile() ? "90" : "120"} cy={responsive.isMobile() ? "90" : "120"} r={responsive.isMobile() ? "22" : "30"} fill="#3d557a" style={{ filter: 'url(#glowBlue)' }} />
         {!playing && (
-          <polygon points="115,112 131,120 115,128" fill="#b8c6e6" style={{ opacity: 1 }} />
+          <polygon points={responsive.isMobile() ? "86,84 98,90 86,96" : "115,112 131,120 115,128"} fill="#b8c6e6" style={{ opacity: 1 }} />
         )}
         {playing && (
           <g>
-            <rect x="112.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
-            <rect x="120.5" y="113.5" width="5" height="12" rx="1.5" fill="#b8c6e6" style={{ opacity: 1 }} />
+            <rect x={responsive.isMobile() ? "84.5" : "112.5"} y={responsive.isMobile() ? "84.5" : "113.5"} width={responsive.isMobile() ? "4" : "5"} height={responsive.isMobile() ? "9" : "12"} rx={responsive.isMobile() ? "1" : "1.5"} fill="#b8c6e6" style={{ opacity: 1 }} />
+            <rect x={responsive.isMobile() ? "90.5" : "120.5"} y={responsive.isMobile() ? "84.5" : "113.5"} width={responsive.isMobile() ? "4" : "5"} height={responsive.isMobile() ? "9" : "12"} rx={responsive.isMobile() ? "1" : "1.5"} fill="#b8c6e6" style={{ opacity: 1 }} />
           </g>
         )}
       </svg>
       <style>{`
         @keyframes pulse {
-          0% { r: 36; opacity: 0.7; }
-          50% { r: 48; opacity: 0.2; }
-          100% { r: 36; opacity: 0.7; }
+          0% { r: ${responsive.isMobile() ? "27" : "36"}; opacity: 0.7; }
+          50% { r: ${responsive.isMobile() ? "36" : "48"}; opacity: 0.2; }
+          100% { r: ${responsive.isMobile() ? "27" : "36"}; opacity: 0.7; }
         }
       `}</style>
     </div>
@@ -141,22 +141,22 @@ function BirdAudioPlayer() {
 
   return (
     <div style={{ 
-      width: '80px', 
-      height: '80px', 
+      width: responsive.isMobile() ? '60px' : '80px', 
+      height: responsive.isMobile() ? '60px' : '80px', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
       background: 'none', 
       cursor: 'pointer',
     }} onClick={handleToggle} aria-label="Play or pause Chauka call">
-      <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+      <svg width={responsive.isMobile() ? "60" : "80"} height={responsive.isMobile() ? "60" : "80"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         {!playing && (
-          <polygon points="35,30 50,40 35,50" fill="#676b8b" style={{ opacity: 0.8 }} />
+          <polygon points={responsive.isMobile() ? "26,22 37,30 26,38" : "35,30 50,40 35,50"} fill="#676b8b" style={{ opacity: 0.8 }} />
         )}
         {playing && (
           <g>
-            <rect x="32.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
-            <rect x="40.5" y="31.5" width="4" height="16" rx="1" fill="#676b8b" style={{ opacity: 0.8 }} />
+            <rect x={responsive.isMobile() ? "24.5" : "32.5"} y={responsive.isMobile() ? "23.5" : "31.5"} width={responsive.isMobile() ? "3" : "4"} height={responsive.isMobile() ? "12" : "16"} rx={responsive.isMobile() ? "0.8" : "1"} fill="#676b8b" style={{ opacity: 0.8 }} />
+            <rect x={responsive.isMobile() ? "30.5" : "40.5"} y={responsive.isMobile() ? "23.5" : "31.5"} width={responsive.isMobile() ? "3" : "4"} height={responsive.isMobile() ? "12" : "16"} rx={responsive.isMobile() ? "0.8" : "1"} fill="#676b8b" style={{ opacity: 0.8 }} />
           </g>
         )}
       </svg>
@@ -169,6 +169,23 @@ export default function LandingPage({
   setShowChaukaTooltip, 
   oceanVideoRef 
 }) {
+  const [isPortrait, setIsPortrait] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
+
   return (
     <section style={{ 
       position: 'relative', 
@@ -179,7 +196,9 @@ export default function LandingPage({
       alignItems: 'center', 
       justifyContent: 'center', 
       overflow: 'hidden',
-      scrollSnapAlign: 'start'
+      scrollSnapAlign: 'start',
+      zIndex: 1, // Ensure proper stacking context
+      isolation: 'isolate' // Create new stacking context
     }}>
       {/* Star Globe as background */}
       <InteractiveStarGlobe />
@@ -212,18 +231,19 @@ export default function LandingPage({
         }}
       />
       
-      {/* Scene overlay image */}
+      {/* Boats background image */}
       <img
-        src="/scene.webp"
-        alt="Scene overlay"
+        src="/boats.png"
+        alt="Boats scene"
         style={{
           position: 'absolute',
           left: 0,
           top: responsive.isMobile() ? '10vh' : '15vh',
           width: '100vw',
           height: responsive.isMobile() ? '90vh' : '85vh',
-          objectFit: 'cover',
-          zIndex: 3, // Above video and black bar
+          objectFit: responsive.isMobile() ? 'cover' : 'cover', // Cover for portrait mobile to fill height
+          objectPosition: responsive.isMobile() ? 'center' : 'center',
+          zIndex: 3,
           pointerEvents: 'none',
           userSelect: 'none',
           WebkitUserSelect: 'none',
@@ -232,11 +252,32 @@ export default function LandingPage({
         }}
       />
       
-      {/* Speech bubble centered and down */}
+                                         {/* Bird overlay image */}
+       <img
+         src="/bird.png"
+         alt="Bird scene"
+         style={{
+           position: 'absolute',
+           left: 0,
+           top: (responsive.isMobile() && isPortrait) ? '15vh' : (responsive.isMobile() ? '10vh' : '15vh'),
+           width: (responsive.isMobile() && isPortrait) ? '80vw' : '100vw', // Even smaller in portrait mobile
+            height: (responsive.isMobile() && isPortrait) ? '65vh' : '85vh', // Even smaller in portrait mobile
+           objectFit: responsive.isMobile() ? 'cover' : 'cover',
+           objectPosition: responsive.isMobile() ? 'left center' : 'center',
+           zIndex: 4, // Above boats
+           pointerEvents: 'none',
+           userSelect: 'none',
+           WebkitUserSelect: 'none',
+           MozUserSelect: 'none',
+           msUserSelect: 'none'
+         }}
+       />
+      
+      {/* Speech bubble - improved mobile positioning */}
       <div
         style={{
           position: 'absolute',
-          top: responsive.isMobile() ? '60%' : '50%',
+          top: responsive.isMobile() ? '55%' : '50%',
           left: responsive.isMobile() ? '50%' : '40%',
           transform: 'translateX(-50%)',
           zIndex: 9999,
@@ -247,7 +288,7 @@ export default function LandingPage({
           src="/speechbubble.svg" 
           alt="Speech bubble" 
           style={{ 
-            width: responsive.isMobile() ? '120px' : '200px', 
+            width: responsive.isMobile() ? '100px' : '200px', 
             height: 'auto',
             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
             opacity: 0.7
@@ -260,7 +301,7 @@ export default function LandingPage({
             left: '50%',
             transform: 'translate(-50%, -50%)',
             color: '#333',
-            fontSize: responsive.isMobile() ? '8px' : '12px',
+            fontSize: responsive.isMobile() ? '7px' : '12px',
             fontWeight: '500',
             textAlign: 'center',
             fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -278,8 +319,8 @@ export default function LandingPage({
       <div style={{ ...responsive.position.absolute.topRight(), zIndex: 1000, pointerEvents: 'auto' }}>
         <button
           style={{
-            width: responsive.size.width.chart(),
-            height: responsive.size.height.chart(),
+            width: responsive.isMobile() ? '200px' : responsive.size.width.chart(),
+            height: responsive.isMobile() ? '200px' : responsive.size.height.chart(),
             border: 'none',
             background: 'none',
             cursor: 'pointer',
@@ -290,24 +331,24 @@ export default function LandingPage({
           onClick={() => setShowChaukaTooltip(true)}
           aria-label="Click for story"
         >
-          <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+          <svg width={responsive.isMobile() ? "200" : "300"} height={responsive.isMobile() ? "200" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
             <defs>
               <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
                 <stop offset="100%" stopColor="#cad6fa" stopOpacity="0.8" />
               </radialGradient>
               <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
-                <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+                <feGaussianBlur stdDeviation={responsive.isMobile() ? "30" : "40"} result="coloredBlur" />
                 <feMerge>
                   <feMergeNode in="coloredBlur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-              <path id="circlePath" d="M150,75 A75,75 0 1,1 149.99,75" />
+              <path id="circlePath" d={responsive.isMobile() ? "M100,50 A50,50 0 1,1 99.99,50" : "M150,75 A75,75 0 1,1 149.99,75"} />
             </defs>
-            <circle cx="150" cy="150" r="40" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
-            <circle cx="150" cy="150" r="50" fill="transparent" style={{ filter: 'url(#glow)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
-            <text fill="#94a0c4" fontSize="18" fontWeight="normal" letterSpacing="0.08em">
+            <circle cx={responsive.isMobile() ? "100" : "150"} cy={responsive.isMobile() ? "100" : "150"} r={responsive.isMobile() ? "30" : "40"} fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
+            <circle cx={responsive.isMobile() ? "100" : "150"} cy={responsive.isMobile() ? "100" : "150"} r={responsive.isMobile() ? "40" : "50"} fill="transparent" style={{ filter: 'url(#glow)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
+            <text fill="#94a0c4" fontSize={responsive.isMobile() ? "14" : "18"} fontWeight="normal" letterSpacing="0.08em">
               <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
                 Click for story!
               </textPath>
@@ -320,34 +361,36 @@ export default function LandingPage({
         <BlueCircleAudioPlayer />
       </div>
       
-      {/* Bird audio button positioned over the bird in the scene */}
+      {/* Bird audio button - positioned relative to left third overlay */}
       <div style={{ 
         position: 'absolute', 
-        top: responsive.isMobile() ? 'calc(60px + 4cm)' : 'calc(80px + 6cm)', 
-        left: responsive.isMobile() ? 'calc(60px + 5cm)' : 'calc(80px + 7cm)', 
+        top: responsive.isMobile() ? 'calc(10vh + 20%)' : 'calc(15vh + 25%)', 
+        left: responsive.isMobile() ? 'calc(33.33vw * 0.15)' : 'calc(33.33vw * 0.2)', 
         zIndex: 1000, 
         pointerEvents: 'auto' 
       }}>
         <BirdAudioPlayer />
       </div>
       
-      {/* Project attribution on video */}
+      {/* Project attribution - improved mobile positioning */}
       <div style={{ 
         position: 'absolute', 
-        bottom: responsive.size.spacing.md(), 
+        bottom: responsive.isMobile() ? '10px' : responsive.size.spacing.md(), 
         left: '50%', 
         transform: 'translateX(-50%)', 
         zIndex: 1000, 
         pointerEvents: 'auto'
       }}>
-        <div style={{
-          fontSize: '1rem',
-          color: '#676b8b',
-          fontWeight: 400,
-          textAlign: 'center'
-        }}>
-          Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> | Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
-        </div>
+                 <div style={{
+           fontSize: responsive.isMobile() ? '0.8rem' : '1rem',
+           color: '#676b8b',
+           fontWeight: 400,
+           textAlign: 'center',
+           padding: responsive.isMobile() ? '0 10px' : '0'
+         }}>
+                       Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |<br />
+            Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+         </div>
       </div>
     </section>
   );

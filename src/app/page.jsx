@@ -142,7 +142,15 @@ export default function TestScroll() {
   };
 
   return (
-    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden', position: 'relative', minHeight: '100vh' }}>
+    <div style={{ 
+      scrollSnapType: 'y mandatory', 
+      height: '100vh', 
+      overflowY: 'auto', 
+      overflowX: 'hidden', 
+      position: 'relative', 
+      minHeight: '100vh',
+      isolation: 'isolate' // Create new stacking context
+    }}>
       {/* Landing Page Section */}
       <LandingPage 
         showChaukaTooltip={showChaukaTooltip}
@@ -222,7 +230,11 @@ export default function TestScroll() {
       )}
 
       {/* Title Section */}
-      <div style={{position: 'relative'}}>
+      <div style={{
+        position: 'relative',
+        overflow: 'hidden', // Prevent any content from bleeding out
+        isolation: 'isolate' // Create new stacking context
+      }}>
         <TitleSection />
       </div>
 
