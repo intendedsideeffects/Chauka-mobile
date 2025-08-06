@@ -268,12 +268,12 @@ const TitleSection = ({
           {/* Annotation line - angled down to map */}
           <div style={{
             position: 'absolute',
-            top: (responsive.isMobile() && isPortrait) ? '74%' : '224px',
-            right: (responsive.isMobile() && isPortrait) ? '80%' : '329px',
+            top: (responsive.isMobile() && isPortrait) ? '53.5%' : '224px',
+            right: (responsive.isMobile() && isPortrait) ? '35%' : '329px',
             width: '1px',
             height: (responsive.isMobile() && isPortrait) ? '150px' : '300px',
             backgroundColor: '#000',
-            transform: (responsive.isMobile() && isPortrait) ? 'rotate(25deg)' : 'rotate(15deg)',
+            transform: (responsive.isMobile() && isPortrait) ? 'rotate(0deg)' : 'rotate(15deg)',
             transformOrigin: 'bottom left',
             zIndex: 1
           }} />
@@ -435,7 +435,7 @@ const TitleSection = ({
             <div style={{
               position: 'absolute',
               top: (responsive.isMobile() && isPortrait) ? '25%' : '85%',
-              left: (responsive.isMobile() && isPortrait) ? '10%' : '82%',
+              left: (responsive.isMobile() && isPortrait) ? '12%' : '82%',
               color: '#000000',
               fontSize: '12px',
               fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -448,8 +448,8 @@ const TitleSection = ({
             
            <svg style={{
              position: 'absolute',
-             top: (responsive.isMobile() && isPortrait) ? '25%' : '81%',
-             left: (responsive.isMobile() && isPortrait) ? '10%' : '92%',
+             top: (responsive.isMobile() && isPortrait) ? '5%' : '81%',
+             left: (responsive.isMobile() && isPortrait) ? '40%' : '92%',
              width: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
              height: (responsive.isMobile() && isPortrait) ? '80px' : '100px',
              zIndex: 1000,
@@ -503,8 +503,8 @@ const TitleSection = ({
             {/* Small flood text label */}
             <div style={{
               position: 'absolute',
-              top: (responsive.isMobile() && isPortrait) ? '40%' : '90%',
-              left: (responsive.isMobile() && isPortrait) ? '10%' : '92%',
+              top: (responsive.isMobile() && isPortrait) ? '15%' : '90%',
+              left: (responsive.isMobile() && isPortrait) ? '41%' : '92%',
               color: '#000000',
               fontSize: '12px',
               fontFamily: 'Helvetica World, Arial, sans-serif',
