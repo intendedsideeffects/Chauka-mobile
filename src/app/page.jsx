@@ -283,6 +283,7 @@ export default function TestScroll() {
           text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>."
           chartComponent={<HistoricalSeaLevelRiseExtended />}
           caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
+          customHeight="210vh"
           styles={{
             header: {
               fontSize: '2.6rem',
@@ -301,7 +302,7 @@ export default function TestScroll() {
                                                                                                                                                                                        {/* Annotation for section 3 - positioned outside chart container */}
                          <div style={{
                            position: 'absolute',
-                           top: responsive.isMobile() ? 'calc(22vh - 50px)' : 'calc(27vh - 70px)',
+                           top: responsive.isMobile() ? 'calc(50vh + 250px)' : 'calc(27vh - 70px)',
                            right: responsive.isMobile() ? '100px' : '140px',
                            zIndex: 9999,
                            pointerEvents: 'none',
@@ -310,7 +311,8 @@ export default function TestScroll() {
           color: '#000000',
           fontWeight: 'normal',
           lineHeight: '1.4',
-          maxWidth: responsive.isMobile() ? '250px' : '300px'
+          maxWidth: responsive.isMobile() ? '250px' : '300px',
+          textAlign: responsive.isMobile() ? 'right' : 'left'
         }}>
           <strong>Projection</strong><br/>
           Under 1.5°C to 2.0°C of global warming,<br/>

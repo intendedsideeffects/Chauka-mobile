@@ -9,12 +9,13 @@ const SegmentTemplate = ({
   text = "This is sample text content that demonstrates the formatting. It can include <strong>bold text</strong> and other HTML elements.",
   chartComponent = null, // This will be the actual chart component when ready
   caption = "Fig 1: This is blablabla", // New prop for figure caption
-  styles = {}
+  styles = {},
+  customHeight = null // New prop for custom height
 }) => {
   const defaultStyles = {
                                                container: {
           width: '100%',
-                    height: responsive.isMobile() ? '200vh' : '100vh',
+                    height: responsive.isMobile() ? (customHeight || '200vh') : '100vh',
           background: 'transparent',
           display: 'flex',
           flexDirection: 'column',
@@ -132,7 +133,9 @@ const SegmentTemplate = ({
            marginTop: responsive.isMobile() ? '2rem' : '-50px',
            gap: responsive.isMobile() ? '3rem' : '2rem',
            zIndex: 1000,
-           position: 'relative'
+           position: 'relative',
+           paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
+           paddingRight: responsive.isMobile() ? '2.5rem' : '0'
          }}>
                                        {/* Header */}
            <div style={{
@@ -159,24 +162,24 @@ const SegmentTemplate = ({
           </div>
          
                                          {/* Chart Container - only show if chartComponent is provided */}
-                       {chartComponent && (
-              <div style={{
-                width: '100%',
-                maxWidth: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                         marginTop: 0,
-                         marginBottom: 0,
-                         marginLeft: 0,
-                         marginRight: 0,
-                         padding: 0,
-                         overflow: 'visible',
-              }}>
-                {chartComponent}
-              </div>
-            )}
+                                                                                                                                                                                                                                                                                                                                                                                               {chartComponent && (
+                  <div style={{
+                    width: '100%',
+                    maxWidth: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                             marginTop: responsive.isMobile() ? '12rem' : 0,
+                             marginBottom: 0,
+                             marginLeft: responsive.isMobile() ? '-1.5rem' : 0,
+                             marginRight: responsive.isMobile() ? '-4rem' : 0,
+                             padding: 0,
+                             overflow: 'visible',
+                  }}>
+                    {chartComponent}
+                  </div>
+                )}
           
           {/* Figure Caption - under chart but aligned with text width */}
           <div style={{
