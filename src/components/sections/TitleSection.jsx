@@ -271,9 +271,9 @@ const TitleSection = ({
             top: (responsive.isMobile() && isPortrait) ? '53.5%' : '224px',
             right: (responsive.isMobile() && isPortrait) ? '35%' : '329px',
             width: '1px',
-            height: (responsive.isMobile() && isPortrait) ? '150px' : '300px',
+            height: (responsive.isMobile() && isPortrait) ? '150px' : '90px',
             backgroundColor: '#000',
-            transform: (responsive.isMobile() && isPortrait) ? 'rotate(0deg)' : 'rotate(15deg)',
+            transform: (responsive.isMobile() && isPortrait) ? 'rotate(0deg)' : 'rotate(0deg)',
             transformOrigin: 'bottom left',
             zIndex: 1
           }} />
@@ -284,7 +284,7 @@ const TitleSection = ({
              width: (responsive.isMobile() && isPortrait) ? '60px' : '80px',
              height: (responsive.isMobile() && isPortrait) ? '60px' : '80px',
              top: (responsive.isMobile() && isPortrait) ? '45%' : '40%',
-             left: (responsive.isMobile() && isPortrait) ? '75%' : '65%',
+             left: (responsive.isMobile() && isPortrait) ? '65%' : '65%',
              animationDelay: '0s'
            }} />
           <div style={{
@@ -292,7 +292,7 @@ const TitleSection = ({
             width: (responsive.isMobile() && isPortrait) ? '25px' : '30px',
             height: (responsive.isMobile() && isPortrait) ? '25px' : '30px',
             top: '45%',
-            left: (responsive.isMobile() && isPortrait) ? '80%' : '70%',
+            left: (responsive.isMobile() && isPortrait) ? '75%' : '70%',
             animationDelay: '0.3s'
           }} />
           <div style={{
@@ -300,14 +300,14 @@ const TitleSection = ({
             width: (responsive.isMobile() && isPortrait) ? '30px' : '35px',
             height: (responsive.isMobile() && isPortrait) ? '30px' : '35px',
             top: '45%',
-            left: (responsive.isMobile() && isPortrait) ? '85%' : '75%',
+            left: (responsive.isMobile() && isPortrait) ? '75%' : '75%',
             animationDelay: '0.6s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
             width: '28px',
             height: '28px',
-            top: '38%',
+            top: '40%',
             left: '68%',
             animationDelay: '0.9s'
           }} />
@@ -323,7 +323,7 @@ const TitleSection = ({
             ...mergedStyles.smallPulsingDot,
             width: '25px',
             height: '25px',
-            top: '42%',
+            top: '44%',
             left: '72%',
             animationDelay: '1.5s'
           }} />
@@ -332,14 +332,14 @@ const TitleSection = ({
             width: '38px',
             height: '38px',
             top: '43%',
-            left: '58%',
+            left: '55%',
             animationDelay: '1.8s'
           }} />
           <div style={{
             ...mergedStyles.smallPulsingDot,
             width: '29px',
             height: '29px',
-            top: '38%',
+            top: '40%',
             left: '63%',
             animationDelay: '2.1s'
           }} />
@@ -347,7 +347,7 @@ const TitleSection = ({
             ...mergedStyles.smallPulsingDot,
             width: '31px',
             height: '31px',
-            top: '38%',
+            top: '40%',
             left: '67%',
             animationDelay: '2.4s'
           }} />
@@ -363,7 +363,7 @@ const TitleSection = ({
             ...mergedStyles.smallPulsingDot,
             width: '48px',
             height: '48px',
-            top: '52%',
+            top: '40%',
             left: '60%',
             animationDelay: '3.0s'
           }} />
@@ -371,7 +371,7 @@ const TitleSection = ({
             ...mergedStyles.smallPulsingDot,
             width: '19px',
             height: '19px',
-            top: '47%',
+            top: '40%',
             left: '70%',
             animationDelay: '3.3s'
           }} />
@@ -425,7 +425,7 @@ const TitleSection = ({
                fill="#000000"
                fontSize="12"
                fontFamily="Helvetica World, Arial, sans-serif"
-               style={{ display: 'block', zIndex: 1000 }}
+               style={{ display: (responsive.isMobile() && isPortrait) ? 'block' : 'none', zIndex: 1000 }}
              >
                large flood
              </text>
@@ -434,8 +434,8 @@ const TitleSection = ({
             {/* Large flood text label */}
             <div style={{
               position: 'absolute',
-              top: (responsive.isMobile() && isPortrait) ? '25%' : '85%',
-              left: (responsive.isMobile() && isPortrait) ? '12%' : '82%',
+              top: (responsive.isMobile() && isPortrait) ? '25%' : '89%',
+              left: (responsive.isMobile() && isPortrait) ? '12%' : '83%',
               color: '#000000',
               fontSize: '12px',
               fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -494,7 +494,7 @@ const TitleSection = ({
                fill="#000000"
                fontSize="12"
                fontFamily="Helvetica World, Arial, sans-serif"
-               style={{ display: 'block', zIndex: 1000 }}
+               style={{ display: (responsive.isMobile() && isPortrait) ? 'block' : 'none', zIndex: 1000 }}
              >
                small flood
              </text>
@@ -503,8 +503,8 @@ const TitleSection = ({
             {/* Small flood text label */}
             <div style={{
               position: 'absolute',
-              top: (responsive.isMobile() && isPortrait) ? '15%' : '90%',
-              left: (responsive.isMobile() && isPortrait) ? '41%' : '92%',
+              top: (responsive.isMobile() && isPortrait) ? '15%' : '89%',
+              left: (responsive.isMobile() && isPortrait) ? '41%' : '93%',
               color: '#000000',
               fontSize: '12px',
               fontFamily: 'Helvetica World, Arial, sans-serif',
