@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Area } from 'recharts';
+import { responsive } from '../utils/responsive';
 
 const HistoricalSeaLevelRiseExtended = () => {
   const [data, setData] = useState([]);
@@ -219,7 +220,7 @@ const HistoricalSeaLevelRiseExtended = () => {
           zIndex: 10
         }} />
         
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
           <ComposedChart data={data.allData} margin={{ left: 0, right: 0, top: 20, bottom: 20 }}>
                          <defs>
                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
@@ -389,23 +390,27 @@ const HistoricalSeaLevelRiseExtended = () => {
           </div>
         )}
         
-        {/* Y-axis label - positioned outside chart area */}
-        <div style={{
-          position: 'absolute',
-          left: '-269px',
-          top: 'calc(50% - 32px)',
-          transform: 'translateY(-50%)',
-          fontSize: '14px',
-          fontFamily: 'Helvetica World, Arial, sans-serif',
-          color: '#666666',
-          textAlign: 'right',
-          pointerEvents: 'none',
-          lineHeight: '1.2',
-          width: '280px'
-        }}>
-          GLOBAL MEAN SEA<br/>
-          LEVEL (CM)
-        </div>
+                 {/* Y-axis label - positioned outside chart area */}
+         <div style={{
+           position: 'absolute',
+           left: responsive.isMobile() ? '35px' : '-269px',
+           top: 'calc(50% - 32px)',
+           transform: 'translateY(-50%)',
+           fontSize: responsive.isMobile() ? '12px' : '14px',
+           fontFamily: 'Helvetica World, Arial, sans-serif',
+           color: '#666666',
+           textAlign: responsive.isMobile() ? 'left' : 'right',
+           pointerEvents: 'none',
+           lineHeight: '1.2',
+           width: responsive.isMobile() ? '80px' : '280px'
+         }}>
+           {responsive.isMobile() ? 'SEA LEVEL (CM)' : (
+             <>
+               GLOBAL MEAN SEA<br/>
+               LEVEL (CM)
+             </>
+           )}
+         </div>
         
         {/* X-axis label - positioned outside chart area on the right */}
         <div style={{

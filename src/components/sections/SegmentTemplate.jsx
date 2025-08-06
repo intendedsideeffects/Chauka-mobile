@@ -12,20 +12,20 @@ const SegmentTemplate = ({
   styles = {}
 }) => {
   const defaultStyles = {
-                                       container: {
-         width: '100%',
-         height: '100vh',
-         background: 'transparent',
-         display: 'flex',
-         flexDirection: 'column',
-         alignItems: 'flex-start',
-         justifyContent: 'center',
-         position: 'relative',
-         scrollSnapAlign: 'start',
-         borderBottom: '3px solid #9ca3af',
-         pointerEvents: 'auto', // Enable interactions
-         paddingLeft: responsive.isMobile() ? '1rem' : '4rem',
-       },
+                                               container: {
+          width: '100%',
+                    height: responsive.isMobile() ? '200vh' : '100vh',
+          background: 'transparent',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          position: 'relative',
+          scrollSnapAlign: 'start',
+          borderBottom: '3px solid #9ca3af',
+          pointerEvents: 'auto', // Enable interactions
+          paddingLeft: 0,
+        },
                                        contentWrapper: {
          color: '#0e224f',
          fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
@@ -49,7 +49,7 @@ const SegmentTemplate = ({
          color: '#000',
          marginBottom: '0',
          textAlign: 'left',
-         marginTop: responsive.isMobile() ? '2rem' : '5rem',
+                   marginTop: responsive.isMobile() ? '-3rem' : '5rem',
          fontFamily: 'Times New Roman, serif',
          lineHeight: '1.1'
        },
@@ -63,13 +63,13 @@ const SegmentTemplate = ({
          fontFamily: 'Times New Roman, serif',
          lineHeight: '1.1'
        },
-    text: {
-              fontSize: responsive.isMobile() ? '1rem' : '1.1rem',
-      color: '#000',
-      marginBottom: responsive.isMobile() ? '1.5rem' : '2rem',
-      lineHeight: 1.5,
-      fontFamily: 'Helvetica World, Arial, sans-serif'
-    },
+         text: {
+               fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+       color: '#000',
+       marginBottom: responsive.isMobile() ? '1.5rem' : '2rem',
+       lineHeight: 1.5,
+       fontFamily: 'Helvetica World, Arial, sans-serif'
+     },
                                                                                                                                                                                                                                                                                                                                                                        chartContainer: {
           width: '100%',
           maxWidth: responsive.isMobile() ? '90%' : '1050px',
@@ -80,8 +80,8 @@ const SegmentTemplate = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          position: 'absolute',
-          top: responsive.isMobile() ? 'calc(50% + 100px)' : 'calc(50% + 200px)',
+          position: responsive.isMobile() ? 'relative' : 'absolute',
+          top: responsive.isMobile() ? 'auto' : 'calc(50% + 200px)',
           left: '0',
           right: '0',
           margin: '0 auto',
@@ -119,21 +119,21 @@ const SegmentTemplate = ({
 
      return (
      <section style={mergedStyles.container}>
-               <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          maxWidth: '1050px',
-           marginBottom: 0,
-           marginLeft: 'auto',
-           marginRight: 'auto',
-          marginTop: '-50px',
-          gap: '2rem',
-          zIndex: 1000,
-          position: 'relative'
-        }}>
+                                       <div style={{
+           display: 'flex',
+           flexDirection: 'column',
+           alignItems: responsive.isMobile() ? 'flex-start' : 'center',
+           justifyContent: responsive.isMobile() ? 'flex-start' : 'center',
+           width: '100%',
+           maxWidth: '1050px',
+            marginBottom: 0,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+           marginTop: responsive.isMobile() ? '2rem' : '-50px',
+           gap: responsive.isMobile() ? '3rem' : '2rem',
+           zIndex: 1000,
+           position: 'relative'
+         }}>
                                        {/* Header */}
            <div style={{
              width: '100%',
@@ -158,24 +158,25 @@ const SegmentTemplate = ({
             />
           </div>
          
-                              {/* Chart Container - only show if chartComponent is provided */}
-          {chartComponent && (
-            <div style={{
-              width: '100%',
-              maxWidth: '1050px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-                       marginTop: 0,
-                       marginBottom: 0,
-                       marginLeft: 'auto',
-                       marginRight: 'auto',
-                       padding: '20px',
-            }}>
-              {chartComponent}
-            </div>
-          )}
+                                         {/* Chart Container - only show if chartComponent is provided */}
+                       {chartComponent && (
+              <div style={{
+                width: '100%',
+                maxWidth: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                         marginTop: 0,
+                         marginBottom: 0,
+                         marginLeft: 0,
+                         marginRight: 0,
+                         padding: 0,
+                         overflow: 'visible',
+              }}>
+                {chartComponent}
+              </div>
+            )}
           
           {/* Figure Caption - under chart but aligned with text width */}
           <div style={{
