@@ -190,7 +190,7 @@ const SeaLevelRiseChart = () => {
                            alignItems: 'center',
                            justifyContent: 'center',
                            cursor: 'pointer',
-                                                                                                                                                                                                                               left: responsive.isMobile() ? '60px' : BUTTON_POSITIONS.YEAR_2050.left,
+                                                                                                                                                                                                                               left: responsive.isMobile() ? '40px' : BUTTON_POSITIONS.YEAR_2050.left,
                               top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2050.top,
                          }}
                          onClick={() => setSelectedYear('2050')}
@@ -215,7 +215,7 @@ const SeaLevelRiseChart = () => {
                          alignItems: 'center',
                          justifyContent: 'center',
                          cursor: 'pointer',
-                                                                                                                                                                                                                       left: responsive.isMobile() ? '180px' : BUTTON_POSITIONS.YEAR_2100.left,
+                                                                                                                                                                                                                       left: responsive.isMobile() ? '160px' : BUTTON_POSITIONS.YEAR_2100.left,
                               top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2100.top,
                        }}
                        onClick={() => setSelectedYear('2100')}
