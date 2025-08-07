@@ -40,7 +40,7 @@ const TitleSection = ({
       scrollSnapAlign: (responsive.isMobile() && isPortrait) ? 'none' : 'start',
       overflow: 'hidden', // Prevent any content from bleeding out
       isolation: 'isolate', // Create new stacking context
-      zIndex: 2000 // Higher than SegmentTemplate's z-index of 1000
+      zIndex: 3000 // Higher than all other elements
     },
     contentWrapper: {
       color: '#000',
@@ -50,7 +50,7 @@ const TitleSection = ({
       fontFamily: 'Helvetica World, Arial, sans-serif',
       fontWeight: 400,
       lineHeight: 1.6,
-      zIndex: 2,
+      zIndex: 3001, // Higher than container to ensure content is always on top
       position: 'relative',
       flexShrink: 0,
     },

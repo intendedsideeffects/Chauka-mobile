@@ -36,7 +36,7 @@ const SegmentTemplate = ({
          fontFamily: 'Helvetica World, Arial, sans-serif',
          fontWeight: 400,
          lineHeight: 1.5,
-         zIndex: 1000, // Higher z-index to be above scatterplot
+         zIndex: 999999, // Extremely high z-index to ensure it's above everything
          position: 'absolute',
          top: '50%',
          left: responsive.isMobile() ? '1rem' : '4rem',
@@ -53,7 +53,9 @@ const SegmentTemplate = ({
          textAlign: 'left',
          marginTop: '0',
          fontFamily: 'Times New Roman, serif',
-         lineHeight: '1.0'
+         lineHeight: '1.0',
+         position: 'relative',
+         zIndex: 999999 // Extremely high z-index to ensure it's above everything
        },
        headerSecondLine: {
          fontSize: responsive.isMobile() ? '1.8rem' : '2.5rem',
@@ -63,7 +65,9 @@ const SegmentTemplate = ({
          textAlign: 'left',
          marginTop: '0',
          fontFamily: 'Times New Roman, serif',
-         lineHeight: '1.0'
+         lineHeight: '1.0',
+         position: 'relative',
+         zIndex: 999999 // Extremely high z-index to ensure it's above everything
        },
          text: {
                fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
