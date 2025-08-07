@@ -387,7 +387,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Sea level is rising,</h1>
           <h2 style={{
             fontSize: '3rem',
@@ -395,7 +396,8 @@ export default function TestScroll() {
             fontFamily: 'Times New Roman, serif',
             fontStyle: 'italic',
             margin: '0 0 2rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>but not at the same rate.</h2>
           
           {/* Text */}
@@ -458,7 +460,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Impact varies across Pacific islands</h1>
           <h2 style={{
             fontSize: '3rem',
@@ -466,7 +469,8 @@ export default function TestScroll() {
             fontFamily: 'Times New Roman, serif',
             fontStyle: 'italic',
             margin: '0 0 2rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>low-laying islands are exposed more.</h2>
           
           {/* Text */}
@@ -485,8 +489,8 @@ export default function TestScroll() {
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',
-            marginLeft: responsive.isMobile() ? '0px' : '0px',
-            marginRight: responsive.isMobile() ? '0px' : '0px'
+            marginLeft: responsive.isMobile() ? '10px' : '0px',
+            marginRight: responsive.isMobile() ? '40px' : '0px'
           }}>
             <HighestElevationChart />
           </div>
@@ -528,7 +532,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Many islanders live just above sea level,</h1>
           <h2 style={{
             fontSize: '3rem',
@@ -536,7 +541,8 @@ export default function TestScroll() {
             fontFamily: 'Times New Roman, serif',
             fontStyle: 'italic',
             margin: '0 0 2rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>where sea rise is already felt.</h2>
           
           {/* Text */}
@@ -598,7 +604,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Climate risks are rising in the Pacific.</h1>
           <h2 style={{
             fontSize: '3rem',
@@ -606,7 +613,8 @@ export default function TestScroll() {
             fontFamily: 'Times New Roman, serif',
             fontStyle: 'italic',
             margin: '0 0 2rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>So is human impact.</h2>
           
           {/* Text */}
@@ -627,7 +635,7 @@ export default function TestScroll() {
             transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
             transformOrigin: 'left top',
             marginLeft: responsive.isMobile() ? '2.5rem' : '0px',
-            marginRight: responsive.isMobile() ? '2.5rem' : '0px',
+            marginRight: responsive.isMobile() ? '4rem' : '0px',
             marginTop: responsive.isMobile() ? '6rem' : '0px'
           }}>
             <NewChartComponent />
@@ -701,7 +709,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Conclusion</h1>
           
           {/* Text */}
@@ -1013,7 +1022,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             fontFamily: 'Helvetica World, Arial, sans-serif',
             margin: '0 0 1rem 0',
-            lineHeight: '1.0'
+            lineHeight: '1.0',
+            color: '#000'
           }}>Material and Method</h1>
           
           {/* Text */}

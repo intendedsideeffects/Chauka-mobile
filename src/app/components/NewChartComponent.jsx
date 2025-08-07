@@ -136,7 +136,7 @@ const NewChartComponent = () => {
              <div className="flex items-end justify-between h-[350px] relative" style={{ 
          transition: 'height 1.5s ease',
                  marginLeft: responsive.isMobile() ? '0px' : '0px',
-        marginRight: responsive.isMobile() ? '15px' : '0px'
+        marginRight: responsive.isMobile() ? '40px' : '0px'
        }}>
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (

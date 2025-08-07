@@ -55,7 +55,7 @@ const TitleSection = ({
       flexShrink: 0,
     },
                    title: {
-        fontSize: (responsive.isMobile() && isPortrait) ? '6rem' : (responsive.isMobile() ? '4.5rem' : '10rem'),
+        fontSize: (responsive.isMobile() && isPortrait) ? '4.5rem' : (responsive.isMobile() ? '3.5rem' : '10rem'),
         fontWeight: 'normal', // Changed from 'bold' to 'normal'
         color: '#000',
         marginBottom: '0',
@@ -65,7 +65,7 @@ const TitleSection = ({
         lineHeight: '1'
       },
       titleSecondLine: {
-        fontSize: (responsive.isMobile() && isPortrait) ? '3rem' : (responsive.isMobile() ? '2.2rem' : '4rem'),
+        fontSize: (responsive.isMobile() && isPortrait) ? '2.2rem' : (responsive.isMobile() ? '1.8rem' : '4rem'),
         fontWeight: 'bold', // Changed from 'normal' to 'bold'
         color: '#000',
         marginBottom: (responsive.isMobile() && isPortrait) ? '4rem' : (responsive.isMobile() ? '3rem' : '6rem'),
