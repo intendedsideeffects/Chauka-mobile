@@ -362,7 +362,7 @@ export default function TestScroll() {
       </div>
 
       {/* Another test segment */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '175vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -410,6 +410,7 @@ export default function TestScroll() {
           {/* Chart */}
           <div style={{
             marginBottom: '1rem',
+            marginTop: responsive.isMobile() ? '15rem' : '0px',
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',
@@ -425,7 +426,8 @@ export default function TestScroll() {
             color: '#9ca3af',
             fontStyle: 'italic',
             lineHeight: 1.4,
-            margin: 0
+            margin: 0,
+            marginTop: responsive.isMobile() ? '2rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
         </div>
       </div>

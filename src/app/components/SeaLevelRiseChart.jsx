@@ -133,8 +133,8 @@ const SeaLevelRiseChart = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             cursor: 'pointer',
-                            left: responsive.isMobile() ? '0px' : BUTTON_POSITIONS.TEMP_2C.left,
-                            top: responsive.isMobile() ? '10px' : BUTTON_POSITIONS.TEMP_2C.top,
+                                                                                      left: responsive.isMobile() ? '0px' : BUTTON_POSITIONS.TEMP_2C.left,
+                              top: responsive.isMobile() ? '-80px' : BUTTON_POSITIONS.TEMP_2C.top,
                           }}
                           onClick={() => setSelectedDegree('2')}
                         >
@@ -158,8 +158,8 @@ const SeaLevelRiseChart = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             cursor: 'pointer',
-                            left: responsive.isMobile() ? '80px' : BUTTON_POSITIONS.TEMP_4C.left,
-                            top: responsive.isMobile() ? '10px' : BUTTON_POSITIONS.TEMP_4C.top,
+                                                                                      left: responsive.isMobile() ? '80px' : BUTTON_POSITIONS.TEMP_4C.left,
+                              top: responsive.isMobile() ? '-80px' : BUTTON_POSITIONS.TEMP_4C.top,
                           }}
                           onClick={() => setSelectedDegree('4')}
                         >
@@ -190,8 +190,8 @@ const SeaLevelRiseChart = () => {
                            alignItems: 'center',
                            justifyContent: 'center',
                            cursor: 'pointer',
-                           left: responsive.isMobile() ? '120px' : BUTTON_POSITIONS.YEAR_2050.left,
-                           top: responsive.isMobile() ? '100px' : BUTTON_POSITIONS.YEAR_2050.top,
+                                                                                                                                                                                                                               left: responsive.isMobile() ? '120px' : BUTTON_POSITIONS.YEAR_2050.left,
+                              top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2050.top,
                          }}
                          onClick={() => setSelectedYear('2050')}
                        >
@@ -215,8 +215,8 @@ const SeaLevelRiseChart = () => {
                          alignItems: 'center',
                          justifyContent: 'center',
                          cursor: 'pointer',
-                         left: responsive.isMobile() ? '240px' : BUTTON_POSITIONS.YEAR_2100.left,
-                         top: responsive.isMobile() ? '100px' : BUTTON_POSITIONS.YEAR_2100.top,
+                                                                                                                                                                                                                       left: responsive.isMobile() ? '240px' : BUTTON_POSITIONS.YEAR_2100.left,
+                              top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2100.top,
                        }}
                        onClick={() => setSelectedYear('2100')}
                      >
@@ -258,19 +258,19 @@ const SeaLevelRiseChart = () => {
 
                              <div className="relative" style={{ width: '100%', height: '100%' }}>
                                                                                                                                                                {/* Y-axis label - positioned ON THE RIGHT SIDE of y-axis like section 1 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '50px',
-                        left: responsive.isMobile() ? '0px' : '10px',
-                        fontSize: responsive.isMobile() ? '12px' : '14px',
-                        fontFamily: 'Helvetica World, Arial, sans-serif',
-                        color: '#666666',
-                        textAlign: 'left',
-                        pointerEvents: 'none',
-                        lineHeight: '1.2',
-                        zIndex: 1001,
-                        width: responsive.isMobile() ? '120px' : '150px'
-                      }}>
+                                             <div style={{
+                         position: 'absolute',
+                         top: '40px',
+                         left: responsive.isMobile() ? '0px' : '10px',
+                         fontSize: responsive.isMobile() ? '12px' : '14px',
+                         fontFamily: 'Helvetica World, Arial, sans-serif',
+                         color: '#666666',
+                         textAlign: 'left',
+                         pointerEvents: 'none',
+                         lineHeight: '1.2',
+                         zIndex: 1001,
+                         width: responsive.isMobile() ? '120px' : '150px'
+                       }}>
                         SEA LEVEL RISE<br/>
                         IN METERS (M)
                       </div>
