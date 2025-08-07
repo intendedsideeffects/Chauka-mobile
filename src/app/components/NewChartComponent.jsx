@@ -135,8 +135,8 @@ const NewChartComponent = () => {
       {/* Chart area with bars */}
              <div className="flex items-end justify-between h-[350px] relative" style={{ 
          transition: 'height 1.5s ease',
-         marginLeft: responsive.isMobile() ? '0px' : '0px',
-         marginRight: responsive.isMobile() ? '0px' : '0px'
+                 marginLeft: responsive.isMobile() ? '0px' : '0px',
+        marginRight: responsive.isMobile() ? '15px' : '0px'
        }}>
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
@@ -224,8 +224,8 @@ const NewChartComponent = () => {
                   style={{ 
                     height: `${Math.max(barHeight, 1)}px`,
                     width: 'calc(100% - 2px)',
-                    minWidth: '30px',
-                    maxWidth: '120px',
+                    minWidth: '15px',
+                    maxWidth: '60px',
                     minHeight: '1px',
                     transition: 'height 1.5s ease, background-color 0.2s ease, width 0.3s ease',
                     backgroundColor: isHovered ? 

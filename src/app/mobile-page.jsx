@@ -626,8 +626,9 @@ export default function TestScroll() {
             boxSizing: 'border-box',
             transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
             transformOrigin: 'left top',
-            marginLeft: responsive.isMobile() ? '10px' : '0px',
-            marginRight: responsive.isMobile() ? '10px' : '0px'
+            marginLeft: responsive.isMobile() ? '2.5rem' : '0px',
+            marginRight: responsive.isMobile() ? '2.5rem' : '0px',
+            marginTop: responsive.isMobile() ? '6rem' : '0px'
           }}>
             <NewChartComponent />
           </div>
@@ -638,7 +639,8 @@ export default function TestScroll() {
             color: '#9ca3af',
             fontStyle: 'italic',
             lineHeight: 1.4,
-            margin: 0
+            margin: 0,
+            marginTop: responsive.isMobile() ? '2rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
         </div>
       </div>
