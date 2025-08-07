@@ -481,11 +481,12 @@ export default function TestScroll() {
           {/* Chart */}
           <div style={{
             marginBottom: '1rem',
+            marginTop: responsive.isMobile() ? '5.25rem' : '0px',
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',
-            marginLeft: responsive.isMobile() ? '10px' : '0px',
-            marginRight: responsive.isMobile() ? '10px' : '0px'
+            marginLeft: responsive.isMobile() ? '0px' : '0px',
+            marginRight: responsive.isMobile() ? '0px' : '0px'
           }}>
             <HighestElevationChart />
           </div>
@@ -550,6 +551,7 @@ export default function TestScroll() {
           {/* Chart */}
           <div style={{
             marginBottom: '1rem',
+            marginTop: responsive.isMobile() ? '3rem' : '0px',
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',

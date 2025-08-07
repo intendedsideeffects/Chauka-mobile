@@ -95,15 +95,20 @@ const HighestElevationChart = () => {
 
   
   return (
-    <div style={{ width: '100%', height: '450px', position: 'relative' }}>
+    <div style={{ 
+      width: responsive.isMobile() ? 'calc(100vw - 80px)' : '100%', 
+      height: '450px', 
+      position: 'relative',
+      maxWidth: responsive.isMobile() ? 'calc(100vw - 80px)' : '100%'
+    }}>
 
 
 
       {/* Blue gradient area below 0 (sea level) */}
       <div style={{
         position: 'absolute',
-        left: '16px',  // Match chart left margin (40px - 24px for mx-4)
-        right: '16px', // Match chart right margin (30px - 14px for mx-4)
+        left: '0px',
+        right: responsive.isMobile() ? '0px' : '0px',
         top: '350px',  // Align with x-axis (chart bottom)
         height: '50px',
         background: 'linear-gradient(to top, transparent 0%, rgba(59, 130, 246, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)',
@@ -114,7 +119,7 @@ const HighestElevationChart = () => {
        <div style={{
          position: 'absolute',
          left: responsive.isMobile() ? '0px' : '10px',
-         top: 'calc(50% - 143px)',
+         top: 'calc(50% - 208px)',
          transform: 'translateY(-50%)',
          fontSize: responsive.isMobile() ? '12px' : '14px',
          fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -195,13 +200,13 @@ const HighestElevationChart = () => {
             >
               {/* Labels above bar */}
               <div style={{ 
-                marginBottom: '10px',
+                marginBottom: '5px',
                 textAlign: 'center',
-                fontSize: '12px',
+                fontSize: responsive.isMobile() ? '10px' : '12px',
                 color: '#000'
               }}>
                 <div>{item.country}</div>
-                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.elevation.toString().replace('.', ',')}m</div>
+                <div style={{ fontSize: responsive.isMobile() ? '9px' : '11px', color: '#666', marginTop: '1px' }}>{item.elevation.toString().replace('.', ',')}m</div>
               </div>
                              {/* Bar */}
                <div className="relative flex justify-center">
@@ -209,7 +214,7 @@ const HighestElevationChart = () => {
                    className="rounded-t-sm relative z-10"
                    style={{ 
                      height: `${barHeight}px`,
-                     width: responsive.isMobile() ? '25px' : '60px',
+                                            width: responsive.isMobile() ? '15px' : '60px',
                      transition: 'height 1.5s ease, background-color 0.2s ease',
                      backgroundColor: isHovered ? (item.isLowest ? 'rgba(29, 78, 216, 0.9)' : 'rgba(55, 65, 81, 0.9)') : (item.isLowest ? 'rgba(59, 130, 246, 0.9)' : 'rgba(0, 0, 0, 0.9)')
                    }}

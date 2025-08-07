@@ -110,11 +110,11 @@ const SeaLevelRiseChart = () => {
                    ...CHART_DIMENSIONS.container, 
                    pointerEvents: 'auto', 
                    padding: responsive.isMobile() ? '0 0px' : '0 30px',
-                   maxWidth: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
-                   overflow: 'visible',
-                   width: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
+                                                           maxWidth: responsive.isMobile() ? 'calc(100vw - 80px)' : '100%',
+                     overflow: 'visible',
+                     width: responsive.isMobile() ? 'calc(100vw - 80px)' : '100%',
                                                                                marginLeft: responsive.isMobile() ? '0px' : '0px',
-                     marginRight: responsive.isMobile() ? '0px' : '0px'
+                                           marginRight: responsive.isMobile() ? '40px' : '0px'
                  }}>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {/* Controls - Scattered in top-right corner of page */}
                     <div className="absolute z-50" style={{
@@ -134,7 +134,7 @@ const SeaLevelRiseChart = () => {
                             justifyContent: 'center',
                             cursor: 'pointer',
                                                                                       left: responsive.isMobile() ? '0px' : BUTTON_POSITIONS.TEMP_2C.left,
-                              top: responsive.isMobile() ? '-80px' : BUTTON_POSITIONS.TEMP_2C.top,
+                                                             top: responsive.isMobile() ? '-60px' : BUTTON_POSITIONS.TEMP_2C.top,
                           }}
                           onClick={() => setSelectedDegree('2')}
                         >
@@ -159,7 +159,7 @@ const SeaLevelRiseChart = () => {
                             justifyContent: 'center',
                             cursor: 'pointer',
                                                                                       left: responsive.isMobile() ? '80px' : BUTTON_POSITIONS.TEMP_4C.left,
-                              top: responsive.isMobile() ? '-80px' : BUTTON_POSITIONS.TEMP_4C.top,
+                                                             top: responsive.isMobile() ? '-60px' : BUTTON_POSITIONS.TEMP_4C.top,
                           }}
                           onClick={() => setSelectedDegree('4')}
                         >
@@ -347,8 +347,8 @@ const SeaLevelRiseChart = () => {
                 key={index} 
                 className="flex flex-col items-center flex-1"
                 style={{
-                  marginLeft: responsive.isMobile() ? '0px' : '4px',
-                  marginRight: responsive.isMobile() ? '0px' : '4px',
+                                     marginLeft: responsive.isMobile() ? '2px' : '4px',
+                   marginRight: responsive.isMobile() ? '2px' : '4px',
                   transition: 'opacity 0.2s ease',
                   opacity: shouldReduceOpacity ? 0.4 : 1,
                   cursor: 'pointer',
@@ -367,7 +367,7 @@ const SeaLevelRiseChart = () => {
                                          style={{ 
                        height: `${barHeight}px`,
                        minHeight: '30px',
-                       width: responsive.isMobile() ? '25px' : '60px',
+                       width: responsive.isMobile() ? '20px' : '60px',
                        transition: 'height 1.5s ease, background-color 0.2s ease',
                        backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
                      }}
@@ -378,7 +378,7 @@ const SeaLevelRiseChart = () => {
                                          style={{ 
                        height: `${barHeight}px`,
                        minHeight: '30px',
-                       width: responsive.isMobile() ? '25px' : '60px',
+                       width: responsive.isMobile() ? '20px' : '60px',
                        opacity: '0.5',
                        transition: 'height 1.5s ease, background-color 0.2s ease',
                        backgroundColor: isHovered ? 'rgba(29, 78, 216, 0.9)' : 'rgba(59, 130, 246, 0.9)'
