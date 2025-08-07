@@ -266,7 +266,7 @@ export default function TestScroll() {
       </div>
 
       {/* Test Segment Template */}
-              <div style={{position: 'relative', borderTop: '1px solid #9ca3af', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+              <div style={{position: 'relative', borderTop: '1px solid #e5e7eb', borderBottom: '1px solid #e5e7eb', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -365,7 +365,7 @@ export default function TestScroll() {
       </div>
 
       {/* Another test segment */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '175vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb', minHeight: '175vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -438,7 +438,7 @@ export default function TestScroll() {
       </div>
 
       {/* Test segment with two-line title */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -510,7 +510,7 @@ export default function TestScroll() {
       </div>
 
       {/* New Segment 6 */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -582,7 +582,7 @@ export default function TestScroll() {
       </div>
 
             {/* Segment 7 */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -687,7 +687,7 @@ export default function TestScroll() {
 
 
       {/* Placeholder Segment 9 */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb', minHeight: '200vh'}}>
                 <div style={{
           position: 'absolute',
           top: '1rem',
@@ -732,7 +732,7 @@ export default function TestScroll() {
 
 
        {/* Final Section - Custom styled without chart */}
-       <div style={{position: 'relative', borderBottom: '1px solid #9ca3af'}}>
+       <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb'}}>
                  <div style={{
           position: 'absolute',
           top: '1rem',
@@ -753,7 +753,7 @@ export default function TestScroll() {
             justifyContent: 'center',
             position: 'relative',
             scrollSnapAlign: 'start',
-            borderBottom: '1px solid #9ca3af',
+            borderBottom: '1px solid #e5e7eb',
           }}>
 
 
@@ -774,12 +774,14 @@ export default function TestScroll() {
              <button
                style={{
                  position: 'absolute',
-                 top: responsive.isMobile() ? '2rem' : '4rem',
-                 right: responsive.isMobile() ? '2rem' : '4rem',
+                 top: responsive.isMobile() ? '1rem' : '4rem',
+                 right: responsive.isMobile() ? '1rem' : '4rem',
                  border: 'none',
-                 background: 'none',
+                 background: 'rgba(255, 0, 0, 0.3)',
                  cursor: 'pointer',
-                 zIndex: 30,
+                 zIndex: 100,
+                 width: '100px',
+                 height: '100px',
                }}
                onClick={() => setShowLepeyamTooltip(true)}
                aria-label="Click for story"
@@ -813,8 +815,8 @@ export default function TestScroll() {
              <div
                style={{
                  position: 'absolute',
-                 bottom: responsive.isMobile() ? '2rem' : '4rem',
-                 left: responsive.isMobile() ? '2rem' : '4rem',
+                 bottom: responsive.isMobile() ? '1rem' : '4rem',
+                 left: responsive.isMobile() ? '1rem' : '4rem',
                  width: responsive.isMobile() ? '200px' : '240px',
                  height: responsive.isMobile() ? '200px' : '240px',
                  display: 'flex',
@@ -1004,7 +1006,7 @@ export default function TestScroll() {
       </div>
 
       {/* Section 11 - Material and Method */}
-      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #e5e7eb'}}>
         <div style={{
           position: 'absolute',
           top: '1rem',

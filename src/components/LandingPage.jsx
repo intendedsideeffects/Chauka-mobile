@@ -357,7 +357,13 @@ export default function LandingPage({
         </button>
       </div>
       
-      <div style={{ ...responsive.position.absolute.bottomLeft(), zIndex: 1000, pointerEvents: 'auto' }}>
+      <div style={{ 
+        position: 'absolute',
+        bottom: responsive.isMobile() ? '20px' : '50px',
+        left: responsive.isMobile() ? '10px' : '30px',
+        zIndex: 1000, 
+        pointerEvents: 'auto' 
+      }}>
         <BlueCircleAudioPlayer />
       </div>
       
@@ -388,8 +394,8 @@ export default function LandingPage({
            textAlign: 'center',
            padding: responsive.isMobile() ? '0 10px' : '0'
          }}>
-                       Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |<br />
-            Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+           Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |<br />
+           Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
          </div>
       </div>
     </section>

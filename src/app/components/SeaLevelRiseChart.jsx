@@ -119,7 +119,7 @@ const SeaLevelRiseChart = () => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {/* Controls - Scattered in top-right corner of page */}
                     <div className="absolute z-50" style={{
                       ...BUTTON_POSITIONS.CONTAINER,
-                      left: responsive.isMobile() ? '20px' : '100%',
+                                             left: responsive.isMobile() ? '0px' : '100%',
                       transform: responsive.isMobile() ? 'none' : 'none'
                     }}>
                    
@@ -133,7 +133,7 @@ const SeaLevelRiseChart = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             cursor: 'pointer',
-                                                                                      left: responsive.isMobile() ? '0px' : BUTTON_POSITIONS.TEMP_2C.left,
+                                                                                      left: responsive.isMobile() ? '-20px' : BUTTON_POSITIONS.TEMP_2C.left,
                                                              top: responsive.isMobile() ? '-60px' : BUTTON_POSITIONS.TEMP_2C.top,
                           }}
                           onClick={() => setSelectedDegree('2')}
@@ -158,7 +158,7 @@ const SeaLevelRiseChart = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             cursor: 'pointer',
-                                                                                      left: responsive.isMobile() ? '80px' : BUTTON_POSITIONS.TEMP_4C.left,
+                                                                                      left: responsive.isMobile() ? '60px' : BUTTON_POSITIONS.TEMP_4C.left,
                                                              top: responsive.isMobile() ? '-60px' : BUTTON_POSITIONS.TEMP_4C.top,
                           }}
                           onClick={() => setSelectedDegree('4')}
@@ -190,7 +190,7 @@ const SeaLevelRiseChart = () => {
                            alignItems: 'center',
                            justifyContent: 'center',
                            cursor: 'pointer',
-                                                                                                                                                                                                                               left: responsive.isMobile() ? '40px' : BUTTON_POSITIONS.YEAR_2050.left,
+                                                                                                                                                                                                                               left: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2050.left,
                               top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2050.top,
                          }}
                          onClick={() => setSelectedYear('2050')}
@@ -215,7 +215,7 @@ const SeaLevelRiseChart = () => {
                          alignItems: 'center',
                          justifyContent: 'center',
                          cursor: 'pointer',
-                                                                                                                                                                                                                       left: responsive.isMobile() ? '160px' : BUTTON_POSITIONS.YEAR_2100.left,
+                                                                                                                                                                                                                       left: responsive.isMobile() ? '140px' : BUTTON_POSITIONS.YEAR_2100.left,
                               top: responsive.isMobile() ? '20px' : BUTTON_POSITIONS.YEAR_2100.top,
                        }}
                        onClick={() => setSelectedYear('2100')}
