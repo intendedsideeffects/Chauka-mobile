@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import responsive from '../utils/responsive';
+import { responsive } from '../utils/responsive';
 
 const LowElevationChart = () => {
   const [lowElevationData, setLowElevationData] = useState([]);

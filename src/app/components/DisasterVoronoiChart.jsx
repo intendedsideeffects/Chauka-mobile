@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import responsive from '../utils/responsive';
+import { responsive } from '../utils/responsive';
 import { voronoi } from 'd3-voronoi';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';

@@ -12,7 +12,7 @@ import NewChartComponent from './components/NewChartComponent';
 import HighestElevationChart from './components/HighestElevationChart';
 import LowElevationChart from './components/LowElevationChart';
 import DisasterVoronoiChart from './components/DisasterVoronoiChart';
-import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
+// import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
 import LandingPage from '../components/LandingPage';
 
 export default function TestScroll() {
@@ -765,25 +765,26 @@ export default function TestScroll() {
                width: '100%',
              height: '100%', 
              zIndex: 20, 
-             pointerEvents: 'auto'
+             pointerEvents: 'none'
            }}>
              <InteractiveStarGlobeYellow />
              </div>
 
              {/* Click for Story Button */}
-                                 <button
-              style={{
-                position: 'absolute',
-                top: responsive.isMobile() ? '1rem' : '4rem',
-                right: responsive.isMobile() ? '20rem' : '4rem',
-                border: 'none',
-                background: 'none',
-                cursor: 'pointer',
-                zIndex: 100,
-              }}
-          onClick={() => setShowLepeyamTooltip(true)}
-          aria-label="Click for story"
-        >
+             <button
+               style={{
+                 position: 'absolute',
+                 top: responsive.isMobile() ? '2rem' : '3rem',
+                 right: responsive.isMobile() ? '2rem' : '3rem',
+                 ...responsive.container.chart(),
+                 border: 'none',
+                 background: 'none',
+                 cursor: 'pointer',
+                 zIndex: 30,
+               }}
+               onClick={() => setShowLepeyamTooltip(true)}
+               aria-label="Click for story"
+             >
                <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulse-section7" cx="50%" cy="50%" r="50%">
@@ -808,6 +809,10 @@ export default function TestScroll() {
                  </text>
                </svg>
              </button>
+
+
+
+                                
 
              {/* Click for Music Button */}
              <div

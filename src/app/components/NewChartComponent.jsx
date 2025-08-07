@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import responsive from '../utils/responsive';
+import { responsive } from '../utils/responsive';
 
 
 const NewChartComponent = () => {
@@ -188,16 +188,16 @@ const NewChartComponent = () => {
             <div 
               key={index} 
               className="flex flex-col items-center flex-1"
-              style={{ margin: '0 1px' }}
+              style={{ 
+                margin: '0 1px',
+                transition: 'opacity 0.2s ease',
+                opacity: shouldReduceOpacity ? 0.6 : 1,
+                cursor: 'pointer',
+                zIndex: isHovered ? 40 : 20
+              }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleBarClick(item, index)}
-                              style={{
-                  transition: 'opacity 0.2s ease',
-                  opacity: shouldReduceOpacity ? 0.6 : 1,
-                  cursor: 'pointer',
-                  zIndex: isHovered ? 40 : 20
-                }}
             >
 
               

@@ -3,7 +3,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Refe
 import getRegionColor from '../data/colorPointsData';
 import CustomTooltip from './CustomTooltip';
 import { FloatingDot } from './FloatingDot';
-import responsive from '../utils/responsive';
+import { responsive } from '../utils/responsive';
 
 
 // Helper: avoid overlaps for dots
@@ -791,8 +791,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                                                                    <Scatter
                           data={stabilizedVisibleData}
                           shape={(props) => (
-                              <g style={{ pointerEvents: 'auto' }}>
-                                  <FloatingDot
+                                                             <g style={{ pointerEvents: responsive.isMobile() ? 'none' : 'auto' }}>
+                                   <FloatingDot
                                       cx={props.cx}
                                       cy={props.cy}
                                       r={props.payload.size}
@@ -819,8 +819,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                              const hitboxSize = baseSize * 3;
                              
                              return (
-                                 <g 
-                                     style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                                                                   <g 
+                                      style={{ pointerEvents: responsive.isMobile() ? 'none' : 'auto', cursor: responsive.isMobile() ? 'default' : 'pointer' }}
                                      onMouseEnter={(e) => {
                                          // Store the coordinates for the cross indicator
                                          props.payload.cx = props.cx;
@@ -866,14 +866,14 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                                          }}
                                      />
 
-                                    {/* Hitbox (invisible but handles hover) */}
-                                    <circle
-                                        cx={props.cx}
-                                        cy={props.cy}
-                                        r={hitboxSize}
-                                        fill="transparent"
-                                        style={{ pointerEvents: 'all' }}
-                                    />
+                                                                         {/* Hitbox (invisible but handles hover) */}
+                                     <circle
+                                         cx={props.cx}
+                                         cy={props.cy}
+                                         r={hitboxSize}
+                                         fill="transparent"
+                                         style={{ pointerEvents: responsive.isMobile() ? 'none' : 'all' }}
+                                     />
                                 </g>
                             );
                         }}

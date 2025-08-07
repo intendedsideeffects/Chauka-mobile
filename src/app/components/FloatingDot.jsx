@@ -1,6 +1,7 @@
 "use client";
 
 import React,{ useState, useEffect, useMemo } from 'react';
+import { responsive } from '../utils/responsive';
 
 const Z_RANGE = 3000;
 
@@ -98,7 +99,7 @@ function _FloatingDot({ cx, cy, r, payload, fill, opacity, style, onMouseEnter, 
           cy={cy}
           r={hitboxSize}
           fill="transparent"
-          style={{ pointerEvents: 'all' }}
+          style={{ pointerEvents: responsive.isMobile() ? 'none' : 'all' }}
         />
 
 

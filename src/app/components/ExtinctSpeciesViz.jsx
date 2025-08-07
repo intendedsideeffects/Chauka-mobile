@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
-import responsive from '../utils/responsive';
+import { responsive } from '../utils/responsive';
 
 const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to end at section 7, default for browser
 const STATUS_WIDTH = 1600;
@@ -96,7 +96,7 @@ const ExtinctSpeciesViz = () => {
       maxWidth: '100%', 
       overflow: 'visible',
       position: 'relative',
-      zIndex: 9999
+      zIndex: 50
     }}>
       {isLoading ? (
         <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading chart data...</div>
