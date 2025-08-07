@@ -29,7 +29,7 @@ const SegmentTemplate = ({
         },
                                        contentWrapper: {
          color: '#0e224f',
-         fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+         fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
          maxWidth: responsive.isMobile() ? '90%' : '700px',
          textAlign: 'left',
          fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -65,7 +65,7 @@ const SegmentTemplate = ({
          lineHeight: '1.1'
        },
          text: {
-               fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+               fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
        color: '#000',
        marginBottom: responsive.isMobile() ? '1.5rem' : '2rem',
        lineHeight: 1.5,

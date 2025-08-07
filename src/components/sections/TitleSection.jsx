@@ -44,7 +44,7 @@ const TitleSection = ({
     },
     contentWrapper: {
       color: '#000',
-      fontSize: responsive.isMobile() ? '1.2rem' : '1.5rem',
+      fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
       maxWidth: (responsive.isMobile() && isPortrait) ? '95%' : '30%', // Wider width for portrait mobile
       textAlign: 'left',
       fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -87,7 +87,7 @@ const TitleSection = ({
     },
     content: {
       marginBottom: (responsive.isMobile() && isPortrait) ? '3rem' : '2rem',
-      fontSize: (responsive.isMobile() && isPortrait) ? '1.2rem' : (responsive.isMobile() ? '1rem' : '1.3rem'),
+      fontSize: (responsive.isMobile() && isPortrait) ? '1.1rem' : (responsive.isMobile() ? '0.9rem' : '1.2rem'),
       color: '#000',
       marginTop: '0',
       fontFamily: 'Helvetica World, Arial, sans-serif'
