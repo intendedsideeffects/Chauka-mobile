@@ -23,7 +23,7 @@ const MobileSegmentTemplate = ({
       justifyContent: 'flex-start',
       position: 'relative',
       scrollSnapAlign: 'start',
-      borderBottom: '3px solid #9ca3af',
+              borderBottom: '1px solid #9ca3af',
       pointerEvents: 'auto',
       paddingLeft: 0,
     },

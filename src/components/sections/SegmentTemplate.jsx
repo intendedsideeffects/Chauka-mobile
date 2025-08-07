@@ -10,7 +10,8 @@ const SegmentTemplate = ({
   chartComponent = null, // This will be the actual chart component when ready
   caption = "Fig 1: This is blablabla", // New prop for figure caption
   styles = {},
-  customHeight = null // New prop for custom height
+  customHeight = null, // New prop for custom height
+  sectionNumber = null // New prop for grey section number
 }) => {
   const defaultStyles = {
                                                container: {
@@ -23,7 +24,7 @@ const SegmentTemplate = ({
           justifyContent: 'center',
           position: 'relative',
           scrollSnapAlign: 'start',
-          borderBottom: '3px solid #9ca3af',
+          borderBottom: '1px solid #9ca3af',
           pointerEvents: 'auto', // Enable interactions
           paddingLeft: 0,
         },
@@ -67,13 +68,14 @@ const SegmentTemplate = ({
          text: {
                fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
        color: '#000',
-       marginBottom: responsive.isMobile() ? '1.5rem' : '2rem',
+       marginBottom: responsive.isMobile() ? '2rem' : '2rem',
        lineHeight: 1.5,
-       fontFamily: 'Helvetica World, Arial, sans-serif'
+       fontFamily: 'Helvetica World, Arial, sans-serif',
+       marginTop: responsive.isMobile() ? '1rem' : '0',
      },
                                                                                                                                                                                                                                                                                                                                                                        chartContainer: {
           width: '100%',
-          maxWidth: responsive.isMobile() ? '95vw' : '1050px',
+          maxWidth: responsive.isMobile() ? '90vw' : '1050px',
           marginTop: '0',
           marginBottom: responsive.isMobile() ? '1rem' : '2rem',
           textAlign: 'center',
@@ -89,6 +91,8 @@ const SegmentTemplate = ({
           transform: responsive.isMobile() ? 'translateX(0)' : 'translateX(-2cm)',
           pointerEvents: 'auto', // Enable interactions
           zIndex: 1001, // Higher than scatterplot
+          boxSizing: 'border-box',
+          padding: responsive.isMobile() ? '0 16px' : '0',
         },
                placeholderChart: {
              width: '100%',
@@ -118,35 +122,48 @@ const SegmentTemplate = ({
     placeholderChart: { ...defaultStyles.placeholderChart, ...styles.placeholderChart }
   };
 
-     return (
-     <section style={mergedStyles.container}>
-                                       <div style={{
-           display: 'flex',
-           flexDirection: 'column',
-           alignItems: responsive.isMobile() ? 'flex-start' : 'center',
-           justifyContent: responsive.isMobile() ? 'flex-start' : 'center',
-           width: '100%',
-           maxWidth: '1050px',
-            marginBottom: 0,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-           marginTop: responsive.isMobile() ? '2rem' : '-50px',
-           gap: responsive.isMobile() ? '3rem' : '2rem',
-           zIndex: 1000,
-           position: 'relative',
-           paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
-           paddingRight: responsive.isMobile() ? '2.5rem' : '0'
-         }}>
-                                       {/* Header */}
-           <div style={{
-             width: '100%',
-             maxWidth: '800px',
-             textAlign: 'left',
-             margin: '0 auto'
-           }}>
-             <h1 style={mergedStyles.header}>{header}</h1>
-             <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>
-           </div>
+           return (
+      <section style={mergedStyles.container}>
+                                        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: responsive.isMobile() ? 'flex-start' : 'center',
+            justifyContent: responsive.isMobile() ? 'flex-start' : 'center',
+            width: '100%',
+            maxWidth: '1050px',
+             marginBottom: 0,
+             marginLeft: 'auto',
+             marginRight: 'auto',
+            marginTop: responsive.isMobile() ? '2rem' : '-50px',
+            gap: responsive.isMobile() ? '3rem' : '2rem',
+            zIndex: 1000,
+            position: 'relative',
+            paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
+            paddingRight: responsive.isMobile() ? '2.5rem' : '0'
+          }}>
+                                        {/* Grey Section Number */}
+                                        {sectionNumber && (
+                                          <div style={{
+                                            fontSize: '5rem',
+                                            color: 'rgba(0,0,0,0.10)',
+                                            fontWeight: 900,
+                                            margin: '0',
+                                            lineHeight: '1'
+                                          }}>
+                                            {sectionNumber}
+                                          </div>
+                                        )}
+                                        
+                                        {/* Header */}
+            <div style={{
+              width: '100%',
+              maxWidth: '800px',
+              textAlign: 'left',
+              margin: '0 auto'
+            }}>
+              <h1 style={mergedStyles.header}>{header}</h1>
+              <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>
+            </div>
           
           {/* Text content */}
            <div style={{
@@ -161,33 +178,33 @@ const SegmentTemplate = ({
             />
           </div>
          
-                                         {/* Chart Container - only show if chartComponent is provided */}
-                                                                                                                                                                                                                                                                                                                                                                                               {chartComponent && (
-                  <div style={{
-                    width: '100%',
-                    maxWidth: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                             marginTop: responsive.isMobile() ? '12rem' : 0,
-                             marginBottom: 0,
-                             marginLeft: responsive.isMobile() ? '0' : 0,
-                             marginRight: responsive.isMobile() ? '0' : 0,
-                             padding: 0,
-                             overflow: 'visible',
-                  }}>
-                    {chartComponent}
-                  </div>
-                )}
+                                                                                   {/* Chart Container - only show if chartComponent is provided */}
+                                                                                                                                                                                                                                                                                                                                                                                                {chartComponent && (
+                   <div style={{
+                     width: '100%',
+                     maxWidth: '100%',
+                     display: 'flex',
+                     flexDirection: 'column',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                              marginTop: 0,
+                              marginBottom: 0,
+                              marginLeft: 0,
+                              marginRight: 0,
+                              padding: 0,
+                              overflow: 'visible',
+                   }}>
+                     {chartComponent}
+                   </div>
+                 )}
           
-          {/* Figure Caption - under chart but aligned with text width */}
-          <div style={{
-            width: '100%',
-            maxWidth: '800px',
-            textAlign: 'left',
-            marginTop: '-1rem'
-          }}>
+                     {/* Figure Caption - under chart but aligned with text width */}
+           <div style={{
+             width: '100%',
+             maxWidth: '800px',
+             textAlign: 'left',
+             marginTop: '0'
+           }}>
             <p style={{
               fontSize: '0.9rem',
               color: '#9ca3af',
