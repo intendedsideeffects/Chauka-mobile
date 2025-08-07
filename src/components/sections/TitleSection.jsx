@@ -242,28 +242,20 @@ const TitleSection = ({
            <div style={{
              position: 'absolute',
              top: (responsive.isMobile() && isPortrait) ? '75%' : '134px',
-             right: (responsive.isMobile() && isPortrait) ? '50px' : '20px',
+             right: (responsive.isMobile() && isPortrait) ? '80px' : '50px',
              fontSize: (responsive.isMobile() && isPortrait) ? '0.8rem' : '0.9rem',
              color: '#000000',
              fontWeight: 400,
              textAlign: 'left',
              maxWidth: (responsive.isMobile() && isPortrait) ? '30%' : '25%',
              lineHeight: '1.2',
-             zIndex: 10
+             zIndex: 10,
+             marginLeft: (responsive.isMobile() && isPortrait) ? '10px' : '20px'
            }}>
             The Spilhaus projection shows the ocean as one connected body, not broken apart like most maps. It helps us see that what happens in one part affects all others. The ocean is the focus, not the background.
           </div>
           
-          {/* Annotation line - horizontal under footer */}
-          <div style={{
-            position: 'absolute',
-            top: (responsive.isMobile() && isPortrait) ? '74%' : '224px',
-            right: (responsive.isMobile() && isPortrait) ? '50px' : '205px',
-            width: (responsive.isMobile() && isPortrait) ? '30%' : '124px',
-            height: '1px',
-            backgroundColor: '#000',
-            zIndex: 1
-          }} />
+          {/* Annotation line - horizontal under footer - REMOVED */}
           
           {/* Annotation line - angled down to map */}
           <div style={{
@@ -434,7 +426,7 @@ const TitleSection = ({
             {/* Large flood text label */}
             <div style={{
               position: 'absolute',
-              top: (responsive.isMobile() && isPortrait) ? '25%' : '89%',
+              top: (responsive.isMobile() && isPortrait) ? '27%' : '91%',
               left: (responsive.isMobile() && isPortrait) ? '12%' : '83%',
               color: '#000000',
               fontSize: '12px',
