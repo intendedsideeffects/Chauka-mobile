@@ -51,9 +51,9 @@ const SegmentTemplate = ({
          color: '#000',
          marginBottom: '0',
          textAlign: 'left',
-                   marginTop: responsive.isMobile() ? '-3rem' : '5rem',
+         marginTop: '0',
          fontFamily: 'Times New Roman, serif',
-         lineHeight: '1.1'
+         lineHeight: '1.0'
        },
        headerSecondLine: {
          fontSize: responsive.isMobile() ? '1.8rem' : '2.5rem',
@@ -63,15 +63,15 @@ const SegmentTemplate = ({
          textAlign: 'left',
          marginTop: '0',
          fontFamily: 'Times New Roman, serif',
-         lineHeight: '1.1'
+         lineHeight: '1.0'
        },
          text: {
                fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
        color: '#000',
-       marginBottom: responsive.isMobile() ? '2rem' : '2rem',
+       marginBottom: responsive.isMobile() ? '1rem' : '2rem',
        lineHeight: 1.5,
        fontFamily: 'Helvetica World, Arial, sans-serif',
-       marginTop: responsive.isMobile() ? '1rem' : '0',
+       marginTop: '0',
      },
                                                                                                                                                                                                                                                                                                                                                                        chartContainer: {
           width: '100%',
@@ -122,37 +122,27 @@ const SegmentTemplate = ({
     placeholderChart: { ...defaultStyles.placeholderChart, ...styles.placeholderChart }
   };
 
-           return (
+                       return (
       <section style={mergedStyles.container}>
-                                        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: responsive.isMobile() ? 'flex-start' : 'center',
-            justifyContent: responsive.isMobile() ? 'flex-start' : 'center',
-            width: '100%',
-            maxWidth: '1050px',
-             marginBottom: 0,
-             marginLeft: 'auto',
-             marginRight: 'auto',
-            marginTop: responsive.isMobile() ? '2rem' : '-50px',
-            gap: responsive.isMobile() ? '3rem' : '2rem',
-            zIndex: 1000,
-            position: 'relative',
-            paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
-            paddingRight: responsive.isMobile() ? '2.5rem' : '0'
-          }}>
-                                        {/* Grey Section Number */}
-                                        {sectionNumber && (
-                                          <div style={{
-                                            fontSize: '5rem',
-                                            color: 'rgba(0,0,0,0.10)',
-                                            fontWeight: 900,
-                                            margin: '0',
-                                            lineHeight: '1'
-                                          }}>
-                                            {sectionNumber}
-                                          </div>
-                                        )}
+                                                                                 <div style={{
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: responsive.isMobile() ? 'flex-start' : 'center',
+             justifyContent: responsive.isMobile() ? 'flex-start' : 'center',
+             width: '100%',
+             maxWidth: '1050px',
+              marginBottom: 0,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+             marginTop: responsive.isMobile() ? '0' : '-50px',
+             gap: responsive.isMobile() ? '2rem' : '2rem',
+             zIndex: 1000,
+             position: 'relative',
+             paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
+             paddingRight: responsive.isMobile() ? '2.5rem' : '0',
+             paddingTop: responsive.isMobile() ? '10rem' : '0'
+           }}>
+                                        {/* Grey Section Number - Removed to avoid conflict with absolutely positioned numbers */}
                                         
                                         {/* Header */}
             <div style={{

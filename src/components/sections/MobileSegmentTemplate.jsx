@@ -88,7 +88,8 @@ const MobileSegmentTemplate = ({
           width: '100%',
           maxWidth: '800px',
           textAlign: 'left',
-          margin: '0 auto'
+          margin: '0 auto',
+          marginTop: '1rem'
         }}>
           <h1 style={mergedStyles.header}>{header}</h1>
           <h2 style={mergedStyles.headerSecondLine}>{headerSecondLine}</h2>

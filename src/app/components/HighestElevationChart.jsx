@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import responsive from '../utils/responsive';
 
 const HighestElevationChart = () => {
   const [highestElevationData, setHighestElevationData] = useState([]);
@@ -112,16 +113,16 @@ const HighestElevationChart = () => {
       {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
-        left: '-319px',
+        left: responsive.isMobile() ? '10px' : '10px',
         top: 'calc(50% - 143px)',
         transform: 'translateY(-50%)',
-        fontSize: '14px',
+        fontSize: responsive.isMobile() ? '12px' : '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
-        textAlign: 'right',
+        textAlign: 'left',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        width: '300px'
+        width: responsive.isMobile() ? '120px' : '150px'
       }}>
         AVERAGE ELEVATION OF<br/>
         PACIFIC ISLANDS (M)
@@ -198,18 +199,18 @@ const HighestElevationChart = () => {
                 <div>{item.country}</div>
                 <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>{item.elevation.toString().replace('.', ',')}m</div>
               </div>
-              {/* Bar */}
-              <div className="relative flex justify-center">
-                <div 
-                  className="rounded-t-sm relative z-10"
-                  style={{ 
-                    height: `${barHeight}px`,
-                    width: '60px',
-                    transition: 'height 1.5s ease, background-color 0.2s ease',
-                    backgroundColor: isHovered ? (item.isLowest ? 'rgba(29, 78, 216, 0.9)' : 'rgba(55, 65, 81, 0.9)') : (item.isLowest ? 'rgba(59, 130, 246, 0.9)' : 'rgba(0, 0, 0, 0.9)')
-                  }}
-                />
-              </div>
+                             {/* Bar */}
+               <div className="relative flex justify-center">
+                 <div 
+                   className="rounded-t-sm relative z-10"
+                   style={{ 
+                     height: `${barHeight}px`,
+                     width: responsive.isMobile() ? '25px' : '60px',
+                     transition: 'height 1.5s ease, background-color 0.2s ease',
+                     backgroundColor: isHovered ? (item.isLowest ? 'rgba(29, 78, 216, 0.9)' : 'rgba(55, 65, 81, 0.9)') : (item.isLowest ? 'rgba(59, 130, 246, 0.9)' : 'rgba(0, 0, 0, 0.9)')
+                   }}
+                 />
+               </div>
             </div>
           );
         })}

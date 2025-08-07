@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import responsive from '../utils/responsive';
 
 const LowElevationChart = () => {
   const [lowElevationData, setLowElevationData] = useState([]);
@@ -62,16 +63,16 @@ const LowElevationChart = () => {
       {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
-        left: '-320px',
+        left: responsive.isMobile() ? '10px' : '10px',
         top: 'calc(50% - 143px)',
         transform: 'translateY(-50%)',
-        fontSize: '14px',
+        fontSize: responsive.isMobile() ? '12px' : '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
-        textAlign: 'right',
+        textAlign: 'left',
         pointerEvents: 'none',
         lineHeight: '1.2',
-        width: '300px'
+        width: responsive.isMobile() ? '120px' : '150px'
       }}>
         POPULATIONS LIVING 0-5M<br/>
         ABOVE SEA LEVEL (%)
@@ -139,27 +140,27 @@ const LowElevationChart = () => {
                 zIndex: isHovered ? 40 : 20
               }}
             >
-              {/* Bar */}
-              <div className="relative flex justify-center">
-                <div 
-                  className="rounded-t-sm relative z-10"
-                  style={{ 
-                    height: '280px',
-                    width: '60px',
-                    transition: 'height 0.4s ease, background-color 0.05s ease',
-                    background: 'rgba(0, 0, 0, 0.9)'
-                  }}
-                />
-                {/* Blue percentage overlay */}
-                <div 
-                  className="absolute rounded-t-sm z-20"
-                  style={{ 
-                    height: `${(item.OBS_VALUE / 100) * 280}px`,
-                    width: '60px',
-                    background: 'rgba(0, 102, 204, 0.9)',
-                    bottom: '0'
-                  }}
-                />
+                             {/* Bar */}
+               <div className="relative flex justify-center">
+                                   <div 
+                    className="rounded-t-sm relative z-10"
+                    style={{ 
+                      height: '280px',
+                      width: responsive.isMobile() ? '25px' : '60px',
+                      transition: 'height 0.4s ease, background-color 0.05s ease',
+                      background: 'rgba(0, 0, 0, 0.9)'
+                    }}
+                  />
+                 {/* Blue percentage overlay */}
+                                   <div 
+                    className="absolute rounded-t-sm z-20"
+                    style={{ 
+                      height: `${(item.OBS_VALUE / 100) * 280}px`,
+                      width: responsive.isMobile() ? '25px' : '60px',
+                      background: 'rgba(0, 102, 204, 0.9)',
+                      bottom: '0'
+                    }}
+                  />
                 {/* Percentage label inside bar at bottom */}
                 <div 
                   className="absolute z-30"
@@ -189,12 +190,12 @@ const LowElevationChart = () => {
           <div 
             key={index}
             className="flex flex-col items-center flex-1 mx-1"
-            style={{ 
-              textAlign: 'center',
-              fontSize: '12px',
-              color: '#000',
-              width: '60px'
-            }}
+                         style={{ 
+               textAlign: 'center',
+               fontSize: '12px',
+               color: '#000',
+               width: responsive.isMobile() ? '25px' : '60px'
+             }}
           >
             {item["Pacific Island Countries and territories"]}
           </div>

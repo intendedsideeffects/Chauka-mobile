@@ -5,7 +5,7 @@ import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
 import { responsive } from './utils/responsive';
 import TitleSection from '../components/sections/TitleSection';
-import SegmentTemplate from '../components/sections/SegmentTemplate';
+
 import SeaLevelRiseChart from './components/SeaLevelRiseChart';
 import HistoricalSeaLevelRiseExtended from './components/HistoricalSeaLevelRiseExtended';
 import NewChartComponent from './components/NewChartComponent';
@@ -256,7 +256,7 @@ export default function TestScroll() {
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
         height: '800vh', // 8 segments * 100vh each (3-10)
-        zIndex: 9999, // High z-index to show above charts
+        zIndex: 100, // Lower z-index to not interfere with section 1
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
         opacity: (responsive.isMobile() && isPortrait) ? 0 : 1, // Hide in portrait mobile
@@ -266,199 +266,343 @@ export default function TestScroll() {
       </div>
 
       {/* Test Segment Template */}
-              <div style={{position: 'relative', borderTop: '1px solid #9ca3af'}}>
+              <div style={{position: 'relative', borderTop: '1px solid #9ca3af', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>1</div>
-        <SegmentTemplate 
-          header="Sea levels held steady for a millennium,"
-          headerSecondLine="until now."
-          text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>."
-          chartComponent={<HistoricalSeaLevelRiseExtended />}
-          caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          customHeight="210vh"
-          styles={{
-            header: {
-              fontSize: '2.6rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            },
-            headerSecondLine: {
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              fontFamily: 'Times New Roman, serif',
-              fontStyle: 'italic'
-            }
-          }}
-        />
         
-                                                                                                                                                                                       {/* Annotation for section 3 - positioned outside chart container */}
-                         <div style={{
-                           position: 'absolute',
-                           top: responsive.isMobile() ? 'calc(50vh + 250px)' : 'calc(27vh - 70px)',
-                           right: responsive.isMobile() ? '100px' : '140px',
-                           zIndex: 9999,
-                           pointerEvents: 'none',
-          fontSize: responsive.size.fontSize.sm(),
-          fontFamily: 'Helvetica World, Arial, sans-serif',
-          color: '#000000',
-          fontWeight: 'normal',
-          lineHeight: '1.4',
-          maxWidth: responsive.isMobile() ? '250px' : '300px',
-          textAlign: responsive.isMobile() ? 'right' : 'left'
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
+          maxWidth: '800px'
         }}>
-          <strong>Projection</strong><br/>
-          Under 1.5°C to 2.0°C of global warming,<br/>
-          sea level rise is expected to increase by<br/>
-          <strong>~25 cm in 2050.</strong>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.6rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0',
+            position: 'relative',
+            zIndex: 10000
+          }}>Sea levels held steady for a millennium,</h1>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            fontFamily: 'Times New Roman, serif',
+            fontStyle: 'italic',
+            margin: '0 0 2rem 0',
+            lineHeight: '1.0',
+            position: 'relative',
+            zIndex: 10000
+          }}>until now.</h2>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>." }} />
+          
+          {/* Chart */}
+          <div style={{marginBottom: '1rem'}}>
+            <HistoricalSeaLevelRiseExtended />
+          </div>
+          
+          {/* Caption */}
+          <p style={{
+            fontSize: '0.9rem',
+            color: '#9ca3af',
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+            margin: 0
+          }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
         </div>
+        
+
         
 
       </div>
 
       {/* Another test segment */}
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>2</div>
-        <SegmentTemplate 
-          header="Sea level is rising,"
-          headerSecondLine="but not at the same rate."
-          text="Sea level rise is <strong>uneven</strong>. The Pacific is a <strong>hotspot</strong>. Driven by ocean patterns, melting ice, and land movement, some islands are seeing <strong>faster-than-average</strong> increases. For nations with limited land and elevation, these trends bring real and immediate threats."
-          chartComponent={<SeaLevelRiseChart />}
-          caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            },
-            headerSecondLine: {
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              fontFamily: 'Times New Roman, serif',
-              fontStyle: 'italic'
-            }
-          }}
-        />
+        
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '1rem' : '20px',
+          paddingRight: responsive.isMobile() ? '1rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Sea level is rising,</h1>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            fontFamily: 'Times New Roman, serif',
+            fontStyle: 'italic',
+            margin: '0 0 2rem 0',
+            lineHeight: '1.0'
+          }}>but not at the same rate.</h2>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "Sea level rise is <strong>uneven</strong>. The Pacific is a <strong>hotspot</strong>. Driven by ocean patterns, melting ice, and land movement, some islands are seeing <strong>faster-than-average</strong> increases. For nations with limited land and elevation, these trends bring real and immediate threats." }} />
+          
+          {/* Chart */}
+          <div style={{
+            marginBottom: '1rem',
+            width: '100%',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
+          }}>
+            <SeaLevelRiseChart />
+          </div>
+          
+          {/* Caption */}
+          <p style={{
+            fontSize: '0.9rem',
+            color: '#9ca3af',
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+            margin: 0
+          }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
+        </div>
       </div>
 
       {/* Test segment with two-line title */}
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>3</div>
-                         <SegmentTemplate 
-          header="Impact varies across Pacific islands"
-          headerSecondLine="low-laying islands are exposed more."
-          text="Low elevation makes many Pacific islands especially vulnerable to sea level rise. When land sits just a few meters above the ocean, even small increases can <strong>overwhelm coastlines</strong>. With nowhere higher to go, communities face growing challenges to stay safe, maintain clean water, and protect their homes."
-          chartComponent={<HighestElevationChart />}
-          caption="<strong>Fig 3:</strong> Average elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            },
-            headerSecondLine: {
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              fontFamily: 'Times New Roman, serif',
-              fontStyle: 'italic'
-            }
-          }}
-        />
+        
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '0.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '0.5rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Impact varies across Pacific islands</h1>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            fontFamily: 'Times New Roman, serif',
+            fontStyle: 'italic',
+            margin: '0 0 2rem 0',
+            lineHeight: '1.0'
+          }}>low-laying islands are exposed more.</h2>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "Low elevation makes many Pacific islands especially vulnerable to sea level rise. When land sits just a few meters above the ocean, even small increases can <strong>overwhelm coastlines</strong>. With nowhere higher to go, communities face growing challenges to stay safe, maintain clean water, and protect their homes." }} />
+          
+          {/* Chart */}
+          <div style={{
+            marginBottom: '1rem',
+            width: '100%',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
+          }}>
+            <HighestElevationChart />
+          </div>
+          
+          {/* Caption */}
+          <p style={{
+            fontSize: '0.9rem',
+            color: '#9ca3af',
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+            margin: 0
+          }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 3:</strong> Average elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
+        </div>
       </div>
 
       {/* New Segment 6 */}
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>4</div>
-        <SegmentTemplate 
-          header="Many islanders live just above sea level,"
-          headerSecondLine="where sea rise is already felt."
-          text="Many Pacific Island nations have significant <strong>populations living in low-lying coastal areas</strong>. These communities are <strong>particularly vulnerable</strong> to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
-          chartComponent={<LowElevationChart />}
-          caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations. Data: Pacific Data Hub <a href='https://pacificdata.org/data/dataset/population-living-in-low-elevation-coastal-zones-0-10m-and-0-20m-above-sea-level-df-pop-lecz' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          styles={{
-            header: {
-              fontSize: '2.5rem',
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica World, Arial, sans-serif'
-            },
-            headerSecondLine: {
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              fontFamily: 'Times New Roman, serif',
-              fontStyle: 'italic'
-            }
-          }}
-        />
-
-
+        
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '0.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '0.5rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Many islanders live just above sea level,</h1>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            fontFamily: 'Times New Roman, serif',
+            fontStyle: 'italic',
+            margin: '0 0 2rem 0',
+            lineHeight: '1.0'
+          }}>where sea rise is already felt.</h2>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "Many Pacific Island nations have significant <strong>populations living in low-lying coastal areas</strong>. These communities are <strong>particularly vulnerable</strong> to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure." }} />
+          
+          {/* Chart */}
+          <div style={{
+            marginBottom: '1rem',
+            width: '100%',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
+          }}>
+            <LowElevationChart />
+          </div>
+          
+          {/* Caption */}
+          <p style={{
+            fontSize: '0.9rem',
+            color: '#9ca3af',
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+            margin: 0
+          }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations. Data: Pacific Data Hub <a href='https://pacificdata.org/data/dataset/population-living-in-low-elevation-coastal-zones-0-10m-and-0-20m-above-sea-level-df-pop-lecz' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
+        </div>
       </div>
 
             {/* Segment 7 */}
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>5</div>
-                 <SegmentTemplate 
-           header="Climate risks are rising in the Pacific."
-           headerSecondLine="So is human impact."
-                     text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
-          chartComponent={<NewChartComponent />}
-          caption="<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-           styles={{
-             header: {
-               fontSize: '2.5rem',
-               fontWeight: 'normal',
-               fontFamily: 'Helvetica World, Arial, sans-serif'
-             },
-             headerSecondLine: {
-               fontSize: '3rem',
-               fontWeight: 'bold',
-               fontFamily: 'Times New Roman, serif',
-               fontStyle: 'italic'
-             }
-           }}
-         />
+        
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '1rem' : '20px',
+          paddingRight: responsive.isMobile() ? '1rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Climate risks are rising in the Pacific.</h1>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            fontFamily: 'Times New Roman, serif',
+            fontStyle: 'italic',
+            margin: '0 0 2rem 0',
+            lineHeight: '1.0'
+          }}>So is human impact.</h2>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change." }} />
+          
+          {/* Chart */}
+          <div style={{
+            marginBottom: '1rem',
+            width: '100%',
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
+            transformOrigin: 'left top'
+          }}>
+            <NewChartComponent />
+          </div>
+          
+          {/* Caption */}
+          <p style={{
+            fontSize: '0.9rem',
+            color: '#9ca3af',
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+            margin: 0
+          }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
+        </div>
       </div>
 
 
@@ -492,57 +636,43 @@ export default function TestScroll() {
 
 
       {/* Placeholder Segment 9 */}
-      <div style={{position: 'relative'}}>
-        <div style={{
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af', minHeight: '200vh'}}>
+                <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
-         }}>6</div>
-        <SegmentTemplate
-          header="Conclusion"
-          text="The Pacific is on the front lines of the climate crisis. While sea levels are rising globally, their impacts are not evenly distributed. Low-lying island nations such as <strong>Tuvalu</strong>, <strong>Kiribati</strong>, and the <strong>Marshall Islands</strong>, with an average elevation of just 2 meters, face an existential threat from even modest increases in sea level. These islands have little elevation to buffer rising tides and no higher ground for retreat.
-
-<br/><br/>
-
-But elevation alone does not tell the full story. <strong>Ocean currents</strong>, <strong>land movement</strong>, and <strong>storm exposure</strong> all contribute to risk, making some regions more vulnerable than others. Climate hazards that were once rare are becoming more frequent and disruptive.
-
-<br/><br/>
-
-In recent years, hundreds of thousands of people in the Pacific have been affected by floods, cyclones, and droughts, showing a sharp rise in human impact.
-
-<br/><br/>
-
-The data points to a clear trend: as the climate warms, the risks for Pacific communities are increasing. What is happening in these islands is not just a warning, but a preview of what coastal regions around the world may face if emissions and sea level rise are not brought under control.
-
-<br/><br/>
-
-And yet, these islands are not only sites of risk. They are also places of <strong>resilience</strong>. Across the region, communities are responding with <strong>deep-rooted knowledge</strong>, <strong>creative adaptation</strong>, and <strong>collective action</strong>. From youth-led campaigns to cultural expression and traditional practices, Pacific peoples are drawing on both <strong>heritage</strong> and <strong>innovation</strong> to protect what matters.
-
-<br/><br/>
-
-The rising sea threatens homes and homelands, but it cannot erase <strong>identity</strong>, <strong>memory</strong>, or the <strong>will to adapt</strong>.
-
-<br/><br/>
-
-This is not only a story of loss. It is also one of <strong>resilience</strong>."
-          chartComponent={null}
-                      styles={{
-              header: {
-                fontSize: '2.5rem',
-                fontWeight: 'normal',
-                fontFamily: 'Helvetica World, Arial, sans-serif'
-              },
-              placeholderChart: {
-                display: 'none'
-              }
-            }}
-            caption=""
-        />
+        }}>6</div>
+        
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Conclusion</h1>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "The Pacific is on the front lines of the climate crisis. While sea levels are rising globally, their impacts are not evenly distributed. Low-lying island nations such as <strong>Tuvalu</strong>, <strong>Kiribati</strong>, and the <strong>Marshall Islands</strong>, with an average elevation of just 2 meters, face an existential threat from even modest increases in sea level. These islands have little elevation to buffer rising tides and no higher ground for retreat.<br/><br/>But elevation alone does not tell the full story. <strong>Ocean currents</strong>, <strong>land movement</strong>, and <strong>storm exposure</strong> all contribute to risk, making some regions more vulnerable than others. Climate hazards that were once rare are becoming more frequent and disruptive.<br/><br/>In recent years, hundreds of thousands of people in the Pacific have been affected by floods, cyclones, and droughts, showing a sharp rise in human impact.<br/><br/>The data points to a clear trend: as the climate warms, the risks for Pacific communities are increasing. What is happening in these islands is not just a warning, but a preview of what coastal regions around the world may face if emissions and sea level rise are not brought under control.<br/><br/>And yet, these islands are not only sites of risk. They are also places of <strong>resilience</strong>. Across the region, communities are responding with <strong>deep-rooted knowledge</strong>, <strong>creative adaptation</strong>, and <strong>collective action</strong>. From youth-led campaigns to cultural expression and traditional practices, Pacific peoples are drawing on both <strong>heritage</strong> and <strong>innovation</strong> to protect what matters.<br/><br/>The rising sea threatens homes and homelands, but it cannot erase <strong>identity</strong>, <strong>memory</strong>, or the <strong>will to adapt</strong>.<br/><br/>This is not only a story of loss. It is also one of <strong>resilience</strong>." }} />
+        </div>
       </div>
 
 
@@ -550,17 +680,17 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
 
 
        {/* Final Section - Custom styled without chart */}
-       <div style={{position: 'relative'}}>
-         <div style={{
-           position: 'absolute',
-           top: 20,
-           left: 20,
-           fontSize: '5rem',
-           color: 'rgba(0,0,0,0.10)',
-           fontWeight: 900,
-           zIndex: 2000,
-           pointerEvents: 'none',
-         }}>7</div>
+       <div style={{position: 'relative', borderBottom: '1px solid #9ca3af'}}>
+                 <div style={{
+          position: 'absolute',
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
+          fontSize: '5rem',
+          color: 'rgba(0,0,0,0.10)',
+          fontWeight: 900,
+          zIndex: 2000,
+          pointerEvents: 'none',
+        }}>7</div>
                    <section style={{
             width: '100%',
             height: '100vh',
@@ -819,23 +949,42 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
       </div>
 
       {/* Section 11 - Material and Method */}
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', borderBottom: '1px solid #9ca3af'}}>
         <div style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
+          top: '1rem',
+          left: responsive.isMobile() ? '2.5rem' : '20px',
           fontSize: '5rem',
           color: 'rgba(0,0,0,0.10)',
           fontWeight: 900,
           zIndex: 2000,
           pointerEvents: 'none',
         }}>8</div>
-        <SegmentTemplate 
-          header="Material and Method"
-          text="This project is built with <strong>Next.js</strong>, <strong>React</strong>, and <strong>Three.js</strong>, combining interactive 3D mapping and data visualization. Charts are rendered using <strong>Recharts</strong> and <strong>D3.js</strong>, while styling is handled with <strong>Tailwind CSS</strong> and <strong>PostCSS</strong>. The source code is available on <a href='https://github.com/intendedsideeffects/Chauka' target='_blank' style='color: #000; text-decoration: underline;'><strong>GitHub</strong></a>.<br/><br/>The 3D star globe is based on data from the <strong>Hipparcos and Tycho Catalogues</strong>. Additional charts use data from the <strong>Pacific Data Hub</strong> and the <strong>EM-DAT public disaster database</strong>. Exact datasets are linked in the captions of each visualization.<br/><br/>The narrative is rooted in a story from <strong>Manus Island</strong>. It is woven into the experience alongside <strong>sound</strong> to create a layered, sensory way of engaging with the data.<br/><br/>Music: <a href='https://www.youtube.com/watch?v=9naA6Ji3QS0' target='_blank' style='color: #000; text-decoration: underline;'><strong>Leve Yam - Keni Lucas Ponyalou</strong></a><br/><br/>This project is a collaboration between <a href='https://www.linkedin.com/in/bertha-ngahan-a9b405145/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Bertha Ngahan</strong></a> (Storytelling) and <a href='https://www.linkedin.com/in/j-grauel/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Janina Grauel</strong></a> (Visualization) for the <a href='https://pacificdatavizchallenge.org/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Pacific Data Challenge</strong></a>."
-          caption=""
-          styles={{}}
-        />
+        {/* Simple consistent layout */}
+        <div style={{
+          paddingTop: '10rem',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
+          maxWidth: '800px'
+        }}>
+          {/* Title */}
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 1rem 0',
+            lineHeight: '1.0'
+          }}>Material and Method</h1>
+          
+          {/* Text */}
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#000',
+            lineHeight: 1.5,
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            margin: '0 0 2rem 0'
+          }} dangerouslySetInnerHTML={{ __html: "This project is built with <strong>Next.js</strong>, <strong>React</strong>, and <strong>Three.js</strong>, combining interactive 3D mapping and data visualization. Charts are rendered using <strong>Recharts</strong> and <strong>D3.js</strong>, while styling is handled with <strong>Tailwind CSS</strong> and <strong>PostCSS</strong>. The source code is available on <a href='https://github.com/intendedsideeffects/Chauka' target='_blank' style='color: #000; text-decoration: underline;'><strong>GitHub</strong></a>.<br/><br/>The 3D star globe is based on data from the <strong>Hipparcos and Tycho Catalogues</strong>. Additional charts use data from the <strong>Pacific Data Hub</strong> and the <strong>EM-DAT public disaster database</strong>. Exact datasets are linked in the captions of each visualization.<br/><br/>The narrative is rooted in a story from <strong>Manus Island</strong>. It is woven into the experience alongside <strong>sound</strong> to create a layered, sensory way of engaging with the data.<br/><br/>Music: <a href='https://www.youtube.com/watch?v=9naA6Ji3QS0' target='_blank' style='color: #000; text-decoration: underline;'><strong>Leve Yam - Keni Lucas Ponyalou</strong></a><br/><br/>This project is a collaboration between <a href='https://www.linkedin.com/in/bertha-ngahan-a9b405145/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Bertha Ngahan</strong></a> (Storytelling) and <a href='https://www.linkedin.com/in/j-grauel/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Janina Grauel</strong></a> (Visualization) for the <a href='https://pacificdatavizchallenge.org/' target='_blank' style='color: #000; text-decoration: underline;'><strong>Pacific Data Challenge</strong></a>." }} />
+        </div>
       </div>
 
     </div>

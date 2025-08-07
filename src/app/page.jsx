@@ -14,7 +14,7 @@ export default function AppRouter() {
   // 🔒 PHYSICAL SEPARATION - NO SHARED CODE
   if (responsive.isMobile()) {
     return <MobileVersion />;
-  } else {
+      } else {
     return <BrowserVersion />;
   }
 }
