@@ -551,7 +551,7 @@ export default function TestScroll() {
           {/* Chart */}
           <div style={{
             marginBottom: '1rem',
-            marginTop: responsive.isMobile() ? '3rem' : '0px',
+            marginTop: responsive.isMobile() ? '6rem' : '0px',
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',

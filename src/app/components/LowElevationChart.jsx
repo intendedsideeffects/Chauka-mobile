@@ -64,7 +64,7 @@ const LowElevationChart = () => {
       <div style={{
         position: 'absolute',
         left: responsive.isMobile() ? '0px' : '10px',
-        top: 'calc(50% - 143px)',
+                 top: 'calc(50% - 189px)',
         transform: 'translateY(-50%)',
         fontSize: responsive.isMobile() ? '12px' : '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -152,7 +152,7 @@ const LowElevationChart = () => {
                       height: '280px',
                       width: responsive.isMobile() ? '25px' : '60px',
                       transition: 'height 0.4s ease, background-color 0.05s ease',
-                      background: 'rgba(0, 0, 0, 0.9)'
+                      background: 'rgba(0, 0, 0, 0.8)'
                     }}
                   />
                  {/* Blue percentage overlay */}
@@ -189,7 +189,7 @@ const LowElevationChart = () => {
       </div>
       
       {/* Country names below x-axis */}
-             <div className="flex items-end justify-between relative mt-4" style={{
+             <div className="flex items-start justify-between relative mt-2" style={{
          marginLeft: responsive.isMobile() ? '0px' : '0px',
          marginRight: responsive.isMobile() ? '0px' : '0px'
        }}>
@@ -199,12 +199,13 @@ const LowElevationChart = () => {
             className="flex flex-col items-center flex-1 mx-1"
                          style={{ 
                textAlign: 'center',
-               fontSize: '12px',
+               fontSize: responsive.isMobile() ? '10px' : '12px',
                color: '#000',
-               width: responsive.isMobile() ? '25px' : '60px'
+               width: responsive.isMobile() ? '25px' : '60px',
+               lineHeight: '1.0'
              }}
           >
-            {item["Pacific Island Countries and territories"]}
+            {item["Pacific Island Countries and territories"].replace('French Polynesia', 'French Poly-nesia').replace('Solomon Islands', 'Solomon Is-lands').replace('Wallis and Futuna', 'Wallis and Fu-tuna').replace('New Caledonia', 'New Cale-donia').replace('Micronesia', 'Micro-nesia')}
           </div>
         ))}
       </div>
