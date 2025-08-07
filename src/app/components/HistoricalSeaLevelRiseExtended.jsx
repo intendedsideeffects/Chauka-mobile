@@ -279,10 +279,11 @@ const HistoricalSeaLevelRiseExtended = () => {
                       borderRadius: '4px',
                       padding: '8px',
                       fontSize: '12px',
-                      fontFamily: 'Helvetica World, Arial, sans-serif'
+                      fontFamily: 'Helvetica World, Arial, sans-serif',
+                      color: '#000000'
                     }}>
-                      <div><strong>Year:</strong> {year}</div>
-                      <div><strong>Sea Level:</strong> {value.toFixed(1)} cm</div>
+                      <div style={{color: '#000000'}}><strong>Year:</strong> {year}</div>
+                      <div style={{color: '#000000'}}><strong>Sea Level:</strong> {value.toFixed(1)} cm</div>
                       {isProjection && <div style={{color: '#0066cc'}}><strong>Projection</strong></div>}
                     </div>
                   );
@@ -399,7 +400,7 @@ const HistoricalSeaLevelRiseExtended = () => {
            transform: 'translateY(-50%)',
            fontSize: responsive.isMobile() ? '12px' : '14px',
            fontFamily: 'Helvetica World, Arial, sans-serif',
-           color: '#666666',
+           color: '#000000',
            textAlign: responsive.isMobile() ? 'left' : 'right',
            pointerEvents: 'none',
            lineHeight: '1.2',

@@ -293,7 +293,8 @@ export default function TestScroll() {
             margin: '0 0 1rem 0',
             lineHeight: '1.0',
             position: 'relative',
-            zIndex: 10000
+            zIndex: 10000,
+            color: '#000'
           }}>Sea levels held steady for a millennium,</h1>
           <h2 style={{
             fontSize: '3rem',
@@ -303,7 +304,8 @@ export default function TestScroll() {
             margin: '0 0 2rem 0',
             lineHeight: '1.0',
             position: 'relative',
-            zIndex: 10000
+            zIndex: 10000,
+            color: '#000'
           }}>until now.</h2>
           
           {/* Text */}
@@ -334,7 +336,7 @@ export default function TestScroll() {
             fontStyle: 'italic',
             lineHeight: 1.4,
             margin: 0,
-            marginTop: responsive.isMobile() ? '2rem' : '0px'
+            marginTop: responsive.isMobile() ? '3rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
           
           {/* Projection Annotation */}
@@ -349,7 +351,8 @@ export default function TestScroll() {
             fontWeight: 'normal',
             lineHeight: '1.4',
             maxWidth: responsive.isMobile() ? '180px' : '300px',
-            textAlign: responsive.isMobile() ? 'right' : 'right'
+            textAlign: responsive.isMobile() ? 'right' : 'right',
+            zIndex: 10001
           }}>
             <strong>Projection</strong><br/>
             Under 1.5°C to 2.0°C of global warming, sea level rise is expected to increase by <strong>~25 cm in 2050.</strong>
@@ -429,7 +432,7 @@ export default function TestScroll() {
             fontStyle: 'italic',
             lineHeight: 1.4,
             margin: 0,
-            marginTop: responsive.isMobile() ? '2rem' : '0px'
+            marginTop: responsive.isMobile() ? '3rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
         </div>
       </div>
@@ -648,7 +651,7 @@ export default function TestScroll() {
             fontStyle: 'italic',
             lineHeight: 1.4,
             margin: 0,
-            marginTop: responsive.isMobile() ? '2rem' : '0px'
+            marginTop: responsive.isMobile() ? '3rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
         </div>
       </div>
@@ -770,8 +773,9 @@ export default function TestScroll() {
              {/* Click for Story Button */}
              <button
                style={{
-                 ...responsive.position.absolute.bottomRight(),
-                 ...responsive.container.chart(),
+                 position: 'absolute',
+                 top: responsive.isMobile() ? '2rem' : '4rem',
+                 right: responsive.isMobile() ? '2rem' : '4rem',
                  border: 'none',
                  background: 'none',
                  cursor: 'pointer',
@@ -808,7 +812,9 @@ export default function TestScroll() {
              {/* Click for Music Button */}
              <div
                style={{
-                 ...responsive.position.absolute.bottomLeft(),
+                 position: 'absolute',
+                 bottom: responsive.isMobile() ? '2rem' : '4rem',
+                 left: responsive.isMobile() ? '2rem' : '4rem',
                  width: responsive.isMobile() ? '200px' : '240px',
                  height: responsive.isMobile() ? '200px' : '240px',
                  display: 'flex',
