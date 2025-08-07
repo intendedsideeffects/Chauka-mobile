@@ -387,16 +387,20 @@ export default function LandingPage({
         zIndex: 1000, 
         pointerEvents: 'auto'
       }}>
-                 <div style={{
-           fontSize: responsive.isMobile() ? '0.8rem' : '1rem',
-           color: '#676b8b',
-           fontWeight: 400,
-           textAlign: 'center',
-           padding: responsive.isMobile() ? '0 10px' : '0'
-         }}>
-           Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |<br />
-           Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
-         </div>
+        <div style={{
+          fontSize: responsive.isMobile() ? '0.75rem' : '1rem',
+          color: '#676b8b',
+          fontWeight: 400,
+          textAlign: 'center',
+          padding: responsive.isMobile() ? '0 15px' : '0',
+          width: responsive.isMobile() ? '90vw' : 'auto',
+          maxWidth: responsive.isMobile() ? '400px' : 'none',
+          lineHeight: '1.2',
+          whiteSpace: 'pre-line'
+        }}>
+          Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |{'\n'}
+          Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+        </div>
       </div>
     </section>
   );

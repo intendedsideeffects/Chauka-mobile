@@ -771,21 +771,19 @@ export default function TestScroll() {
              </div>
 
              {/* Click for Story Button */}
-             <button
-               style={{
-                 position: 'absolute',
-                 top: responsive.isMobile() ? '1rem' : '4rem',
-                 right: responsive.isMobile() ? '1rem' : '4rem',
-                 border: 'none',
-                 background: 'rgba(255, 0, 0, 0.3)',
-                 cursor: 'pointer',
-                 zIndex: 100,
-                 width: '100px',
-                 height: '100px',
-               }}
-               onClick={() => setShowLepeyamTooltip(true)}
-               aria-label="Click for story"
-             >
+                     <button
+          style={{
+            position: 'absolute',
+            top: responsive.isMobile() ? '1rem' : '4rem',
+            right: responsive.isMobile() ? '8rem' : '4rem',
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            zIndex: 100,
+          }}
+          onClick={() => setShowLepeyamTooltip(true)}
+          aria-label="Click for story"
+        >
                <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulse-section7" cx="50%" cy="50%" r="50%">
