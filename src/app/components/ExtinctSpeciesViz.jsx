@@ -1,8 +1,9 @@
 "use client"
 import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
+import responsive from '../utils/responsive';
 
-const STATUS_HEIGHT = 7000; // Reduced to match segments 3-9 height
+const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to end at section 7, default for browser
 const STATUS_WIDTH = 1600;
 const getYearPosition = (year) => {
   return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;

@@ -3,6 +3,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Refe
 import getRegionColor from '../data/colorPointsData';
 import CustomTooltip from './CustomTooltip';
 import { FloatingDot } from './FloatingDot';
+import responsive from '../utils/responsive';
 
 
 // Helper: avoid overlaps for dots
@@ -25,7 +26,7 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-const STATUS_HEIGHT = 7000; // Reduced from 11290 to match segments 3-9 height
+const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to end at section 7, default for browser
 const STATUS_WIDTH = 1600;
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;
@@ -421,42 +422,44 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 />
             )}
 
-            {/* Y-Axis Toggle Button */}
-            <button
-                onClick={() => {
-                    console.log('Toggle clicked, current showYAxis:', showYAxis);
-                    setShowYAxis(!showYAxis);
-                }}
-                style={{
-                    position: 'absolute',
-                    right: '-10px',
-                    top: '0px',
-                    background: showYAxis ? '#ffffff' : '#ffffff',
-                    border: '1px solid #666666',
-                    borderRadius: '0px',
-                    width: '20px',
-                    height: '100%',
-                    cursor: 'pointer',
-                    zIndex: 1001,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    color: '#000000',
-                    boxShadow: 'none',
-                    transition: 'background-color 0.3s ease',
-                    pointerEvents: 'auto'
-                }}
-                onMouseEnter={(e) => {
-                    e.target.style.background = showYAxis ? '#f0f0f0' : '#f0f0f0';
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.background = showYAxis ? '#ffffff' : '#ffffff';
-                }}
-            >
-                {showYAxis ? '−' : '+'}
-            </button>
+                         {/* Y-Axis Toggle Button - Hidden on mobile */}
+             {!responsive.isMobile() && (
+                 <button
+                     onClick={() => {
+                         console.log('Toggle clicked, current showYAxis:', showYAxis);
+                         setShowYAxis(!showYAxis);
+                     }}
+                     style={{
+                         position: 'absolute',
+                         right: '-10px',
+                         top: '0px',
+                         background: showYAxis ? '#ffffff' : '#ffffff',
+                         border: '1px solid #666666',
+                         borderRadius: '0px',
+                         width: '20px',
+                         height: '100%',
+                         cursor: 'pointer',
+                         zIndex: 1001,
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         fontSize: '12px',
+                         fontWeight: 'bold',
+                         color: '#000000',
+                         boxShadow: 'none',
+                         transition: 'background-color 0.3s ease',
+                         pointerEvents: 'auto'
+                     }}
+                     onMouseEnter={(e) => {
+                         e.target.style.background = showYAxis ? '#f0f0f0' : '#f0f0f0';
+                     }}
+                     onMouseLeave={(e) => {
+                         e.target.style.background = showYAxis ? '#ffffff' : '#ffffff';
+                     }}
+                 >
+                     {showYAxis ? '−' : '+'}
+                 </button>
+             )}
 
 
 

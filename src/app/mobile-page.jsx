@@ -249,18 +249,18 @@ export default function TestScroll() {
       {/* Title Section */}
         <TitleSection />
 
-      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-10 */}
+      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-7 */}
       <div style={{
         position: 'absolute',
-        top: '200vh', // Start after segment 3 (which is 200vh tall)
+        top: '400vh', // Start in section 3
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
-        height: '800vh', // 8 segments * 100vh each (3-10)
+        height: '2000vh', // Extended significantly to ensure it reaches end of section 7
         zIndex: 100, // Lower z-index to not interfere with section 1
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
-        opacity: (responsive.isMobile() && isPortrait) ? 0 : 1, // Hide in portrait mobile
-        display: (responsive.isMobile() && isPortrait) ? 'none' : 'block' // Hide in portrait mobile
+        opacity: 1, // Always visible
+        display: 'block' // Always visible
       }}>
         <ExtinctSpeciesViz />
       </div>
