@@ -771,16 +771,16 @@ export default function TestScroll() {
              </div>
 
              {/* Click for Story Button */}
-                     <button
-          style={{
-            position: 'absolute',
-            top: responsive.isMobile() ? '1rem' : '4rem',
-            right: responsive.isMobile() ? '8rem' : '4rem',
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            zIndex: 100,
-          }}
+                                 <button
+              style={{
+                position: 'absolute',
+                top: responsive.isMobile() ? '1rem' : '4rem',
+                right: responsive.isMobile() ? '20rem' : '4rem',
+                border: 'none',
+                background: 'none',
+                cursor: 'pointer',
+                zIndex: 100,
+              }}
           onClick={() => setShowLepeyamTooltip(true)}
           aria-label="Click for story"
         >
