@@ -92,7 +92,7 @@ const ExtinctSpeciesViz = () => {
 
   return (
     <div ref={scatterSectionRef} style={{ 
-      width: '100vw', 
+      width: '100%', 
       maxWidth: '100%', 
       overflow: 'visible',
       position: 'relative',

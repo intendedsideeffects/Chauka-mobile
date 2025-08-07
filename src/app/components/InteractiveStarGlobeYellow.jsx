@@ -417,7 +417,7 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
     <div 
       ref={mountRef} 
       style={{ 
-        width: '100vw', 
+        width: '100%', 
         height: '100vh', 
         position: 'absolute',
         top: 0,
