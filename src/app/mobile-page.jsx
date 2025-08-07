@@ -351,8 +351,8 @@ export default function TestScroll() {
         {/* Simple consistent layout */}
         <div style={{
           paddingTop: '10rem',
-          paddingLeft: responsive.isMobile() ? '1rem' : '20px',
-          paddingRight: responsive.isMobile() ? '1rem' : '20px',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
           maxWidth: '800px'
         }}>
           {/* Title */}
@@ -418,8 +418,8 @@ export default function TestScroll() {
         {/* Simple consistent layout */}
         <div style={{
           paddingTop: '10rem',
-          paddingLeft: responsive.isMobile() ? '0.5rem' : '20px',
-          paddingRight: responsive.isMobile() ? '0.5rem' : '20px',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
           maxWidth: '800px'
         }}>
           {/* Title */}
@@ -485,8 +485,8 @@ export default function TestScroll() {
         {/* Simple consistent layout */}
         <div style={{
           paddingTop: '10rem',
-          paddingLeft: responsive.isMobile() ? '0.5rem' : '20px',
-          paddingRight: responsive.isMobile() ? '0.5rem' : '20px',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
           maxWidth: '800px'
         }}>
           {/* Title */}
@@ -552,8 +552,8 @@ export default function TestScroll() {
         {/* Simple consistent layout */}
         <div style={{
           paddingTop: '10rem',
-          paddingLeft: responsive.isMobile() ? '1rem' : '20px',
-          paddingRight: responsive.isMobile() ? '1rem' : '20px',
+          paddingLeft: responsive.isMobile() ? '2.5rem' : '20px',
+          paddingRight: responsive.isMobile() ? '2.5rem' : '20px',
           maxWidth: '800px'
         }}>
           {/* Title */}

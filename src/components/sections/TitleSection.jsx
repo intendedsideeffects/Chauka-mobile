@@ -35,7 +35,7 @@ const TitleSection = ({
       flexDirection: (responsive.isMobile() && isPortrait) ? 'column' : 'row', // Column only for portrait mobile
       alignItems: (responsive.isMobile() && isPortrait) ? 'flex-start' : 'center',
       justifyContent: (responsive.isMobile() && isPortrait) ? 'flex-start' : 'space-between',
-      padding: responsive.isMobile() ? '2rem 1rem' : '0 4rem',
+      padding: responsive.isMobile() ? '2rem 2.5rem' : '0 4rem',
       position: 'relative',
       scrollSnapAlign: (responsive.isMobile() && isPortrait) ? 'none' : 'start',
       overflow: 'hidden', // Prevent any content from bleeding out
@@ -54,27 +54,27 @@ const TitleSection = ({
       position: 'relative',
       flexShrink: 0,
     },
-    title: {
-      fontSize: (responsive.isMobile() && isPortrait) ? '4rem' : (responsive.isMobile() ? '3rem' : '8rem'),
-      fontWeight: 'normal', // Changed from 'bold' to 'normal'
-      color: '#000',
-      marginBottom: '0',
-      textAlign: 'left', // Changed from 'center' to 'left'
-      marginTop: '0',
-      fontFamily: 'Helvetica World, Arial, sans-serif',
-      lineHeight: '1'
-    },
-    titleSecondLine: {
-      fontSize: (responsive.isMobile() && isPortrait) ? '2rem' : (responsive.isMobile() ? '1.4rem' : '3.2rem'),
-      fontWeight: 'bold', // Changed from 'normal' to 'bold'
-      color: '#000',
-      marginBottom: (responsive.isMobile() && isPortrait) ? '2rem' : (responsive.isMobile() ? '1.5rem' : '4rem'),
-      textAlign: 'left', // Changed from 'center' to 'left'
-      marginTop: '0.1rem', // Reduced from '0.5rem' to '0.1rem' to bring lines closer
-      fontFamily: 'Times New Roman, serif', // Changed from Helvetica World to Times New Roman
-      fontStyle: 'italic', // Added italic style
-      lineHeight: '1'
-    },
+                   title: {
+        fontSize: (responsive.isMobile() && isPortrait) ? '6rem' : (responsive.isMobile() ? '4.5rem' : '10rem'),
+        fontWeight: 'normal', // Changed from 'bold' to 'normal'
+        color: '#000',
+        marginBottom: '0',
+        textAlign: 'left', // Changed from 'center' to 'left'
+        marginTop: (responsive.isMobile() && isPortrait) ? '2rem' : (responsive.isMobile() ? '1.5rem' : '3rem'),
+        fontFamily: 'Helvetica World, Arial, sans-serif',
+        lineHeight: '1'
+      },
+      titleSecondLine: {
+        fontSize: (responsive.isMobile() && isPortrait) ? '3rem' : (responsive.isMobile() ? '2.2rem' : '4rem'),
+        fontWeight: 'bold', // Changed from 'normal' to 'bold'
+        color: '#000',
+        marginBottom: (responsive.isMobile() && isPortrait) ? '4rem' : (responsive.isMobile() ? '3rem' : '6rem'),
+        textAlign: 'left', // Changed from 'center' to 'left'
+        marginTop: '0.1rem', // Reduced from '0.5rem' to '0.1rem' to bring lines closer
+        fontFamily: 'Times New Roman, serif', // Changed from Helvetica World to Times New Roman
+        fontStyle: 'italic', // Added italic style
+        lineHeight: '1'
+      },
     subtitle: {
       marginBottom: '2rem',
       fontSize: '1.5rem',
