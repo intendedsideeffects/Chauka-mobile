@@ -199,6 +199,7 @@ const HistoricalSeaLevelRiseExtended = () => {
       position: 'relative', 
       overflow: 'visible', // changed back to 'visible' to allow annotation to show
       marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
+      marginLeft: responsive.isMobile() ? '-10px' : '0px',
       zIndex: 1002, // Higher than text content
       outline: 'none'
     }}>
@@ -249,7 +250,7 @@ const HistoricalSeaLevelRiseExtended = () => {
             />
             <YAxis 
               dx={0} 
-              width={40} 
+              width={responsive.isMobile() ? 30 : 40} 
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
@@ -393,8 +394,8 @@ const HistoricalSeaLevelRiseExtended = () => {
                  {/* Y-axis label - positioned outside chart area */}
          <div style={{
            position: 'absolute',
-           left: responsive.isMobile() ? '35px' : '-269px',
-           top: 'calc(50% - 32px)',
+           left: responsive.isMobile() ? '30px' : '-269px',
+           top: 'calc(50% - 65px)',
            transform: 'translateY(-50%)',
            fontSize: responsive.isMobile() ? '12px' : '14px',
            fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -402,9 +403,14 @@ const HistoricalSeaLevelRiseExtended = () => {
            textAlign: responsive.isMobile() ? 'left' : 'right',
            pointerEvents: 'none',
            lineHeight: '1.2',
-           width: responsive.isMobile() ? '80px' : '280px'
+           width: responsive.isMobile() ? '180px' : '280px'
          }}>
-           {responsive.isMobile() ? 'SEA LEVEL (CM)' : (
+           {responsive.isMobile() ? (
+             <>
+               GLOBAL MEAN SEA<br/>
+               LEVEL (CM)
+             </>
+           ) : (
              <>
                GLOBAL MEAN SEA<br/>
                LEVEL (CM)

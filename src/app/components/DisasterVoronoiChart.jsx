@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import responsive from '../utils/responsive';
 import { voronoi } from 'd3-voronoi';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
@@ -199,12 +200,14 @@ const DisasterVoronoiChart = () => {
   }
 
   return (
-    <div style={{ 
-      width: '100%', 
-      maxWidth: '1000px', 
-      margin: '0 auto',
-      textAlign: 'center'
-    }}>
+         <div style={{ 
+       width: '100%', 
+       maxWidth: '1000px', 
+       margin: '0 auto',
+       textAlign: 'center',
+       marginLeft: responsive.isMobile() ? '0px' : '0px',
+       marginRight: responsive.isMobile() ? '0px' : '0px'
+     }}>
       <div id="voronoi-container"></div>
     </div>
   );

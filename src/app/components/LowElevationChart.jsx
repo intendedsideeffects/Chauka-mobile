@@ -63,7 +63,7 @@ const LowElevationChart = () => {
       {/* Y-axis annotation */}
       <div style={{
         position: 'absolute',
-        left: responsive.isMobile() ? '10px' : '10px',
+        left: responsive.isMobile() ? '0px' : '10px',
         top: 'calc(50% - 143px)',
         transform: 'translateY(-50%)',
         fontSize: responsive.isMobile() ? '12px' : '14px',
@@ -79,7 +79,11 @@ const LowElevationChart = () => {
       </div>
       
       {/* Chart area with bars */}
-      <div className="flex items-end justify-between h-[350px] relative mx-4" style={{ transition: 'height 1.5s ease' }}>
+             <div className="flex items-end justify-between h-[350px] relative" style={{ 
+         transition: 'height 1.5s ease',
+         marginLeft: responsive.isMobile() ? '0px' : '0px',
+         marginRight: responsive.isMobile() ? '0px' : '0px'
+       }}>
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
           <div 
@@ -185,7 +189,10 @@ const LowElevationChart = () => {
       </div>
       
       {/* Country names below x-axis */}
-      <div className="flex items-end justify-between relative mx-4 mt-4">
+             <div className="flex items-end justify-between relative mt-4" style={{
+         marginLeft: responsive.isMobile() ? '0px' : '0px',
+         marginRight: responsive.isMobile() ? '0px' : '0px'
+       }}>
         {lowElevationData.map((item, index) => (
           <div 
             key={index}

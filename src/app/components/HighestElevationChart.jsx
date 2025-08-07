@@ -110,26 +110,30 @@ const HighestElevationChart = () => {
         zIndex: 0
       }} />
 
-      {/* Y-axis annotation */}
-      <div style={{
-        position: 'absolute',
-        left: responsive.isMobile() ? '10px' : '10px',
-        top: 'calc(50% - 143px)',
-        transform: 'translateY(-50%)',
-        fontSize: responsive.isMobile() ? '12px' : '14px',
-        fontFamily: 'Helvetica World, Arial, sans-serif',
-        color: '#666666',
-        textAlign: 'left',
-        pointerEvents: 'none',
-        lineHeight: '1.2',
-        width: responsive.isMobile() ? '120px' : '150px'
-      }}>
-        AVERAGE ELEVATION OF<br/>
-        PACIFIC ISLANDS (M)
-      </div>
+             {/* Y-axis annotation */}
+       <div style={{
+         position: 'absolute',
+         left: responsive.isMobile() ? '0px' : '10px',
+         top: 'calc(50% - 143px)',
+         transform: 'translateY(-50%)',
+         fontSize: responsive.isMobile() ? '12px' : '14px',
+         fontFamily: 'Helvetica World, Arial, sans-serif',
+         color: '#666666',
+         textAlign: 'left',
+         pointerEvents: 'none',
+         lineHeight: '1.2',
+         width: responsive.isMobile() ? '120px' : '150px'
+       }}>
+         AVERAGE ELEVATION OF<br/>
+         PACIFIC ISLANDS (M)
+       </div>
       
       {/* Chart area with bars */}
-      <div ref={chartAreaRef} className="flex items-end justify-between h-[350px] relative mx-4" style={{ transition: 'height 1.5s ease' }}>
+             <div ref={chartAreaRef} className="flex items-end justify-between h-[350px] relative" style={{ 
+         transition: 'height 1.5s ease',
+         marginLeft: responsive.isMobile() ? '0px' : '0px',
+         marginRight: responsive.isMobile() ? '0px' : '0px'
+       }}>
 
         
         {/* Horizontal gridlines */}

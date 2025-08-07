@@ -316,7 +316,14 @@ export default function TestScroll() {
           }} dangerouslySetInnerHTML={{ __html: "For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>." }} />
           
           {/* Chart */}
-          <div style={{marginBottom: '1rem'}}>
+          <div style={{
+            marginBottom: '1rem',
+            marginTop: responsive.isMobile() ? '18rem' : '0px',
+            width: '100%',
+            overflow: 'visible',
+            boxSizing: 'border-box',
+            marginRight: responsive.isMobile() ? '10px' : '0px'
+          }}>
             <HistoricalSeaLevelRiseExtended />
           </div>
           
@@ -326,8 +333,27 @@ export default function TestScroll() {
             color: '#9ca3af',
             fontStyle: 'italic',
             lineHeight: 1.4,
-            margin: 0
+            margin: 0,
+            marginTop: responsive.isMobile() ? '2rem' : '0px'
           }} dangerouslySetInnerHTML={{ __html: "<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>" }} />
+          
+          {/* Projection Annotation */}
+          <div style={{
+            position: 'absolute',
+            right: responsive.isMobile() ? '4rem' : '20px',
+            top: responsive.isMobile() ? 'calc(50% - 50px)' : '50%',
+            transform: 'translateY(-50%)',
+            fontSize: responsive.isMobile() ? '0.8rem' : '1rem',
+            fontFamily: 'Helvetica World, Arial, sans-serif',
+            color: '#000000',
+            fontWeight: 'normal',
+            lineHeight: '1.4',
+            maxWidth: responsive.isMobile() ? '180px' : '300px',
+            textAlign: responsive.isMobile() ? 'right' : 'right'
+          }}>
+            <strong>Projection</strong><br/>
+            Under 1.5°C to 2.0°C of global warming, sea level rise is expected to increase by <strong>~25 cm in 2050.</strong>
+          </div>
         </div>
         
 
@@ -385,8 +411,10 @@ export default function TestScroll() {
           <div style={{
             marginBottom: '1rem',
             width: '100%',
-            overflow: 'hidden',
-            boxSizing: 'border-box'
+            overflow: 'visible',
+            boxSizing: 'border-box',
+            marginLeft: responsive.isMobile() ? '10px' : '0px',
+            marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
             <SeaLevelRiseChart />
           </div>
@@ -452,8 +480,10 @@ export default function TestScroll() {
           <div style={{
             marginBottom: '1rem',
             width: '100%',
-            overflow: 'hidden',
-            boxSizing: 'border-box'
+            overflow: 'visible',
+            boxSizing: 'border-box',
+            marginLeft: responsive.isMobile() ? '10px' : '0px',
+            marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
             <HighestElevationChart />
           </div>
@@ -519,8 +549,10 @@ export default function TestScroll() {
           <div style={{
             marginBottom: '1rem',
             width: '100%',
-            overflow: 'hidden',
-            boxSizing: 'border-box'
+            overflow: 'visible',
+            boxSizing: 'border-box',
+            marginLeft: responsive.isMobile() ? '10px' : '0px',
+            marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
             <LowElevationChart />
           </div>
@@ -586,10 +618,12 @@ export default function TestScroll() {
           <div style={{
             marginBottom: '1rem',
             width: '100%',
-            overflow: 'hidden',
+            overflow: 'visible',
             boxSizing: 'border-box',
             transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
-            transformOrigin: 'left top'
+            transformOrigin: 'left top',
+            marginLeft: responsive.isMobile() ? '10px' : '0px',
+            marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
             <NewChartComponent />
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import responsive from '../utils/responsive';
 
 
 const NewChartComponent = () => {
@@ -132,11 +133,11 @@ const NewChartComponent = () => {
         `}
       </style>
       {/* Chart area with bars */}
-      <div className="flex items-end justify-between h-[350px] relative" style={{ 
-        transition: 'height 1.5s ease',
-        marginLeft: '80px',
-        marginRight: '20px'
-      }}>
+             <div className="flex items-end justify-between h-[350px] relative" style={{ 
+         transition: 'height 1.5s ease',
+         marginLeft: responsive.isMobile() ? '0px' : '0px',
+         marginRight: responsive.isMobile() ? '0px' : '0px'
+       }}>
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
           <div 
@@ -264,23 +265,23 @@ const NewChartComponent = () => {
           
       </div>
       
-      {/* Y-axis label - positioned outside chart area */}
-      <div style={{
-        position: 'absolute',
-        left: '-155px',
-        top: 'calc(50% - 145px)',
-        transform: 'translateY(-50%)',
-        fontSize: '14px',
-        fontFamily: 'Helvetica World, Arial, sans-serif',
-        color: '#666666',
-        textAlign: 'right',
-        pointerEvents: 'none',
-        lineHeight: '1.2',
-        width: '200px'
-      }}>
-        PEOPLE AFFECTED BY<br/>
-        CLIMATE-RELATED HAZARDS
-      </div>
+             {/* Y-axis label - positioned outside chart area */}
+       <div style={{
+         position: 'absolute',
+         left: responsive.isMobile() ? '0px' : '10px',
+         top: 'calc(50% - 145px)',
+         transform: 'translateY(-50%)',
+         fontSize: '14px',
+         fontFamily: 'Helvetica World, Arial, sans-serif',
+         color: '#666666',
+         textAlign: 'left',
+         pointerEvents: 'none',
+         lineHeight: '1.2',
+         width: responsive.isMobile() ? '120px' : '150px'
+       }}>
+         PEOPLE AFFECTED BY<br/>
+         CLIMATE-RELATED HAZARDS
+       </div>
       
 
       

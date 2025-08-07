@@ -109,12 +109,12 @@ const SeaLevelRiseChart = () => {
                  <div className="w-full bg-transparent relative" style={{
                    ...CHART_DIMENSIONS.container, 
                    pointerEvents: 'auto', 
-                   padding: responsive.isMobile() ? '0 20px' : '0 30px',
+                   padding: responsive.isMobile() ? '0 0px' : '0 30px',
                    maxWidth: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
                    overflow: 'visible',
                    width: responsive.isMobile() ? 'calc(100vw - 40px)' : '100%',
-                   marginLeft: responsive.isMobile() ? '20px' : '0px',
-                   marginRight: responsive.isMobile() ? '20px' : '0px'
+                                                                               marginLeft: responsive.isMobile() ? '0px' : '0px',
+                     marginRight: responsive.isMobile() ? '0px' : '0px'
                  }}>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {/* Controls - Scattered in top-right corner of page */}
                     <div className="absolute z-50" style={{
@@ -261,7 +261,7 @@ const SeaLevelRiseChart = () => {
                       <div style={{
                         position: 'absolute',
                         top: '50px',
-                        left: responsive.isMobile() ? '10px' : '10px',
+                        left: responsive.isMobile() ? '0px' : '10px',
                         fontSize: responsive.isMobile() ? '12px' : '14px',
                         fontFamily: 'Helvetica World, Arial, sans-serif',
                         color: '#666666',
