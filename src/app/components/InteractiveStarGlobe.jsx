@@ -557,7 +557,7 @@ const InteractiveStarGlobe = ({ onStarsLoaded, disableControls = false }) => {
         overflow: 'hidden',
         backgroundColor: showFallback ? '#000' : 'transparent',
         pointerEvents: disableControls ? 'none' : 'auto',
-        clipPath: 'polygon(0 0, 100% 0, 100% 60%, 0 60%)',
+        clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 70%)',
       }} 
     >
              {isLoading && (
