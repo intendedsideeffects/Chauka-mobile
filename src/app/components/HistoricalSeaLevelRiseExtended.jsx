@@ -200,7 +200,7 @@ const HistoricalSeaLevelRiseExtended = () => {
       overflow: 'visible', // changed back to 'visible' to allow annotation to show
       marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
       marginLeft: responsive.isMobile() ? '-10px' : '0px',
-      zIndex: 1002, // Higher than text content
+      zIndex: 1, // Lower than text content
       outline: 'none'
     }}>
       <div style={{ 
@@ -441,3 +441,4 @@ const HistoricalSeaLevelRiseExtended = () => {
 };
 
 export default HistoricalSeaLevelRiseExtended;
+

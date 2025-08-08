@@ -256,7 +256,7 @@ export default function TestScroll() {
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
         height: '800vh', // 8 segments * 100vh each (3-10)
-        zIndex: 9999, // High z-index to show above charts
+        zIndex: 999999, // Very high z-index to show above white box
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
         opacity: (responsive.isMobile() && isPortrait) ? 0 : 1, // Hide in portrait mobile
@@ -283,7 +283,7 @@ export default function TestScroll() {
           text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>."
           chartComponent={<HistoricalSeaLevelRiseExtended />}
           caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          customHeight="210vh"
+          
           styles={{
             header: {
               fontSize: '2.6rem',
@@ -1031,7 +1031,7 @@ function YellowStarAudioPlayer() {
             fontSize: '14px', 
             opacity: 0.8,
             borderTop: '1px solid rgba(255,255,255,0.2)',
-            paddingTop: '15px'
+            paddingTop: responsive.size.spacing.sm()
           }}>
             Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
           </div>
@@ -1040,7 +1040,7 @@ function YellowStarAudioPlayer() {
             onClick={() => setShowTooltip(false)}
             style={{
               position: 'absolute',
-              top: '15px',
+              top: responsive.size.spacing.sm(),
               right: '15px',
               background: 'none',
               border: 'none',
@@ -1363,4 +1363,7 @@ function MusicAudioPlayer() {
     </div>
   );
 }
+
+
+
 

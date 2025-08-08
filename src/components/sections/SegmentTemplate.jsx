@@ -30,7 +30,7 @@ const SegmentTemplate = ({
         },
                                        contentWrapper: {
          color: '#0e224f',
-         fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
+         fontSize: responsive.isMobile() ? '1.1rem' : '1.1rem',
          maxWidth: responsive.isMobile() ? '90%' : '700px',
          textAlign: 'left',
          fontFamily: 'Helvetica World, Arial, sans-serif',
@@ -66,7 +66,7 @@ const SegmentTemplate = ({
          lineHeight: '1.0'
        },
          text: {
-               fontSize: responsive.isMobile() ? '1.1rem' : '1.2rem',
+               fontSize: responsive.isMobile() ? '1.1rem' : '1.1rem',
        color: '#000',
        marginBottom: responsive.isMobile() ? '1rem' : '2rem',
        lineHeight: 1.5,
@@ -134,7 +134,7 @@ const SegmentTemplate = ({
               marginBottom: 0,
               marginLeft: 'auto',
               marginRight: 'auto',
-             marginTop: responsive.isMobile() ? '0' : '-50px',
+             marginTop: '0',
              gap: responsive.isMobile() ? '2rem' : '2rem',
              zIndex: 1000,
              position: 'relative',
@@ -211,3 +211,7 @@ const SegmentTemplate = ({
 };
 
 export default SegmentTemplate; 
+
+
+
+
