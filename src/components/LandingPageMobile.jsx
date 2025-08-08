@@ -380,30 +380,7 @@ function LandingPageMobileContent({
         <BirdAudioPlayerMobile />
       </div>
       
-      {/* Project attribution - mobile positioning */}
-      <div style={{ 
-        position: 'absolute', 
-        bottom: '10px', 
-        left: '50%', 
-        transform: 'translateX(-50%)', 
-        zIndex: 1000, 
-        pointerEvents: 'auto'
-      }}>
-        <div style={{
-          fontSize: '0.75rem',
-          color: '#676b8b',
-          fontWeight: 400,
-          textAlign: 'center',
-          padding: '0 15px',
-          width: '90vw',
-          maxWidth: '400px',
-          lineHeight: '1.2',
-          whiteSpace: 'pre-line'
-        }}>
-          Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> |
-          Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
-        </div>
-      </div>
+
     </section>
   );
 }

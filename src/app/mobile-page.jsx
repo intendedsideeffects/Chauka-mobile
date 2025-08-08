@@ -1535,23 +1535,7 @@ function MusicAudioPlayer() {
       }}
       aria-label="Play or pause music"
     >
-      {/* Text */}
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        fontSize: '12px',
-        fontWeight: 'bold',
-        color: 'white',
-        fontFamily: 'Helvetica World, Arial, sans-serif',
-        textAlign: 'center',
-        lineHeight: '1.2',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }}>
-        Click for<br/>music!
-      </div>
+
       
       {/* Play/Pause Icon */}
       <svg width="80" height="80" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 2 }}>
