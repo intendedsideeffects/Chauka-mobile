@@ -226,7 +226,17 @@ function LandingPageMobileContent({
       }}
     >
       {/* Star Globe as background */}
-      <InteractiveStarGlobe />
+      <div style={{ 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '70%', 
+        pointerEvents: 'auto',
+        zIndex: 1
+      }}>
+        <InteractiveStarGlobe />
+      </div>
       
       {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
       <video
