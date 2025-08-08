@@ -2,14 +2,14 @@
 
 import React from 'react';
 import SegmentTemplate from '../../components/sections/SegmentTemplate';
-import NewChartComponent from './NewChartComponent';
+import NewChartComponentMobile from './NewChartComponentMobile';
 
 const NewChartSegment = () => {
   return (
     <SegmentTemplate
       header=""
       text=""
-      chartComponent={<NewChartComponent />}
+      chartComponent={<NewChartComponentMobile />}
       styles={{
         // You can override default styles here if needed
         container: {
@@ -33,3 +33,5 @@ const NewChartSegment = () => {
 };
 
 export default NewChartSegment; 
+
+

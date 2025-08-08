@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import DisasterVoronoiChart from '../components/DisasterVoronoiChart';
+import DisasterVoronoiChartMobile from '../components/DisasterVoronoiChartMobile';
 
 export default function DisasterVoronoiPage() {
   return (
@@ -12,7 +12,10 @@ export default function DisasterVoronoiPage() {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      <DisasterVoronoiChart />
+      <DisasterVoronoiChartMobile />
     </div>
   );
 } 
+
+
+

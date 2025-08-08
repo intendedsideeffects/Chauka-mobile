@@ -6,13 +6,13 @@ import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow'
 import { responsive } from './utils/responsive';
 import TitleSection from '../components/sections/TitleSection';
 
-import SeaLevelRiseChart from './components/SeaLevelRiseChart';
-import HistoricalSeaLevelRiseExtended from './components/HistoricalSeaLevelRiseExtended';
-import NewChartComponent from './components/NewChartComponent';
-import HighestElevationChart from './components/HighestElevationChart';
-import LowElevationChart from './components/LowElevationChart';
-import DisasterVoronoiChart from './components/DisasterVoronoiChart';
-import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
+import SeaLevelRiseChartMobile from './components/SeaLevelRiseChartMobile';
+import HistoricalSeaLevelRiseExtendedMobile from './components/HistoricalSeaLevelRiseExtendedMobile';
+import NewChartComponentMobile from './components/NewChartComponentMobile';
+import HighestElevationChartMobile from './components/HighestElevationChartMobile';
+import LowElevationChartMobile from './components/LowElevationChartMobile';
+import DisasterVoronoiChartMobile from './components/DisasterVoronoiChartMobile';
+import ExtinctSpeciesVizMobile from './components/ExtinctSpeciesVizMobile';
 import LandingPage from '../components/LandingPage';
 
 export default function TestScroll() {
@@ -163,7 +163,7 @@ export default function TestScroll() {
       scrollSnapType: (responsive.isMobile() && isPortrait) ? 'none' : 'y mandatory', 
       height: (responsive.isMobile() && isPortrait) ? 'auto' : '100vh', 
       overflowY: 'auto', 
-      overflowX: 'hidden', 
+      overflowX: 'visible', 
         position: 'relative', 
       minHeight: '100vh',
       isolation: 'isolate' // Create new stacking context
@@ -255,14 +255,14 @@ export default function TestScroll() {
         top: '400vh', // Start in section 3
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
-        height: '2000vh', // Extended significantly to ensure it reaches end of section 7
+        height: '8000vh', // Extended significantly to ensure it reaches end of section 7
         zIndex: 100, // Lower z-index to not interfere with section 1
-        pointerEvents: 'none', // Don't capture click events
+        pointerEvents: 'auto', // Allow interaction with scatterplot
         borderRadius: '8px',
         opacity: 1, // Always visible
         display: 'block' // Always visible
       }}>
-        <ExtinctSpeciesViz />
+        <ExtinctSpeciesVizMobile />
       </div>
 
       {/* Test Segment Template */}
@@ -326,7 +326,7 @@ export default function TestScroll() {
             boxSizing: 'border-box',
             marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
-            <HistoricalSeaLevelRiseExtended />
+            <HistoricalSeaLevelRiseExtendedMobile />
           </div>
           
           {/* Caption */}
@@ -422,7 +422,7 @@ export default function TestScroll() {
             marginLeft: responsive.isMobile() ? '10px' : '0px',
             marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
-            <SeaLevelRiseChart />
+            <SeaLevelRiseChartMobile />
           </div>
           
           {/* Caption */}
@@ -495,7 +495,7 @@ export default function TestScroll() {
             marginLeft: responsive.isMobile() ? '10px' : '0px',
             marginRight: responsive.isMobile() ? '40px' : '0px'
           }}>
-            <HighestElevationChart />
+            <HighestElevationChartMobile />
           </div>
           
           {/* Caption */}
@@ -567,7 +567,7 @@ export default function TestScroll() {
             marginLeft: responsive.isMobile() ? '10px' : '0px',
             marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
-            <LowElevationChart />
+            <LowElevationChartMobile />
           </div>
           
           {/* Caption */}
@@ -641,7 +641,7 @@ export default function TestScroll() {
             marginRight: responsive.isMobile() ? '4rem' : '0px',
             marginTop: responsive.isMobile() ? '6rem' : '0px'
           }}>
-            <NewChartComponent />
+            <NewChartComponentMobile />
           </div>
           
           {/* Caption */}
@@ -1568,4 +1568,9 @@ function MusicAudioPlayer() {
     </div>
   );
 }
+
+
+
+
+
 

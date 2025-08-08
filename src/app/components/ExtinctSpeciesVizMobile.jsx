@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
 import responsive from '../utils/responsive';
 
-const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to end at section 7, default for browser
+const STATUS_HEIGHT = responsive.isMobile() ? 50000 : 7000; // Increased height for mobile to end at section 7, default for browser
 const STATUS_WIDTH = 1600;
 const getYearPosition = (year) => {
   return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;
@@ -40,9 +40,9 @@ const ExtinctSpeciesViz = () => {
       const csvText = await response.text();
       const stories = parseCSV(csvText);
       
-      // Map stories to scatterplot points and filter for flooding only
+      // Map stories to scatterplot points - show all disasters
       const points = stories
-        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood'))
+        .filter(row => row.disaster_type && row.start_year) // Show all disasters with valid years
         .map((row) => {
           const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
           return {
@@ -58,7 +58,7 @@ const ExtinctSpeciesViz = () => {
             total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
           };
         });
-      console.log('Scatterplot points (flooding only):', points);
+      console.log('Scatterplot points (all disasters):', points);
       setData(points);
       
       // Timeline marks (every 100 years)
@@ -108,3 +108,9 @@ const ExtinctSpeciesViz = () => {
 };
 
 export default ExtinctSpeciesViz; 
+
+
+
+
+
+

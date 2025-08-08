@@ -1,19 +1,18 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
-import { responsive } from './utils/responsive';
 import TitleSection from '../components/sections/TitleSection';
 import SegmentTemplate from '../components/sections/SegmentTemplate';
-import SeaLevelRiseChart from './components/SeaLevelRiseChart';
-import HistoricalSeaLevelRiseExtended from './components/HistoricalSeaLevelRiseExtended';
-import NewChartComponent from './components/NewChartComponent';
-import HighestElevationChart from './components/HighestElevationChart';
-import LowElevationChart from './components/LowElevationChart';
-import DisasterVoronoiChart from './components/DisasterVoronoiChart';
-import ExtinctSpeciesViz from './components/ExtinctSpeciesViz';
-import LandingPage from '../components/LandingPage';
+import SeaLevelRiseChartBrowser from './components/browser/SeaLevelRiseChartBrowser';
+import HistoricalSeaLevelRiseExtendedBrowser from './components/browser/HistoricalSeaLevelRiseExtendedBrowser';
+import NewChartComponentBrowser from './components/browser/NewChartComponentBrowser';
+import HighestElevationChartBrowser from './components/browser/HighestElevationChartBrowser';
+import LowElevationChartBrowser from './components/browser/LowElevationChartBrowser';
+import DisasterVoronoiChartBrowser from './components/browser/DisasterVoronoiChartBrowser';
+import ExtinctSpeciesVizBrowser from './components/browser/ExtinctSpeciesVizBrowser';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -24,25 +23,8 @@ export default function TestScroll() {
   const [musicAudioLoaded, setMusicAudioLoaded] = useState(false);
   const [musicAudioError, setMusicAudioError] = useState(false);
   const [musicAudioElement, setMusicAudioElement] = useState(null);
-  const [isPortrait, setIsPortrait] = useState(false);
   const videoRef = useRef();
   const oceanVideoRef = useRef();
-
-  // Add orientation detection for portrait mobile
-  useEffect(() => {
-    const checkOrientation = () => {
-      setIsPortrait(window.innerHeight > window.innerWidth);
-    };
-
-    checkOrientation();
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', checkOrientation);
-
-    return () => {
-      window.removeEventListener('resize', checkOrientation);
-      window.removeEventListener('orientationchange', checkOrientation);
-    };
-  }, []);
 
   // Ensure video plays properly
   useEffect(() => {
@@ -159,21 +141,209 @@ export default function TestScroll() {
   };
 
   return (
-    <div style={{ 
-      scrollSnapType: (responsive.isMobile() && isPortrait) ? 'none' : 'y mandatory', 
-      height: (responsive.isMobile() && isPortrait) ? 'auto' : '100vh', 
-      overflowY: 'auto', 
-      overflowX: 'hidden', 
+    <div style={{ scrollSnapType: 'y mandatory', height: '100vh', overflowY: 'auto', overflowX: 'hidden', position: 'relative', minHeight: '100vh' }}>
+      {/* Video Section */}
+      <section style={{ 
         position: 'relative', 
-      minHeight: '100vh',
-      isolation: 'isolate' // Create new stacking context
-    }}>
-      {/* Landing Page Section */}
-      <LandingPage 
-        showChaukaTooltip={showChaukaTooltip}
-        setShowChaukaTooltip={setShowChaukaTooltip}
-        oceanVideoRef={oceanVideoRef}
-      />
+        height: '100vh', 
+        width: '100%', 
+        background: '#000', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        overflow: 'hidden',
+        scrollSnapAlign: 'start'
+      }}>
+        {/* Segment Number */}
+
+        {/* Star Globe as background */}
+        <InteractiveStarGlobe />
+        {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
+        <video
+          ref={oceanVideoRef}
+          src="/ocean_compressed.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          onLoadStart={() => console.log('Ocean video loading started')}
+          onCanPlay={() => console.log('Ocean video can play')}
+          onError={(e) => console.error('Ocean video error:', e)}
+          onPlay={() => console.log('Ocean video started playing')}
+          onLoadedData={() => console.log('Ocean video data loaded')}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '15vh',
+            width: '100vw',
+            height: '85vh',
+            objectFit: 'cover',
+            zIndex: 2,
+            pointerEvents: 'none',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
+          }}
+        />
+        {/* Black bar between video and star globe */}
+        {/* Temporarily commented out for debugging */}
+        {/* <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '15vh',
+            width: '100vw',
+            height: '85vh', // Match the video height
+            zIndex: 2.5, // Between star globe and video
+            pointerEvents: 'none',
+            background: '#000',
+          }}
+        /> */}
+        {/* Scene overlay image */}
+        <img
+          src="/scene.png"
+          alt="Scene overlay"
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '15vh',
+            width: '100vw',
+            height: '85vh',
+            objectFit: 'cover',
+            zIndex: 3, // Above video and black bar
+            pointerEvents: 'none',
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none'
+          }}
+        />
+        
+        {/* Speech bubble centered and down */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '40%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            pointerEvents: 'none',
+          }}
+        >
+          <img 
+            src="/speechbubble.svg" 
+            alt="Speech bubble" 
+            style={{ 
+              width: '200px', 
+              height: 'auto',
+              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+              opacity: 0.7
+            }} 
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: '40%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: '#333',
+              fontSize: '12px',
+              fontWeight: '500',
+              textAlign: 'center',
+              fontFamily: 'Helvetica World, Arial, sans-serif',
+              width: '80%',
+              lineHeight: '1.2'
+            }}
+          >
+            Can you find<br />
+            the Southern Cross?<br />
+            Drag sky to explore.
+          </div>
+        </div>
+
+
+        {/* Music Button on Canoe Area - Hidden for now */}
+        {/* <div style={{
+          position: 'absolute',
+          top: '60vh',
+          left: '70vw',
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
+          <MusicAudioPlayer />
+        </div> */}
+
+        {/* Audio buttons positioned relative to video section */}
+        <div style={{ position: 'absolute', top: '120px', right: '120px', zIndex: 1000, pointerEvents: 'auto' }}>
+          <button
+            style={{
+              width: '300px',
+              height: '300px',
+              border: 'none',
+              background: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={() => setShowChaukaTooltip(true)}
+            aria-label="Click for story"
+          >
+            <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+              <defs>
+                <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#cad6fa" stopOpacity="0.8" />
+                </radialGradient>
+                <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+                  <feGaussianBlur stdDeviation="40" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <path id="circlePath" d="M150,75 A75,75 0 1,1 149.99,75" />
+              </defs>
+              <circle cx="150" cy="150" r="40" fill="#cad6fa" style={{ filter: 'url(#glow)' }} />
+              <circle cx="150" cy="150" r="50" fill="transparent" style={{ filter: 'url(#glow)', animation: 'pulse 2s ease-in-out infinite', opacity: 0.2 }} />
+              <text fill="#94a0c4" fontSize="18" fontWeight="normal" letterSpacing="0.08em">
+                <textPath xlinkHref="#circlePath" startOffset="0%" textAnchor="start" dominantBaseline="middle">
+                  Click for story!
+                </textPath>
+              </text>
+            </svg>
+          </button>
+        </div>
+        <div style={{ position: 'absolute', left: '40px', bottom: '40px', zIndex: 1000, pointerEvents: 'auto' }}>
+          <BlueCircleAudioPlayer />
+        </div>
+        {/* Bird audio button positioned over the bird in the scene */}
+        <div style={{ position: 'absolute', top: 'calc(80px + 6cm)', left: 'calc(80px + 7cm)', zIndex: 1000, pointerEvents: 'auto' }}>
+          <BirdAudioPlayer />
+        </div>
+        {/* Project attribution on video */}
+        <div style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          zIndex: 1000, 
+          pointerEvents: 'auto'
+        }}>
+          <div style={{
+            fontSize: '1rem',
+            color: '#676b8b',
+            fontWeight: 400,
+            textAlign: 'center'
+          }}>
+            Storytelling by Bertha <a href="https://www.linkedin.com/in/bertha-ngahan-a9b405145/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Ngahan</a> | Visualization by Janina <a href="https://www.linkedin.com/in/j-grauel/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#676b8b', fontWeight: 'bold' }}>Grauel</a>
+          </div>
+        </div>
+      </section>
 
       {/* Chauka Story Tooltip */}
       {showChaukaTooltip && (
@@ -184,36 +354,38 @@ export default function TestScroll() {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'rgba(255, 255, 255, 0.8)',
           color: '#000',
-          ...responsive.container.modal(),
+          padding: '40px',
+          borderRadius: '12px',
+          maxWidth: '600px',
           maxHeight: '80vh',
           overflowY: 'auto',
           zIndex: 10000,
           fontFamily: 'Helvetica World, Arial, sans-serif',
-          fontSize: responsive.size.fontSize.md(),
+          fontSize: '16px',
           lineHeight: '1.6',
           boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(0,0,0,0.1)'
         }}>
-          <div style={{ marginBottom: responsive.size.spacing.md() }}>
+          <div style={{ marginBottom: '20px' }}>
             This video collage is inspired by the Chauka, a bird found only on Manus Island in Papua New Guinea. It plays a role in daily life and is deeply respected, appearing often in local stories. People say its calls help mark the passage of time, acting as a kind of timekeeper. But in many legends, the Chauka also appears as a warning.
           </div>
           
-          <div style={{ marginBottom: responsive.size.spacing.md() }}>
+          <div style={{ marginBottom: '20px' }}>
             The story behind this visualization is about a man who brings home his newly wed wife. But soon the Chauka begins calling again and again. The villagers are alert, they sense something is wrong. The woman is not who she says she is. She is a spirit in disguise. The villagers listen to the bird and decide to leave the island by boat.
           </div>
           
-          <div style={{ marginBottom: responsive.size.spacing.md() }}>
+          <div style={{ marginBottom: '20px' }}>
             Stories like this are still told on Manus. The Chauka is seen as a bird that notices things before people do. It speaks up when something is off, when something is coming.
           </div>
           
           <div style={{ 
             fontStyle: 'italic', 
-            fontSize: responsive.size.fontSize.sm(), 
+            fontSize: '14px', 
             opacity: 0.8,
             borderTop: '1px solid rgba(0,0,0,0.2)',
-            paddingTop: responsive.size.spacing.sm(),
-            marginTop: responsive.size.spacing.md()
+            paddingTop: '15px',
+            marginTop: '20px'
           }}>
             Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
           </div>
@@ -222,17 +394,17 @@ export default function TestScroll() {
             onClick={() => setShowChaukaTooltip(false)}
             style={{
               position: 'absolute',
-              top: responsive.size.spacing.sm(),
-              right: responsive.size.spacing.sm(),
+              top: '15px',
+              right: '15px',
               background: 'none',
               border: 'none',
               color: '#333',
-              fontSize: responsive.size.fontSize.xl(),
+              fontSize: '24px',
               cursor: 'pointer',
-              padding: responsive.size.spacing.xs(),
+              padding: '5px',
               borderRadius: '50%',
-              width: responsive.size.icon.medium(),
-              height: responsive.size.icon.medium(),
+              width: '30px',
+              height: '30px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -247,22 +419,23 @@ export default function TestScroll() {
       )}
 
       {/* Title Section */}
+      <div style={{position: 'relative'}}>
         <TitleSection />
+      </div>
 
       {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-10 */}
       <div style={{
         position: 'absolute',
         top: '200vh', // Start after segment 3 (which is 200vh tall)
-        left: responsive.size.spacing.md(),
-        width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
+        left: '20px',
+        width: 'calc(100vw - 40px)',
         height: '800vh', // 8 segments * 100vh each (3-10)
-        zIndex: 999999, // Very high z-index to show above white box
+        zIndex: 9999, // High z-index to show above charts
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
-        opacity: (responsive.isMobile() && isPortrait) ? 0 : 1, // Hide in portrait mobile
-        display: (responsive.isMobile() && isPortrait) ? 'none' : 'block' // Hide in portrait mobile
+        opacity: 1 // Fully opaque
       }}>
-        <ExtinctSpeciesViz />
+        <ExtinctSpeciesVizBrowser />
       </div>
 
       {/* Test Segment Template */}
@@ -281,9 +454,8 @@ export default function TestScroll() {
           header="Sea levels held steady for a millennium,"
           headerSecondLine="until now."
           text="For most of the past millennium, sea levels remained relatively stable. But since the late 19th century, they have <strong>risen sharply</strong> due to climate-driven ocean warming and ice melt. Flooding worsens, drinking water is affected, and <strong>coastal communities are under threat</strong>."
-          chartComponent={<HistoricalSeaLevelRiseExtended />}
+          chartComponent={<HistoricalSeaLevelRiseExtendedBrowser />}
           caption="<strong>Fig 1:</strong> Global mean sea level from the year 1000 to present, shown relative to the approximate year 2000 baseline (0 cm). The projection to 2050 assumes 1.5°C to 2.0°C of global warming. Data: Kopp <a href='https://www.pnas.org/doi/10.1073/pnas.1517056113' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and NASA <a href='http://podaac.jpl.nasa.gov/dataset/MERGED_TP_J1_OSTM_OST_ALL_V52' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
-          
           styles={{
             header: {
               fontSize: '2.6rem',
@@ -299,20 +471,19 @@ export default function TestScroll() {
           }}
         />
         
-                                                                                                                                                                                       {/* Annotation for section 3 - positioned outside chart container */}
-                         <div style={{
-                           position: 'absolute',
-                           top: responsive.isMobile() ? 'calc(50vh + 250px)' : 'calc(27vh - 70px)',
-                           right: responsive.isMobile() ? '100px' : '140px',
-                           zIndex: 9999,
-                           pointerEvents: 'none',
-          fontSize: responsive.size.fontSize.sm(),
+        {/* Annotation for section 3 - positioned outside chart container */}
+        <div style={{
+          position: 'absolute',
+          top: 'calc(35vh - 125px)',
+          left: 'calc(80vw - 30px)',
+          zIndex: 9999,
+          pointerEvents: 'none',
+          fontSize: '14px',
           fontFamily: 'Helvetica World, Arial, sans-serif',
           color: '#000000',
           fontWeight: 'normal',
           lineHeight: '1.4',
-          maxWidth: responsive.isMobile() ? '250px' : '300px',
-          textAlign: responsive.isMobile() ? 'right' : 'left'
+          maxWidth: '300px'
         }}>
           <strong>Projection</strong><br/>
           Under 1.5°C to 2.0°C of global warming,<br/>
@@ -339,7 +510,7 @@ export default function TestScroll() {
           header="Sea level is rising,"
           headerSecondLine="but not at the same rate."
           text="Sea level rise is <strong>uneven</strong>. The Pacific is a <strong>hotspot</strong>. Driven by ocean patterns, melting ice, and land movement, some islands are seeing <strong>faster-than-average</strong> increases. For nations with limited land and elevation, these trends bring real and immediate threats."
-          chartComponent={<SeaLevelRiseChart />}
+          chartComponent={<SeaLevelRiseChartBrowser />}
           caption="<strong>Fig 2:</strong> Projected sea level rise scenarios, across selected Pacific Island nations. Data: Pacific Flooding Analysis Tool <a href='https://sealevel.nasa.gov/flooding-analysis-tool-pacific-islands/sea-level-rise?station-id=018&units=meters' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
@@ -373,7 +544,7 @@ export default function TestScroll() {
           header="Impact varies across Pacific islands"
           headerSecondLine="low-laying islands are exposed more."
           text="Low elevation makes many Pacific islands especially vulnerable to sea level rise. When land sits just a few meters above the ocean, even small increases can <strong>overwhelm coastlines</strong>. With nowhere higher to go, communities face growing challenges to stay safe, maintain clean water, and protect their homes."
-          chartComponent={<HighestElevationChart />}
+          chartComponent={<HighestElevationChartBrowser />}
           caption="<strong>Fig 3:</strong> Average elevation of selected Pacific Island nations and territories. Data: Wikipedia <a href='https://en.wikipedia.org/wiki/List_of_elevation_extremes_by_country?utm_source=chatgpt.com' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
@@ -407,7 +578,7 @@ export default function TestScroll() {
           header="Many islanders live just above sea level,"
           headerSecondLine="where sea rise is already felt."
           text="Many Pacific Island nations have significant <strong>populations living in low-lying coastal areas</strong>. These communities are <strong>particularly vulnerable</strong> to sea level rise and coastal flooding, as even small increases in sea level can have dramatic impacts on their daily lives and infrastructure."
-          chartComponent={<LowElevationChart />}
+          chartComponent={<LowElevationChartBrowser />}
           caption="<strong>Fig 4:</strong> Percentage of national populations living between 0–5 meters above sea level in selected Pacific Island nations. Data: Pacific Data Hub <a href='https://pacificdata.org/data/dataset/population-living-in-low-elevation-coastal-zones-0-10m-and-0-20m-above-sea-level-df-pop-lecz' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
           styles={{
             header: {
@@ -443,7 +614,7 @@ export default function TestScroll() {
            header="Climate risks are rising in the Pacific."
            headerSecondLine="So is human impact."
                      text="Flooding is not the only threat. Cyclones, droughts, and heat extremes are also affecting more people across the Pacific. While impacts vary by island and year, some nations have seen sharp spikes in those affected. The trend points to growing vulnerability as the climate continues to change."
-          chartComponent={<NewChartComponent />}
+          chartComponent={<NewChartComponentBrowser />}
           caption="<strong>Fig 5:</strong> Number of people affected by climate-related hazards in the Pacific, 2005–2023. Data: Pacific Data Hub <a href='https://blue-pacific-2050.pacificdata.org/climate-change-and-disasters/indicators?outcome=1.0' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a> and EM-DAT <a href='https://public.emdat.be/data' target='_blank' style='color: #9ca3af; text-decoration: underline;'>(link)</a>"
            styles={{
              header: {
@@ -591,8 +762,11 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              {/* Click for Story Button */}
              <button
                style={{
-                 ...responsive.position.absolute.bottomRight(),
-                 ...responsive.container.chart(),
+                 position: 'absolute',
+                 bottom: '50px',
+                 right: '50px',
+                 width: '300px',
+                 height: '300px',
                  border: 'none',
                  background: 'none',
                  cursor: 'pointer',
@@ -601,7 +775,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                onClick={() => setShowLepeyamTooltip(true)}
                aria-label="Click for story"
              >
-               <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+               <svg width="300" height="300" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulse-section7" cx="50%" cy="50%" r="50%">
                      <stop offset="0%" stopColor="#cad6fa" stopOpacity="1" />
@@ -629,9 +803,11 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              {/* Click for Music Button */}
              <div
                style={{
-                 ...responsive.position.absolute.bottomLeft(),
-                 width: responsive.isMobile() ? '200px' : '240px',
-                 height: responsive.isMobile() ? '200px' : '240px',
+                 position: 'absolute',
+                 bottom: '50px',
+                 left: '50px',
+                 width: '240px',
+                 height: '240px',
                  display: 'flex',
                  alignItems: 'center',
                  justifyContent: 'center',
@@ -652,7 +828,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  onStateChange={handleMusicStateChange}
                  onRef={handleMusicAudioRef}
                />
-               <svg width={responsive.isMobile() ? "200" : "240"} height={responsive.isMobile() ? "200" : "240"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+               <svg width="240" height="240" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
                  <defs>
                    <radialGradient id="pulseMusic" cx="50%" cy="50%" r="50%">
                      <stop offset="0%" stopColor="#3d557a" stopOpacity="1" />
@@ -700,27 +876,29 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
 
              {/* Lepeyam Story Tooltip */}
              {showLepeyamTooltip && (
-               <div                style={{
+               <div style={{
                  position: 'fixed',
                  top: '50%',
                  left: '50%',
                  transform: 'translate(-50%, -50%)',
                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
                  color: '#222',
-                 ...responsive.container.modal(),
+                 padding: '40px',
+                 borderRadius: '12px',
+                 maxWidth: '600px',
                  maxHeight: '80vh',
                  overflowY: 'auto',
                  zIndex: 10000,
                  fontFamily: 'Helvetica World, Arial, sans-serif',
-                 fontSize: responsive.size.fontSize.md(),
+                 fontSize: '16px',
                  lineHeight: '1.6',
                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                  backdropFilter: 'blur(10px)',
                  border: '1px solid rgba(0,0,0,0.1)'
                }}>
                  <h2 style={{ 
-                   marginBottom: responsive.size.spacing.md(), 
-                   fontSize: responsive.size.fontSize.xl(), 
+                   marginBottom: '20px', 
+                   fontSize: '24px', 
                    fontWeight: 'bold',
                    color: '#333'
                  }}>
@@ -729,57 +907,57 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  
                  <div style={{ 
                    fontStyle: 'italic', 
-                   fontSize: responsive.size.fontSize.sm(), 
+                   fontSize: '14px', 
                    opacity: 0.8,
-                   marginBottom: responsive.size.spacing.md(),
+                   marginBottom: '20px',
                    color: '#666'
                  }}>
                    Translated from Tok Pisin
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    Lepeyam was a woman from Htopolonu who lived with her children in the village. One day, people were preparing for a big cultural celebration with dancing, singing, and traditional food. Many women were fetching water from a tap at the park using plastic containers.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    Lepeyam told one of them, "You and your children should fetch water too." But when they got to the tap, a strange woman was already there. She was not from the village. She was a masalai meri, a spirit woman. She blocked Lepeyam and her children from collecting water. Then, without speaking, she filled their containers for them and disappeared.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    That night, the masalai came to Lepeyam in her sleep. She sang a chant in a language Lepeyam could not understand. In the chant, she mentioned the Chauka bird. In Manus, the Chauka is known as a signal bird, used to mark time or warn of changes. The dream left Lepeyam confused and unsettled.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    The next morning, she left the house without saying anything. She walked out of the village as if in a trance, following a voice that only she could hear. She was gone for days.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    While she was missing, a kind couple took in her children. They brought them home, gave them food, and looked after them. One of the grandmothers told the children not to worry. She cooked food from the garden and sat with them. When they were ready to eat, she asked gently, "Do you know how to eat properly with your hands like we do here?" Then she showed them how.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    Days later, Lepeyam returned. She was dirty and tired. People saw her drinking from puddles and chewing betelnut. Her body looked thin, and her behavior was strange. The masalai had taken her into the bush and taught her strange ways.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    When she came back to the village, people gathered and called her children. "Here is your mother," they said. But the children did not recognize her.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    Lepeyam sat quietly. Sometimes she took food from other people's plates. Her voice and movements were not her own. At one point, the real masalai woman appeared again, dancing and talking in riddles. She took food and spoke as if through Lepeyam.
                  </div>
                  
-                 <div style={{ marginBottom: responsive.size.spacing.md() }}>
+                 <div style={{ marginBottom: '20px' }}>
                    Eventually, the villagers brought Lepeyam back to her house. She sat down with her children and said softly, "I am still your mother, but I am not the same."
                  </div>
                  
                  <div style={{ 
                    fontStyle: 'italic', 
-                   fontSize: responsive.size.fontSize.sm(), 
+                   fontSize: '14px', 
                    opacity: 0.8,
                    borderTop: '1px solid rgba(0,0,0,0.2)',
-                   paddingTop: responsive.size.spacing.sm(),
-                   marginTop: responsive.size.spacing.md()
+                   paddingTop: '15px',
+                   marginTop: '20px'
                  }}>
                    This story was later turned into a traditional song and dance performance.
                  </div>
@@ -788,17 +966,17 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                    onClick={() => setShowLepeyamTooltip(false)}
                    style={{
                      position: 'absolute',
-                     top: responsive.size.spacing.sm(),
-                     right: responsive.size.spacing.sm(),
+                     top: '15px',
+                     right: '15px',
                      background: 'none',
                      border: 'none',
                      color: '#333',
-                     fontSize: responsive.size.fontSize.xl(),
+                     fontSize: '24px',
                      cursor: 'pointer',
-                     padding: responsive.size.spacing.xs(),
+                     padding: '5px',
                      borderRadius: '50%',
-                     width: responsive.size.icon.medium(),
-                     height: responsive.size.icon.medium(),
+                     width: '30px',
+                     height: '30px',
                      display: 'flex',
                      alignItems: 'center',
                      justifyContent: 'center',
@@ -1031,7 +1209,7 @@ function YellowStarAudioPlayer() {
             fontSize: '14px', 
             opacity: 0.8,
             borderTop: '1px solid rgba(255,255,255,0.2)',
-            paddingTop: responsive.size.spacing.sm()
+            paddingTop: '15px'
           }}>
             Note: We worked with local knowledge through Bertha, who is from Manus. While we couldn't capture the full version of the story in time for this release, we hope to return to it and share more when the moment is right.
           </div>
@@ -1040,7 +1218,7 @@ function YellowStarAudioPlayer() {
             onClick={() => setShowTooltip(false)}
             style={{
               position: 'absolute',
-              top: responsive.size.spacing.sm(),
+              top: '15px',
               right: '15px',
               background: 'none',
               border: 'none',
@@ -1100,7 +1278,7 @@ function BlueCircleAudioPlayer() {
   }, []);
 
   React.useEffect(() => {
-          const audio = new Audio('/oceansound_compressed.m4a');
+    const audio = new Audio('/oceansound.m4a');
     audio.volume = 0.20;
     audio.loop = true;
     audio.preload = 'auto';
@@ -1363,7 +1541,6 @@ function MusicAudioPlayer() {
     </div>
   );
 }
-
 
 
 

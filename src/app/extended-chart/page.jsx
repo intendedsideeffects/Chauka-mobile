@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import HistoricalSeaLevelRiseExtended from '../components/HistoricalSeaLevelRiseExtended';
+import HistoricalSeaLevelRiseExtendedMobile from '../components/HistoricalSeaLevelRiseExtendedMobile';
 
 const ExtendedChartPage = () => {
   return (
@@ -17,7 +17,7 @@ const ExtendedChartPage = () => {
           padding: '2rem', 
           borderRadius: '8px'
         }}>
-          <HistoricalSeaLevelRiseExtended />
+          <HistoricalSeaLevelRiseExtendedMobile />
         </div>
       </div>
     </div>
@@ -25,3 +25,5 @@ const ExtendedChartPage = () => {
 };
 
 export default ExtendedChartPage;
+
+

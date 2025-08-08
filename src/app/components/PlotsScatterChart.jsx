@@ -26,7 +26,7 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to end at section 7, default for browser
+const STATUS_HEIGHT = responsive.isMobile() ? 50000 : 7000; // Increased height for mobile to end at section 7, default for browser
 const STATUS_WIDTH = 1600;
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;
@@ -656,8 +656,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 );
               })()}
             
-             <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
-                <ScatterChart
+             
+                <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>\n                <ScatterChart
                     key="main-scatter-chart"
                     style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
                     margin={{ top: 113, right: 80, bottom: 113, left: -50 }}
@@ -881,11 +881,18 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
                                          {/* Custom tooltips are handled above, no need for default Recharts Tooltip */}
 
-                </ScatterChart>
-            </ResponsiveContainer>
+                </ScatterChart>\n            </ResponsiveContainer>
+            
         </div>
     );
 }
 
 export default PlotsScatterChart;
+
+
+
+
+
+
+
 

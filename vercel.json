@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/ocean.mp4",
+      "source": "/ocean_compressed.mp4",
       "headers": [
         {
           "key": "Content-Type",
