@@ -13,7 +13,7 @@ import HighestElevationChartMobile from './components/HighestElevationChartMobil
 import LowElevationChartMobile from './components/LowElevationChartMobile';
 import DisasterVoronoiChartMobile from './components/DisasterVoronoiChartMobile';
 import ExtinctSpeciesVizMobile from './components/ExtinctSpeciesVizMobile';
-import LandingPage from '../components/LandingPage';
+import LandingPage from '../components/LandingPageMobile';
 
 export default function TestScroll() {
   const [isPlaying, setIsPlaying] = useState(true);

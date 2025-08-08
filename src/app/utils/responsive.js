@@ -9,7 +9,7 @@ export const responsive = {
     desktop: 1280,
   },
 
-  // SSR-safe check functions - return false during SSR, actual values on client
+  // SSR-safe check functions - return consistent values during SSR
   isMobile: () => {
     if (typeof window === 'undefined') return false; // Default to desktop during SSR
     return window.innerWidth < 768;
