@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Area } from 'recharts';
+import { ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Area, ReferenceDot } from 'recharts';
 
 const HistoricalSeaLevelRiseExtended = () => {
   const [data, setData] = useState([]);
@@ -219,8 +219,8 @@ const HistoricalSeaLevelRiseExtended = () => {
            zIndex: 1
          }} />
         
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data.allData} margin={{ left: 0, right: 0, top: 20, bottom: 20 }}>
+                 <ResponsiveContainer width="100%" height="100%">
+           <ComposedChart data={data.allData} margin={{ left: 0, right: 20, top: 20, bottom: 20 }}>
                          <defs>
                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
                  <stop offset="0%" stopColor="rgba(59, 130, 246, 0.7)" />
@@ -360,6 +360,17 @@ const HistoricalSeaLevelRiseExtended = () => {
                 activeDot={false}
               connectNulls={true}
                 name="projection"
+              />
+            )}
+            
+            {/* Blue dot at the end of projection line */}
+            {animationStep >= 1 && data.projection && data.projection.length > 0 && (
+              <ReferenceDot
+                x={data.projection[data.projection.length - 1].year}
+                y={data.projection[data.projection.length - 1].value}
+                r={4}
+                fill="#0066cc"
+                stroke="none"
               />
             )}
             {/* Zero reference line removed - gridline at y=0 is sufficient */}

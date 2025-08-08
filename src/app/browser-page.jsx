@@ -485,8 +485,8 @@ export default function TestScroll() {
         {/* Annotation for section 3 - positioned outside chart container */}
         <div style={{
           position: 'absolute',
-          top: 'calc(35vh - 125px)',
-          left: 'calc(80vw - 30px)',
+          top: 'calc(35vh - 120px)',
+          left: 'calc(80vw - 40px)',
           zIndex: 9999,
           pointerEvents: 'none',
           fontSize: '14px',
@@ -1289,7 +1289,7 @@ function BlueCircleAudioPlayer() {
   }, []);
 
   React.useEffect(() => {
-    const audio = new Audio('/oceansound.m4a');
+    const audio = new Audio('/oceansound_compressed.m4a');
     audio.volume = 0.20;
     audio.loop = true;
     audio.preload = 'auto';
