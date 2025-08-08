@@ -189,8 +189,8 @@ function LandingPageMobileContent({
     const touchY = touch.clientY;
     const windowHeight = window.innerHeight;
     
-    // Disable star controls in the bottom 30% of the screen to allow page scrolling
-    const wavesThreshold = windowHeight * 0.7; // 70% from top = bottom 30%
+    // Disable star controls in the bottom 40% of the screen to allow page scrolling
+    const wavesThreshold = windowHeight * 0.6; // 60% from top = bottom 40%
     setDisableStarControls(touchY > wavesThreshold);
   };
 
@@ -200,7 +200,7 @@ function LandingPageMobileContent({
     const windowHeight = window.innerHeight;
     
     // Update star controls state during touch move
-    const wavesThreshold = windowHeight * 0.7;
+    const wavesThreshold = windowHeight * 0.6;
     setDisableStarControls(touchY > wavesThreshold);
   };
 
@@ -224,12 +224,9 @@ function LandingPageMobileContent({
         isolation: 'isolate',
         scrollSnapAlign: 'start'
       }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
       {/* Star Globe as background */}
-      <InteractiveStarGlobe disableControls={disableStarControls} />
+      <InteractiveStarGlobe />
       
       {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
       <video
