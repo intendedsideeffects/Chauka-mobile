@@ -440,6 +440,17 @@ export default function TestScroll() {
 
       {/* Test Segment Template */}
       <div style={{position: 'relative'}}>
+        {/* White box to cover up the \n text */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '40px',
+          height: '40px',
+          backgroundColor: 'white',
+          zIndex: 9999,
+          pointerEvents: 'none',
+        }}></div>
         <div style={{
           position: 'absolute',
           top: 20,
