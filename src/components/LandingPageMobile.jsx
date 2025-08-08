@@ -189,8 +189,8 @@ function LandingPageMobileContent({
     const touchY = touch.clientY;
     const windowHeight = window.innerHeight;
     
-    // Disable star controls if touching in the bottom 35% of the screen (waves area)
-    const wavesThreshold = windowHeight * 0.65; // 65% from top = bottom 35%
+    // Disable star controls if touching in the bottom 25% of the screen (waves area)
+    const wavesThreshold = windowHeight * 0.75; // 75% from top = bottom 25%
     setDisableStarControls(touchY > wavesThreshold);
   };
 
@@ -200,15 +200,13 @@ function LandingPageMobileContent({
     const windowHeight = window.innerHeight;
     
     // Update star controls state during touch move
-    const wavesThreshold = windowHeight * 0.65;
+    const wavesThreshold = windowHeight * 0.75;
     setDisableStarControls(touchY > wavesThreshold);
   };
 
   const handleTouchEnd = () => {
-    // Add a small delay before re-enabling to prevent flickering
-    setTimeout(() => {
-      setDisableStarControls(false);
-    }, 100);
+    // Re-enable immediately for better responsiveness
+    setDisableStarControls(false);
   };
 
   return (
@@ -395,8 +393,8 @@ function LandingPageMobileContent({
       
       <div style={{ 
         position: 'absolute',
-        bottom: '100px',
-        left: '10px',
+        bottom: '30px',
+        left: '5px',
         zIndex: 1000, 
         pointerEvents: 'auto' 
       }}>
