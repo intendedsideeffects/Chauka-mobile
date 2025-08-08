@@ -189,8 +189,8 @@ function LandingPageMobileContent({
     const touchY = touch.clientY;
     const windowHeight = window.innerHeight;
     
-    // Disable star controls if touching in the bottom 40% of the screen (waves area)
-    const wavesThreshold = windowHeight * 0.6; // 60% from top = bottom 40%
+    // Disable star controls if touching in the bottom 35% of the screen (waves area)
+    const wavesThreshold = windowHeight * 0.65; // 65% from top = bottom 35%
     setDisableStarControls(touchY > wavesThreshold);
   };
 
@@ -200,12 +200,15 @@ function LandingPageMobileContent({
     const windowHeight = window.innerHeight;
     
     // Update star controls state during touch move
-    const wavesThreshold = windowHeight * 0.6;
+    const wavesThreshold = windowHeight * 0.65;
     setDisableStarControls(touchY > wavesThreshold);
   };
 
   const handleTouchEnd = () => {
-    setDisableStarControls(false);
+    // Add a small delay before re-enabling to prevent flickering
+    setTimeout(() => {
+      setDisableStarControls(false);
+    }, 100);
   };
 
   return (
@@ -392,7 +395,7 @@ function LandingPageMobileContent({
       
       <div style={{ 
         position: 'absolute',
-        bottom: '20px',
+        bottom: '100px',
         left: '10px',
         zIndex: 1000, 
         pointerEvents: 'auto' 
@@ -403,8 +406,8 @@ function LandingPageMobileContent({
       {/* Bird audio button - positioned directly on the bird */}
       <div style={{ 
         position: 'absolute', 
-        top: isPortrait ? 'calc(15vh + 11%)' : 'calc(10vh + 11%)', 
-        left: isPortrait ? 'calc(80vw * 0.31)' : 'calc(100vw * 0.125)', 
+        top: '25%', 
+        left: '20%', 
         zIndex: 1000, 
         pointerEvents: 'auto' 
       }}>
@@ -414,7 +417,7 @@ function LandingPageMobileContent({
       {/* Scroll down indicator */}
       <div style={{
         position: 'absolute',
-        bottom: '15px',
+        bottom: '60px',
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 1000,
