@@ -40,9 +40,9 @@ const ExtinctSpeciesViz = () => {
       const csvText = await response.text();
       const stories = parseCSV(csvText);
       
-      // Map stories to scatterplot points - show all disasters
+      // Map stories to scatterplot points - show only flood disasters
       const points = stories
-        .filter(row => row.disaster_type && row.start_year) // Show all disasters with valid years
+        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood') && row.start_year) // Show only flood disasters with valid years
         .map((row) => {
           const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
           return {
@@ -58,7 +58,7 @@ const ExtinctSpeciesViz = () => {
             total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
           };
         });
-      console.log('Scatterplot points (all disasters):', points);
+      console.log('Scatterplot points (flood disasters only):', points);
       setData(points);
       
       // Timeline marks (every 100 years)

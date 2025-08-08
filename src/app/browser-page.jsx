@@ -201,7 +201,7 @@ export default function TestScroll() {
         /> */}
         {/* Scene overlay image */}
         <img
-          src="/scene.png"
+          src="/scene.webp"
           alt="Scene overlay"
           style={{
             position: 'absolute',

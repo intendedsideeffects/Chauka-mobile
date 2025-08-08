@@ -240,9 +240,9 @@ export default function LandingPage({
           left: 0,
           top: responsive.isMobile() ? '10vh' : '15vh',
           width: '100vw',
-          height: responsive.isMobile() ? '90vh' : '85vh',
-          objectFit: responsive.isMobile() ? 'cover' : 'cover', // Cover for portrait mobile to fill height
-          objectPosition: responsive.isMobile() ? 'center' : 'center',
+          height: responsive.isMobile() ? '85vh' : '85vh',
+          objectFit: 'cover',
+          objectPosition: 'center',
           zIndex: 3,
           pointerEvents: 'none',
           userSelect: 'none',
@@ -259,10 +259,10 @@ export default function LandingPage({
          style={{
            position: 'absolute',
            left: 0,
-           top: (responsive.isMobile() && isPortrait) ? '15vh' : (responsive.isMobile() ? '10vh' : '15vh'),
-           width: (responsive.isMobile() && isPortrait) ? '80vw' : '100vw', // Even smaller in portrait mobile
-            height: (responsive.isMobile() && isPortrait) ? '65vh' : '85vh', // Even smaller in portrait mobile
-           objectFit: responsive.isMobile() ? 'cover' : 'cover',
+           top: responsive.isMobile() ? '10vh' : '15vh',
+           width: '100vw',
+           height: responsive.isMobile() ? '85vh' : '85vh',
+           objectFit: 'cover',
            objectPosition: responsive.isMobile() ? 'left center' : 'center',
            zIndex: 4, // Above boats
            pointerEvents: 'none',

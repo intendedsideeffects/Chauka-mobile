@@ -4,12 +4,28 @@ import { debounce } from 'lodash';
 import historicalEvents from "../../data/historicalPoints"
 import birdArr from '../../data/birdArray';
 import PlotsScatterChart from '../PlotsScatterChart';
-import { supabase } from '../../utils/supabaseClient';
 
 const STATUS_HEIGHT = 7000; // Reduced to match segments 3-9 height
 const STATUS_WIDTH = 1600;
 const getYearPosition = (year) => {
   return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;
+};
+
+// Utility function to parse CSV data
+const parseCSV = (csvText) => {
+  const lines = csvText.split('\n');
+  const headers = lines[0].split(';');
+  
+  return lines.slice(1) // Skip header
+    .filter(line => line.trim()) // Remove empty lines
+    .map(line => {
+      const values = line.split(';');
+      const row = {};
+      headers.forEach((header, index) => {
+        row[header.trim()] = values[index] ? values[index].trim() : '';
+      });
+      return row;
+    });
 };
 
 const ExtinctSpeciesVizBrowser = () => {
@@ -19,14 +35,16 @@ const ExtinctSpeciesVizBrowser = () => {
   const [mounted, setMounted] = useState(false);
   const scatterSectionRef = useRef(null);
 
-  // Fetch data from ocean_stories
+  // Load data from local CSV instead of Supabase
   const loadData = async () => {
     try {
-      const { data: stories, error } = await supabase.from('ocean_stories').select('*');
-      if (error) throw error;
-      // Map stories to scatterplot points and filter for flooding only
-      const points = (stories || [])
-        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood'))
+      const response = await fetch('/Disaster_Dataset_with_Summaries_fixed.csv');
+      const csvText = await response.text();
+      const stories = parseCSV(csvText);
+      
+      // Map stories to scatterplot points - show only flood disasters
+      const points = stories
+        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood') && row.start_year) // Show only flood disasters with valid years
         .map((row) => {
           const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
           return {
@@ -42,8 +60,9 @@ const ExtinctSpeciesVizBrowser = () => {
             total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
           };
         });
-      console.log('Scatterplot points (flooding only):', points);
+      console.log('Browser Scatterplot points (flood disasters only):', points);
       setData(points);
+      
       // Timeline marks (every 100 years)
       const timelineMarks = [];
       for (let year = 1400; year <= 2200; year += 100) {
