@@ -190,34 +190,34 @@ const HistoricalSeaLevelRiseExtended = () => {
   const projectionPos = calculateProjectionPosition();
 
   return (
-    <div style={{ 
-      width: '100%', 
-      height: '665px', 
-      boxSizing: 'border-box', 
-      pointerEvents: 'auto', 
-      position: 'relative', 
-      overflow: 'visible', // changed back to 'visible' to allow annotation to show
-      marginTop: '-265px', // Align bottom with other charts (665px - 400px = 265px difference)
-      zIndex: 1002, // Higher than text content
-      outline: 'none'
-    }}>
-      <div style={{ 
-        position: 'relative', 
-        width: '100%', 
-        height: '100%',
-        border: 'none',
-        outline: 'none'
-      }}>
-        {/* White box to cover top line */}
-        <div style={{
-          position: 'absolute',
-          top: '18px',
-          left: '0px',
-          right: '0px',
-          height: '3px',
-          backgroundColor: 'white',
-          zIndex: 10
-        }} />
+         <div style={{ 
+       width: '100%', 
+       height: '600px', 
+       boxSizing: 'border-box', 
+       pointerEvents: 'auto', 
+       position: 'relative', 
+       overflow: 'visible', // changed back to 'visible' to allow annotation to show
+       marginTop: '-200px', // Adjusted margin to account for new height
+       zIndex: 1, // Lower than title content
+       outline: 'none'
+     }}>
+             <div style={{ 
+         position: 'relative', 
+         width: '100%', 
+         height: '100%',
+         border: 'none',
+         outline: 'none'
+       }}>
+                 {/* White box to cover top line */}
+         <div style={{
+           position: 'absolute',
+           top: '18px',
+           left: '0px',
+           right: '0px',
+           height: '3px',
+           backgroundColor: 'white',
+           zIndex: 1
+         }} />
         
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data.allData} margin={{ left: 0, right: 0, top: 20, bottom: 20 }}>

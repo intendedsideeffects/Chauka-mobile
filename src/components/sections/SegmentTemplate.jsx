@@ -36,11 +36,8 @@ const SegmentTemplate = ({
          fontFamily: 'Helvetica World, Arial, sans-serif',
          fontWeight: 400,
          lineHeight: 1.5,
-         zIndex: 1000, // Higher z-index to be above scatterplot
-         position: 'absolute',
-         top: '50%',
-         left: responsive.isMobile() ? '1rem' : '4rem',
-         transform: 'translateY(-50%)',
+         zIndex: 9999, // Highest z-index to be above everything
+         position: 'relative',
          margin: '0',
          flexShrink: 0,
          pointerEvents: 'auto', // Enable interactions
@@ -83,15 +80,14 @@ const SegmentTemplate = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          position: responsive.isMobile() ? 'relative' : 'absolute',
-          top: responsive.isMobile() ? 'auto' : 'calc(50% + 200px)',
+          position: 'relative',
+          top: 'auto',
           left: '0',
           right: '0',
           margin: '0 auto',
           transform: responsive.isMobile() ? 'translateX(0)' : 'translateX(-2cm)',
-          pointerEvents: 'auto', // Enable interactions
-          zIndex: 1001, // Higher than scatterplot
-          boxSizing: 'border-box',
+                     pointerEvents: 'auto', // Enable interactions
+           boxSizing: 'border-box',
           padding: responsive.isMobile() ? '0 16px' : '0',
         },
                placeholderChart: {
@@ -136,7 +132,6 @@ const SegmentTemplate = ({
               marginRight: 'auto',
              marginTop: '0',
              gap: responsive.isMobile() ? '2rem' : '2rem',
-             zIndex: 1000,
              position: 'relative',
              paddingLeft: responsive.isMobile() ? '2.5rem' : '0',
              paddingRight: responsive.isMobile() ? '2.5rem' : '0',
