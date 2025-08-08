@@ -166,6 +166,7 @@ function LandingPageMobileContent({
   oceanVideoRef 
 }) {
   const [isPortrait, setIsPortrait] = React.useState(false);
+  const [disableStarControls, setDisableStarControls] = React.useState(false);
 
   React.useEffect(() => {
     const checkOrientation = () => {
@@ -182,22 +183,52 @@ function LandingPageMobileContent({
     };
   }, []);
 
+  // Touch event handlers for star controls
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    const touchY = touch.clientY;
+    const windowHeight = window.innerHeight;
+    
+    // Disable star controls if touching in the bottom 40% of the screen (waves area)
+    const wavesThreshold = windowHeight * 0.6; // 60% from top = bottom 40%
+    setDisableStarControls(touchY > wavesThreshold);
+  };
+
+  const handleTouchMove = (e) => {
+    const touch = e.touches[0];
+    const touchY = touch.clientY;
+    const windowHeight = window.innerHeight;
+    
+    // Update star controls state during touch move
+    const wavesThreshold = windowHeight * 0.6;
+    setDisableStarControls(touchY > wavesThreshold);
+  };
+
+  const handleTouchEnd = () => {
+    setDisableStarControls(false);
+  };
+
   return (
-    <section style={{ 
-      position: 'relative', 
-      height: '100vh', 
-      width: '100%', 
-      background: '#000', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      overflow: 'hidden',
-      zIndex: 1,
-      isolation: 'isolate',
-      scrollSnapAlign: 'start'
-    }}>
+    <section 
+      style={{ 
+        position: 'relative', 
+        height: '100vh', 
+        width: '100%', 
+        background: '#000', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        overflow: 'hidden',
+        zIndex: 1,
+        isolation: 'isolate',
+        scrollSnapAlign: 'start'
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Star Globe as background */}
-      <InteractiveStarGlobe />
+      <InteractiveStarGlobe disableControls={disableStarControls} />
       
       {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
       <video
@@ -233,10 +264,10 @@ function LandingPageMobileContent({
         alt="Boats scene"
         style={{
           position: 'absolute',
-          left: 0,
-          top: '10vh',
-          width: '100vw',
-          height: '85vh',
+          left: '15vw',
+          top: '22vh',
+          width: '80vw',
+          height: '70vh',
           objectFit: 'cover',
           objectPosition: 'center',
           zIndex: 3,
@@ -254,10 +285,10 @@ function LandingPageMobileContent({
         alt="Bird scene"
         style={{
           position: 'absolute',
-          left: 0,
+          left: '-10vw',
           top: '10vh',
-          width: '100vw',
-          height: '85vh',
+          width: '80vw',
+          height: '70vh',
           objectFit: 'cover',
           objectPosition: 'left center',
           zIndex: 4,
@@ -372,14 +403,48 @@ function LandingPageMobileContent({
       {/* Bird audio button - positioned directly on the bird */}
       <div style={{ 
         position: 'absolute', 
-        top: isPortrait ? 'calc(15vh + 15%)' : 'calc(10vh + 15%)', 
-        left: isPortrait ? 'calc(80vw * 0.4)' : 'calc(100vw * 0.16)', 
+        top: isPortrait ? 'calc(15vh + 11%)' : 'calc(10vh + 11%)', 
+        left: isPortrait ? 'calc(80vw * 0.31)' : 'calc(100vw * 0.125)', 
         zIndex: 1000, 
         pointerEvents: 'auto' 
       }}>
         <BirdAudioPlayerMobile />
       </div>
       
+      {/* Scroll down indicator */}
+      <div style={{
+        position: 'absolute',
+        bottom: '15px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+        pointerEvents: 'none',
+        animation: 'bounce 2s infinite'
+      }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path 
+            d="M7 10L12 15L17 10" 
+            stroke="#ffffff" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            opacity="0.7"
+          />
+        </svg>
+        <style>{`
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+              transform: translateX(-50%) translateY(0);
+            }
+            40% {
+              transform: translateX(-50%) translateY(-5px);
+            }
+            60% {
+              transform: translateX(-50%) translateY(-3px);
+            }
+          }
+        `}</style>
+      </div>
 
     </section>
   );

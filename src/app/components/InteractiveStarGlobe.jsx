@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const InteractiveStarGlobe = ({ onStarsLoaded }) => {
+const InteractiveStarGlobe = ({ onStarsLoaded, disableControls = false }) => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
@@ -12,6 +12,13 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
   const [showFallback, setShowFallback] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Effect to handle controls enable/disable
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.enabled = !disableControls;
+    }
+  }, [disableControls]);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -546,9 +553,10 @@ const InteractiveStarGlobe = ({ onStarsLoaded }) => {
         top: 0,
         left: 0,
         zIndex: 2,
-        cursor: 'grab',
+        cursor: disableControls ? 'default' : 'grab',
         overflow: 'hidden',
         backgroundColor: showFallback ? '#000' : 'transparent',
+        pointerEvents: disableControls ? 'none' : 'auto',
       }} 
     >
              {isLoading && (
