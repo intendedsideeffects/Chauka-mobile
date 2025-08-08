@@ -40,18 +40,18 @@ function BlueCircleAudioPlayerMobile() {
 
   return (
     <div style={{ 
-      width: '180px', 
-      height: '180px', 
+      width: '120px', 
+      height: '120px', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      pointerEvents: showButtons ? 'auto' : 'none', 
+      pointerEvents: 'auto', 
       background: 'none', 
       cursor: 'pointer', 
-      opacity: showButtons ? 1 : 0, 
+      opacity: 1, 
       transition: 'opacity 0.4s',
     }} onClick={handleToggle} aria-label="Play or pause ocean sound">
-      <svg width="180" height="180" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
+      <svg width="120" height="120" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
         <defs>
           <radialGradient id="pulseBlueMobile" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#3d557a" stopOpacity="1" />
@@ -189,8 +189,8 @@ function LandingPageMobileContent({
     const touchY = touch.clientY;
     const windowHeight = window.innerHeight;
     
-    // Disable star controls if touching in the bottom 25% of the screen (waves area)
-    const wavesThreshold = windowHeight * 0.75; // 75% from top = bottom 25%
+    // Disable star controls only in the very bottom 15% of the screen
+    const wavesThreshold = windowHeight * 0.85; // 85% from top = bottom 15%
     setDisableStarControls(touchY > wavesThreshold);
   };
 
@@ -200,7 +200,7 @@ function LandingPageMobileContent({
     const windowHeight = window.innerHeight;
     
     // Update star controls state during touch move
-    const wavesThreshold = windowHeight * 0.75;
+    const wavesThreshold = windowHeight * 0.85;
     setDisableStarControls(touchY > wavesThreshold);
   };
 
