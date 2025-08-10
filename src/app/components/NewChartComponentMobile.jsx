@@ -211,7 +211,7 @@ const NewChartComponent = () => {
                       bottom: `${Math.max(barHeight, 1) + 10}px`,
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      fontSize: '11px',
+                      fontSize: '10px',
                       color: '#000',
                       textAlign: 'center'
                     }}
