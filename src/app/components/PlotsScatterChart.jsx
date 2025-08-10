@@ -30,7 +30,12 @@ const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height f
 const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;
-const getYearPosition = (year) => {
+const CLIMATE_YEAR_MIN = 1990; // Climate resistance data starts from 1990
+const CLIMATE_YEAR_MAX = 2025;
+const getYearPosition = (year, dataType = 'disaster') => {
+  if (dataType === 'climate-resistance') {
+    return ((CLIMATE_YEAR_MAX - year) / (CLIMATE_YEAR_MAX - CLIMATE_YEAR_MIN)) * STATUS_HEIGHT;
+  }
   return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
 };
 
@@ -91,7 +96,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
               if (isNaN(yearNum)) return null;
               
               // Calculate position using same logic as blue dots
-              const yBase = getYearPosition(yearNum);
+              const yBase = getYearPosition(yearNum, 'climate-resistance');
+              console.log(`Climate dot ${yearNum}: yBase=${yBase}, STATUS_HEIGHT=${STATUS_HEIGHT}, CLIMATE_YEAR_MIN=${CLIMATE_YEAR_MIN}, CLIMATE_YEAR_MAX=${CLIMATE_YEAR_MAX}`);
               const yOffset = (Math.random() - 0.5) * 2 * 19; // Same offset as blue dots
               const y = yBase + yOffset;
               

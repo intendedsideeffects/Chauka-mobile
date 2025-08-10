@@ -5,7 +5,12 @@ import responsive from '../utils/responsive';
 
 const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to cover sections 3-7, default for browser
 const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
-const getYearPosition = (year) => {
+const CLIMATE_YEAR_MIN = 1990; // Climate resistance data starts from 1990
+const CLIMATE_YEAR_MAX = 2025;
+const getYearPosition = (year, dataType = 'disaster') => {
+  if (dataType === 'climate-resistance') {
+    return ((CLIMATE_YEAR_MAX - year) / (CLIMATE_YEAR_MAX - CLIMATE_YEAR_MIN)) * STATUS_HEIGHT;
+  }
   return ((2025 - year) / (2025 - 1900)) * STATUS_HEIGHT;
 };
 
