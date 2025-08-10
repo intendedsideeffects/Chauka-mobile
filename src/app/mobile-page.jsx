@@ -257,7 +257,7 @@ export default function TestScroll() {
                                       width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
                                       height: '1300vh', // Adjusted height to ensure full 9000px scatterplot is visible from beginning of section 3 (475vh) to well beyond end of section 7
                                       zIndex: 100, // Lower z-index to not interfere with section 1
-                                      pointerEvents: 'auto', // Allow interaction with scatterplot
+                                      pointerEvents: 'none', // Don't capture pointer events for the container itself
                   borderRadius: '8px',
                   opacity: 1, // Always visible
                   display: 'block', // Always visible
