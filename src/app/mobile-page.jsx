@@ -744,18 +744,18 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>7</div>
-                                   <section style={{
-                  width: '100%',
-                  height: '100vh',
-                  background: 'transparent',
-                  display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            scrollSnapAlign: 'start',
-            borderBottom: '1px solid #e5e7eb',
-          }}>
+                                                 <section style={{
+          width: '100%',
+          height: '360vh',
+          background: 'transparent',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          scrollSnapAlign: 'start',
+          borderBottom: '1px solid #e5e7eb',
+        }}>
 
 
            {/* Star Globe in front of sunrise */}

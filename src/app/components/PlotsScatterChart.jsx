@@ -26,7 +26,7 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-  const STATUS_HEIGHT = responsive.isMobile() ? 8400 : 7000; // Changed to 8400 for mobile
+  const STATUS_HEIGHT = responsive.isMobile() ? 10000 : 7000; // Changed to 10000 for mobile
 const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;

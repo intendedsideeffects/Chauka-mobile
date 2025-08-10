@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
 import responsive from '../utils/responsive';
 
-  const STATUS_HEIGHT = responsive.isMobile() ? 8400 : 7000; // Changed to 8400 for mobile
+  const STATUS_HEIGHT = responsive.isMobile() ? 10000 : 7000; // Changed to 10000 for mobile
 const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const CLIMATE_YEAR_MIN = 1990; // Climate resistance data starts from 1990
 const CLIMATE_YEAR_MAX = 2025;
