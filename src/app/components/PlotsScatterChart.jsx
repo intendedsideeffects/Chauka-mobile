@@ -250,6 +250,42 @@ function PlotsScatterChart({ timelineData, visibleData }) {
         };
     }, [hoveredDot, hoveredBlueDot]);
 
+    // Add click handler to close tooltips when clicking on empty space (especially for mobile)
+    const handleContainerClick = (event) => {
+        // Only handle clicks on the container itself, not on dots or tooltips
+        if (event.target.id === 'plot-container' || event.target.classList.contains('scatter-container')) {
+            if (hoveredDot || hoveredBlueDot) {
+                console.log('Container clicked, clearing all tooltips');
+                setHoveredDot(null);
+                setHoveredBlueDot(null);
+                // Clear any pending timeout
+                if (tooltipTimeoutRef.current) {
+                    clearTimeout(tooltipTimeoutRef.current);
+                    tooltipTimeoutRef.current = null;
+                }
+            }
+        }
+    };
+
+    // Add touch handler for mobile devices to close tooltips when tapping on empty space
+    const handleContainerTouch = (event) => {
+        if (responsive.isMobile()) {
+            // Only handle touches on the container itself, not on dots or tooltips
+            if (event.target.id === 'plot-container' || event.target.classList.contains('scatter-container')) {
+                if (hoveredDot || hoveredBlueDot) {
+                    console.log('Container touched, clearing all tooltips');
+                    setHoveredDot(null);
+                    setHoveredBlueDot(null);
+                    // Clear any pending timeout
+                    if (tooltipTimeoutRef.current) {
+                        clearTimeout(tooltipTimeoutRef.current);
+                        tooltipTimeoutRef.current = null;
+                    }
+                }
+            }
+        }
+    };
+
     // Add global mouse move listener to clear tooltips when mouse is not over dots
     useEffect(() => {
         const handleGlobalMouseMove = (event) => {
@@ -411,9 +447,12 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 backgroundColor: 'transparent',
                 color: 'black',
                 overflow: 'visible',
-                zIndex: 9999,
+                                    zIndex: responsive.isMobile() ? 99995 : 99995,
                 pointerEvents: 'auto'
-            }}>
+            }}
+            onClick={handleContainerClick}
+            onTouchStart={handleContainerTouch}
+        >
             
             {/* Hidden audio element for purple dots */}
             <audio 
@@ -510,7 +549,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                     fontFamily: 'Arial, sans-serif',
                     fontSize: '16px',
-                    zIndex: 1000,
+                    zIndex: responsive.isMobile() ? 99999 : 99999,
                   }}
                 >
                   {hoveredDot.type === 'memory' ? (
@@ -533,8 +572,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         <button
                           style={{
                             marginTop: 12,
-                            background: '#e74c3c',
-                            color: 'white',
+                            background: 'transparent',
+                            color: '#808080',
                             border: 'none',
                             borderRadius: 4,
                             padding: '6px 12px',
@@ -557,6 +596,37 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                       <p style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e5e7eb', whiteSpace: 'pre-line', lineHeight: '1.6' }}>
                         {hoveredDot.tooltipText}
                       </p>
+                      {/* Close button for mobile */}
+                      {responsive.isMobile() && (
+                        <button
+                          onClick={() => {
+                            setHoveredDot(null);
+                            if (tooltipTimeoutRef.current) {
+                              clearTimeout(tooltipTimeoutRef.current);
+                              tooltipTimeoutRef.current = null;
+                            }
+                          }}
+                          style={{
+                            position: 'absolute',
+                            top: '8px',
+                            right: '8px',
+                            background: 'transparent',
+                            color: '#808080',
+                            border: 'none',
+                            width: '32px',
+                            height: '32px',
+                            cursor: 'pointer',
+                            fontSize: '20px',
+                            fontWeight: '100',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            lineHeight: 1
+                          }}
+                        >
+                          ×
+                        </button>
+                      )}
                     </>
                   )}
                 </div>
@@ -573,7 +643,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     width: '100%',
                     height: '100%',
                     pointerEvents: 'none',
-                    zIndex: 999,
+                    zIndex: responsive.isMobile() ? 99998 : 99998,
                   }}
                 >
                   {/* Horizontal line spanning entire width */}
@@ -582,9 +652,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     y1={hoveredBlueDot.cy || 0}
                     x2="100%"
                     y2={hoveredBlueDot.cy || 0}
-                    stroke="#000000"
+                    stroke="#808080"
                     strokeWidth="0.5"
-                    opacity="0.6"
+                    opacity="0.8"
                   />
                   {/* Vertical line spanning entire height */}
                   <line
@@ -592,9 +662,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     y1="0"
                     x2={hoveredBlueDot.cx || 0}
                     y2="100%"
-                    stroke="#000000"
+                    stroke="#808080"
                     strokeWidth="0.5"
-                    opacity="0.6"
+                    opacity="0.8"
                   />
                 </svg>
               )}
@@ -609,7 +679,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     width: '100%',
                     height: '100%',
                     pointerEvents: 'none',
-                    zIndex: 999,
+                    zIndex: responsive.isMobile() ? 99998 : 99998,
                   }}
                 >
                   {/* Horizontal line spanning entire width */}
@@ -618,9 +688,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     y1={hoveredDot.cy || 0}
                     x2="100%"
                     y2={hoveredDot.cy || 0}
-                    stroke="#000000"
+                    stroke="#808080"
                     strokeWidth="0.5"
-                    opacity="0.6"
+                    opacity="0.8"
                   />
                   {/* Vertical line spanning entire height */}
                   <line
@@ -628,9 +698,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     y1="0"
                     x2={hoveredDot.cx || 0}
                     y2="100%"
-                    stroke="#000000"
+                    stroke="#808080"
                     strokeWidth="0.5"
-                    opacity="0.6"
+                    opacity="0.8"
                   />
                 </svg>
               )}
@@ -659,7 +729,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                       fontFamily: 'Arial, sans-serif',
                       fontSize: '18px',
-                      zIndex: 1000,
+                      zIndex: responsive.isMobile() ? 99999 : 99999,
                     }}
                   >
                     <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
@@ -673,16 +743,61 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                         {hoveredBlueDot.summary}
                       </p>
                     )}
+                    {/* Close button for mobile */}
+                    {responsive.isMobile() && (
+                      <button
+                        onClick={() => {
+                          setHoveredBlueDot(null);
+                          if (tooltipTimeoutRef.current) {
+                            clearTimeout(tooltipTimeoutRef.current);
+                            tooltipTimeoutRef.current = null;
+                          }
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '8px',
+                          background: 'transparent',
+                          color: '#808080',
+                          border: 'none',
+                          width: '32px',
+                          height: '32px',
+                          cursor: 'pointer',
+                          fontSize: '20px',
+                          fontWeight: '100',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          lineHeight: 1
+                        }}
+                      >
+                        ×
+                      </button>
+                    )}
                   </div>
                 );
               })()}
             
              
-                <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
+                <ResponsiveContainer 
+                    width="100%" 
+                    height={STATUS_HEIGHT}
+                    className="scatter-container"
+                    style={{
+                        zIndex: responsive.isMobile() ? 99996 : 99996,
+                        position: 'relative'
+                    }}
+                    onTouchStart={handleContainerTouch}
+                >
                 <ScatterChart
                     key="main-scatter-chart"
-                    style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'auto' }}
-                    margin={{ top: 113, right: responsive.isMobile() ? 20 : 80, bottom: 113, left: responsive.isMobile() ? -25 : -50 }}
+                    style={{ 
+                        background: 'transparent', 
+                        overflow: 'visible', 
+                        pointerEvents: 'auto',
+                        zIndex: responsive.isMobile() ? 99997 : 99997
+                    }}
+                                         margin={{ top: 113, right: responsive.isMobile() ? 20 : 80, bottom: 113, left: responsive.isMobile() ? 10 : 10 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >

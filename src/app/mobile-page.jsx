@@ -256,7 +256,7 @@ export default function TestScroll() {
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
         height: '1400vh', // Cover sections 3-7 (400vh to 1800vh) - increased to ensure full coverage to end of section 7
-        zIndex: 100, // Lower z-index to not interfere with section 1
+        zIndex: 99999, // Higher z-index to ensure tooltips appear above segment numbers
         pointerEvents: 'auto', // Allow interaction with scatterplot
         borderRadius: '8px',
         opacity: 1, // Always visible

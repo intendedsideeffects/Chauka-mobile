@@ -430,7 +430,7 @@ export default function TestScroll() {
         left: '20px',
         width: 'calc(100vw - 40px)',
         height: '800vh', // 8 segments * 100vh each (3-10)
-        zIndex: 9999, // High z-index to show above charts
+        zIndex: 99999, // Higher z-index to ensure tooltips appear above segment numbers
         pointerEvents: 'none', // Don't capture click events
         borderRadius: '8px',
         opacity: 1 // Fully opaque
