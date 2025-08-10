@@ -66,7 +66,7 @@ const LowElevationChart = () => {
         left: responsive.isMobile() ? '0px' : '10px',
                  top: 'calc(50% - 181px)',
         transform: 'translateY(-50%)',
-        fontSize: responsive.isMobile() ? '9px' : '14px',
+                 fontSize: responsive.isMobile() ? '8px' : '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
         textAlign: 'left',
