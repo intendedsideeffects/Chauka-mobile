@@ -262,7 +262,7 @@ const SeaLevelRiseChart = () => {
                          position: 'absolute',
                          top: '40px',
                          left: responsive.isMobile() ? '0px' : '10px',
-                         fontSize: responsive.isMobile() ? '12px' : '14px',
+                         fontSize: responsive.isMobile() ? '8px' : '14px',
                          fontFamily: 'Helvetica World, Arial, sans-serif',
                          color: '#666666',
                          textAlign: 'left',
@@ -305,7 +305,7 @@ const SeaLevelRiseChart = () => {
                            position: 'absolute',
                            top: `${350 - (value / 1.0) * 280 - 8}px`,
                            left: responsive.isMobile() ? '-25px' : '-30px',
-                           fontSize: responsive.isMobile() ? '10px' : '12px',
+                           fontSize: responsive.isMobile() ? '8px' : '12px',
                            color: '#666666',
                            fontFamily: 'Helvetica World, Arial, sans-serif',
                            zIndex: 1001,
@@ -419,8 +419,8 @@ const SeaLevelRiseChart = () => {
                pointerEvents: 'none'
              }}
            >
-             <div style={{ fontSize: '10px', color: '#000', fontWeight: '500' }}>{item.country}</div>
-             <div style={{ fontSize: '9px', color: '#000', marginTop: '2px', fontWeight: '500' }}>{item.selectedValue.toFixed(2)}m</div>
+             <div style={{ fontSize: '8px', color: '#000', fontWeight: '500' }}>{item.country}</div>
+                             <div style={{ fontSize: '7px', color: '#666', marginTop: '2px', fontWeight: '500' }}>{item.selectedValue.toFixed(2)}m</div>
            </div>
          );
        })}

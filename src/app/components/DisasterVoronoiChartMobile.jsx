@@ -140,7 +140,7 @@ const DisasterVoronoiChart = () => {
       .append('text')
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('font-size', '11px')
+              .attr('font-size', responsive.isMobile() ? '9px' : '11px')
       .attr('font-weight', 'bold')
       .attr('fill', '#fff')
       .attr('text-shadow', '1px 1px 2px rgba(0,0,0,0.8)')
@@ -175,7 +175,7 @@ const DisasterVoronoiChart = () => {
         text.append('tspan')
           .attr('x', centerX)
           .attr('dy', '1.2em')
-          .attr('font-size', '10px')
+          .attr('font-size', responsive.isMobile() ? '7px' : '10px')
           .text(`(${disasterData.count})`);
       });
 

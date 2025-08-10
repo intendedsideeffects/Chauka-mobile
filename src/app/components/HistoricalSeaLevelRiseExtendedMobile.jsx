@@ -243,7 +243,7 @@ const HistoricalSeaLevelRiseExtended = () => {
               type="number"
               domain={[1000, 2050]}
               ticks={[1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2024, 2050]}
-              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
+              tick={{ fontSize: responsive.isMobile() ? 8 : 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
               allowDataOverflow={false}
               scale="linear"
@@ -253,7 +253,7 @@ const HistoricalSeaLevelRiseExtended = () => {
               width={responsive.isMobile() ? 30 : 40} 
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
+              tick={{ fontSize: responsive.isMobile() ? 8 : 12, fill: '#666666', fontFamily: 'Helvetica World, Arial, sans-serif' }}
               style={{ fontFamily: 'Helvetica World, Arial, sans-serif' }}
               domain={[-20, 35]}
               ticks={[-20, -10, 0, 10]}
@@ -278,7 +278,7 @@ const HistoricalSeaLevelRiseExtended = () => {
                       border: '1px solid #ccc',
                       borderRadius: '4px',
                       padding: '8px',
-                      fontSize: '12px',
+                      fontSize: responsive.isMobile() ? '8px' : '12px',
                       fontFamily: 'Helvetica World, Arial, sans-serif',
                       color: '#000000'
                     }}>
@@ -380,7 +380,7 @@ const HistoricalSeaLevelRiseExtended = () => {
               color: '#ffffff',
               padding: '8px 12px',
               borderRadius: '4px',
-              fontSize: '12px',
+              fontSize: responsive.isMobile() ? '8px' : '12px',
               fontFamily: 'Helvetica World, Arial, sans-serif',
               zIndex: 10000,
               pointerEvents: 'none',
@@ -398,7 +398,7 @@ const HistoricalSeaLevelRiseExtended = () => {
            left: responsive.isMobile() ? '30px' : '-269px',
            top: 'calc(50% - 65px)',
            transform: 'translateY(-50%)',
-           fontSize: responsive.isMobile() ? '12px' : '14px',
+           fontSize: responsive.isMobile() ? '8px' : '14px',
            fontFamily: 'Helvetica World, Arial, sans-serif',
            color: '#000000',
            textAlign: responsive.isMobile() ? 'left' : 'right',
@@ -424,7 +424,7 @@ const HistoricalSeaLevelRiseExtended = () => {
           position: 'absolute',
           right: '-5px',
           bottom: '5px',
-          fontSize: '12px',
+          fontSize: responsive.isMobile() ? '8px' : '12px',
           fontFamily: 'Helvetica World, Arial, sans-serif',
           color: '#666666',
           textAlign: 'right',

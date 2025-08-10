@@ -119,9 +119,9 @@ const HighestElevationChart = () => {
        <div style={{
          position: 'absolute',
          left: responsive.isMobile() ? '0px' : '10px',
-         top: 'calc(50% - 208px)',
+                   top: 'calc(50% - 178px)',
          transform: 'translateY(-50%)',
-         fontSize: responsive.isMobile() ? '12px' : '14px',
+         fontSize: responsive.isMobile() ? '8px' : '14px',
          fontFamily: 'Helvetica World, Arial, sans-serif',
          color: '#666666',
          textAlign: 'left',
@@ -164,7 +164,7 @@ const HighestElevationChart = () => {
               style={{ 
                 top: `${350 - (value * 280) - 8}px`,
                 left: '-25px',
-                fontSize: '12px',
+                fontSize: responsive.isMobile() ? '8px' : '12px',
                 color: '#666666',
                 fontFamily: 'Helvetica World, Arial, sans-serif'
               }}
@@ -202,11 +202,11 @@ const HighestElevationChart = () => {
               <div style={{ 
                 marginBottom: '5px',
                 textAlign: 'center',
-                fontSize: responsive.isMobile() ? '9px' : '11px',
+                fontSize: responsive.isMobile() ? '8px' : '10px',
                 color: '#000'
               }}>
                 <div>{item.country}</div>
-                <div style={{ fontSize: responsive.isMobile() ? '8px' : '10px', color: '#666', marginTop: '1px' }}>{item.elevation.toString().replace('.', ',')}m</div>
+                <div style={{ fontSize: responsive.isMobile() ? '7px' : '9px', color: '#666', marginTop: '1px' }}>{item.elevation.toString().replace('.', ',')}m</div>
               </div>
                              {/* Bar */}
                <div className="relative flex justify-center">

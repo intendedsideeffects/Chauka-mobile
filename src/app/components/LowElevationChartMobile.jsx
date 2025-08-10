@@ -64,9 +64,9 @@ const LowElevationChart = () => {
       <div style={{
         position: 'absolute',
         left: responsive.isMobile() ? '0px' : '10px',
-                 top: 'calc(50% - 189px)',
+                 top: 'calc(50% - 181px)',
         transform: 'translateY(-50%)',
-        fontSize: responsive.isMobile() ? '12px' : '14px',
+        fontSize: responsive.isMobile() ? '9px' : '14px',
         fontFamily: 'Helvetica World, Arial, sans-serif',
         color: '#666666',
         textAlign: 'left',
@@ -106,7 +106,7 @@ const LowElevationChart = () => {
               style={{ 
                 top: `${350 - (value * 280) - 8}px`,
                 left: '-25px',
-                fontSize: '12px',
+                fontSize: responsive.isMobile() ? '8px' : '12px',
                 color: '#666666',
                 fontFamily: 'Helvetica World, Arial, sans-serif'
               }}
@@ -172,10 +172,10 @@ const LowElevationChart = () => {
                     bottom: '5px',
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    fontSize: '11px',
+                    fontSize: responsive.isMobile() ? '8px' : '11px',
                     color: 'rgba(153, 204, 255, 0.9)',
                     textAlign: 'center',
-                    fontWeight: '500'
+                    fontWeight: 'normal'
                   }}
                 >
                   {Math.round(item.OBS_VALUE)}%
@@ -199,7 +199,7 @@ const LowElevationChart = () => {
             className="flex flex-col items-center flex-1 mx-1"
                          style={{ 
                textAlign: 'center',
-               fontSize: responsive.isMobile() ? '10px' : '12px',
+               fontSize: responsive.isMobile() ? '8px' : '12px',
                color: '#000',
                width: responsive.isMobile() ? '25px' : '60px',
                lineHeight: '1.0'
