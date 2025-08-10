@@ -532,7 +532,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
             {/* Custom tooltip for memory dots and climate resistance dots */}
             {hoveredDot && (hoveredDot.type === 'memory' || hoveredDot.type === 'climate-resistance') && (() => {
-              const tooltipWidth = hoveredDot.type === 'climate-resistance' ? 400 : 384;
+              const tooltipWidth = responsive.isMobile() ? 280 : (hoveredDot.type === 'climate-resistance' ? 400 : 384);
               const tooltipHeight = 200; // Estimated height
               let position;
               
@@ -742,7 +742,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
              {/* Custom tooltip for blue dots (disaster data) */}
               {hoveredBlueDot && (() => {
-                const tooltipWidth = 384;
+                const tooltipWidth = responsive.isMobile() ? 280 : 384;
                 const tooltipHeight = 200; // Estimated height
                 let position;
                 
