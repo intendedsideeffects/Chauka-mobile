@@ -425,6 +425,8 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
         zIndex: 10,
         cursor: 'grab',
         overflow: 'hidden',
+        pointerEvents: 'auto',
+        touchAction: 'none',
       }} 
     >
       

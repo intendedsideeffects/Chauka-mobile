@@ -3,10 +3,10 @@ import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
 import responsive from '../utils/responsive';
 
-const STATUS_HEIGHT = responsive.isMobile() ? 50000 : 7000; // Increased height for mobile to end at section 7, default for browser
-const STATUS_WIDTH = 1600;
+const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to cover sections 3-7, default for browser
+const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const getYearPosition = (year) => {
-  return ((2200 - year) / (2200 - 1400)) * STATUS_HEIGHT;
+  return ((2025 - year) / (2025 - 1900)) * STATUS_HEIGHT;
 };
 
 // Utility function to parse CSV data
@@ -36,16 +36,27 @@ const ExtinctSpeciesViz = () => {
   // Load data from local CSV instead of Supabase
   const loadData = async () => {
     try {
+      console.log('ExtinctSpeciesVizMobile - Starting data load...');
       const response = await fetch('/Disaster_Dataset_with_Summaries_fixed.csv');
       const csvText = await response.text();
+      console.log('ExtinctSpeciesVizMobile - CSV loaded, length:', csvText.length);
+      console.log('ExtinctSpeciesVizMobile - First 200 chars of CSV:', csvText.substring(0, 200));
+      
       const stories = parseCSV(csvText);
+      console.log('ExtinctSpeciesVizMobile - Parsed CSV, total stories:', stories.length);
+      console.log('ExtinctSpeciesVizMobile - Sample story:', stories[0]);
       
       // Map stories to scatterplot points - show only flood disasters
       const points = stories
-        .filter(row => row.disaster_type && row.disaster_type.toLowerCase().includes('flood') && row.start_year) // Show only flood disasters with valid years
+        .filter(row => {
+          const isFlood = row.disaster_type && row.disaster_type.toLowerCase().includes('flood');
+          const hasYear = row.start_year;
+          console.log('Filtering row:', row.disaster_type, 'isFlood:', isFlood, 'hasYear:', hasYear);
+          return isFlood && hasYear;
+        })
         .map((row) => {
           const year = row.start_year ? parseInt(String(row.start_year).trim(), 10) : null;
-          return {
+          const point = {
             x: Math.random() * STATUS_WIDTH - STATUS_WIDTH / 2 + (Math.random() - 0.5) * 100,
             y: year !== null ? getYearPosition(year) : null,
             disaster_type: row.disaster_type,
@@ -57,20 +68,27 @@ const ExtinctSpeciesViz = () => {
             total_homeless: row.total_homeless ? Number(row.total_homeless) : 0,
             total_deaths: row.total_deaths ? Number(row.total_deaths) : 0,
           };
+          console.log('Created point:', point);
+          return point;
         });
       console.log('Scatterplot points (flood disasters only):', points);
+      console.log('Number of flood disasters found:', points.length);
+      console.log('Sample flood disaster:', points[0]);
       setData(points);
       
-      // Timeline marks (every 100 years)
+      // Timeline marks (every 25 years)
       const timelineMarks = [];
-      for (let year = 1400; year <= 2200; year += 100) {
-        timelineMarks.push({
+      for (let year = 1900; year <= 2025; year += 25) {
+        const mark = {
           x: STATUS_WIDTH / 2,
           y: getYearPosition(year),
           label: year.toString(),
-          event: '',
-        });
+          event: `Year ${year}`, // Add some content to the event field
+        };
+        timelineMarks.push(mark);
+        console.log('Created timeline mark:', mark);
       }
+      console.log('Timeline marks created:', timelineMarks);
       setTimelineData(timelineMarks);
       setIsLoading(false);
     } catch (error) {
@@ -90,11 +108,16 @@ const ExtinctSpeciesViz = () => {
 
   const visibleData = data;
 
+  console.log('ExtinctSpeciesVizMobile - visibleData length:', visibleData.length);
+  console.log('ExtinctSpeciesVizMobile - timelineData length:', timelineData.length);
+  console.log('ExtinctSpeciesVizMobile - visibleData sample:', visibleData.slice(0, 3));
+  console.log('ExtinctSpeciesVizMobile - timelineData sample:', timelineData.slice(0, 3));
+
   return (
     <div ref={scatterSectionRef} style={{ 
-      width: '100vw', 
+      width: '100%', 
       maxWidth: '100%', 
-      overflow: 'visible',
+      overflow: 'hidden',
       position: 'relative',
       zIndex: 9999
     }}>

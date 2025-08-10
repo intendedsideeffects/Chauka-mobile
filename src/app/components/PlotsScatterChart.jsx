@@ -26,8 +26,8 @@ function avoidOverlaps(dots, minDistance = 30, maxTries = 20) {
   return placed;
 }
 
-const STATUS_HEIGHT = responsive.isMobile() ? 50000 : 7000; // Increased height for mobile to end at section 7, default for browser
-const STATUS_WIDTH = 1600;
+const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to cover sections 3-7, default for browser
+const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const YEAR_MIN = 1900;
 const YEAR_MAX = 2025;
 const getYearPosition = (year) => {
@@ -322,12 +322,21 @@ function PlotsScatterChart({ timelineData, visibleData }) {
     const MAX_Y_OFFSET = PIXELS_PER_CM * 0.5;
 
     const stabilizedVisibleData = useMemo(() => {
-        return visibleData
-            .filter(d => {
-                const year = d.start_year;
-                return year >= YEAR_MIN && year <= YEAR_MAX;
-            })
-            .map((d, i) => {
+        console.log('PlotsScatterChart - visibleData received:', visibleData);
+        console.log('PlotsScatterChart - YEAR_MIN:', YEAR_MIN, 'YEAR_MAX:', YEAR_MAX);
+        
+        const filtered = visibleData.filter(d => {
+            const year = d.start_year;
+            const isValid = year >= YEAR_MIN && year <= YEAR_MAX;
+            if (!isValid) {
+                console.log('Filtered out:', d, 'year:', year, 'valid:', isValid);
+            }
+            return isValid;
+        });
+        
+        console.log('PlotsScatterChart - filtered data length:', filtered.length);
+        
+        return filtered.map((d, i) => {
             const year = d.start_year;
             const isFuture = year && year > PRESENT_YEAR;
             let size = MIN_DOT_SIZE;
@@ -391,7 +400,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 color: 'black',
                 overflow: 'visible',
                 zIndex: 9999,
-                pointerEvents: 'none'
+                pointerEvents: 'auto'
             }}>
             
             {/* Hidden audio element for purple dots */}
@@ -657,10 +666,11 @@ function PlotsScatterChart({ timelineData, visibleData }) {
               })()}
             
              
-                <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>\n                <ScatterChart
+                <ResponsiveContainer width="100%" height={STATUS_HEIGHT}>
+                <ScatterChart
                     key="main-scatter-chart"
-                    style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'none' }}
-                    margin={{ top: 113, right: 80, bottom: 113, left: -50 }}
+                    style={{ background: 'transparent', overflow: 'visible', pointerEvents: 'auto' }}
+                    margin={{ top: 113, right: responsive.isMobile() ? 20 : 80, bottom: 113, left: responsive.isMobile() ? -25 : -50 }}
                     width={STATUS_WIDTH}
                     height={STATUS_HEIGHT}
                 >
@@ -881,8 +891,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
 
                                          {/* Custom tooltips are handled above, no need for default Recharts Tooltip */}
 
-                </ScatterChart>\n            </ResponsiveContainer>
-            
+                </ScatterChart>
+            </ResponsiveContainer>
         </div>
     );
 }

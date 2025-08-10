@@ -255,12 +255,13 @@ export default function TestScroll() {
         top: '400vh', // Start in section 3
         left: responsive.size.spacing.md(),
         width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
-        height: '8000vh', // Extended significantly to ensure it reaches end of section 7
+        height: '1400vh', // Cover sections 3-7 (400vh to 1800vh) - increased to ensure full coverage to end of section 7
         zIndex: 100, // Lower z-index to not interfere with section 1
         pointerEvents: 'auto', // Allow interaction with scatterplot
         borderRadius: '8px',
         opacity: 1, // Always visible
-        display: 'block' // Always visible
+        display: 'block', // Always visible
+        overflow: 'hidden' // Prevent horizontal overflow
       }}>
         <ExtinctSpeciesVizMobile />
       </div>
