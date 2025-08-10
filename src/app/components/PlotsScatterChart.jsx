@@ -34,7 +34,10 @@ const CLIMATE_YEAR_MIN = 1990; // Climate resistance data starts from 1990
 const CLIMATE_YEAR_MAX = 2025;
 const getYearPosition = (year, dataType = 'disaster') => {
   if (dataType === 'climate-resistance') {
-    return ((CLIMATE_YEAR_MAX - year) / (CLIMATE_YEAR_MAX - CLIMATE_YEAR_MIN)) * STATUS_HEIGHT;
+    // For climate resistance data, map 1990-2025 to the same Y positions as 1900-2025
+    // This ensures yellow dots align properly with the blue dots timeline
+    const normalizedYear = Math.max(CLIMATE_YEAR_MIN, Math.min(year, CLIMATE_YEAR_MAX));
+    return ((YEAR_MAX - normalizedYear) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
   }
   return ((YEAR_MAX - year) / (YEAR_MAX - YEAR_MIN)) * STATUS_HEIGHT;
 };
@@ -94,6 +97,9 @@ function PlotsScatterChart({ timelineData, visibleData }) {
               
               const yearNum = parseInt(year);
               if (isNaN(yearNum)) return null;
+              
+              // Filter out data before 1990 for climate resistance
+              if (yearNum < CLIMATE_YEAR_MIN) return null;
               
               // Calculate position using same logic as blue dots
               const yBase = getYearPosition(yearNum, 'climate-resistance');

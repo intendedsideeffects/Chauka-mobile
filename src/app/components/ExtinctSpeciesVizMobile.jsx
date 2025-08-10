@@ -81,9 +81,9 @@ const ExtinctSpeciesViz = () => {
       console.log('Sample flood disaster:', points[0]);
       setData(points);
       
-      // Timeline marks (every 25 years)
+      // Timeline marks (every 25 years) - start from 1990 for climate resistance data
       const timelineMarks = [];
-      for (let year = 1900; year <= 2025; year += 25) {
+      for (let year = 1990; year <= 2025; year += 25) {
         const mark = {
           x: STATUS_WIDTH / 2,
           y: getYearPosition(year),
