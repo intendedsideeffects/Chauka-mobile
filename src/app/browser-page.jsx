@@ -783,7 +783,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  border: 'none',
                  background: 'none',
                  cursor: 'pointer',
-                 zIndex: 30,
+                 zIndex: 999999,
                }}
                onClick={() => setShowLepeyamTooltip(true)}
                aria-label="Click for story"
@@ -901,7 +901,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
                  maxWidth: '600px',
                  maxHeight: '80vh',
                  overflowY: 'auto',
-                 zIndex: 10000,
+                 zIndex: 999999,
                  fontFamily: 'Helvetica World, Arial, sans-serif',
                  fontSize: '16px',
                  lineHeight: '1.6',

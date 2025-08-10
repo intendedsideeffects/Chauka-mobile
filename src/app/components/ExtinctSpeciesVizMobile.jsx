@@ -3,16 +3,17 @@ import { useState, useEffect, useRef } from 'react';
 import PlotsScatterChart from './PlotsScatterChart';
 import responsive from '../utils/responsive';
 
-const STATUS_HEIGHT = responsive.isMobile() ? 9000 : 7000; // Increased height for mobile to cover sections 3-7, default for browser
+  const STATUS_HEIGHT = responsive.isMobile() ? 8400 : 7000; // Changed to 8400 for mobile
 const STATUS_WIDTH = responsive.isMobile() ? 800 : 1600; // Reduced width for mobile to prevent huge margins
 const CLIMATE_YEAR_MIN = 1990; // Climate resistance data starts from 1990
 const CLIMATE_YEAR_MAX = 2025;
-const getYearPosition = (year, dataType = 'disaster') => {
-  if (dataType === 'climate-resistance') {
-    return ((CLIMATE_YEAR_MAX - year) / (CLIMATE_YEAR_MAX - CLIMATE_YEAR_MIN)) * STATUS_HEIGHT;
-  }
-  return ((2025 - year) / (2025 - 1900)) * STATUS_HEIGHT;
-};
+  const getYearPosition = (year, dataType = 'disaster') => {
+    if (dataType === 'climate-resistance') {
+      return ((CLIMATE_YEAR_MAX - year) / (CLIMATE_YEAR_MAX - CLIMATE_YEAR_MIN)) * STATUS_HEIGHT;
+    }
+    // For disaster data: map years 1900-2025 to the height
+    return ((2025 - year) / (2025 - 1900)) * STATUS_HEIGHT;
+  };
 
 // Utility function to parse CSV data
 const parseCSV = (csvText) => {
@@ -81,18 +82,18 @@ const ExtinctSpeciesViz = () => {
       console.log('Sample flood disaster:', points[0]);
       setData(points);
       
-      // Timeline marks (every 25 years) - start from 1990 for climate resistance data
-      const timelineMarks = [];
-      for (let year = 1990; year <= 2025; year += 25) {
-        const mark = {
-          x: STATUS_WIDTH / 2,
-          y: getYearPosition(year),
-          label: year.toString(),
-          event: `Year ${year}`, // Add some content to the event field
-        };
-        timelineMarks.push(mark);
-        console.log('Created timeline mark:', mark);
-      }
+                                                     // Timeline marks (every 25 years) - span from 1900 to 2025
+         const timelineMarks = [];
+         for (let year = 1900; year <= 2025; year += 25) {
+          const mark = {
+            x: STATUS_WIDTH / 2,
+            y: getYearPosition(year),
+            label: year.toString(),
+            event: `Year ${year}`, // Add some content to the event field
+          };
+          timelineMarks.push(mark);
+          console.log('Created timeline mark:', mark);
+        }
       console.log('Timeline marks created:', timelineMarks);
       setTimelineData(timelineMarks);
       setIsLoading(false);
@@ -122,7 +123,7 @@ const ExtinctSpeciesViz = () => {
     <div ref={scatterSectionRef} style={{ 
       width: '100%', 
       maxWidth: '100%', 
-      overflow: 'hidden',
+      overflow: 'visible',
       position: 'relative',
       zIndex: 9999
     }}>

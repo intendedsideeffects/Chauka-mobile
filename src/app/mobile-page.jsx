@@ -249,20 +249,20 @@ export default function TestScroll() {
       {/* Title Section */}
         <TitleSection />
 
-      {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 3-7 */}
-      <div style={{
-        position: 'absolute',
-        top: '200vh', // Start after segment 3 (which is 200vh tall)
-        left: responsive.size.spacing.md(),
-        width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
-                  height: '800vh', // 8 segments * 100vh each (3-10)
-          zIndex: 99999, // Higher z-index to ensure tooltips appear above segment numbers
-          pointerEvents: 'none', // Don't capture pointer events for the container itself
-          borderRadius: '8px',
-        opacity: 1, // Always visible
-        display: 'block', // Always visible
-        overflow: 'hidden' // Prevent horizontal overflow
-      }}>
+                                                          {/* ExtinctSpeciesViz Scatter Plot Overlay - spans segments 2-7 */}
+                                    <div style={{
+                                      position: 'absolute',
+                                      top: '475vh', // Start at beginning of section 3 (Title: 100vh + Sec1: 200vh + Sec2: 175vh = 475vh)
+                                      left: responsive.size.spacing.md(),
+                                      width: `calc(100vw - ${responsive.isMobile() ? '32px' : '40px'})`,
+                                      height: '1300vh', // Adjusted height to ensure full 9000px scatterplot is visible from beginning of section 3 (475vh) to well beyond end of section 7
+                                      zIndex: 100, // Lower z-index to not interfere with section 1
+                                      pointerEvents: 'auto', // Allow interaction with scatterplot
+                  borderRadius: '8px',
+                  opacity: 1, // Always visible
+                  display: 'block', // Always visible
+                  overflow: 'visible' // Allow scatterplot to extend fully
+                }}>
         <ExtinctSpeciesVizMobile />
       </div>
 
@@ -744,11 +744,11 @@ export default function TestScroll() {
           zIndex: 2000,
           pointerEvents: 'none',
         }}>7</div>
-                   <section style={{
-            width: '100%',
-            height: '100vh',
-            background: 'transparent',
-            display: 'flex',
+                                   <section style={{
+                  width: '100%',
+                  height: '100vh',
+                  background: 'transparent',
+                  display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
@@ -776,13 +776,18 @@ export default function TestScroll() {
               style={{
                 position: 'absolute',
                 top: responsive.isMobile() ? '1rem' : '4rem',
-                right: responsive.isMobile() ? '20rem' : '4rem',
+                right: responsive.isMobile() ? '2rem' : '4rem',
+                width: responsive.isMobile() ? '280px' : '300px',
+                height: responsive.isMobile() ? '280px' : '300px',
                 border: 'none',
                 background: 'none',
                 cursor: 'pointer',
-                zIndex: 100,
+                                 zIndex: 999999,
               }}
-          onClick={() => setShowLepeyamTooltip(true)}
+          onClick={() => {
+            console.log('Click for Story button clicked!');
+            setShowLepeyamTooltip(true);
+          }}
           aria-label="Click for story"
         >
                <svg width={responsive.isMobile() ? "280" : "300"} height={responsive.isMobile() ? "280" : "300"} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
@@ -887,16 +892,17 @@ export default function TestScroll() {
              {/* Lepeyam Story Tooltip */}
              {showLepeyamTooltip && (
                <div                style={{
-                 position: 'fixed',
-                 top: '50%',
-                 left: '50%',
-                 transform: 'translate(-50%, -50%)',
+                 position: responsive.isMobile() ? 'absolute' : 'fixed',
+                 top: responsive.isMobile() ? '2rem' : '50%',
+                 left: responsive.isMobile() ? '2rem' : '50%',
+                 right: responsive.isMobile() ? '2rem' : 'auto',
+                 transform: responsive.isMobile() ? 'none' : 'translate(-50%, -50%)',
                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
                  color: '#222',
                  ...responsive.container.modal(),
-                 maxHeight: '80vh',
+                 maxHeight: responsive.isMobile() ? '70vh' : '80vh',
                  overflowY: 'auto',
-                 zIndex: 10000,
+                 zIndex: 999999,
                  fontFamily: 'Helvetica World, Arial, sans-serif',
                  fontSize: responsive.size.fontSize.md(),
                  lineHeight: '1.6',
