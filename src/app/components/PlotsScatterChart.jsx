@@ -452,8 +452,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                 backgroundColor: 'transparent',
                 color: 'black',
                 overflow: 'visible',
-                                    zIndex: responsive.isMobile() ? 99995 : 99995,
-                pointerEvents: 'auto'
+                zIndex: responsive.isMobile() ? 99995 : 99995,
+                pointerEvents: 'none' // Don't capture pointer events for the container itself
             }}
             onClick={handleContainerClick}
             onTouchStart={handleContainerTouch}
@@ -850,7 +850,8 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     className="scatter-container"
                     style={{
                         zIndex: responsive.isMobile() ? 99996 : 99996,
-                        position: 'relative'
+                        position: 'relative',
+                        pointerEvents: 'none'
                     }}
                     onTouchStart={handleContainerTouch}
                 >
@@ -859,7 +860,7 @@ function PlotsScatterChart({ timelineData, visibleData }) {
                     style={{ 
                         background: 'transparent', 
                         overflow: 'visible', 
-                        pointerEvents: 'auto',
+                        pointerEvents: 'none',
                         zIndex: responsive.isMobile() ? 99997 : 99997
                     }}
                                          margin={{ top: 113, right: responsive.isMobile() ? 20 : 80, bottom: 113, left: responsive.isMobile() ? 10 : 10 }}

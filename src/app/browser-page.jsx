@@ -429,11 +429,13 @@ export default function TestScroll() {
         top: '200vh', // Start after segment 3 (which is 200vh tall)
         left: '20px',
         width: 'calc(100vw - 40px)',
-        height: '800vh', // 8 segments * 100vh each (3-10)
-        zIndex: 99999, // Higher z-index to ensure tooltips appear above segment numbers
-        pointerEvents: 'none', // Don't capture click events
-        borderRadius: '8px',
-        opacity: 1 // Fully opaque
+                  height: '800vh', // 8 segments * 100vh each (3-10)
+          zIndex: 99999, // Higher z-index to ensure tooltips appear above segment numbers
+          pointerEvents: 'none', // Don't capture pointer events for the container itself
+          borderRadius: '8px',
+        opacity: 1, // Fully opaque
+        display: 'block', // Always visible
+        overflow: 'hidden' // Prevent horizontal overflow
       }}>
         <ExtinctSpeciesVizBrowser />
       </div>
