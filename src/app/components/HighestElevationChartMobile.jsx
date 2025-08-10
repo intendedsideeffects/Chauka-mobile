@@ -202,11 +202,11 @@ const HighestElevationChart = () => {
               <div style={{ 
                 marginBottom: '5px',
                 textAlign: 'center',
-                fontSize: responsive.isMobile() ? '10px' : '12px',
+                fontSize: responsive.isMobile() ? '9px' : '11px',
                 color: '#000'
               }}>
                 <div>{item.country}</div>
-                <div style={{ fontSize: responsive.isMobile() ? '9px' : '11px', color: '#666', marginTop: '1px' }}>{item.elevation.toString().replace('.', ',')}m</div>
+                <div style={{ fontSize: responsive.isMobile() ? '8px' : '10px', color: '#666', marginTop: '1px' }}>{item.elevation.toString().replace('.', ',')}m</div>
               </div>
                              {/* Bar */}
                <div className="relative flex justify-center">
