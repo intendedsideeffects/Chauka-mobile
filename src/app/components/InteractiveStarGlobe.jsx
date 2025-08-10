@@ -550,15 +550,15 @@ const InteractiveStarGlobe = ({ onStarsLoaded, disableControls = false }) => {
         width: '100vw', 
         height: '100vh', 
         position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 2,
-        cursor: disableControls ? 'default' : 'grab',
+                      top: 0,
+              left: 0,
+              zIndex: 2,
+              cursor: disableControls ? 'default' : 'grab',
         overflow: 'hidden',
-        backgroundColor: showFallback ? '#000' : 'transparent',
-        pointerEvents: disableControls ? 'none' : 'auto',
-        clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 70%)',
-      }} 
+                        backgroundColor: showFallback ? '#000' : 'transparent',
+                pointerEvents: disableControls ? 'none' : 'auto',
+                clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 70%)',
+              }} 
     >
              {isLoading && (
          <div style={{

@@ -243,12 +243,12 @@ function LandingPageMobileContent({
         onPlay={() => console.log('Ocean video started playing')}
         onLoadedData={() => console.log('Ocean video data loaded')}
         style={{
-          position: 'absolute',
-          left: 0,
-          top: '10vh',
-          width: '100vw',
-          height: '90vh',
-          objectFit: 'cover',
+                          position: 'absolute',
+                left: 0,
+                top: '10vh',
+                width: '100vw',
+                height: '90vh',
+                objectFit: 'cover',
           zIndex: 2,
           pointerEvents: 'none',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
@@ -265,7 +265,7 @@ function LandingPageMobileContent({
           left: '15vw',
           top: '22vh',
           width: '80vw',
-          height: '70vh',
+          height: '48vh',
           objectFit: 'cover',
           objectPosition: 'center',
           zIndex: 3,
