@@ -220,6 +220,11 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             left = 20;
         }
         
+        // Additional check for mobile: ensure tooltip doesn't go off the right edge even after repositioning
+        if (responsive.isMobile() && left + tooltipWidth > viewportWidth - 20) {
+            left = viewportWidth - tooltipWidth - 20;
+        }
+        
         // Check if tooltip would go off the bottom edge
         if (top + tooltipHeight > viewportHeight - 20) {
             top = mouseY - tooltipHeight - 20;
@@ -529,9 +534,39 @@ function PlotsScatterChart({ timelineData, visibleData }) {
             {hoveredDot && (hoveredDot.type === 'memory' || hoveredDot.type === 'climate-resistance') && (() => {
               const tooltipWidth = hoveredDot.type === 'climate-resistance' ? 400 : 384;
               const tooltipHeight = 200; // Estimated height
-              const position = hoveredDot.mouseX && hoveredDot.mouseY 
-                ? getTooltipPosition(hoveredDot.mouseX, hoveredDot.mouseY, tooltipWidth, tooltipHeight)
-                : { left: '50%', top: '200px' };
+              let position;
+              
+              if (hoveredDot.mouseX && hoveredDot.mouseY) {
+                position = getTooltipPosition(hoveredDot.mouseX, hoveredDot.mouseY, tooltipWidth, tooltipHeight);
+                
+                // Additional mobile-specific positioning to ensure tooltip is always fully visible
+                if (responsive.isMobile()) {
+                  const viewportWidth = window.innerWidth;
+                  const viewportHeight = window.innerHeight;
+                  
+                  // Ensure tooltip doesn't go off the right edge
+                  if (position.left + tooltipWidth > viewportWidth - 20) {
+                    position.left = viewportWidth - tooltipWidth - 20;
+                  }
+                  
+                  // Ensure tooltip doesn't go off the left edge
+                  if (position.left < 20) {
+                    position.left = 20;
+                  }
+                  
+                  // Ensure tooltip doesn't go off the bottom edge
+                  if (position.top + tooltipHeight > viewportHeight - 20) {
+                    position.top = viewportHeight - tooltipHeight - 20;
+                  }
+                  
+                  // Ensure tooltip doesn't go off the top edge
+                  if (position.top < 20) {
+                    position.top = 20;
+                  }
+                }
+              } else {
+                position = { left: '50%', top: '200px' };
+              }
               
               return (
                 <div
@@ -709,9 +744,39 @@ function PlotsScatterChart({ timelineData, visibleData }) {
               {hoveredBlueDot && (() => {
                 const tooltipWidth = 384;
                 const tooltipHeight = 200; // Estimated height
-                const position = hoveredBlueDot.mouseX && hoveredBlueDot.mouseY 
-                  ? getTooltipPosition(hoveredBlueDot.mouseX, hoveredBlueDot.mouseY, tooltipWidth, tooltipHeight)
-                  : { left: '50%', top: '200px' };
+                let position;
+                
+                if (hoveredBlueDot.mouseX && hoveredBlueDot.mouseY) {
+                  position = getTooltipPosition(hoveredBlueDot.mouseX, hoveredBlueDot.mouseY, tooltipWidth, tooltipHeight);
+                  
+                  // Additional mobile-specific positioning to ensure tooltip is always fully visible
+                  if (responsive.isMobile()) {
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+                    
+                    // Ensure tooltip doesn't go off the right edge
+                    if (position.left + tooltipWidth > viewportWidth - 20) {
+                      position.left = viewportWidth - tooltipWidth - 20;
+                    }
+                    
+                    // Ensure tooltip doesn't go off the left edge
+                    if (position.left < 20) {
+                      position.left = 20;
+                    }
+                    
+                    // Ensure tooltip doesn't go off the bottom edge
+                    if (position.top + tooltipHeight > viewportHeight - 20) {
+                      position.top = viewportHeight - tooltipHeight - 20;
+                    }
+                    
+                    // Ensure tooltip doesn't go off the top edge
+                    if (position.top < 20) {
+                      position.top = 20;
+                    }
+                  }
+                } else {
+                  position = { left: '50%', top: '200px' };
+                }
                 
                 return (
                   <div
