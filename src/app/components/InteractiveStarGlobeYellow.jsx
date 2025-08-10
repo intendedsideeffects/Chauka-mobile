@@ -422,7 +422,7 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
         position: 'absolute',
         top: 0,
         left: 0,
-        zIndex: 2,
+        zIndex: 10,
         cursor: 'grab',
         overflow: 'hidden',
       }} 
