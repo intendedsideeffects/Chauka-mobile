@@ -418,7 +418,7 @@ const InteractiveStarGlobeYellow = ({ onStarsLoaded }) => {
       ref={mountRef} 
       style={{ 
         width: '100vw', 
-        height: '100vh', 
+        height: '100%', // Changed from '100vh' to '100%' to cover full section height
         position: 'absolute',
         top: 0,
         left: 0,
