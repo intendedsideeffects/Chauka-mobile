@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import InteractiveStarGlobe from './components/InteractiveStarGlobe';
 import InteractiveStarGlobeYellow from './components/InteractiveStarGlobeYellow';
+import InteractiveStarMap from './components/InteractiveStarMap';
 import TitleSection from '../components/sections/TitleSection';
 import SegmentTemplate from '../components/sections/SegmentTemplate';
 import SeaLevelRiseChartBrowser from './components/browser/SeaLevelRiseChartBrowser';
@@ -759,7 +760,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
           }}>
 
 
-           {/* Star Globe in front of sunrise */}
+           {/* Interactive Star Map */}
              <div style={{
              position: 'absolute', 
              top: 0, 
@@ -769,7 +770,7 @@ This is not only a story of loss. It is also one of <strong>resilience</strong>.
              zIndex: 20, 
              pointerEvents: 'auto'
            }}>
-             <InteractiveStarGlobeYellow />
+             <InteractiveStarMap />
              </div>
 
              {/* Click for Story Button */}
