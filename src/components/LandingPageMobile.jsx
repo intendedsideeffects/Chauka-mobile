@@ -118,29 +118,18 @@ function BirdAudioPlayerMobile() {
     }
   };
 
-  return (
-    <div style={{ 
-      width: '60px', 
-      height: '60px', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      background: 'none', 
-      cursor: 'pointer',
-    }} onClick={handleToggle} aria-label="Play or pause Chauka call">
-      <svg width="60" height="60" style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}>
-        {!playing && (
-          <polygon points="26,22 37,30 26,38" fill="#676b8b" style={{ opacity: 0.8 }} />
-        )}
-        {playing && (
-          <g>
-            <rect x="24.5" y="23.5" width="3" height="12" rx="0.8" fill="#676b8b" style={{ opacity: 0.8 }} />
-            <rect x="30.5" y="23.5" width="3" height="12" rx="0.8" fill="#676b8b" style={{ opacity: 0.8 }} />
-          </g>
-        )}
-      </svg>
-    </div>
-  );
+     return (
+     <div style={{ 
+       width: '60px', 
+       height: '60px', 
+       display: 'flex', 
+       alignItems: 'center', 
+       justifyContent: 'center', 
+       background: 'none', 
+       cursor: 'pointer',
+     }} onClick={handleToggle} aria-label="Play or pause Chauka call">
+     </div>
+   );
 }
 
 function LandingPageMobileContent({ 
@@ -315,14 +304,14 @@ function LandingPageMobileContent({
         <BlueCircleAudioPlayerMobile />
       </div>
       
-      {/* Bird audio button - positioned directly on the bird */}
-      <div style={{ 
-        position: 'absolute', 
-        top: '25%', 
-        left: '20%', 
-        zIndex: 1000, 
-        pointerEvents: 'auto' 
-      }}>
+             {/* Bird audio button - positioned directly on the bird */}
+       <div style={{ 
+         position: 'absolute', 
+         top: '25%', 
+         left: '28%', 
+         zIndex: 1000, 
+         pointerEvents: 'auto' 
+       }}>
         <BirdAudioPlayerMobile />
       </div>
       
