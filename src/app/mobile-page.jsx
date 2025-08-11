@@ -494,7 +494,7 @@ export default function TestScroll() {
             overflow: 'visible',
             boxSizing: 'border-box',
             marginLeft: responsive.isMobile() ? '10px' : '0px',
-            marginRight: responsive.isMobile() ? '40px' : '0px'
+            marginRight: responsive.isMobile() ? '10px' : '0px'
           }}>
             <HighestElevationChartMobile />
           </div>
@@ -636,11 +636,11 @@ export default function TestScroll() {
             width: '100%',
             overflow: 'visible',
             boxSizing: 'border-box',
-            transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
-            transformOrigin: 'left top',
-            marginLeft: responsive.isMobile() ? '2.5rem' : '0px',
-            marginRight: responsive.isMobile() ? '4rem' : '0px',
-            marginTop: responsive.isMobile() ? '6rem' : '0px'
+                          transform: responsive.isMobile() ? 'scale(0.9)' : 'scale(1)',
+              transformOrigin: 'center top',
+              marginLeft: '10px',
+              marginRight: '0px',
+              marginTop: responsive.isMobile() ? '6rem' : '0px'
           }}>
             <NewChartComponentMobile />
           </div>

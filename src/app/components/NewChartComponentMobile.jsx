@@ -134,9 +134,7 @@ const NewChartComponent = () => {
       </style>
       {/* Chart area with bars */}
              <div className="flex items-end justify-between h-[350px] relative" style={{ 
-         transition: 'height 1.5s ease',
-                 marginLeft: responsive.isMobile() ? '0px' : '0px',
-        marginRight: responsive.isMobile() ? '40px' : '0px'
+         transition: 'height 1.5s ease'
        }}>
         {/* Horizontal gridlines */}
         {[0, 0.25, 0.5, 0.75, 1.0].map((value, index) => (
@@ -185,20 +183,20 @@ const NewChartComponent = () => {
           const shouldReduceOpacity = hoveredIndex !== null && hoveredIndex !== index;
           
           return (
-            <div 
-              key={index} 
-              className="flex flex-col items-center flex-1"
-              style={{ margin: '0 1px' }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => handleBarClick(item, index)}
-                              style={{
-                  transition: 'opacity 0.2s ease',
-                  opacity: shouldReduceOpacity ? 0.6 : 1,
-                  cursor: 'pointer',
-                  zIndex: isHovered ? 40 : 20
-                }}
-            >
+                         <div 
+               key={index} 
+               className="flex flex-col items-center flex-1"
+               style={{ 
+                 margin: '0 1px',
+                 transition: 'opacity 0.2s ease',
+                 opacity: shouldReduceOpacity ? 0.6 : 1,
+                 cursor: 'pointer',
+                 zIndex: isHovered ? 40 : 20
+               }}
+               onMouseEnter={() => setHoveredIndex(index)}
+               onMouseLeave={() => setHoveredIndex(null)}
+               onClick={() => handleBarClick(item, index)}
+             >
 
               
               {/* Bar */}
