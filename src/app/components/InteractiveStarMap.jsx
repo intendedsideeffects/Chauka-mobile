@@ -19,9 +19,9 @@ const InteractiveStarMap = () => {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // Camera setup - positioned at center of sphere
+    // Camera setup - positioned slightly away from center for OrbitControls
     const camera = new THREE.PerspectiveCamera(75, mountRef.current.clientWidth / mountRef.current.clientHeight, 0.1, 2000);
-    camera.position.set(0, 0, 0); // Camera at center
+    camera.position.set(0, 0, 1); // Camera slightly away from center
     cameraRef.current = camera;
 
     // Renderer setup
@@ -59,7 +59,7 @@ const InteractiveStarMap = () => {
       fadeFactor: 2.0
     };
 
-    const radius = 140; // Radius of the star sphere
+    const radius = 150; // Increased radius to match InteractiveStarGlobe
 
     // Function to convert B-V color index to RGB color
     function bvToColor(bv, brightness) {
