@@ -775,8 +775,8 @@ export default function TestScroll() {
                                  <button
               style={{
                 position: 'absolute',
-                top: responsive.isMobile() ? '1rem' : '4rem',
-                right: responsive.isMobile() ? '2rem' : '4rem',
+                bottom: responsive.isMobile() ? '1rem' : '4rem',
+                left: responsive.isMobile() ? '1rem' : '4rem',
                 width: responsive.isMobile() ? '280px' : '300px',
                 height: responsive.isMobile() ? '280px' : '300px',
                 border: 'none',
@@ -819,8 +819,8 @@ export default function TestScroll() {
              <div
                style={{
                  position: 'absolute',
-                 bottom: responsive.isMobile() ? '1rem' : '4rem',
-                 left: responsive.isMobile() ? '1rem' : '4rem',
+                 top: responsive.isMobile() ? '1rem' : '4rem',
+                 right: responsive.isMobile() ? '2rem' : '4rem',
                  width: responsive.isMobile() ? '200px' : '240px',
                  height: responsive.isMobile() ? '200px' : '240px',
                  display: 'flex',
