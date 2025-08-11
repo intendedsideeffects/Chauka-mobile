@@ -6,16 +6,7 @@ import InteractiveStarGlobe from '../app/components/InteractiveStarGlobe';
 // Blue Circle Audio Player Component for Mobile
 function BlueCircleAudioPlayerMobile() {
   const [playing, setPlaying] = React.useState(false);
-  const [showButtons, setShowButtons] = React.useState(true);
   const [audioElement, setAudioElement] = React.useState(null);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      setShowButtons(true); // Always show at bottom
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   React.useEffect(() => {
     const audio = new Audio('/oceansound_compressed.m4a');
@@ -98,16 +89,11 @@ function BlueCircleAudioPlayerMobile() {
 function BirdAudioPlayerMobile() {
   const [playing, setPlaying] = React.useState(false);
   const [audioElement, setAudioElement] = React.useState(null);
-  const [audioLoaded, setAudioLoaded] = React.useState(false);
 
   React.useEffect(() => {
-    const audio = new Audio();
-    audio.src = '/chaukasound.mp3';
+    const audio = new Audio('/chaukasound.mp3');
     audio.volume = 0.3;
     audio.preload = 'metadata';
-    audio.addEventListener('canplaythrough', () => {
-      setAudioLoaded(true);
-    });
     audio.addEventListener('ended', () => {
       setPlaying(false);
     });
@@ -124,9 +110,6 @@ function BirdAudioPlayerMobile() {
         audioElement.pause();
         setPlaying(false);
       } else {
-        if (audioElement.readyState < 2) {
-          await audioElement.load();
-        }
         await audioElement.play();
         setPlaying(true);
       }
@@ -225,8 +208,10 @@ function LandingPageMobileContent({
         scrollSnapAlign: 'start'
       }}
     >
-      {/* Star Globe as background */}
-      <InteractiveStarGlobe />
+             {/* Star Globe as background */}
+       <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', zIndex: 1 }}>
+         <InteractiveStarGlobe />
+       </div>
       
       {/* Ocean video overlay, only lower 30% visible, pointer-events: none */}
       <video
@@ -237,18 +222,13 @@ function LandingPageMobileContent({
         muted
         playsInline
         preload="auto"
-        onLoadStart={() => console.log('Ocean video loading started')}
-        onCanPlay={() => console.log('Ocean video can play')}
-        onError={(e) => console.error('Ocean video error:', e)}
-        onPlay={() => console.log('Ocean video started playing')}
-        onLoadedData={() => console.log('Ocean video data loaded')}
         style={{
-                          position: 'absolute',
-                left: 0,
-                top: '10vh',
-                width: '100vw',
-                height: '90vh',
-                objectFit: 'cover',
+          position: 'absolute',
+          left: 0,
+          top: '10vh',
+          width: '100vw',
+          height: '90vh',
+          objectFit: 'cover',
           zIndex: 2,
           pointerEvents: 'none',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 59.7%, black 60.7%, black 100%)',
@@ -256,89 +236,26 @@ function LandingPageMobileContent({
         }}
       />
       
-      {/* Boats background image */}
-      <img
-        src="/boats.png"
-        alt="Boats scene"
-        style={{
-          position: 'absolute',
-          left: '15vw',
-          top: '22vh',
-          width: '80vw',
-          height: '48vh',
-          objectFit: 'cover',
-          objectPosition: 'center',
-          zIndex: 3,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none'
-        }}
-      />
-      
-      {/* Bird overlay image */}
-      <img
-        src="/bird.png"
-        alt="Bird scene"
-        style={{
-          position: 'absolute',
-          left: '-10vw',
-          top: '10vh',
-          width: '80vw',
-          height: '70vh',
-          objectFit: 'cover',
-          objectPosition: 'left center',
-          zIndex: 4,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none'
-        }}
-      />
-      
-      {/* Speech bubble - mobile positioning */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '55%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 9999,
-          pointerEvents: 'none',
-        }}
-      >
-        <img 
-          src="/speechbubble.svg" 
-          alt="Speech bubble" 
-          style={{ 
-            width: '100px', 
-            height: 'auto',
-            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
-            opacity: 0.7
-          }} 
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '40%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: '#333',
-            fontSize: '7px',
-            fontWeight: '500',
-            textAlign: 'center',
-            fontFamily: 'Helvetica World, Arial, sans-serif',
-            width: '80%',
-            lineHeight: '1.2'
-          }}
-        >
-          Can you find<br />
-          the Southern Cross?<br />
-          Drag sky to explore.
-        </div>
-      </div>
+             {/* Combined bird and boats scene */}
+       <img
+         src="/chauka_scene.png?v=2"
+         alt="Chauka scene with bird and boats"
+         style={{
+           position: 'absolute',
+           left: '0',
+           top: '10vh',
+           width: '100vw',
+           height: '75vh',
+           objectFit: 'cover',
+           objectPosition: 'center',
+           zIndex: 2,
+           pointerEvents: 'none',
+           userSelect: 'none',
+           WebkitUserSelect: 'none',
+           MozUserSelect: 'none',
+           msUserSelect: 'none'
+         }}
+       />
 
       {/* Audio buttons positioned relative to video section */}
       <div style={{ 

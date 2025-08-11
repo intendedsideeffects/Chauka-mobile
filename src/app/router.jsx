@@ -31,9 +31,22 @@ function ClientRouter() {
     };
   }, []);
 
-  // Show browser version during SSR and before mounting to prevent hydration mismatch
+  // Show loading state during SSR and before mounting to prevent hydration mismatch
   if (!mounted) {
-    return <BrowserVersion />;
+    return (
+      <div style={{
+        height: '100vh',
+        width: '100%',
+        background: '#000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#fff',
+        fontSize: '16px'
+      }}>
+        Loading...
+      </div>
+    );
   }
 
   return isMobile ? <MobileVersion /> : <BrowserVersion />;
